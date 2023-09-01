@@ -1,0 +1,109 @@
+version: '3.8'
+
+services:
+    traefik:
+        container_name: ${DOCKER_CONTAINER_NAMESPACE}_traefik
+        image: traefik:v2.10.4
+        command:
+            - "--api.insecure=true" # Disable for production, secure the API dashboard
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=false"
+            - "--entrypoints.http.address=:80"
+            - "--entrypoints.https.address=:443"
+        ports:
+            - "80:80"
+            - "443:443"
+            - "8080:8080"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        networks:
+            - traefik_network
+
+    postgres:
+        image: postgres:13
+        container_name: ${DOCKER_CONTAINER_NAMESPACE}_postgres
+        env_file:
+            - ./.env
+        environment:
+            POSTGRES_DB: ${DATABASE_NAME}
+            POSTGRES_USER: ${DATABASE_USERNAME}
+            POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+        ports:
+            - "${DATABASE_PORT}:${DATABASE_PORT}"
+        volumes:
+            - ./database:/var/lib/postgresql/data
+        networks:
+            - traefik_network
+
+    strapi:
+        container_name: ${DOCKER_CONTAINER_NAMESPACE}_strapi
+        build:
+            context: ./services/cms
+            dockerfile: Dockerfile
+        environment:
+            APP_PROXY: true
+            PORT: 80
+            HOST: ${STRAPI_INTERNAL_HOST}
+            PUBLIC_URL: http://${DOMAIN_CMS}
+            APP_KEYS: ${STRAPI_APP_KEYS}
+            API_TOKEN_SALT: ${STRAPI_API_TOKEN_SALT}
+            ADMIN_JWT_SECRET: ${STRAPI_ADMIN_JWT_SECRET}
+            TRANSFER_TOKEN_SALT: ${STRAPI_TRANSFER_TOKEN_SALT}
+            JWT_SECRET: ${STRAPI_JWT_SECRET}
+            WEBHOOKS_POPULATE_RELATIONS: ${STRAPI_WEBHOOKS_POPULATE_RELATIONS}
+            DATABASE_CLIENT: ${DATABASE_CLIENT}
+            DATABASE_HOST: ${DATABASE_HOST}
+            DATABASE_PORT: ${DATABASE_PORT}
+            DATABASE_NAME: ${DATABASE_NAME}
+            DATABASE_USERNAME: ${DATABASE_USERNAME}
+            DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+        volumes:
+            - ./services/cms/:/srv/app
+            - /srv/app/node_modules
+        links:
+            - postgres
+        depends_on:
+            - postgres
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.strapi.rule=Host(`${DOMAIN_CMS}`)"
+            - "traefik.http.routers.strapi.entrypoints=http"
+            # - "traefik.http.routers.strapi.middlewares=redirect-to-https"
+        networks:
+            - traefik_network
+
+#    nextjs:
+#        container_name: ${DOCKER_CONTAINER_NAMESPACE}_nextjs
+        # env_file:
+        #    - ./.env
+#        build:
+#            context: ./nextjs-app
+#            dockerfile: Dockerfile
+#        volumes:
+#            - ./nextjs-app:/app
+#            - /app/node_modules
+#        links:
+#            - strapi
+#        ports:
+#            - "3000:3000"
+#        environment:
+#            NEXT_PUBLIC_API_URL: http://strapi:1337
+#            NEXT_TELEMETRY_DISABLED: "1"
+#        depends_on:
+#            - strapi
+#        labels:
+#            - "traefik.enable=true"
+#            - "traefik.http.routers.nextjs.rule=Host(`${DOMAIN_FRONTEND}`)" # Change to your desired domain
+#            - "traefik.http.routers.nextjs.entrypoints=http"
+#            - "traefik.http.routers.nextjs.middlewares=redirect-to-https"
+#        networks:
+#            - app_network
+#            - traefik_network
+
+networks:
+    traefik_network:
+        driver: bridge
+
+volumes:
+    database:
+
