@@ -51,6 +51,12 @@ services:
             TRANSFER_TOKEN_SALT: ${STRAPI_TRANSFER_TOKEN_SALT}
             JWT_SECRET: ${STRAPI_JWT_SECRET}
             WEBHOOKS_POPULATE_RELATIONS: ${STRAPI_WEBHOOKS_POPULATE_RELATIONS}
+            SMTP_HOST: ${STRAPI_SMTP_HOST}
+            SMTP_PORT: ${STRAPI_SMTP_PORT}
+            SMTP_USERNAME: ${STRAPI_SMTP_USERNAME}
+            SMTP_PASSWORD: ${STRAPI_SMTP_PASSWORD}
+            DEFAULT_EMAIL_FROM: ${STRAPI_DEFAULT_EMAIL_FROM}
+            DEFAULT_EMAIL_REPLY_TO: ${STRAPI_DEFAULT_EMAIL_REPLY_TO}
             DATABASE_CLIENT: ${DATABASE_CLIENT}
             DATABASE_HOST: ${DATABASE_HOST}
             DATABASE_PORT: ${DATABASE_PORT}
@@ -72,33 +78,29 @@ services:
         networks:
             - traefik_network
 
-#    nextjs:
-#        container_name: ${DOCKER_CONTAINER_NAMESPACE}_nextjs
-        # env_file:
-        #    - ./.env
-#        build:
-#            context: ./nextjs-app
-#            dockerfile: Dockerfile
-#        volumes:
-#            - ./nextjs-app:/app
-#            - /app/node_modules
-#        links:
-#            - strapi
-#        ports:
-#            - "3000:3000"
-#        environment:
-#            NEXT_PUBLIC_API_URL: http://strapi:1337
-#            NEXT_TELEMETRY_DISABLED: "1"
-#        depends_on:
-#            - strapi
-#        labels:
-#            - "traefik.enable=true"
-#            - "traefik.http.routers.nextjs.rule=Host(`${DOMAIN_FRONTEND}`)" # Change to your desired domain
-#            - "traefik.http.routers.nextjs.entrypoints=http"
-#            - "traefik.http.routers.nextjs.middlewares=redirect-to-https"
-#        networks:
-#            - app_network
-#            - traefik_network
+    frontend:
+        container_name: ${DOCKER_CONTAINER_NAMESPACE}_frontend
+        build:
+            context: ./services/frontend
+            dockerfile: Dockerfile
+        volumes:
+            - ./services/frontend:/ur/src/app
+            - /app/node_modules
+        links:
+            - strapi
+        environment:
+            NEXT_PUBLIC_API_URL: http://${DOMAIN_FRONTEND}
+            NEXT_TELEMETRY_DISABLED: "1"
+            MAPBOX_ACCESS_TOKEN: ${MAPBOX_ACCESS_TOKEN}
+        depends_on:
+            - strapi
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.frontend.rule=Host(`${DOMAIN_FRONTEND}`)"
+            - "traefik.http.routers.frontend.entrypoints=http"
+            #- "traefik.http.routers.nextjs.middlewares=redirect-to-https"
+        networks:
+            - traefik_network
 
 networks:
     traefik_network:

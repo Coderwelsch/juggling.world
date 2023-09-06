@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_disciplines",
+  "info": {
+    "singularName": "user-discipline",
+    "pluralName": "user-disciplines",
+    "displayName": "User Disciplines",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "discipline": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::discipline.discipline"
+    },
+    "level": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "beginner",
+        "intermediate",
+        "expert"
+      ],
+      "default": "beginner"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "disciplines"
+    },
+    "is_teaching": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "boolean",
+      "required": false
+    }
+  }
+}
