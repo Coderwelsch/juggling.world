@@ -84,14 +84,17 @@ services:
             context: ./services/frontend
             dockerfile: Dockerfile
         volumes:
-            - ./services/frontend:/ur/src/app
-            - /app/node_modules
+            - ./services/frontend:/usr/src/app
+            - /usr/src/app/node_modules
         links:
-            - strapi
+            - strapi:strapi
         environment:
             NEXT_PUBLIC_API_URL: http://${DOMAIN_FRONTEND}
             NEXT_TELEMETRY_DISABLED: "1"
-            MAPBOX_ACCESS_TOKEN: ${MAPBOX_ACCESS_TOKEN}
+            NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN: ${MAPBOX_ACCESS_TOKEN}
+            NEXT_PUBLIC_MAPBOX_STYLE_URL: ${MAPBOX_STYLE_URL}
+            INTERNAL_CMS_GRAPHQL_API_URL: http://${INTERNAL_CMS_API_DOMAIN}/graphql
+            CMS_API_ACCESS_TOKEN: ${STRAPI_API_ACCESS_TOKEN}
         depends_on:
             - strapi
         labels:

@@ -6,6 +6,7 @@
 	},
 	"include": [
 		"./",
+		"./.eslintrc.js",
 		"./**/*.ts",
 		"./**/*.js",
 		"src/**/*.json"

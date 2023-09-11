@@ -1,4 +1,33 @@
+import path from "path"
+
+
 export default ({ env }) => ({
+	transformer: {
+		enabled: true,
+		config: {
+			responseTransforms: {
+				removeAttributesKey: true,
+				removeDataKey: true,
+			},
+		},
+	},
+	graphql: {
+		config: {
+			endpoint: "/graphql",
+			shadowCRUD: true,
+			playgroundAlways: false,
+			depthLimit: 10,
+			amountLimit: 10_000,
+			generateArtifacts: true,
+			apolloServer: {
+				tracing: true,
+			},
+			artifacts: {
+				schema: path.join(__dirname, "..", "..", "types/graphql/graphql-schema.graphql"),
+				typegen: path.join(__dirname, "..", "..", "types/graphql/graphql-types.d.ts"),
+			},
+		},
+	},
 	email: {
 		config: {
 			provider: "nodemailer",
