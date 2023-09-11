@@ -1,5 +1,7 @@
 # juggling.world
 
+![](./docs/images/teaser.png)
+
 Source Code of the all new juggling.world platform. Lets connect, share and learn together!
 
 ## Tech Stack
