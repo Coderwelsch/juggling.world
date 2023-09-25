@@ -8,8 +8,11 @@ interface MarkerLabelProps {
 export const MarkerLabel = ({ label, avatar }: MarkerLabelProps) => (
 	<div
 		className={
-			"flex w-[calc(100%+1.7rem)] translate-x-[-0.65rem] gap-1 whitespace-nowrap rounded-full border-2 border-fuchsia-100 bg-fuchsia-950 p-1"
+			"flex w-[calc(100%+1.7rem)] translate-x-[-0.65rem] gap-1 whitespace-nowrap rounded-full border-2 border-fuchsia-100 bg-fuchsia-950 p-1 !font-sans"
 		}
+		style={{
+			font: "initial",
+		}}
 	>
 		{avatar && (
 			<img

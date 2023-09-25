@@ -1,16 +1,16 @@
 import { classNames } from "@/src/lib/class-names"
-import { poppinsFont } from "@/src/lib/fonts"
 import { Head, Html, Main, NextScript } from "next/document"
 
 export default function Document() {
 	return (
-		<Html
-			lang="en"
-			className={classNames(`bg-space-800`, poppinsFont.className)}
-		>
+		<Html lang="en">
 			<Head />
 
-			<body>
+			<body
+				className={classNames(
+					`text-space-900 bg-space-800 scroll-smooth`,
+				)}
+			>
 				<Main />
 				<NextScript />
 			</body>

@@ -1,8 +1,8 @@
+import { Headline } from "@/src/components/headline/headline"
 import { DotMarker } from "@/src/components/mapbox/marker/dot-marker"
 import { MarkerLabel } from "@/src/components/mapbox/marker/marker-label"
 import Sidebar from "@/src/components/sidebar/sidebar"
 import { classNames } from "@/src/lib/class-names"
-import { poppinsFont } from "@/src/lib/fonts"
 import {
 	AllDisciplinesResponse,
 	getAllDisciplinesQuery,
@@ -84,16 +84,14 @@ function SidebarPlayerContent({ playerId }: { playerId: string }) {
 					/>
 				)}
 
-				<h2 className={"text-lg font-bold"}>
-					{player.attributes.username}
-				</h2>
+				<Headline size={2}>{player.attributes.username}</Headline>
 			</div>
 
 			<hr />
 
 			<div className={"flex flex-col gap-6"}>
 				<div className={"flex flex-col gap-2"}>
-					<h3 className={"text-md font-bold"}>Plays:</h3>
+					<Headline size={3}>Plays:</Headline>
 
 					{disciplines.map((discipline) => {
 						const icon =
@@ -119,9 +117,9 @@ function SidebarPlayerContent({ playerId }: { playerId: string }) {
 								)}
 
 								<div>
-									<h3 className={"text-sm font-bold"}>
+									<Headline size={5}>
 										{discipline.attributes.name}
-									</h3>
+									</Headline>
 									<p className={"text-sm text-gray-500"}>
 										{discipline.attributes.slug}
 									</p>
@@ -132,7 +130,7 @@ function SidebarPlayerContent({ playerId }: { playerId: string }) {
 				</div>
 
 				<div className={"flex flex-col gap-2"}>
-					<h3 className={"text-md font-bold"}>Associated Groups:</h3>
+					<Headline size={3}>Associated Groups:</Headline>
 
 					{disciplines.map((discipline) => {
 						const icon =
@@ -158,9 +156,10 @@ function SidebarPlayerContent({ playerId }: { playerId: string }) {
 								)}
 
 								<div>
-									<h3 className={"text-sm font-bold"}>
+									<Headline size={5}>
 										{discipline.attributes.name}
-									</h3>
+									</Headline>
+
 									<p className={"text-sm text-gray-500"}>
 										{discipline.attributes.slug}
 									</p>
@@ -175,8 +174,6 @@ function SidebarPlayerContent({ playerId }: { playerId: string }) {
 }
 
 export default function App({ players, disciplines, error }: AppProps) {
-	console.log(poppinsFont, "ghgghhg")
-
 	const mapRef = useRef<mapboxgl.Map | undefined>()
 	const sidebarRef = useRef<HTMLDivElement | null>(null)
 
@@ -187,7 +184,7 @@ export default function App({ players, disciplines, error }: AppProps) {
 	}
 
 	const [selectedPlayerIds, setSelectedPlayerIds] = React.useState<string[]>(
-		[],
+		players.length ? [players[0].id] : [],
 	)
 
 	const onMarkerClick = useCallback(
