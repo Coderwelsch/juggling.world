@@ -76,6 +76,32 @@
       "repeatable": false,
       "component": "base.location",
       "required": true
+    },
+    "publicContact": {
+      "type": "component",
+      "repeatable": true,
+      "component": "base.contact",
+      "required": true
+    },
+    "groups": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::user-group.user-group",
+      "mappedBy": "members"
+    },
+    "adminGroups": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::user-group.user-group",
+      "mappedBy": "admins"
+    },
+    "avatar": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": false
     }
   }
 }

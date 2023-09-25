@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_base_contacts",
+  "info": {
+    "displayName": "Contact",
+    "icon": "phone",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "email": {
+      "type": "email"
+    },
+    "instagram": {
+      "type": "string"
+    },
+    "facebook": {
+      "type": "string"
+    },
+    "whatsapp": {
+      "type": "string"
+    },
+    "telegram": {
+      "type": "string"
+    },
+    "reddit": {
+      "type": "string"
+    },
+    "signal": {
+      "type": "string"
+    }
+  }
+}

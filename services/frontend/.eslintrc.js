@@ -48,5 +48,7 @@ module.exports = {
 		"linebreak-style": ["error", "unix"],
 		"jsx-property-spacing": "off",
 		"react/jsx-curly-newline": "off",
+		"react/destructuring-assignment": ["error", "always"],
+		"react/react-in-jsx-scope": "off",
 	},
 }

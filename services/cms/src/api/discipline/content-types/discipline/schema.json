@@ -49,6 +49,12 @@
       "type": "uid",
       "targetField": "name",
       "required": true
+    },
+    "users": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-discipline.user-discipline",
+      "mappedBy": "discipline"
     }
   }
 }

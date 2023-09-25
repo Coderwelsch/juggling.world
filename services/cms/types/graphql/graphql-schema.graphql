@@ -27,6 +27,41 @@ input BooleanFilterInput {
   startsWith: Boolean
 }
 
+type ComponentBaseContact {
+  email: String
+  facebook: String
+  id: ID!
+  instagram: String
+  reddit: String
+  signal: String
+  telegram: String
+  whatsapp: String
+}
+
+input ComponentBaseContactFiltersInput {
+  and: [ComponentBaseContactFiltersInput]
+  email: StringFilterInput
+  facebook: StringFilterInput
+  instagram: StringFilterInput
+  not: ComponentBaseContactFiltersInput
+  or: [ComponentBaseContactFiltersInput]
+  reddit: StringFilterInput
+  signal: StringFilterInput
+  telegram: StringFilterInput
+  whatsapp: StringFilterInput
+}
+
+input ComponentBaseContactInput {
+  email: String
+  facebook: String
+  id: ID
+  instagram: String
+  reddit: String
+  signal: String
+  telegram: String
+  whatsapp: String
+}
+
 type ComponentBaseLocation {
   id: ID!
   latitude: Float!
@@ -116,6 +151,7 @@ type Discipline {
   publishedAt: DateTime
   slug: String!
   updatedAt: DateTime
+  users(filters: UserDisciplineFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserDisciplineRelationResponseCollection
 }
 
 type DisciplineEntity {
@@ -144,6 +180,7 @@ input DisciplineFiltersInput {
   publishedAt: DateTimeFilterInput
   slug: StringFilterInput
   updatedAt: DateTimeFilterInput
+  users: UserDisciplineFiltersInput
 }
 
 input DisciplineInput {
@@ -151,6 +188,7 @@ input DisciplineInput {
   name: String
   publishedAt: DateTime
   slug: String
+  users: [ID]
 }
 
 type DisciplineRelationResponseCollection {
@@ -199,7 +237,7 @@ input FloatFilterInput {
   startsWith: Float
 }
 
-union GenericMorph = ComponentBaseLocation | Discipline | I18NLocale | UploadFile | UploadFolder | UserDiscipline | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
+union GenericMorph = ComponentBaseContact | ComponentBaseLocation | Discipline | I18NLocale | UploadFile | UploadFolder | UserDiscipline | UserGroup | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
 
 type I18NLocale {
   code: String
@@ -364,6 +402,7 @@ type Mutation {
   createUploadFolder(data: UploadFolderInput!): UploadFolderEntityResponse
   createUserDiscipline(data: UserDisciplineInput!, locale: I18NLocaleCode): UserDisciplineEntityResponse
   createUserDisciplineLocalization(data: UserDisciplineInput, id: ID, locale: I18NLocaleCode): UserDisciplineEntityResponse
+  createUserGroup(data: UserGroupInput!): UserGroupEntityResponse
 
   """Create a new role"""
   createUsersPermissionsRole(data: UsersPermissionsRoleInput!): UsersPermissionsCreateRolePayload
@@ -374,6 +413,7 @@ type Mutation {
   deleteUploadFile(id: ID!): UploadFileEntityResponse
   deleteUploadFolder(id: ID!): UploadFolderEntityResponse
   deleteUserDiscipline(id: ID!, locale: I18NLocaleCode): UserDisciplineEntityResponse
+  deleteUserGroup(id: ID!): UserGroupEntityResponse
 
   """Delete an existing role"""
   deleteUsersPermissionsRole(id: ID!): UsersPermissionsDeleteRolePayload
@@ -402,6 +442,7 @@ type Mutation {
   updateUploadFile(data: UploadFileInput!, id: ID!): UploadFileEntityResponse
   updateUploadFolder(data: UploadFolderInput!, id: ID!): UploadFolderEntityResponse
   updateUserDiscipline(data: UserDisciplineInput!, id: ID!, locale: I18NLocaleCode): UserDisciplineEntityResponse
+  updateUserGroup(data: UserGroupInput!, id: ID!): UserGroupEntityResponse
 
   """Update an existing role"""
   updateUsersPermissionsRole(data: UsersPermissionsRoleInput!, id: ID!): UsersPermissionsUpdateRolePayload
@@ -442,6 +483,8 @@ type Query {
   uploadFolders(filters: UploadFolderFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFolderEntityResponseCollection
   userDiscipline(id: ID, locale: I18NLocaleCode): UserDisciplineEntityResponse
   userDisciplines(filters: UserDisciplineFiltersInput, locale: I18NLocaleCode, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserDisciplineEntityResponseCollection
+  userGroup(id: ID): UserGroupEntityResponse
+  userGroups(filters: UserGroupFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserGroupEntityResponseCollection
   usersPermissionsRole(id: ID): UsersPermissionsRoleEntityResponse
   usersPermissionsRoles(filters: UsersPermissionsRoleFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsRoleEntityResponseCollection
   usersPermissionsUser(id: ID): UsersPermissionsUserEntityResponse
@@ -646,7 +689,7 @@ type UploadFolderRelationResponseCollection {
 type UserDiscipline {
   createdAt: DateTime
   discipline: DisciplineEntityResponse
-  is_teaching: Boolean
+  isTeaching: Boolean
   level: ENUM_USERDISCIPLINE_LEVEL
   locale: String
   localizations(filters: UserDisciplineFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserDisciplineRelationResponseCollection
@@ -674,7 +717,7 @@ input UserDisciplineFiltersInput {
   createdAt: DateTimeFilterInput
   discipline: DisciplineFiltersInput
   id: IDFilterInput
-  is_teaching: BooleanFilterInput
+  isTeaching: BooleanFilterInput
   level: StringFilterInput
   locale: StringFilterInput
   localizations: UserDisciplineFiltersInput
@@ -687,7 +730,7 @@ input UserDisciplineFiltersInput {
 
 input UserDisciplineInput {
   discipline: ID
-  is_teaching: Boolean
+  isTeaching: Boolean
   level: ENUM_USERDISCIPLINE_LEVEL
   publishedAt: DateTime
   user: ID
@@ -695,6 +738,56 @@ input UserDisciplineInput {
 
 type UserDisciplineRelationResponseCollection {
   data: [UserDisciplineEntity!]!
+}
+
+type UserGroup {
+  admins(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsUserRelationResponseCollection
+  createdAt: DateTime
+  description: String
+  members(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsUserRelationResponseCollection
+  name: String!
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type UserGroupEntity {
+  attributes: UserGroup
+  id: ID
+}
+
+type UserGroupEntityResponse {
+  data: UserGroupEntity
+}
+
+type UserGroupEntityResponseCollection {
+  data: [UserGroupEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input UserGroupFiltersInput {
+  admins: UsersPermissionsUserFiltersInput
+  and: [UserGroupFiltersInput]
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  id: IDFilterInput
+  members: UsersPermissionsUserFiltersInput
+  name: StringFilterInput
+  not: UserGroupFiltersInput
+  or: [UserGroupFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input UserGroupInput {
+  admins: [ID]
+  description: String
+  members: [ID]
+  name: String
+  publishedAt: DateTime
+}
+
+type UserGroupRelationResponseCollection {
+  data: [UserGroupEntity!]!
 }
 
 type UsersPermissionsCreateRolePayload {
@@ -838,13 +931,17 @@ type UsersPermissionsUpdateRolePayload {
 }
 
 type UsersPermissionsUser {
+  adminGroups(filters: UserGroupFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserGroupRelationResponseCollection
+  avatar: UploadFileEntityResponse
   blocked: Boolean
   confirmed: Boolean
   createdAt: DateTime
   disciplines(filters: UserDisciplineFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserDisciplineRelationResponseCollection
   email: String!
+  groups(filters: UserGroupFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserGroupRelationResponseCollection
   location: ComponentBaseLocation!
   provider: String
+  publicContact(filters: ComponentBaseContactFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentBaseContact]!
   role: UsersPermissionsRoleEntityResponse
   updatedAt: DateTime
   username: String!
@@ -865,6 +962,7 @@ type UsersPermissionsUserEntityResponseCollection {
 }
 
 input UsersPermissionsUserFiltersInput {
+  adminGroups: UserGroupFiltersInput
   and: [UsersPermissionsUserFiltersInput]
   blocked: BooleanFilterInput
   confirmationToken: StringFilterInput
@@ -872,12 +970,14 @@ input UsersPermissionsUserFiltersInput {
   createdAt: DateTimeFilterInput
   disciplines: UserDisciplineFiltersInput
   email: StringFilterInput
+  groups: UserGroupFiltersInput
   id: IDFilterInput
   location: ComponentBaseLocationFiltersInput
   not: UsersPermissionsUserFiltersInput
   or: [UsersPermissionsUserFiltersInput]
   password: StringFilterInput
   provider: StringFilterInput
+  publicContact: ComponentBaseContactFiltersInput
   resetPasswordToken: StringFilterInput
   role: UsersPermissionsRoleFiltersInput
   updatedAt: DateTimeFilterInput
@@ -885,14 +985,18 @@ input UsersPermissionsUserFiltersInput {
 }
 
 input UsersPermissionsUserInput {
+  adminGroups: [ID]
+  avatar: ID
   blocked: Boolean
   confirmationToken: String
   confirmed: Boolean
   disciplines: [ID]
   email: String
+  groups: [ID]
   location: ComponentBaseLocationInput
   password: String
   provider: String
+  publicContact: [ComponentBaseContactInput]
   resetPasswordToken: String
   role: ID
   username: String

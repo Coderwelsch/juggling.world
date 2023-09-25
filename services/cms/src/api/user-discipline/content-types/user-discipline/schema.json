@@ -18,8 +18,9 @@
   "attributes": {
     "discipline": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::discipline.discipline"
+      "relation": "manyToOne",
+      "target": "api::discipline.discipline",
+      "inversedBy": "users"
     },
     "level": {
       "pluginOptions": {
@@ -41,7 +42,7 @@
       "target": "plugin::users-permissions.user",
       "inversedBy": "disciplines"
     },
-    "is_teaching": {
+    "isTeaching": {
       "pluginOptions": {
         "i18n": {
           "localized": true

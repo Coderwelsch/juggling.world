@@ -25,8 +25,7 @@
         "@strapi/provider-email-nodemailer": "^4.13.1",
         "@strapi/strapi": "^4.13.1",
         "pg": "^8.11.3",
-        "sharp": "^0.32.5",
-        "strapi-plugin-transformer": "^3.1.0"
+        "sharp": "^0.32.5"
     },
     "author": {
         "name": "Joseph Ribbe, Coderwesch"
