@@ -59,7 +59,7 @@ export default function Register() {
 
 			<div
 				className={
-					"w-full max-w-sm overflow-hidden rounded-xl border border-space-300 border-opacity-30 bg-space-900"
+					"w-full max-w-sm overflow-hidden rounded-xl border border-space-300 border-opacity-30 bg-space-900 text-white"
 				}
 			>
 				<Form onSubmit={handleSubmit(onSubmit)}>
@@ -138,7 +138,6 @@ export default function Register() {
 					</div>
 
 					<Button
-						type={"submit"}
 						rounded={false}
 						onSubmit={handleSubmit(onSubmit)}
 						disabled={registerUser.isLoading || !formState.isValid}
