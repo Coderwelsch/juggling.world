@@ -2,7 +2,15 @@
 
 ![](./docs/images/teaser.png)
 
-Source Code of the all new juggling.world platform. Lets connect, share and learn together!
+**⚠️ The design and project’s name doesn’t really fit together right now. My first idea was to just program a little platform for diabolo enthusiasts, 
+but it didn’t take that long for me to realize that this platform should be more generic and inclusive for all other artistic and flowy disciplines as well. 
+So now I am about to do a little redesign and I need to redo the logo and stuff to fit to the new name «juggling.world» ❤️**
+
+Source Code of the all new juggling.world platform. Lets connect, share and learn together! 
+
+## Figma Prototype
+
+[You can take a look at the figma file here →](https://www.figma.com/file/ev2wLBI15wKCA1KGZRWaMg/Mockups?type=design&node-id=0%3A1&mode=design&t=Bg1T5B12WPZlcWAI-1)  
 
 ## Tech Stack
 
