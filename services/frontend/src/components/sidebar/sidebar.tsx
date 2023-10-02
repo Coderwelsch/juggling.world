@@ -29,8 +29,8 @@ const Sidebar = (
 							isShown ? "translate-x-0" : "translate-x-full",
 						)}
 					>
-						<div className="flex h-full flex-col overflow-y-scroll rounded-l-lg bg-white px-4 py-6 shadow-xl">
-							<div className="relative flex-1 px-4 text-pink-950 sm:px-6">
+						<div className="flex h-full flex-col overflow-y-scroll rounded-l-lg bg-purple-100 shadow-xl">
+							<div className="relative flex-1 px-4 py-6 sm:px-6">
 								{children}
 							</div>
 						</div>
