@@ -93,6 +93,7 @@ services:
             NEXT_TELEMETRY_DISABLED: "1"
             NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN: ${MAPBOX_ACCESS_TOKEN}
             NEXT_PUBLIC_MAPBOX_STYLE_URL: ${MAPBOX_STYLE_URL}
+            NEXT_PUBLIC_CMS_GRAPHQL_API_URL: http://${DOMAIN_CMS}/graphql
             INTERNAL_CMS_GRAPHQL_API_URL: http://strapi/graphql
             CMS_API_ACCESS_TOKEN: ${STRAPI_API_ACCESS_TOKEN}
         depends_on:
