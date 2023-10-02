@@ -48,6 +48,8 @@ docker-compose up # --build
 or if you want to run it via yarn:
 
 ```bash
+yarn dev
+```
 
 ## Contributing
 
