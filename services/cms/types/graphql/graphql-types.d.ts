@@ -141,6 +141,20 @@ export interface NexusGenInputs {
     slug?: string | null; // String
     users?: Array<string | null> | null; // [ID]
   }
+  EventFiltersInput: { // input type
+    and?: Array<NexusGenInputs['EventFiltersInput'] | null> | null; // [EventFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['EventFiltersInput'] | null; // EventFiltersInput
+    or?: Array<NexusGenInputs['EventFiltersInput'] | null> | null; // [EventFiltersInput]
+    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+  }
+  EventInput: { // input type
+    name?: string | null; // String
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
   FileInfoInput: { // input type
     alternativeText?: string | null; // String
     caption?: string | null; // String
@@ -410,6 +424,7 @@ export interface NexusGenInputs {
     not?: NexusGenInputs['UserDisciplineFiltersInput'] | null; // UserDisciplineFiltersInput
     or?: Array<NexusGenInputs['UserDisciplineFiltersInput'] | null> | null; // [UserDisciplineFiltersInput]
     publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    startedAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
     updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
     user?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
   }
@@ -418,6 +433,7 @@ export interface NexusGenInputs {
     isTeaching?: boolean | null; // Boolean
     level?: NexusGenEnums['ENUM_USERDISCIPLINE_LEVEL'] | null; // ENUM_USERDISCIPLINE_LEVEL
     publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    startedAt?: NexusGenScalars['Date'] | null; // Date
     user?: string | null; // ID
   }
   UserGroupFiltersInput: { // input type
@@ -488,6 +504,7 @@ export interface NexusGenInputs {
     adminGroups?: NexusGenInputs['UserGroupFiltersInput'] | null; // UserGroupFiltersInput
     and?: Array<NexusGenInputs['UsersPermissionsUserFiltersInput'] | null> | null; // [UsersPermissionsUserFiltersInput]
     blocked?: NexusGenInputs['BooleanFilterInput'] | null; // BooleanFilterInput
+    city?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
     confirmationToken?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
     confirmed?: NexusGenInputs['BooleanFilterInput'] | null; // BooleanFilterInput
     createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
@@ -510,6 +527,7 @@ export interface NexusGenInputs {
     adminGroups?: Array<string | null> | null; // [ID]
     avatar?: string | null; // ID
     blocked?: boolean | null; // Boolean
+    city?: string | null; // String
     confirmationToken?: string | null; // String
     confirmed?: boolean | null; // Boolean
     disciplines?: Array<string | null> | null; // [ID]
@@ -576,6 +594,16 @@ export interface NexusGenObjects {
   Error: { // root type
     message?: string | null; // String
   }
+  Event: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    name: string; // String!
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  EventEntity: {};
+  EventEntityResponse: {};
+  EventEntityResponseCollection: {};
+  EventRelationResponseCollection: {};
   I18NLocale: { // root type
     code?: string | null; // String
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
@@ -634,6 +662,7 @@ export interface NexusGenObjects {
     level?: NexusGenEnums['ENUM_USERDISCIPLINE_LEVEL'] | null; // ENUM_USERDISCIPLINE_LEVEL
     locale?: string | null; // String
     publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    startedAt?: NexusGenScalars['Date'] | null; // Date
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
   UserDisciplineEntity: {};
@@ -703,6 +732,7 @@ export interface NexusGenObjects {
   }
   UsersPermissionsUser: { // root type
     blocked?: boolean | null; // Boolean
+    city?: string | null; // String
     confirmed?: boolean | null; // Boolean
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     email: string; // String!
@@ -720,7 +750,7 @@ export interface NexusGenInterfaces {
 }
 
 export interface NexusGenUnions {
-  GenericMorph: NexusGenRootTypes['ComponentBaseContact'] | NexusGenRootTypes['ComponentBaseLocation'] | NexusGenRootTypes['Discipline'] | NexusGenRootTypes['I18NLocale'] | NexusGenRootTypes['UploadFile'] | NexusGenRootTypes['UploadFolder'] | NexusGenRootTypes['UserDiscipline'] | NexusGenRootTypes['UserGroup'] | NexusGenRootTypes['UsersPermissionsPermission'] | NexusGenRootTypes['UsersPermissionsRole'] | NexusGenRootTypes['UsersPermissionsUser'];
+  GenericMorph: NexusGenRootTypes['ComponentBaseContact'] | NexusGenRootTypes['ComponentBaseLocation'] | NexusGenRootTypes['Discipline'] | NexusGenRootTypes['Event'] | NexusGenRootTypes['I18NLocale'] | NexusGenRootTypes['UploadFile'] | NexusGenRootTypes['UploadFolder'] | NexusGenRootTypes['UserDiscipline'] | NexusGenRootTypes['UserGroup'] | NexusGenRootTypes['UsersPermissionsPermission'] | NexusGenRootTypes['UsersPermissionsRole'] | NexusGenRootTypes['UsersPermissionsUser'];
 }
 
 export type NexusGenRootTypes = NexusGenObjects & NexusGenUnions
@@ -772,6 +802,26 @@ export interface NexusGenFieldTypes {
     code: string; // String!
     message: string | null; // String
   }
+  Event: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    name: string; // String!
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  EventEntity: { // field return type
+    attributes: NexusGenRootTypes['Event'] | null; // Event
+    id: string | null; // ID
+  }
+  EventEntityResponse: { // field return type
+    data: NexusGenRootTypes['EventEntity'] | null; // EventEntity
+  }
+  EventEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['EventEntity'][]; // [EventEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  EventRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['EventEntity'][]; // [EventEntity!]!
+  }
   I18NLocale: { // field return type
     code: string | null; // String
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
@@ -796,6 +846,7 @@ export interface NexusGenFieldTypes {
     changePassword: NexusGenRootTypes['UsersPermissionsLoginPayload'] | null; // UsersPermissionsLoginPayload
     createDiscipline: NexusGenRootTypes['DisciplineEntityResponse'] | null; // DisciplineEntityResponse
     createDisciplineLocalization: NexusGenRootTypes['DisciplineEntityResponse'] | null; // DisciplineEntityResponse
+    createEvent: NexusGenRootTypes['EventEntityResponse'] | null; // EventEntityResponse
     createUploadFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     createUploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
     createUserDiscipline: NexusGenRootTypes['UserDisciplineEntityResponse'] | null; // UserDisciplineEntityResponse
@@ -804,6 +855,7 @@ export interface NexusGenFieldTypes {
     createUsersPermissionsRole: NexusGenRootTypes['UsersPermissionsCreateRolePayload'] | null; // UsersPermissionsCreateRolePayload
     createUsersPermissionsUser: NexusGenRootTypes['UsersPermissionsUserEntityResponse']; // UsersPermissionsUserEntityResponse!
     deleteDiscipline: NexusGenRootTypes['DisciplineEntityResponse'] | null; // DisciplineEntityResponse
+    deleteEvent: NexusGenRootTypes['EventEntityResponse'] | null; // EventEntityResponse
     deleteUploadFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     deleteUploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
     deleteUserDiscipline: NexusGenRootTypes['UserDisciplineEntityResponse'] | null; // UserDisciplineEntityResponse
@@ -818,6 +870,7 @@ export interface NexusGenFieldTypes {
     removeFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     resetPassword: NexusGenRootTypes['UsersPermissionsLoginPayload'] | null; // UsersPermissionsLoginPayload
     updateDiscipline: NexusGenRootTypes['DisciplineEntityResponse'] | null; // DisciplineEntityResponse
+    updateEvent: NexusGenRootTypes['EventEntityResponse'] | null; // EventEntityResponse
     updateFileInfo: NexusGenRootTypes['UploadFileEntityResponse']; // UploadFileEntityResponse!
     updateUploadFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     updateUploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
@@ -836,6 +889,8 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     discipline: NexusGenRootTypes['DisciplineEntityResponse'] | null; // DisciplineEntityResponse
     disciplines: NexusGenRootTypes['DisciplineEntityResponseCollection'] | null; // DisciplineEntityResponseCollection
+    event: NexusGenRootTypes['EventEntityResponse'] | null; // EventEntityResponse
+    events: NexusGenRootTypes['EventEntityResponseCollection'] | null; // EventEntityResponseCollection
     i18NLocale: NexusGenRootTypes['I18NLocaleEntityResponse'] | null; // I18NLocaleEntityResponse
     i18NLocales: NexusGenRootTypes['I18NLocaleEntityResponseCollection'] | null; // I18NLocaleEntityResponseCollection
     me: NexusGenRootTypes['UsersPermissionsMe'] | null; // UsersPermissionsMe
@@ -920,6 +975,7 @@ export interface NexusGenFieldTypes {
     locale: string | null; // String
     localizations: NexusGenRootTypes['UserDisciplineRelationResponseCollection'] | null; // UserDisciplineRelationResponseCollection
     publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    startedAt: NexusGenScalars['Date'] | null; // Date
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     user: NexusGenRootTypes['UsersPermissionsUserEntityResponse'] | null; // UsersPermissionsUserEntityResponse
   }
@@ -1037,14 +1093,15 @@ export interface NexusGenFieldTypes {
     adminGroups: NexusGenRootTypes['UserGroupRelationResponseCollection'] | null; // UserGroupRelationResponseCollection
     avatar: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     blocked: boolean | null; // Boolean
+    city: string | null; // String
     confirmed: boolean | null; // Boolean
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
     disciplines: NexusGenRootTypes['UserDisciplineRelationResponseCollection'] | null; // UserDisciplineRelationResponseCollection
     email: string; // String!
     groups: NexusGenRootTypes['UserGroupRelationResponseCollection'] | null; // UserGroupRelationResponseCollection
-    location: NexusGenRootTypes['ComponentBaseLocation']; // ComponentBaseLocation!
+    location: NexusGenRootTypes['ComponentBaseLocation'] | null; // ComponentBaseLocation
     provider: string | null; // String
-    publicContact: Array<NexusGenRootTypes['ComponentBaseContact'] | null>; // [ComponentBaseContact]!
+    publicContact: Array<NexusGenRootTypes['ComponentBaseContact'] | null> | null; // [ComponentBaseContact]
     role: NexusGenRootTypes['UsersPermissionsRoleEntityResponse'] | null; // UsersPermissionsRoleEntityResponse
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     username: string; // String!
@@ -1110,6 +1167,26 @@ export interface NexusGenFieldTypeNames {
     code: 'String'
     message: 'String'
   }
+  Event: { // field return type name
+    createdAt: 'DateTime'
+    name: 'String'
+    publishedAt: 'DateTime'
+    updatedAt: 'DateTime'
+  }
+  EventEntity: { // field return type name
+    attributes: 'Event'
+    id: 'ID'
+  }
+  EventEntityResponse: { // field return type name
+    data: 'EventEntity'
+  }
+  EventEntityResponseCollection: { // field return type name
+    data: 'EventEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  EventRelationResponseCollection: { // field return type name
+    data: 'EventEntity'
+  }
   I18NLocale: { // field return type name
     code: 'String'
     createdAt: 'DateTime'
@@ -1134,6 +1211,7 @@ export interface NexusGenFieldTypeNames {
     changePassword: 'UsersPermissionsLoginPayload'
     createDiscipline: 'DisciplineEntityResponse'
     createDisciplineLocalization: 'DisciplineEntityResponse'
+    createEvent: 'EventEntityResponse'
     createUploadFile: 'UploadFileEntityResponse'
     createUploadFolder: 'UploadFolderEntityResponse'
     createUserDiscipline: 'UserDisciplineEntityResponse'
@@ -1142,6 +1220,7 @@ export interface NexusGenFieldTypeNames {
     createUsersPermissionsRole: 'UsersPermissionsCreateRolePayload'
     createUsersPermissionsUser: 'UsersPermissionsUserEntityResponse'
     deleteDiscipline: 'DisciplineEntityResponse'
+    deleteEvent: 'EventEntityResponse'
     deleteUploadFile: 'UploadFileEntityResponse'
     deleteUploadFolder: 'UploadFolderEntityResponse'
     deleteUserDiscipline: 'UserDisciplineEntityResponse'
@@ -1156,6 +1235,7 @@ export interface NexusGenFieldTypeNames {
     removeFile: 'UploadFileEntityResponse'
     resetPassword: 'UsersPermissionsLoginPayload'
     updateDiscipline: 'DisciplineEntityResponse'
+    updateEvent: 'EventEntityResponse'
     updateFileInfo: 'UploadFileEntityResponse'
     updateUploadFile: 'UploadFileEntityResponse'
     updateUploadFolder: 'UploadFolderEntityResponse'
@@ -1174,6 +1254,8 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     discipline: 'DisciplineEntityResponse'
     disciplines: 'DisciplineEntityResponseCollection'
+    event: 'EventEntityResponse'
+    events: 'EventEntityResponseCollection'
     i18NLocale: 'I18NLocaleEntityResponse'
     i18NLocales: 'I18NLocaleEntityResponseCollection'
     me: 'UsersPermissionsMe'
@@ -1258,6 +1340,7 @@ export interface NexusGenFieldTypeNames {
     locale: 'String'
     localizations: 'UserDisciplineRelationResponseCollection'
     publishedAt: 'DateTime'
+    startedAt: 'Date'
     updatedAt: 'DateTime'
     user: 'UsersPermissionsUserEntityResponse'
   }
@@ -1375,6 +1458,7 @@ export interface NexusGenFieldTypeNames {
     adminGroups: 'UserGroupRelationResponseCollection'
     avatar: 'UploadFileEntityResponse'
     blocked: 'Boolean'
+    city: 'String'
     confirmed: 'Boolean'
     createdAt: 'DateTime'
     disciplines: 'UserDisciplineRelationResponseCollection'
@@ -1433,6 +1517,9 @@ export interface NexusGenArgTypes {
       id?: string | null; // ID
       locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
     }
+    createEvent: { // args
+      data: NexusGenInputs['EventInput']; // EventInput!
+    }
     createUploadFile: { // args
       data: NexusGenInputs['UploadFileInput']; // UploadFileInput!
     }
@@ -1460,6 +1547,9 @@ export interface NexusGenArgTypes {
     deleteDiscipline: { // args
       id: string; // ID!
       locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    deleteEvent: { // args
+      id: string; // ID!
     }
     deleteUploadFile: { // args
       id: string; // ID!
@@ -1511,6 +1601,10 @@ export interface NexusGenArgTypes {
       id: string; // ID!
       locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
     }
+    updateEvent: { // args
+      data: NexusGenInputs['EventInput']; // EventInput!
+      id: string; // ID!
+    }
     updateFileInfo: { // args
       id: string; // ID!
       info?: NexusGenInputs['FileInfoInput'] | null; // FileInfoInput
@@ -1556,6 +1650,15 @@ export interface NexusGenArgTypes {
     disciplines: { // args
       filters?: NexusGenInputs['DisciplineFiltersInput'] | null; // DisciplineFiltersInput
       locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    event: { // args
+      id?: string | null; // ID
+    }
+    events: { // args
+      filters?: NexusGenInputs['EventFiltersInput'] | null; // EventFiltersInput
       pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
       publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
       sort: Array<string | null> | null; // [String]
@@ -1693,7 +1796,7 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
-  GenericMorph: "ComponentBaseContact" | "ComponentBaseLocation" | "Discipline" | "I18NLocale" | "UploadFile" | "UploadFolder" | "UserDiscipline" | "UserGroup" | "UsersPermissionsPermission" | "UsersPermissionsRole" | "UsersPermissionsUser"
+  GenericMorph: "ComponentBaseContact" | "ComponentBaseLocation" | "Discipline" | "Event" | "I18NLocale" | "UploadFile" | "UploadFolder" | "UserDiscipline" | "UserGroup" | "UsersPermissionsPermission" | "UsersPermissionsRole" | "UsersPermissionsUser"
 }
 
 export interface NexusGenTypeInterfaces {

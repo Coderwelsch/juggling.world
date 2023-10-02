@@ -206,6 +206,47 @@ type Error {
   message: String
 }
 
+type Event {
+  createdAt: DateTime
+  name: String!
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type EventEntity {
+  attributes: Event
+  id: ID
+}
+
+type EventEntityResponse {
+  data: EventEntity
+}
+
+type EventEntityResponseCollection {
+  data: [EventEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input EventFiltersInput {
+  and: [EventFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: EventFiltersInput
+  or: [EventFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input EventInput {
+  name: String
+  publishedAt: DateTime
+}
+
+type EventRelationResponseCollection {
+  data: [EventEntity!]!
+}
+
 input FileInfoInput {
   alternativeText: String
   caption: String
@@ -237,7 +278,7 @@ input FloatFilterInput {
   startsWith: Float
 }
 
-union GenericMorph = ComponentBaseContact | ComponentBaseLocation | Discipline | I18NLocale | UploadFile | UploadFolder | UserDiscipline | UserGroup | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
+union GenericMorph = ComponentBaseContact | ComponentBaseLocation | Discipline | Event | I18NLocale | UploadFile | UploadFolder | UserDiscipline | UserGroup | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
 
 type I18NLocale {
   code: String
@@ -398,6 +439,7 @@ type Mutation {
   changePassword(currentPassword: String!, password: String!, passwordConfirmation: String!): UsersPermissionsLoginPayload
   createDiscipline(data: DisciplineInput!, locale: I18NLocaleCode): DisciplineEntityResponse
   createDisciplineLocalization(data: DisciplineInput, id: ID, locale: I18NLocaleCode): DisciplineEntityResponse
+  createEvent(data: EventInput!): EventEntityResponse
   createUploadFile(data: UploadFileInput!): UploadFileEntityResponse
   createUploadFolder(data: UploadFolderInput!): UploadFolderEntityResponse
   createUserDiscipline(data: UserDisciplineInput!, locale: I18NLocaleCode): UserDisciplineEntityResponse
@@ -410,6 +452,7 @@ type Mutation {
   """Create a new user"""
   createUsersPermissionsUser(data: UsersPermissionsUserInput!): UsersPermissionsUserEntityResponse!
   deleteDiscipline(id: ID!, locale: I18NLocaleCode): DisciplineEntityResponse
+  deleteEvent(id: ID!): EventEntityResponse
   deleteUploadFile(id: ID!): UploadFileEntityResponse
   deleteUploadFolder(id: ID!): UploadFolderEntityResponse
   deleteUserDiscipline(id: ID!, locale: I18NLocaleCode): UserDisciplineEntityResponse
@@ -438,6 +481,7 @@ type Mutation {
   """
   resetPassword(code: String!, password: String!, passwordConfirmation: String!): UsersPermissionsLoginPayload
   updateDiscipline(data: DisciplineInput!, id: ID!, locale: I18NLocaleCode): DisciplineEntityResponse
+  updateEvent(data: EventInput!, id: ID!): EventEntityResponse
   updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
   updateUploadFile(data: UploadFileInput!, id: ID!): UploadFileEntityResponse
   updateUploadFolder(data: UploadFolderInput!, id: ID!): UploadFolderEntityResponse
@@ -474,6 +518,8 @@ enum PublicationState {
 type Query {
   discipline(id: ID, locale: I18NLocaleCode): DisciplineEntityResponse
   disciplines(filters: DisciplineFiltersInput, locale: I18NLocaleCode, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): DisciplineEntityResponseCollection
+  event(id: ID): EventEntityResponse
+  events(filters: EventFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): EventEntityResponseCollection
   i18NLocale(id: ID): I18NLocaleEntityResponse
   i18NLocales(filters: I18NLocaleFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): I18NLocaleEntityResponseCollection
   me: UsersPermissionsMe
@@ -694,6 +740,7 @@ type UserDiscipline {
   locale: String
   localizations(filters: UserDisciplineFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserDisciplineRelationResponseCollection
   publishedAt: DateTime
+  startedAt: Date
   updatedAt: DateTime
   user: UsersPermissionsUserEntityResponse
 }
@@ -724,6 +771,7 @@ input UserDisciplineFiltersInput {
   not: UserDisciplineFiltersInput
   or: [UserDisciplineFiltersInput]
   publishedAt: DateTimeFilterInput
+  startedAt: DateFilterInput
   updatedAt: DateTimeFilterInput
   user: UsersPermissionsUserFiltersInput
 }
@@ -733,6 +781,7 @@ input UserDisciplineInput {
   isTeaching: Boolean
   level: ENUM_USERDISCIPLINE_LEVEL
   publishedAt: DateTime
+  startedAt: Date
   user: ID
 }
 
@@ -934,14 +983,15 @@ type UsersPermissionsUser {
   adminGroups(filters: UserGroupFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserGroupRelationResponseCollection
   avatar: UploadFileEntityResponse
   blocked: Boolean
+  city: String
   confirmed: Boolean
   createdAt: DateTime
   disciplines(filters: UserDisciplineFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserDisciplineRelationResponseCollection
   email: String!
   groups(filters: UserGroupFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserGroupRelationResponseCollection
-  location: ComponentBaseLocation!
+  location: ComponentBaseLocation
   provider: String
-  publicContact(filters: ComponentBaseContactFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentBaseContact]!
+  publicContact(filters: ComponentBaseContactFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentBaseContact]
   role: UsersPermissionsRoleEntityResponse
   updatedAt: DateTime
   username: String!
@@ -965,6 +1015,7 @@ input UsersPermissionsUserFiltersInput {
   adminGroups: UserGroupFiltersInput
   and: [UsersPermissionsUserFiltersInput]
   blocked: BooleanFilterInput
+  city: StringFilterInput
   confirmationToken: StringFilterInput
   confirmed: BooleanFilterInput
   createdAt: DateTimeFilterInput
@@ -988,6 +1039,7 @@ input UsersPermissionsUserInput {
   adminGroups: [ID]
   avatar: ID
   blocked: Boolean
+  city: String
   confirmationToken: String
   confirmed: Boolean
   disciplines: [ID]
