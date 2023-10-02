@@ -1,4 +1,4 @@
-import { apolloClient } from "@/src/lib/clients/apollo-client"
+import { apolloInternalClient } from "@/src/lib/clients/apollo-internal-client"
 import { gql } from "@apollo/client"
 
 export interface AllDisciplinesResponse {
@@ -21,7 +21,7 @@ export interface AllDisciplinesResponse {
 }
 
 export const getAllDisciplinesQuery = () =>
-	apolloClient.query<AllDisciplinesResponse>({
+	apolloInternalClient.query<AllDisciplinesResponse>({
 		query: gql`
 			query {
 				disciplines(sort: "updatedAt:asc") {

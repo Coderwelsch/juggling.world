@@ -1,40 +1,38 @@
-import { Headline } from "@/src/components/headline/headline"
+import DIABOLO_STICKS from "@/src/assets/diabolo-sticks.svg"
+import { MapOverlay } from "@/src/components/map-overlay/map-overlay"
+import { useAnimation } from "@/src/components/mapbox/hooks/use-animation"
+import { useIsUserInteractingWithMap } from "@/src/components/mapbox/hooks/use-is-user-interacting-with-map"
 import { DotMarker } from "@/src/components/mapbox/marker/dot-marker"
 import { MarkerLabel } from "@/src/components/mapbox/marker/marker-label"
+import { LandingPageNav } from "@/src/components/nav/landing-page-nav"
+import { SidebarPlayerContent } from "@/src/components/page-specific/index/sidebar-content"
 import Sidebar from "@/src/components/sidebar/sidebar"
-import { classNames } from "@/src/lib/class-names"
-import {
-	AllDisciplinesResponse,
-	getAllDisciplinesQuery,
-} from "@/src/queries/all-disciplines"
+import { mapValueRange } from "@/src/lib/map-value-range"
 import {
 	AllPlayersResponse,
 	getAllPlayersQuery,
 } from "@/src/queries/all-players"
 import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
-import Image from "next/image"
 import * as React from "react"
-import { createContext, useCallback, useEffect, useRef } from "react"
+import { createContext, useCallback, useEffect, useRef, useState } from "react"
 import Map, { ViewState } from "react-map-gl"
 
 export const getServerSideProps = async () => {
 	try {
 		const allPlayers = await getAllPlayersQuery()
 
-		const allDisciplines = await getAllDisciplinesQuery()
-
 		return {
 			props: {
 				players: allPlayers.data.players.data,
-				disciplines: allDisciplines.data.disciplines.data,
 			},
 		}
 	} catch (error) {
+		console.log(error)
+
 		return {
 			props: {
 				players: [],
-				disciplines: [],
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
 				error: error.message,
@@ -45,137 +43,18 @@ export const getServerSideProps = async () => {
 
 interface AppProps {
 	players: AllPlayersResponse["players"]["data"]
-	disciplines: any[]
 	error?: string
 }
 
 const PlayersContext = createContext<AllPlayersResponse["players"]["data"]>([])
 
-const DisciplinesContext = createContext<
-	AllDisciplinesResponse["disciplines"]["data"]
->([])
-
-function SidebarPlayerContent({ playerId }: { playerId: string }) {
-	const players = React.useContext(PlayersContext)
-	const disciplines = React.useContext(DisciplinesContext)
-
-	const player = players.find((p) => p.id === playerId)
-
-	if (!player) {
-		return <p>Player not found</p>
-	}
-
-	const playerDisciplines = disciplines.map((d) => {
-		return disciplines.find((discipline) => discipline.id === d.id)
-	})
-
-	console.log(playerDisciplines)
-
-	const avatarUrl = player.attributes.avatar?.data.attributes.url
-
-	return (
-		<div className={"flex w-full flex-col gap-4"}>
-			<div className={"flex flex-row items-center gap-4"}>
-				{avatarUrl && (
-					<img
-						src={`http://cms.localhost${avatarUrl}`}
-						alt={""}
-						className={"h-20 w-20 rounded-full"}
-					/>
-				)}
-
-				<Headline size={2}>{player.attributes.username}</Headline>
-			</div>
-
-			<hr />
-
-			<div className={"flex flex-col gap-6"}>
-				<div className={"flex flex-col gap-2"}>
-					<Headline size={3}>Plays:</Headline>
-
-					{disciplines.map((discipline) => {
-						const icon =
-							discipline.attributes.icon?.data.attributes.url
-
-						return (
-							<div
-								key={discipline.id}
-								className={classNames(
-									"flex flex-row items-center gap-4",
-								)}
-							>
-								{icon && (
-									<Image
-										className={classNames(
-											"bg-fuchsia-400 rounded-full h-10 w-10 flex items-center justify-center",
-										)}
-										alt={""}
-										width={32}
-										height={32}
-										src={`http://strapi${icon}`}
-									/>
-								)}
-
-								<div>
-									<Headline size={5}>
-										{discipline.attributes.name}
-									</Headline>
-									<p className={"text-sm text-gray-500"}>
-										{discipline.attributes.slug}
-									</p>
-								</div>
-							</div>
-						)
-					})}
-				</div>
-
-				<div className={"flex flex-col gap-2"}>
-					<Headline size={3}>Associated Groups:</Headline>
-
-					{disciplines.map((discipline) => {
-						const icon =
-							discipline.attributes.icon?.data.attributes.url
-
-						return (
-							<div
-								key={discipline.id}
-								className={classNames(
-									"flex flex-row items-center gap-4",
-								)}
-							>
-								{icon && (
-									<Image
-										className={classNames(
-											"bg-fuchsia-400 rounded-full h-10 w-10 flex items-center justify-center",
-										)}
-										alt={""}
-										width={32}
-										height={32}
-										src={`http://strapi${icon}`}
-									/>
-								)}
-
-								<div>
-									<Headline size={5}>
-										{discipline.attributes.name}
-									</Headline>
-
-									<p className={"text-sm text-gray-500"}>
-										{discipline.attributes.slug}
-									</p>
-								</div>
-							</div>
-						)
-					})}
-				</div>
-			</div>
-		</div>
-	)
-}
-
-export default function App({ players, disciplines, error }: AppProps) {
+export default function App({ players }: AppProps) {
+	const [isMapReady, setIsMapReady] = useState(false)
 	const mapRef = useRef<mapboxgl.Map | undefined>()
 	const sidebarRef = useRef<HTMLDivElement | null>(null)
+	const [isSidebarShown, setIsSidebarShown] = useState(false)
+	const [isSpinAnimationInterrupted, setIsSpinAnimationInterrupted] =
+		useState(false)
 
 	const initialViewState: Partial<ViewState> = {
 		longitude: 13.06965732917729,
@@ -183,9 +62,7 @@ export default function App({ players, disciplines, error }: AppProps) {
 		zoom: 1,
 	}
 
-	const [selectedPlayerIds, setSelectedPlayerIds] = React.useState<string[]>(
-		players.length ? [players[0].id] : [],
-	)
+	const [selectedPlayerIds, setSelectedPlayerIds] = useState<string[]>([])
 
 	const onMarkerClick = useCallback(
 		(id: string) => {
@@ -194,6 +71,7 @@ export default function App({ players, disciplines, error }: AppProps) {
 			}
 
 			setSelectedPlayerIds([...selectedPlayerIds, id])
+			setIsSidebarShown(true)
 		},
 		[selectedPlayerIds, setSelectedPlayerIds],
 	)
@@ -206,11 +84,34 @@ export default function App({ players, disciplines, error }: AppProps) {
 		}
 
 		setSelectedPlayerIds([])
+		setIsSidebarShown(false)
 	}, [])
 
 	const onMapLoad = useCallback(({ target }: mapboxgl.MapboxEvent) => {
 		mapRef.current = target
+		setIsMapReady(true)
 	}, [])
+
+	useIsUserInteractingWithMap({
+		map: mapRef.current,
+		onInteractionStart: () => {
+			setIsSpinAnimationInterrupted(true)
+		},
+		onInteractionEnd: () => {},
+	})
+
+	useAnimation({
+		paused: isSpinAnimationInterrupted,
+		onFrame: () => {
+			if (!mapRef.current) {
+				return
+			}
+
+			mapRef.current.setBearing(mapRef.current.getBearing() + 0.02)
+		},
+	})
+
+	const [openerOpacity, setOpenerOpacity] = useState(1)
 
 	useEffect(() => {
 		if (!mapRef.current) {
@@ -218,8 +119,6 @@ export default function App({ players, disciplines, error }: AppProps) {
 		}
 
 		const map = mapRef.current
-
-		const sideBarWidth = sidebarRef.current?.offsetWidth ?? 0
 
 		if (!selectedPlayerIds.length) {
 			return
@@ -231,17 +130,13 @@ export default function App({ players, disciplines, error }: AppProps) {
 			return
 		}
 
-		map.flyTo({
-			center: [
-				firstPlayer.attributes.location.longitude,
-				firstPlayer.attributes.location.latitude,
-			],
-			padding: {
-				top: 20,
-				bottom: 20,
-				left: 20,
-				right: sideBarWidth,
-			},
+		const playerLocation: mapboxgl.LngLatLike = [
+			firstPlayer.attributes.location.longitude,
+			firstPlayer.attributes.location.latitude,
+		]
+
+		map?.flyTo({
+			center: playerLocation,
 			duration: 3000,
 			zoom: Math.max(map.getZoom(), 13),
 		})
@@ -275,58 +170,119 @@ export default function App({ players, disciplines, error }: AppProps) {
 		// })
 	}, [selectedPlayerIds])
 
-	console.log("players", players)
+	const handleZoom = useCallback(() => {
+		const zoom = mapRef.current?.getZoom() ?? 1
+		const opacity = mapValueRange(zoom, 1, 5, 1, 0)
+
+		setOpenerOpacity(opacity > 1 ? 1 : opacity)
+	}, [])
+
+	useEffect(() => {
+		if (!selectedPlayerIds.length) {
+			return
+		}
+	}, [selectedPlayerIds])
+
+	useEffect(() => {
+		if (!isMapReady) {
+			return
+		}
+
+		mapRef.current?.on("zoom", handleZoom)
+
+		return () => {
+			mapRef.current?.off("zoom", handleZoom)
+		}
+	}, [isMapReady])
 
 	return (
-		<div className={"h-screen w-full"}>
-			<Map
-				mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
-				projection={{
-					name: "globe",
-				}}
-				initialViewState={initialViewState}
-				mapStyle={process.env.NEXT_PUBLIC_MAPBOX_STYLE_URL}
-				onClick={onMapClick}
-				onLoad={onMapLoad}
-			>
-				{players.map((player) => {
-					const isSelected = selectedPlayerIds.includes(player.id)
+		<>
+			<LandingPageNav visible={!selectedPlayerIds.length} />
 
-					return (
-						<DotMarker
-							key={player.id}
-							location={[
-								player.attributes.location.longitude,
-								player.attributes.location.latitude,
-							]}
-							selected={isSelected}
-							onClick={() => onMarkerClick(player.id)}
-						>
-							{isSelected && (
-								<MarkerLabel
-									label={player.attributes.username}
-									avatar={
-										player.attributes.avatar?.data
-											.attributes.url
-									}
-								></MarkerLabel>
-							)}
-						</DotMarker>
-					)
-				})}
-			</Map>
+			<section className={"h-screen w-full"}>
+				<Map
+					mapboxAccessToken={
+						process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
+					}
+					projection={{
+						name: "globe",
+					}}
+					initialViewState={initialViewState}
+					mapStyle={process.env.NEXT_PUBLIC_MAPBOX_STYLE_URL}
+					onClick={onMapClick}
+					onLoad={onMapLoad}
+				>
+					{players.map((player) => {
+						const isSelected = selectedPlayerIds.includes(player.id)
 
-			<Sidebar
-				ref={sidebarRef}
-				isShown={selectedPlayerIds.length > 0}
-				onClose={() => {}}
-			>
-				<DisciplinesContext.Provider value={disciplines}>
+						return (
+							<DotMarker
+								key={player.id}
+								location={[
+									player.attributes.location.longitude,
+									player.attributes.location.latitude,
+								]}
+								selected={isSelected}
+								onClick={() => onMarkerClick(player.id)}
+							>
+								{isSelected && (
+									<MarkerLabel
+										label={player.attributes.username}
+										avatar={
+											player.attributes.avatar?.data
+												.attributes.url
+										}
+									></MarkerLabel>
+								)}
+							</DotMarker>
+						)
+					})}
+				</Map>
+
+				<div
+					style={{
+						opacity: isSidebarShown ? 0 : openerOpacity,
+					}}
+				>
+					<MapOverlay>
+						<MapOverlay.Headline>
+							Let’s Connect!
+						</MapOverlay.Headline>
+
+						<img
+							src={DIABOLO_STICKS.src}
+							className={"relative z-0 mt-[-10%]"}
+							alt={""}
+						/>
+
+						<MapOverlay.Description>
+							Welcome to the all new space for us diabolo
+							enthusiasts all over the world! Let’s connect, share
+							and grow&nbsp;together!
+						</MapOverlay.Description>
+
+						<MapOverlay.ButtonGroup>
+							<MapOverlay.SecondaryButton href={"/about"}>
+								about this project
+							</MapOverlay.SecondaryButton>
+
+							<MapOverlay.Button href={"/register"}>
+								create account
+							</MapOverlay.Button>
+						</MapOverlay.ButtonGroup>
+					</MapOverlay>
+				</div>
+
+				<Sidebar
+					ref={sidebarRef}
+					isShown={isSidebarShown}
+					onClose={() => {}}
+				>
 					<PlayersContext.Provider value={players}>
 						<SidebarPlayerContent playerId={selectedPlayerIds[0]} />
 					</PlayersContext.Provider>
-				</DisciplinesContext.Provider>
-			</Sidebar>
-		</div>
+				</Sidebar>
+			</section>
+		</>
 	)
 }

@@ -1,10 +1,18 @@
+import { classNames } from "@/src/lib/class-names"
 import { ReactNode } from "react"
 
-interface FormProps {
+interface FormProps extends React.HTMLAttributes<HTMLFormElement> {
 	children: ReactNode
-	onSubmit: () => void
+	onSubmit?: () => void
 }
 
-export const Form = ({ children }: FormProps) => {
-	return <form className={"flex flex-col gap-4"}>{children}</form>
+export const Form = ({ children, className, ...props }: FormProps) => {
+	return (
+		<form
+			className={classNames("flex flex-col gap-4", className)}
+			{...props}
+		>
+			{children}
+		</form>
+	)
 }

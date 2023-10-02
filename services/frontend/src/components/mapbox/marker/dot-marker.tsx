@@ -7,12 +7,14 @@ interface DotMarkerProps {
 	location: [number, number]
 	selected?: boolean
 	onClick: () => void
+	icon?: ReactNode
 	children?: ReactNode
 }
 
 export const DotMarker = ({
 	children,
 	location: [longitude, latitude],
+	icon,
 	onClick,
 	selected,
 }: DotMarkerProps) => (
@@ -30,12 +32,14 @@ export const DotMarker = ({
 			>
 				<div
 					className={classNames(
-						"rounded-full border-2",
+						"rounded-full border-2 overflow-hidden",
 						selected
 							? "h-6 w-6 border-fuchsia-50 bg-fuchsia-950"
 							: "h-4 w-4 border-fuchsia-50 bg-fuchsia-400",
 					)}
-				/>
+				>
+					{icon}
+				</div>
 			</div>
 
 			{children && (

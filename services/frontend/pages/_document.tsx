@@ -8,7 +8,7 @@ export default function Document() {
 
 			<body
 				className={classNames(
-					`text-space-900 bg-space-800 scroll-smooth`,
+					`text-space-900 bg-space-950 scroll-smooth h-full`,
 				)}
 			>
 				<Main />
