@@ -75,13 +75,13 @@
       "type": "component",
       "repeatable": false,
       "component": "base.location",
-      "required": true
+      "required": false
     },
     "publicContact": {
       "type": "component",
       "repeatable": true,
       "component": "base.contact",
-      "required": true
+      "required": false
     },
     "groups": {
       "type": "relation",
@@ -96,12 +96,15 @@
       "mappedBy": "admins"
     },
     "avatar": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": false,
-      "required": false
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "city": {
+      "type": "string"
     }
   }
 }

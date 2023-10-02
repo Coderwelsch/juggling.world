@@ -50,6 +50,14 @@
       },
       "type": "boolean",
       "required": false
+    },
+    "startedAt": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "date"
     }
   }
 }
