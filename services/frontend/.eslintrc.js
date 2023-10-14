@@ -9,6 +9,7 @@ module.exports = {
 		"plugin:react/recommended",
 		"plugin:prettier/recommended",
 		"plugin:tailwindcss/recommended",
+		"plugin:react-hooks/recommended",
 	],
 	overrides: [
 		{
@@ -50,5 +51,7 @@ module.exports = {
 		"react/jsx-curly-newline": "off",
 		"react/destructuring-assignment": ["error", "always"],
 		"react/react-in-jsx-scope": "off",
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": "error",
 	},
 }
