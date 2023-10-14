@@ -13,8 +13,6 @@ export const LocationContent = ({ id }: { id: string }) => {
 		variables: { id },
 	})
 
-	console.log("location.data", location.data)
-
 	const imageUrl =
 		location.data?.location.data.attributes.image?.data.attributes.url
 

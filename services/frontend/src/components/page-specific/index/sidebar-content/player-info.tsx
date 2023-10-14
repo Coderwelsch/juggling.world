@@ -22,7 +22,13 @@ const Section = ({
 	)
 }
 
-export const PlayerContent = ({ id }: { id: string }) => {
+export const PlayerContent = ({
+	id,
+	onLocationClick,
+}: {
+	id: string
+	onLocationClick: (id: string) => void
+}) => {
 	const player = useQuery<PlayerResponse>(playerInfoQuery, {
 		variables: { id },
 	})
@@ -130,7 +136,10 @@ export const PlayerContent = ({ id }: { id: string }) => {
 							return (
 								<div
 									key={location.id}
-									className="relative flex flex-row overflow-hidden rounded-lg border border-space-200/25 bg-space-100/40 shadow"
+									className="relative flex cursor-pointer flex-row overflow-hidden rounded-lg border border-space-200/25 bg-space-100/40 shadow"
+									onClick={() => {
+										onLocationClick(location.id)
+									}}
 								>
 									<Image
 										width={160}

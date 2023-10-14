@@ -1,4 +1,6 @@
 import DIABOLO_STICKS from "@/src/assets/diabolo-sticks.svg"
+import IconPark from "@/src/components/icons/tree"
+import IconUserLarge from "@/src/components/icons/user-large"
 import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
 import { MapOverlay } from "@/src/components/map-overlay/map-overlay"
 import { useAnimation } from "@/src/components/mapbox/hooks/use-animation"
@@ -57,9 +59,23 @@ export default function App() {
 		null,
 	)
 
+	const [focusedLocations, setFocusedLocations] = useState<string[]>([])
+	const [focusedPlayers, setFocusedPlayers] = useState<string[]>([])
+	const [connectionLines, setConnectionLines] = useState<
+		[[number, number], [number, number]][]
+	>([])
+
 	const onPlayerMarkerClick = useCallback(
 		(id: string) => {
 			if (selectedPlayerId === id) {
+				return
+			}
+
+			const player = playersData.data?.players.data.find(
+				(p) => p.id === id,
+			)
+
+			if (!player) {
 				return
 			}
 
@@ -67,8 +83,43 @@ export default function App() {
 			setSelectedLocationId(null)
 
 			setIsInterfaceShown(true)
+
+			setFocusedPlayers([id])
+			setFocusedLocations(
+				player?.attributes.userPlayLocations.data.map((l) => l.id) ||
+					[],
+			)
+
+			const lines: [[number, number], [number, number]][] = []
+
+			player.attributes.userPlayLocations.data.forEach((l) => {
+				const location = playLocations.data?.locations.data.find(
+					(pl) => pl.id === l.id,
+				)
+
+				if (!location) {
+					return
+				}
+
+				lines.push([
+					[
+						location.attributes.location.longitude,
+						location.attributes.location.latitude,
+					],
+					[
+						player.attributes.location.longitude,
+						player.attributes.location.latitude,
+					],
+				])
+			})
+
+			setConnectionLines(lines)
 		},
-		[selectedPlayerId, setSelectedPlayerId],
+		[
+			playLocations.data?.locations.data,
+			playersData.data?.players.data,
+			selectedPlayerId,
+		],
 	)
 
 	const onLocationMarkerClick = useCallback(
@@ -77,12 +128,59 @@ export default function App() {
 				return
 			}
 
+			const location = playLocations.data?.locations.data.find(
+				(l) => l.id === id,
+			)
+
+			if (!location) {
+				return
+			}
+
 			setSelectedLocationId(id)
 			setSelectedPlayerId(null)
 
 			setIsInterfaceShown(true)
+
+			setFocusedPlayers(
+				location.attributes.users?.data.map((l) => l.id) || [],
+			)
+
+			setFocusedLocations([id])
+
+			const lines: [[number, number], [number, number]][] = []
+
+			if (!location) {
+				return
+			}
+
+			location.attributes.users?.data.forEach((l) => {
+				const player = playersData.data?.players.data.find(
+					(pl) => pl.id === l.id,
+				)
+
+				if (!player) {
+					return
+				}
+
+				lines.push([
+					[
+						player.attributes.location.longitude,
+						player.attributes.location.latitude,
+					],
+					[
+						location.attributes.location.longitude,
+						location.attributes.location.latitude,
+					],
+				])
+			})
+
+			setConnectionLines(lines)
 		},
-		[selectedLocationId],
+		[
+			playLocations.data?.locations.data,
+			playersData.data?.players.data,
+			selectedLocationId,
+		],
 	)
 
 	const onMapClick = useCallback((e: mapboxgl.MapLayerMouseEvent) => {
@@ -94,7 +192,12 @@ export default function App() {
 
 		setSelectedPlayerId(null)
 		setSelectedLocationId(null)
+
 		setIsInterfaceShown(false)
+
+		setFocusedLocations([])
+		setFocusedPlayers([])
+		setConnectionLines([])
 	}, [])
 
 	const onMapLoad = useCallback(({ target }: mapboxgl.MapboxEvent) => {
@@ -171,7 +274,7 @@ export default function App() {
 			duration: 3000,
 			essential: true,
 			padding: {
-				top: 64,
+				top: 128,
 				bottom: 86, // because of the marker label
 				left: 64,
 				right: sidebarRef.current?.clientWidth ?? 0,
@@ -237,7 +340,7 @@ export default function App() {
 			duration: 3000,
 			essential: true,
 			padding: {
-				top: 64,
+				top: 128,
 				bottom: 86,
 				left: 64,
 				right: sidebarRef.current?.clientWidth ?? 0,
@@ -302,8 +405,11 @@ export default function App() {
 					<MapContext.Provider value={mapRef.current}>
 						{/* Play Location Markers */}
 						{playLocations?.data?.locations.data.map((location) => {
-							const isSelected =
-								selectedLocationId === location.id
+							const isFocused = focusedLocations.includes(
+								location.id,
+							)
+
+							const isActive = selectedLocationId === location.id
 
 							const { location: locationData } =
 								location.attributes
@@ -318,13 +424,16 @@ export default function App() {
 									key={location.id}
 									location={coordinates}
 									intent={"active"}
-									selected={isSelected}
+									focused={isFocused}
+									active={isActive}
 									onClick={() =>
 										onLocationMarkerClick(location.id)
 									}
-									className={"h-4 w-4"}
+									icon={
+										<IconPark className="fill-neutral-50" />
+									}
 								>
-									{isSelected && (
+									{isFocused && (
 										<MarkerLabel
 											label={location.attributes.name}
 											avatar={
@@ -339,7 +448,8 @@ export default function App() {
 
 						{/* Player Markers */}
 						{playersData?.data?.players.data.map((player) => {
-							const isSelected = selectedPlayerId === player.id
+							const isFocused = focusedPlayers.includes(player.id)
+							const isActive = selectedPlayerId === player.id
 
 							return (
 								<DotMarker
@@ -348,13 +458,17 @@ export default function App() {
 										player.attributes.location.longitude,
 										player.attributes.location.latitude,
 									]}
-									selected={isSelected}
+									focused={isFocused}
+									active={isActive}
 									onClick={() =>
 										onPlayerMarkerClick(player.id)
 									}
+									icon={
+										<IconUserLarge className="fill-neutral-50" />
+									}
 									className={"z-10"}
 								>
-									{isSelected && (
+									{isFocused && (
 										<MarkerLabel
 											label={player.attributes.username}
 											avatar={
@@ -367,93 +481,15 @@ export default function App() {
 							)
 						})}
 
-						{/* Line Connections */}
-						{(() => {
-							const lines: [
-								[number, number],
-								[number, number],
-							][] = []
-
-							if (selectedLocationId) {
-								const playLocation =
-									playLocations.data?.locations.data.find(
-										(l) => l.id === selectedLocationId,
-									)
-
-								playLocation?.attributes.users?.data.forEach(
-									(user) => {
-										const player =
-											playersData.data?.players.data.find(
-												(p) => p.id === user.id,
-											)
-
-										if (!player) {
-											return
-										}
-
-										lines.push([
-											[
-												playLocation.attributes.location
-													.longitude,
-												playLocation.attributes.location
-													.latitude,
-											],
-											[
-												player.attributes.location
-													.longitude,
-												player.attributes.location
-													.latitude,
-											],
-										])
-									},
-								)
-							}
-
-							if (selectedPlayerId) {
-								const player =
-									playersData.data?.players.data.find(
-										(p) => p.id === selectedPlayerId,
-									)
-
-								player?.attributes.userPlayLocations.data.forEach(
-									(l) => {
-										const playLocation =
-											playLocations.data?.locations.data.find(
-												(pl) => pl.id === l.id,
-											)
-
-										if (!playLocation) {
-											return
-										}
-
-										lines.push([
-											[
-												playLocation.attributes.location
-													.longitude,
-												playLocation.attributes.location
-													.latitude,
-											],
-											[
-												player.attributes.location
-													.longitude,
-												player.attributes.location
-													.latitude,
-											],
-										])
-									},
-								)
-							}
-
-							return lines.map((line, index) => (
-								<Line
-									key={index}
-									coordinates={line}
-									color={"rgb(16,185,129)"}
-									width={4}
-									outlineWidth={2}
-								/>
-							))
-						})()}
+						{connectionLines.map((line, index) => (
+							<Line
+								key={index}
+								coordinates={line}
+								color={"rgb(16,185,129)"}
+								width={4}
+								outlineWidth={2}
+							/>
+						))}
 					</MapContext.Provider>
 				</Map>
 
@@ -519,7 +555,10 @@ export default function App() {
 						value={playersData?.data?.players.data || []}
 					>
 						{selectedPlayerId && (
-							<PlayerContent id={selectedPlayerId} />
+							<PlayerContent
+								id={selectedPlayerId}
+								onLocationClick={onLocationMarkerClick}
+							/>
 						)}
 
 						{selectedLocationId && (

@@ -23,7 +23,8 @@ const dotMarkerStyles: {
 
 interface DotMarkerProps {
 	location: [number, number]
-	selected?: boolean
+	focused?: boolean
+	active?: boolean
 	className?: string
 	onClick: () => void
 	intent?: Intent
@@ -38,7 +39,8 @@ export const DotMarker = ({
 	location: [longitude, latitude],
 	icon,
 	onClick,
-	selected,
+	focused,
+	active,
 }: DotMarkerProps) => (
 	<Marker
 		longitude={longitude}
@@ -54,13 +56,21 @@ export const DotMarker = ({
 			>
 				<div
 					className={classNames(
-						"rounded-full overflow-hidden",
-						selected ? "h-6 w-6" : "h-4 w-4",
-						dotMarkerStyles[selected ? "selected" : "idle"][intent],
+						"rounded-full overflow-hidden flex justify-center items-center",
+						active ? "h-7 w-7" : "h-6 w-6",
+						dotMarkerStyles[focused ? "selected" : "idle"][intent],
 						className,
 					)}
 				>
-					{icon}
+					{active && (
+						<div
+							className={classNames(
+								"absolute h-2 w-2 top-1/2 left-1/2 rounded-full bg-neutral-50 transform -translate-x-1/2 -translate-y-1/2",
+							)}
+						/>
+					)}
+
+					{!active && icon}
 				</div>
 			</div>
 
