@@ -26,9 +26,11 @@ const MapOverlayDescription = ({ children }: { children: ReactNode }) => {
 const MapOverlayButton = ({
 	children,
 	href,
+	className,
 }: {
 	children: ReactNode
 	href?: string
+	className?: string
 }) => {
 	return (
 		<Button
@@ -36,7 +38,7 @@ const MapOverlayButton = ({
 			variant={"filled"}
 			size={"sm"}
 			href={href}
-			className={"pointer-events-auto"}
+			className={classNames("pointer-events-auto", className)}
 		>
 			{children}
 		</Button>
@@ -46,9 +48,11 @@ const MapOverlayButton = ({
 const MapOverlaySecondaryButton = ({
 	children,
 	href,
+	className,
 }: {
 	children: ReactNode
 	href?: string
+	className?: string
 }) => {
 	return (
 		<Button
@@ -56,7 +60,7 @@ const MapOverlaySecondaryButton = ({
 			variant={"text"}
 			size={"sm"}
 			href={href}
-			className={"pointer-events-auto"}
+			className={classNames("pointer-events-auto", className)}
 		>
 			{children}
 		</Button>

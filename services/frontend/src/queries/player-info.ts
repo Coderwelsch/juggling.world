@@ -7,6 +7,11 @@ export interface PlayerResponse {
 			attributes: {
 				username: string
 				city: string
+				aboutMe?: string
+				location: {
+					longitude: number
+					latitude: number
+				}
 				avatar?: {
 					data: {
 						attributes: {
@@ -22,6 +27,25 @@ export interface PlayerResponse {
 					signal?: string
 					telegram?: string
 					whatsapp?: string
+				}
+				userPlayLocations: {
+					data: {
+						id: string
+						attributes: {
+							name: string
+							location: {
+								longitude: number
+								latitude: number
+							}
+							image?: {
+								data: {
+									attributes: {
+										url: string
+									}
+								}
+							}
+						}
+					}[]
 				}
 				disciplines: {
 					data: {
@@ -79,6 +103,11 @@ export const playerInfoQuery = gql`
 				attributes {
 					username
 					city
+					aboutMe
+					location {
+						longitude
+						latitude
+					}
 					avatar {
 						data {
 							attributes {
@@ -94,6 +123,25 @@ export const playerInfoQuery = gql`
 						signal
 						telegram
 						whatsapp
+					}
+					userPlayLocations {
+						data {
+							id
+							attributes {
+								name
+								location {
+									longitude
+									latitude
+								}
+								image {
+									data {
+										attributes {
+											url
+										}
+									}
+								}
+							}
+						}
 					}
 					disciplines {
 						data {

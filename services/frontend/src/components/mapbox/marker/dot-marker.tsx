@@ -3,16 +3,38 @@ import { ReactNode } from "react"
 import * as React from "react"
 import { Marker } from "react-map-gl"
 
+type Intent = "primary" | "secondary" | "active"
+
+const dotMarkerStyles: {
+	idle: Record<Intent, string>
+	selected: Record<Intent, string>
+} = {
+	idle: {
+		primary: "bg-fuchsia-700 hover:border-2 hover:border-fuchsia-50",
+		secondary: "bg-fuchsia-400",
+		active: "bg-emerald-400 hover:border-2 hover:border-emerald-50",
+	},
+	selected: {
+		primary: "bg-fuchsia-500 border-2 border-fuchsia-50",
+		secondary: "bg-fuchsia-600 border-2 border-fuchsia-50",
+		active: "bg-emerald-500 border-2 border-emerald-50",
+	},
+}
+
 interface DotMarkerProps {
 	location: [number, number]
 	selected?: boolean
+	className?: string
 	onClick: () => void
+	intent?: Intent
 	icon?: ReactNode
 	children?: ReactNode
 }
 
 export const DotMarker = ({
 	children,
+	intent = "primary",
+	className,
 	location: [longitude, latitude],
 	icon,
 	onClick,
@@ -32,10 +54,10 @@ export const DotMarker = ({
 			>
 				<div
 					className={classNames(
-						"rounded-full border-2 overflow-hidden",
-						selected
-							? "h-6 w-6 border-fuchsia-50 bg-fuchsia-950"
-							: "h-4 w-4 border-fuchsia-50 bg-fuchsia-400",
+						"rounded-full overflow-hidden",
+						selected ? "h-6 w-6" : "h-4 w-4",
+						dotMarkerStyles[selected ? "selected" : "idle"][intent],
+						className,
 					)}
 				>
 					{icon}

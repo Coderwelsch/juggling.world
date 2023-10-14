@@ -1,58 +1,40 @@
 import DIABOLO_STICKS from "@/src/assets/diabolo-sticks.svg"
+import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
 import { MapOverlay } from "@/src/components/map-overlay/map-overlay"
 import { useAnimation } from "@/src/components/mapbox/hooks/use-animation"
 import { useIsUserInteractingWithMap } from "@/src/components/mapbox/hooks/use-is-user-interacting-with-map"
 import { DotMarker } from "@/src/components/mapbox/marker/dot-marker"
 import { MarkerLabel } from "@/src/components/mapbox/marker/marker-label"
+import { Line } from "@/src/components/mapbox/shapes/Line"
 import { LandingPageNav } from "@/src/components/nav/landing-page-nav"
-import { SidebarPlayerContent } from "@/src/components/page-specific/index/sidebar-content"
+import { LocationContent } from "@/src/components/page-specific/index/sidebar-content/location-info"
+import { PlayerContent } from "@/src/components/page-specific/index/sidebar-content/player-info"
 import Sidebar from "@/src/components/sidebar/sidebar"
+import { classNames } from "@/src/lib/class-names"
 import { mapValueRange } from "@/src/lib/map-value-range"
 import {
-	AllPlayersResponse,
-	getAllPlayersQuery,
-} from "@/src/queries/all-players"
+	allPlayLocationsQuery,
+	AllPlayLocationsResponse,
+} from "@/src/queries/all-play-locations"
+import { allPlayersQuery, AllPlayersResponse } from "@/src/queries/all-players"
+import { useQuery } from "@apollo/client"
 import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import * as React from "react"
 import { createContext, useCallback, useEffect, useRef, useState } from "react"
 import Map, { ViewState } from "react-map-gl"
 
-export const getServerSideProps = async () => {
-	try {
-		const allPlayers = await getAllPlayersQuery()
+export const PlayersContext = createContext<
+	AllPlayersResponse["players"]["data"]
+>([])
 
-		return {
-			props: {
-				players: allPlayers.data.players.data,
-			},
-		}
-	} catch (error) {
-		console.log(error)
+export const MapContext = createContext<mapboxgl.Map | undefined>(undefined)
 
-		return {
-			props: {
-				players: [],
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
-				error: error.message,
-			},
-		}
-	}
-}
-
-interface AppProps {
-	players: AllPlayersResponse["players"]["data"]
-	error?: string
-}
-
-const PlayersContext = createContext<AllPlayersResponse["players"]["data"]>([])
-
-export default function App({ players }: AppProps) {
+export default function App() {
 	const [isMapReady, setIsMapReady] = useState(false)
 	const mapRef = useRef<mapboxgl.Map | undefined>()
 	const sidebarRef = useRef<HTMLDivElement | null>(null)
-	const [isSidebarShown, setIsSidebarShown] = useState(false)
+	const [isInterfaceShown, setIsInterfaceShown] = useState(false)
 	const [isSpinAnimationInterrupted, setIsSpinAnimationInterrupted] =
 		useState(false)
 
@@ -62,18 +44,45 @@ export default function App({ players }: AppProps) {
 		zoom: 1,
 	}
 
-	const [selectedPlayerIds, setSelectedPlayerIds] = useState<string[]>([])
+	const playersData = useQuery<AllPlayersResponse>(allPlayersQuery)
+	const playLocations = useQuery<AllPlayLocationsResponse>(
+		allPlayLocationsQuery,
+	)
 
-	const onMarkerClick = useCallback(
+	const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(
+		null,
+	)
+
+	const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
+		null,
+	)
+
+	const onPlayerMarkerClick = useCallback(
 		(id: string) => {
-			if (selectedPlayerIds.includes(id)) {
+			if (selectedPlayerId === id) {
 				return
 			}
 
-			setSelectedPlayerIds([...selectedPlayerIds, id])
-			setIsSidebarShown(true)
+			setSelectedPlayerId(id)
+			setSelectedLocationId(null)
+
+			setIsInterfaceShown(true)
 		},
-		[selectedPlayerIds, setSelectedPlayerIds],
+		[selectedPlayerId, setSelectedPlayerId],
+	)
+
+	const onLocationMarkerClick = useCallback(
+		(id: string) => {
+			if (selectedLocationId === id) {
+				return
+			}
+
+			setSelectedLocationId(id)
+			setSelectedPlayerId(null)
+
+			setIsInterfaceShown(true)
+		},
+		[selectedLocationId],
 	)
 
 	const onMapClick = useCallback((e: mapboxgl.MapLayerMouseEvent) => {
@@ -83,8 +92,9 @@ export default function App({ players }: AppProps) {
 			return
 		}
 
-		setSelectedPlayerIds([])
-		setIsSidebarShown(false)
+		setSelectedPlayerId(null)
+		setSelectedLocationId(null)
+		setIsInterfaceShown(false)
 	}, [])
 
 	const onMapLoad = useCallback(({ target }: mapboxgl.MapboxEvent) => {
@@ -107,68 +117,146 @@ export default function App({ players }: AppProps) {
 				return
 			}
 
-			mapRef.current.setBearing(mapRef.current.getBearing() + 0.02)
+			mapRef.current?.setCenter([
+				mapRef.current.getCenter().lng + 0.01,
+				mapRef.current.getCenter().lat,
+			])
 		},
 	})
 
 	const [openerOpacity, setOpenerOpacity] = useState(1)
 
-	useEffect(() => {
-		if (!mapRef.current) {
-			return
-		}
-
+	const focusSelectedLocation = useCallback(() => {
 		const map = mapRef.current
 
-		if (!selectedPlayerIds.length) {
+		if (!map) {
 			return
 		}
 
-		const firstPlayer = players.find((p) => p.id === selectedPlayerIds[0])
-
-		if (!firstPlayer) {
+		if (!selectedLocationId) {
 			return
 		}
 
-		const playerLocation: mapboxgl.LngLatLike = [
-			firstPlayer.attributes.location.longitude,
-			firstPlayer.attributes.location.latitude,
-		]
+		const bounds = new mapboxgl.LngLatBounds()
 
-		map?.flyTo({
-			center: playerLocation,
-			duration: 3000,
-			zoom: Math.max(map.getZoom(), 13),
+		const playLocation = playLocations.data?.locations.data.find(
+			(l) => l.id === selectedLocationId,
+		)
+
+		if (!playLocation) {
+			return
+		}
+
+		bounds.extend([
+			playLocation.attributes.location.longitude,
+			playLocation.attributes.location.latitude,
+		])
+
+		playLocation.attributes.users?.data.forEach((user) => {
+			const player = playersData.data?.players.data.find(
+				(p) => p.id === user.id,
+			)
+
+			if (!player) {
+				return
+			}
+
+			bounds.extend([
+				player.attributes.location.longitude,
+				player.attributes.location.latitude,
+			])
 		})
 
-		// bounding box of selected players
-		// const bounds = new mapboxgl.LngLatBounds()
-		//
-		// selectedPlayerIds.forEach((id) => {
-		// 	const player = players.find((p) => p.id === id)
-		//
-		// 	if (!player) {
-		// 		return
-		// 	}
-		//
-		// 	bounds.extend([
-		// 		player.attributes.location.longitude,
-		// 		player.attributes.location.latitude,
-		// 	])
-		// })
-		//
-		// map.fitBounds(bounds, {
-		// 	padding: {
-		// 		top: 20,
-		// 		bottom: 20,
-		// 		left: 20,
-		// 		right: 320,
-		// 	},
-		// 	maxZoom: 5,
-		// 	screenSpeed: 0.7,
-		// 	duration: 3000,
-		// })
-	}, [selectedPlayerIds])
+		map?.fitBounds(bounds, {
+			duration: 3000,
+			essential: true,
+			padding: {
+				top: 64,
+				bottom: 86, // because of the marker label
+				left: 64,
+				right: sidebarRef.current?.clientWidth ?? 0,
+			},
+		})
+	}, [
+		playLocations.data?.locations.data,
+		playersData.data?.players.data,
+		selectedLocationId,
+	])
+
+	useEffect(() => {
+		focusSelectedLocation()
+	}, [
+		selectedPlayerId,
+		selectedLocationId,
+		playLocations.data,
+		focusSelectedLocation,
+	])
+
+	const focusSelectedPlayer = useCallback(() => {
+		const map = mapRef.current
+
+		if (!map) {
+			return
+		}
+
+		if (!selectedPlayerId) {
+			return
+		}
+
+		const player = playersData.data?.players.data.find(
+			(p) => p.id === selectedPlayerId,
+		)
+
+		if (!player) {
+			return
+		}
+
+		const bounds = new mapboxgl.LngLatBounds()
+
+		bounds.extend([
+			player.attributes.location.longitude,
+			player.attributes.location.latitude,
+		])
+
+		player.attributes.userPlayLocations.data.forEach((location) => {
+			const playLocation = playLocations.data?.locations.data.find(
+				(l) => l.id === location.id,
+			)
+
+			if (!playLocation) {
+				return
+			}
+
+			bounds.extend([
+				playLocation.attributes.location.longitude,
+				playLocation.attributes.location.latitude,
+			])
+		})
+
+		map?.fitBounds(bounds, {
+			duration: 3000,
+			essential: true,
+			padding: {
+				top: 64,
+				bottom: 86,
+				left: 64,
+				right: sidebarRef.current?.clientWidth ?? 0,
+			},
+		})
+	}, [
+		selectedPlayerId,
+		playersData.data?.players.data,
+		playLocations.data?.locations.data,
+	])
+
+	useEffect(() => {
+		focusSelectedPlayer()
+	}, [
+		selectedPlayerId,
+		selectedLocationId,
+		playLocations.data,
+		focusSelectedPlayer,
+	])
 
 	const handleZoom = useCallback(() => {
 		const zoom = mapRef.current?.getZoom() ?? 1
@@ -176,12 +264,6 @@ export default function App({ players }: AppProps) {
 
 		setOpenerOpacity(opacity > 1 ? 1 : opacity)
 	}, [])
-
-	useEffect(() => {
-		if (!selectedPlayerIds.length) {
-			return
-		}
-	}, [selectedPlayerIds])
 
 	useEffect(() => {
 		if (!isMapReady) {
@@ -193,11 +275,16 @@ export default function App({ players }: AppProps) {
 		return () => {
 			mapRef.current?.off("zoom", handleZoom)
 		}
-	}, [isMapReady])
+	}, [handleZoom, isMapReady])
 
 	return (
 		<>
-			<LandingPageNav visible={!selectedPlayerIds.length} />
+			<LoaderOverlay
+				shown={playersData.loading || !isMapReady}
+				fullPage={true}
+			/>
+
+			<LandingPageNav visible={!isInterfaceShown} />
 
 			<section className={"h-screen w-full"}>
 				<Map
@@ -212,36 +299,172 @@ export default function App({ players }: AppProps) {
 					onClick={onMapClick}
 					onLoad={onMapLoad}
 				>
-					{players.map((player) => {
-						const isSelected = selectedPlayerIds.includes(player.id)
+					<MapContext.Provider value={mapRef.current}>
+						{/* Play Location Markers */}
+						{playLocations?.data?.locations.data.map((location) => {
+							const isSelected =
+								selectedLocationId === location.id
 
-						return (
-							<DotMarker
-								key={player.id}
-								location={[
-									player.attributes.location.longitude,
-									player.attributes.location.latitude,
-								]}
-								selected={isSelected}
-								onClick={() => onMarkerClick(player.id)}
-							>
-								{isSelected && (
-									<MarkerLabel
-										label={player.attributes.username}
-										avatar={
-											player.attributes.avatar?.data
-												.attributes.url
+							const { location: locationData } =
+								location.attributes
+
+							const coordinates: [number, number] = [
+								locationData.longitude,
+								locationData.latitude,
+							]
+
+							return (
+								<DotMarker
+									key={location.id}
+									location={coordinates}
+									intent={"active"}
+									selected={isSelected}
+									onClick={() =>
+										onLocationMarkerClick(location.id)
+									}
+									className={"h-4 w-4"}
+								>
+									{isSelected && (
+										<MarkerLabel
+											label={location.attributes.name}
+											avatar={
+												location.attributes.image?.data
+													.attributes.url
+											}
+										/>
+									)}
+								</DotMarker>
+							)
+						})}
+
+						{/* Player Markers */}
+						{playersData?.data?.players.data.map((player) => {
+							const isSelected = selectedPlayerId === player.id
+
+							return (
+								<DotMarker
+									key={player.id}
+									location={[
+										player.attributes.location.longitude,
+										player.attributes.location.latitude,
+									]}
+									selected={isSelected}
+									onClick={() =>
+										onPlayerMarkerClick(player.id)
+									}
+									className={"z-10"}
+								>
+									{isSelected && (
+										<MarkerLabel
+											label={player.attributes.username}
+											avatar={
+												player.attributes.avatar?.data
+													.attributes.url
+											}
+										/>
+									)}
+								</DotMarker>
+							)
+						})}
+
+						{/* Line Connections */}
+						{(() => {
+							const lines: [
+								[number, number],
+								[number, number],
+							][] = []
+
+							if (selectedLocationId) {
+								const playLocation =
+									playLocations.data?.locations.data.find(
+										(l) => l.id === selectedLocationId,
+									)
+
+								playLocation?.attributes.users?.data.forEach(
+									(user) => {
+										const player =
+											playersData.data?.players.data.find(
+												(p) => p.id === user.id,
+											)
+
+										if (!player) {
+											return
 										}
-									></MarkerLabel>
-								)}
-							</DotMarker>
-						)
-					})}
+
+										lines.push([
+											[
+												playLocation.attributes.location
+													.longitude,
+												playLocation.attributes.location
+													.latitude,
+											],
+											[
+												player.attributes.location
+													.longitude,
+												player.attributes.location
+													.latitude,
+											],
+										])
+									},
+								)
+							}
+
+							if (selectedPlayerId) {
+								const player =
+									playersData.data?.players.data.find(
+										(p) => p.id === selectedPlayerId,
+									)
+
+								player?.attributes.userPlayLocations.data.forEach(
+									(l) => {
+										const playLocation =
+											playLocations.data?.locations.data.find(
+												(pl) => pl.id === l.id,
+											)
+
+										if (!playLocation) {
+											return
+										}
+
+										lines.push([
+											[
+												playLocation.attributes.location
+													.longitude,
+												playLocation.attributes.location
+													.latitude,
+											],
+											[
+												player.attributes.location
+													.longitude,
+												player.attributes.location
+													.latitude,
+											],
+										])
+									},
+								)
+							}
+
+							return lines.map((line, index) => (
+								<Line
+									key={index}
+									coordinates={line}
+									color={"rgb(16,185,129)"}
+									width={4}
+									outlineWidth={2}
+								/>
+							))
+						})()}
+					</MapContext.Provider>
 				</Map>
 
 				<div
+					className={classNames(
+						isInterfaceShown
+							? "pointer-events-none"
+							: "pointer-events-auto",
+					)}
 					style={{
-						opacity: isSidebarShown ? 0 : openerOpacity,
+						opacity: isInterfaceShown ? 0 : openerOpacity,
 					}}
 				>
 					<MapOverlay>
@@ -262,11 +485,25 @@ export default function App({ players }: AppProps) {
 						</MapOverlay.Description>
 
 						<MapOverlay.ButtonGroup>
-							<MapOverlay.SecondaryButton href={"/about"}>
+							<MapOverlay.SecondaryButton
+								href={"/about"}
+								className={
+									openerOpacity < 0.5
+										? "pointer-events-none"
+										: ""
+								}
+							>
 								about this project
 							</MapOverlay.SecondaryButton>
 
-							<MapOverlay.Button href={"/register"}>
+							<MapOverlay.Button
+								href={"/register"}
+								className={
+									openerOpacity < 0.5
+										? "pointer-events-none"
+										: ""
+								}
+							>
 								create account
 							</MapOverlay.Button>
 						</MapOverlay.ButtonGroup>
@@ -275,11 +512,19 @@ export default function App({ players }: AppProps) {
 
 				<Sidebar
 					ref={sidebarRef}
-					isShown={isSidebarShown}
+					isShown={isInterfaceShown}
 					onClose={() => {}}
 				>
-					<PlayersContext.Provider value={players}>
-						<SidebarPlayerContent playerId={selectedPlayerIds[0]} />
+					<PlayersContext.Provider
+						value={playersData?.data?.players.data || []}
+					>
+						{selectedPlayerId && (
+							<PlayerContent id={selectedPlayerId} />
+						)}
+
+						{selectedLocationId && (
+							<LocationContent id={selectedLocationId} />
+						)}
 					</PlayersContext.Provider>
 				</Sidebar>
 			</section>

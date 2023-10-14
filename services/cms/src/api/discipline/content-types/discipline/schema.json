@@ -55,6 +55,12 @@
       "relation": "oneToMany",
       "target": "api::user-discipline.user-discipline",
       "mappedBy": "discipline"
+    },
+    "userEvents": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::user-event.user-event",
+      "inversedBy": "disciplines"
     }
   }
 }

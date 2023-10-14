@@ -1,12 +1,24 @@
 import { classNames } from "@/src/lib/class-names"
 import React from "react"
 
-export const LoaderOverlay = ({ shown }: { shown: boolean }) => {
+export const LoaderOverlay = ({
+	shown,
+	fullPage,
+	className,
+}: {
+	shown: boolean
+	fullPage?: boolean
+	className?: string
+}) => {
 	return (
 		<div
 			className={classNames(
-				"absolute left-0 top-0 z-auto flex h-full w-full items-center justify-center bg-fuchsia-950 bg-opacity-40 transition-opacity",
-				shown ? "opacity-100" : "opacity-0",
+				fullPage ? "fixed z-50" : "absolute z-auto",
+				"left-0 top-0 flex h-full w-full items-center justify-center bg-fuchsia-950 bg-opacity-40 transition-opacity duration-500",
+				shown
+					? "opacity-100 pointer-events-auto"
+					: "opacity-0 pointer-events-none",
+				className,
 			)}
 		>
 			<div className="animate-spin">

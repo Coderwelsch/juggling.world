@@ -132,6 +132,7 @@ export interface NexusGenInputs {
     publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
     slug?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
     updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    userEvents?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
     users?: NexusGenInputs['UserDisciplineFiltersInput'] | null; // UserDisciplineFiltersInput
   }
   DisciplineInput: { // input type
@@ -139,6 +140,7 @@ export interface NexusGenInputs {
     name?: string | null; // String
     publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     slug?: string | null; // String
+    userEvents?: string | null; // ID
     users?: Array<string | null> | null; // [ID]
   }
   EventFiltersInput: { // input type
@@ -436,6 +438,27 @@ export interface NexusGenInputs {
     startedAt?: NexusGenScalars['Date'] | null; // Date
     user?: string | null; // ID
   }
+  UserEventFiltersInput: { // input type
+    and?: Array<NexusGenInputs['UserEventFiltersInput'] | null> | null; // [UserEventFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    disciplines?: NexusGenInputs['DisciplineFiltersInput'] | null; // DisciplineFiltersInput
+    end?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    not?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+    or?: Array<NexusGenInputs['UserEventFiltersInput'] | null> | null; // [UserEventFiltersInput]
+    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    start?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    users?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+  }
+  UserEventInput: { // input type
+    disciplines?: Array<string | null> | null; // [ID]
+    end?: NexusGenScalars['DateTime'] | null; // DateTime
+    image?: string | null; // ID
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    start?: NexusGenScalars['DateTime'] | null; // DateTime
+    users?: Array<string | null> | null; // [ID]
+  }
   UserGroupFiltersInput: { // input type
     admins?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
     and?: Array<NexusGenInputs['UserGroupFiltersInput'] | null> | null; // [UserGroupFiltersInput]
@@ -455,6 +478,25 @@ export interface NexusGenInputs {
     members?: Array<string | null> | null; // [ID]
     name?: string | null; // String
     publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UserPlayLocationFiltersInput: { // input type
+    and?: Array<NexusGenInputs['UserPlayLocationFiltersInput'] | null> | null; // [UserPlayLocationFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    location?: NexusGenInputs['ComponentBaseLocationFiltersInput'] | null; // ComponentBaseLocationFiltersInput
+    name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['UserPlayLocationFiltersInput'] | null; // UserPlayLocationFiltersInput
+    or?: Array<NexusGenInputs['UserPlayLocationFiltersInput'] | null> | null; // [UserPlayLocationFiltersInput]
+    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    users?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+  }
+  UserPlayLocationInput: { // input type
+    image?: string | null; // ID
+    location?: NexusGenInputs['ComponentBaseLocationInput'] | null; // ComponentBaseLocationInput
+    name?: string | null; // String
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    users?: Array<string | null> | null; // [ID]
   }
   UsersPermissionsLoginInput: { // input type
     identifier: string; // String!
@@ -501,6 +543,7 @@ export interface NexusGenInputs {
     users?: Array<string | null> | null; // [ID]
   }
   UsersPermissionsUserFiltersInput: { // input type
+    aboutMe?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
     adminGroups?: NexusGenInputs['UserGroupFiltersInput'] | null; // UserGroupFiltersInput
     and?: Array<NexusGenInputs['UsersPermissionsUserFiltersInput'] | null> | null; // [UsersPermissionsUserFiltersInput]
     blocked?: NexusGenInputs['BooleanFilterInput'] | null; // BooleanFilterInput
@@ -521,9 +564,12 @@ export interface NexusGenInputs {
     resetPasswordToken?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
     role?: NexusGenInputs['UsersPermissionsRoleFiltersInput'] | null; // UsersPermissionsRoleFiltersInput
     updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    userEvents?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+    userPlayLocations?: NexusGenInputs['UserPlayLocationFiltersInput'] | null; // UserPlayLocationFiltersInput
     username?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
   }
   UsersPermissionsUserInput: { // input type
+    aboutMe?: string | null; // String
     adminGroups?: Array<string | null> | null; // [ID]
     avatar?: string | null; // ID
     blocked?: boolean | null; // Boolean
@@ -539,6 +585,8 @@ export interface NexusGenInputs {
     publicContact?: Array<NexusGenInputs['ComponentBaseContactInput'] | null> | null; // [ComponentBaseContactInput]
     resetPasswordToken?: string | null; // String
     role?: string | null; // ID
+    userEvents?: string | null; // ID
+    userPlayLocations?: Array<string | null> | null; // [ID]
     username?: string | null; // String
   }
 }
@@ -669,6 +717,17 @@ export interface NexusGenObjects {
   UserDisciplineEntityResponse: {};
   UserDisciplineEntityResponseCollection: {};
   UserDisciplineRelationResponseCollection: {};
+  UserEvent: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    end?: NexusGenScalars['DateTime'] | null; // DateTime
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    start?: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UserEventEntity: {};
+  UserEventEntityResponse: {};
+  UserEventEntityResponseCollection: {};
+  UserEventRelationResponseCollection: {};
   UserGroup: { // root type
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     description?: string | null; // String
@@ -680,6 +739,16 @@ export interface NexusGenObjects {
   UserGroupEntityResponse: {};
   UserGroupEntityResponseCollection: {};
   UserGroupRelationResponseCollection: {};
+  UserPlayLocation: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    name: string; // String!
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UserPlayLocationEntity: {};
+  UserPlayLocationEntityResponse: {};
+  UserPlayLocationEntityResponseCollection: {};
+  UserPlayLocationRelationResponseCollection: {};
   UsersPermissionsCreateRolePayload: { // root type
     ok: boolean; // Boolean!
   }
@@ -731,6 +800,7 @@ export interface NexusGenObjects {
     ok: boolean; // Boolean!
   }
   UsersPermissionsUser: { // root type
+    aboutMe?: string | null; // String
     blocked?: boolean | null; // Boolean
     city?: string | null; // String
     confirmed?: boolean | null; // Boolean
@@ -750,7 +820,7 @@ export interface NexusGenInterfaces {
 }
 
 export interface NexusGenUnions {
-  GenericMorph: NexusGenRootTypes['ComponentBaseContact'] | NexusGenRootTypes['ComponentBaseLocation'] | NexusGenRootTypes['Discipline'] | NexusGenRootTypes['Event'] | NexusGenRootTypes['I18NLocale'] | NexusGenRootTypes['UploadFile'] | NexusGenRootTypes['UploadFolder'] | NexusGenRootTypes['UserDiscipline'] | NexusGenRootTypes['UserGroup'] | NexusGenRootTypes['UsersPermissionsPermission'] | NexusGenRootTypes['UsersPermissionsRole'] | NexusGenRootTypes['UsersPermissionsUser'];
+  GenericMorph: NexusGenRootTypes['ComponentBaseContact'] | NexusGenRootTypes['ComponentBaseLocation'] | NexusGenRootTypes['Discipline'] | NexusGenRootTypes['Event'] | NexusGenRootTypes['I18NLocale'] | NexusGenRootTypes['UploadFile'] | NexusGenRootTypes['UploadFolder'] | NexusGenRootTypes['UserDiscipline'] | NexusGenRootTypes['UserEvent'] | NexusGenRootTypes['UserGroup'] | NexusGenRootTypes['UserPlayLocation'] | NexusGenRootTypes['UsersPermissionsPermission'] | NexusGenRootTypes['UsersPermissionsRole'] | NexusGenRootTypes['UsersPermissionsUser'];
 }
 
 export type NexusGenRootTypes = NexusGenObjects & NexusGenUnions
@@ -782,6 +852,7 @@ export interface NexusGenFieldTypes {
     publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
     slug: string; // String!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    userEvents: NexusGenRootTypes['UserEventEntityResponse'] | null; // UserEventEntityResponse
     users: NexusGenRootTypes['UserDisciplineRelationResponseCollection'] | null; // UserDisciplineRelationResponseCollection
   }
   DisciplineEntity: { // field return type
@@ -851,7 +922,9 @@ export interface NexusGenFieldTypes {
     createUploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
     createUserDiscipline: NexusGenRootTypes['UserDisciplineEntityResponse'] | null; // UserDisciplineEntityResponse
     createUserDisciplineLocalization: NexusGenRootTypes['UserDisciplineEntityResponse'] | null; // UserDisciplineEntityResponse
+    createUserEvent: NexusGenRootTypes['UserEventEntityResponse'] | null; // UserEventEntityResponse
     createUserGroup: NexusGenRootTypes['UserGroupEntityResponse'] | null; // UserGroupEntityResponse
+    createUserPlayLocation: NexusGenRootTypes['UserPlayLocationEntityResponse'] | null; // UserPlayLocationEntityResponse
     createUsersPermissionsRole: NexusGenRootTypes['UsersPermissionsCreateRolePayload'] | null; // UsersPermissionsCreateRolePayload
     createUsersPermissionsUser: NexusGenRootTypes['UsersPermissionsUserEntityResponse']; // UsersPermissionsUserEntityResponse!
     deleteDiscipline: NexusGenRootTypes['DisciplineEntityResponse'] | null; // DisciplineEntityResponse
@@ -859,7 +932,9 @@ export interface NexusGenFieldTypes {
     deleteUploadFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     deleteUploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
     deleteUserDiscipline: NexusGenRootTypes['UserDisciplineEntityResponse'] | null; // UserDisciplineEntityResponse
+    deleteUserEvent: NexusGenRootTypes['UserEventEntityResponse'] | null; // UserEventEntityResponse
     deleteUserGroup: NexusGenRootTypes['UserGroupEntityResponse'] | null; // UserGroupEntityResponse
+    deleteUserPlayLocation: NexusGenRootTypes['UserPlayLocationEntityResponse'] | null; // UserPlayLocationEntityResponse
     deleteUsersPermissionsRole: NexusGenRootTypes['UsersPermissionsDeleteRolePayload'] | null; // UsersPermissionsDeleteRolePayload
     deleteUsersPermissionsUser: NexusGenRootTypes['UsersPermissionsUserEntityResponse']; // UsersPermissionsUserEntityResponse!
     emailConfirmation: NexusGenRootTypes['UsersPermissionsLoginPayload'] | null; // UsersPermissionsLoginPayload
@@ -875,7 +950,9 @@ export interface NexusGenFieldTypes {
     updateUploadFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     updateUploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
     updateUserDiscipline: NexusGenRootTypes['UserDisciplineEntityResponse'] | null; // UserDisciplineEntityResponse
+    updateUserEvent: NexusGenRootTypes['UserEventEntityResponse'] | null; // UserEventEntityResponse
     updateUserGroup: NexusGenRootTypes['UserGroupEntityResponse'] | null; // UserGroupEntityResponse
+    updateUserPlayLocation: NexusGenRootTypes['UserPlayLocationEntityResponse'] | null; // UserPlayLocationEntityResponse
     updateUsersPermissionsRole: NexusGenRootTypes['UsersPermissionsUpdateRolePayload'] | null; // UsersPermissionsUpdateRolePayload
     updateUsersPermissionsUser: NexusGenRootTypes['UsersPermissionsUserEntityResponse']; // UsersPermissionsUserEntityResponse!
     upload: NexusGenRootTypes['UploadFileEntityResponse']; // UploadFileEntityResponse!
@@ -900,8 +977,12 @@ export interface NexusGenFieldTypes {
     uploadFolders: NexusGenRootTypes['UploadFolderEntityResponseCollection'] | null; // UploadFolderEntityResponseCollection
     userDiscipline: NexusGenRootTypes['UserDisciplineEntityResponse'] | null; // UserDisciplineEntityResponse
     userDisciplines: NexusGenRootTypes['UserDisciplineEntityResponseCollection'] | null; // UserDisciplineEntityResponseCollection
+    userEvent: NexusGenRootTypes['UserEventEntityResponse'] | null; // UserEventEntityResponse
+    userEvents: NexusGenRootTypes['UserEventEntityResponseCollection'] | null; // UserEventEntityResponseCollection
     userGroup: NexusGenRootTypes['UserGroupEntityResponse'] | null; // UserGroupEntityResponse
     userGroups: NexusGenRootTypes['UserGroupEntityResponseCollection'] | null; // UserGroupEntityResponseCollection
+    userPlayLocation: NexusGenRootTypes['UserPlayLocationEntityResponse'] | null; // UserPlayLocationEntityResponse
+    userPlayLocations: NexusGenRootTypes['UserPlayLocationEntityResponseCollection'] | null; // UserPlayLocationEntityResponseCollection
     usersPermissionsRole: NexusGenRootTypes['UsersPermissionsRoleEntityResponse'] | null; // UsersPermissionsRoleEntityResponse
     usersPermissionsRoles: NexusGenRootTypes['UsersPermissionsRoleEntityResponseCollection'] | null; // UsersPermissionsRoleEntityResponseCollection
     usersPermissionsUser: NexusGenRootTypes['UsersPermissionsUserEntityResponse'] | null; // UsersPermissionsUserEntityResponse
@@ -993,6 +1074,30 @@ export interface NexusGenFieldTypes {
   UserDisciplineRelationResponseCollection: { // field return type
     data: NexusGenRootTypes['UserDisciplineEntity'][]; // [UserDisciplineEntity!]!
   }
+  UserEvent: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    disciplines: NexusGenRootTypes['DisciplineRelationResponseCollection'] | null; // DisciplineRelationResponseCollection
+    end: NexusGenScalars['DateTime'] | null; // DateTime
+    image: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    start: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    users: NexusGenRootTypes['UsersPermissionsUserRelationResponseCollection'] | null; // UsersPermissionsUserRelationResponseCollection
+  }
+  UserEventEntity: { // field return type
+    attributes: NexusGenRootTypes['UserEvent'] | null; // UserEvent
+    id: string | null; // ID
+  }
+  UserEventEntityResponse: { // field return type
+    data: NexusGenRootTypes['UserEventEntity'] | null; // UserEventEntity
+  }
+  UserEventEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserEventEntity'][]; // [UserEventEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  UserEventRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserEventEntity'][]; // [UserEventEntity!]!
+  }
   UserGroup: { // field return type
     admins: NexusGenRootTypes['UsersPermissionsUserRelationResponseCollection'] | null; // UsersPermissionsUserRelationResponseCollection
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
@@ -1015,6 +1120,29 @@ export interface NexusGenFieldTypes {
   }
   UserGroupRelationResponseCollection: { // field return type
     data: NexusGenRootTypes['UserGroupEntity'][]; // [UserGroupEntity!]!
+  }
+  UserPlayLocation: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    image: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    location: NexusGenRootTypes['ComponentBaseLocation'] | null; // ComponentBaseLocation
+    name: string; // String!
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    users: NexusGenRootTypes['UsersPermissionsUserRelationResponseCollection'] | null; // UsersPermissionsUserRelationResponseCollection
+  }
+  UserPlayLocationEntity: { // field return type
+    attributes: NexusGenRootTypes['UserPlayLocation'] | null; // UserPlayLocation
+    id: string | null; // ID
+  }
+  UserPlayLocationEntityResponse: { // field return type
+    data: NexusGenRootTypes['UserPlayLocationEntity'] | null; // UserPlayLocationEntity
+  }
+  UserPlayLocationEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserPlayLocationEntity'][]; // [UserPlayLocationEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  UserPlayLocationRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserPlayLocationEntity'][]; // [UserPlayLocationEntity!]!
   }
   UsersPermissionsCreateRolePayload: { // field return type
     ok: boolean; // Boolean!
@@ -1090,6 +1218,7 @@ export interface NexusGenFieldTypes {
     ok: boolean; // Boolean!
   }
   UsersPermissionsUser: { // field return type
+    aboutMe: string | null; // String
     adminGroups: NexusGenRootTypes['UserGroupRelationResponseCollection'] | null; // UserGroupRelationResponseCollection
     avatar: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     blocked: boolean | null; // Boolean
@@ -1104,6 +1233,8 @@ export interface NexusGenFieldTypes {
     publicContact: Array<NexusGenRootTypes['ComponentBaseContact'] | null> | null; // [ComponentBaseContact]
     role: NexusGenRootTypes['UsersPermissionsRoleEntityResponse'] | null; // UsersPermissionsRoleEntityResponse
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    userEvents: NexusGenRootTypes['UserEventEntityResponse'] | null; // UserEventEntityResponse
+    userPlayLocations: NexusGenRootTypes['UserPlayLocationRelationResponseCollection'] | null; // UserPlayLocationRelationResponseCollection
     username: string; // String!
   }
   UsersPermissionsUserEntity: { // field return type
@@ -1147,6 +1278,7 @@ export interface NexusGenFieldTypeNames {
     publishedAt: 'DateTime'
     slug: 'String'
     updatedAt: 'DateTime'
+    userEvents: 'UserEventEntityResponse'
     users: 'UserDisciplineRelationResponseCollection'
   }
   DisciplineEntity: { // field return type name
@@ -1216,7 +1348,9 @@ export interface NexusGenFieldTypeNames {
     createUploadFolder: 'UploadFolderEntityResponse'
     createUserDiscipline: 'UserDisciplineEntityResponse'
     createUserDisciplineLocalization: 'UserDisciplineEntityResponse'
+    createUserEvent: 'UserEventEntityResponse'
     createUserGroup: 'UserGroupEntityResponse'
+    createUserPlayLocation: 'UserPlayLocationEntityResponse'
     createUsersPermissionsRole: 'UsersPermissionsCreateRolePayload'
     createUsersPermissionsUser: 'UsersPermissionsUserEntityResponse'
     deleteDiscipline: 'DisciplineEntityResponse'
@@ -1224,7 +1358,9 @@ export interface NexusGenFieldTypeNames {
     deleteUploadFile: 'UploadFileEntityResponse'
     deleteUploadFolder: 'UploadFolderEntityResponse'
     deleteUserDiscipline: 'UserDisciplineEntityResponse'
+    deleteUserEvent: 'UserEventEntityResponse'
     deleteUserGroup: 'UserGroupEntityResponse'
+    deleteUserPlayLocation: 'UserPlayLocationEntityResponse'
     deleteUsersPermissionsRole: 'UsersPermissionsDeleteRolePayload'
     deleteUsersPermissionsUser: 'UsersPermissionsUserEntityResponse'
     emailConfirmation: 'UsersPermissionsLoginPayload'
@@ -1240,7 +1376,9 @@ export interface NexusGenFieldTypeNames {
     updateUploadFile: 'UploadFileEntityResponse'
     updateUploadFolder: 'UploadFolderEntityResponse'
     updateUserDiscipline: 'UserDisciplineEntityResponse'
+    updateUserEvent: 'UserEventEntityResponse'
     updateUserGroup: 'UserGroupEntityResponse'
+    updateUserPlayLocation: 'UserPlayLocationEntityResponse'
     updateUsersPermissionsRole: 'UsersPermissionsUpdateRolePayload'
     updateUsersPermissionsUser: 'UsersPermissionsUserEntityResponse'
     upload: 'UploadFileEntityResponse'
@@ -1265,8 +1403,12 @@ export interface NexusGenFieldTypeNames {
     uploadFolders: 'UploadFolderEntityResponseCollection'
     userDiscipline: 'UserDisciplineEntityResponse'
     userDisciplines: 'UserDisciplineEntityResponseCollection'
+    userEvent: 'UserEventEntityResponse'
+    userEvents: 'UserEventEntityResponseCollection'
     userGroup: 'UserGroupEntityResponse'
     userGroups: 'UserGroupEntityResponseCollection'
+    userPlayLocation: 'UserPlayLocationEntityResponse'
+    userPlayLocations: 'UserPlayLocationEntityResponseCollection'
     usersPermissionsRole: 'UsersPermissionsRoleEntityResponse'
     usersPermissionsRoles: 'UsersPermissionsRoleEntityResponseCollection'
     usersPermissionsUser: 'UsersPermissionsUserEntityResponse'
@@ -1358,6 +1500,30 @@ export interface NexusGenFieldTypeNames {
   UserDisciplineRelationResponseCollection: { // field return type name
     data: 'UserDisciplineEntity'
   }
+  UserEvent: { // field return type name
+    createdAt: 'DateTime'
+    disciplines: 'DisciplineRelationResponseCollection'
+    end: 'DateTime'
+    image: 'UploadFileEntityResponse'
+    publishedAt: 'DateTime'
+    start: 'DateTime'
+    updatedAt: 'DateTime'
+    users: 'UsersPermissionsUserRelationResponseCollection'
+  }
+  UserEventEntity: { // field return type name
+    attributes: 'UserEvent'
+    id: 'ID'
+  }
+  UserEventEntityResponse: { // field return type name
+    data: 'UserEventEntity'
+  }
+  UserEventEntityResponseCollection: { // field return type name
+    data: 'UserEventEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  UserEventRelationResponseCollection: { // field return type name
+    data: 'UserEventEntity'
+  }
   UserGroup: { // field return type name
     admins: 'UsersPermissionsUserRelationResponseCollection'
     createdAt: 'DateTime'
@@ -1380,6 +1546,29 @@ export interface NexusGenFieldTypeNames {
   }
   UserGroupRelationResponseCollection: { // field return type name
     data: 'UserGroupEntity'
+  }
+  UserPlayLocation: { // field return type name
+    createdAt: 'DateTime'
+    image: 'UploadFileEntityResponse'
+    location: 'ComponentBaseLocation'
+    name: 'String'
+    publishedAt: 'DateTime'
+    updatedAt: 'DateTime'
+    users: 'UsersPermissionsUserRelationResponseCollection'
+  }
+  UserPlayLocationEntity: { // field return type name
+    attributes: 'UserPlayLocation'
+    id: 'ID'
+  }
+  UserPlayLocationEntityResponse: { // field return type name
+    data: 'UserPlayLocationEntity'
+  }
+  UserPlayLocationEntityResponseCollection: { // field return type name
+    data: 'UserPlayLocationEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  UserPlayLocationRelationResponseCollection: { // field return type name
+    data: 'UserPlayLocationEntity'
   }
   UsersPermissionsCreateRolePayload: { // field return type name
     ok: 'Boolean'
@@ -1455,6 +1644,7 @@ export interface NexusGenFieldTypeNames {
     ok: 'Boolean'
   }
   UsersPermissionsUser: { // field return type name
+    aboutMe: 'String'
     adminGroups: 'UserGroupRelationResponseCollection'
     avatar: 'UploadFileEntityResponse'
     blocked: 'Boolean'
@@ -1469,6 +1659,8 @@ export interface NexusGenFieldTypeNames {
     publicContact: 'ComponentBaseContact'
     role: 'UsersPermissionsRoleEntityResponse'
     updatedAt: 'DateTime'
+    userEvents: 'UserEventEntityResponse'
+    userPlayLocations: 'UserPlayLocationRelationResponseCollection'
     username: 'String'
   }
   UsersPermissionsUserEntity: { // field return type name
@@ -1535,8 +1727,14 @@ export interface NexusGenArgTypes {
       id?: string | null; // ID
       locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
     }
+    createUserEvent: { // args
+      data: NexusGenInputs['UserEventInput']; // UserEventInput!
+    }
     createUserGroup: { // args
       data: NexusGenInputs['UserGroupInput']; // UserGroupInput!
+    }
+    createUserPlayLocation: { // args
+      data: NexusGenInputs['UserPlayLocationInput']; // UserPlayLocationInput!
     }
     createUsersPermissionsRole: { // args
       data: NexusGenInputs['UsersPermissionsRoleInput']; // UsersPermissionsRoleInput!
@@ -1561,7 +1759,13 @@ export interface NexusGenArgTypes {
       id: string; // ID!
       locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
     }
+    deleteUserEvent: { // args
+      id: string; // ID!
+    }
     deleteUserGroup: { // args
+      id: string; // ID!
+    }
+    deleteUserPlayLocation: { // args
       id: string; // ID!
     }
     deleteUsersPermissionsRole: { // args
@@ -1622,8 +1826,16 @@ export interface NexusGenArgTypes {
       id: string; // ID!
       locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
     }
+    updateUserEvent: { // args
+      data: NexusGenInputs['UserEventInput']; // UserEventInput!
+      id: string; // ID!
+    }
     updateUserGroup: { // args
       data: NexusGenInputs['UserGroupInput']; // UserGroupInput!
+      id: string; // ID!
+    }
+    updateUserPlayLocation: { // args
+      data: NexusGenInputs['UserPlayLocationInput']; // UserPlayLocationInput!
       id: string; // ID!
     }
     updateUsersPermissionsRole: { // args
@@ -1698,11 +1910,29 @@ export interface NexusGenArgTypes {
       publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
       sort: Array<string | null> | null; // [String]
     }
+    userEvent: { // args
+      id?: string | null; // ID
+    }
+    userEvents: { // args
+      filters?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
     userGroup: { // args
       id?: string | null; // ID
     }
     userGroups: { // args
       filters?: NexusGenInputs['UserGroupFiltersInput'] | null; // UserGroupFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    userPlayLocation: { // args
+      id?: string | null; // ID
+    }
+    userPlayLocations: { // args
+      filters?: NexusGenInputs['UserPlayLocationFiltersInput'] | null; // UserPlayLocationFiltersInput
       pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
       publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
       sort: Array<string | null> | null; // [String]
@@ -1744,6 +1974,19 @@ export interface NexusGenArgTypes {
       sort: Array<string | null> | null; // [String]
     }
   }
+  UserEvent: {
+    disciplines: { // args
+      filters?: NexusGenInputs['DisciplineFiltersInput'] | null; // DisciplineFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    users: { // args
+      filters?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+  }
   UserGroup: {
     admins: { // args
       filters?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
@@ -1751,6 +1994,13 @@ export interface NexusGenArgTypes {
       sort: Array<string | null> | null; // [String]
     }
     members: { // args
+      filters?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+  }
+  UserPlayLocation: {
+    users: { // args
       filters?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
       pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
       sort: Array<string | null> | null; // [String]
@@ -1792,11 +2042,17 @@ export interface NexusGenArgTypes {
       pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
       sort: Array<string | null> | null; // [String]
     }
+    userPlayLocations: { // args
+      filters?: NexusGenInputs['UserPlayLocationFiltersInput'] | null; // UserPlayLocationFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
   }
 }
 
 export interface NexusGenAbstractTypeMembers {
-  GenericMorph: "ComponentBaseContact" | "ComponentBaseLocation" | "Discipline" | "Event" | "I18NLocale" | "UploadFile" | "UploadFolder" | "UserDiscipline" | "UserGroup" | "UsersPermissionsPermission" | "UsersPermissionsRole" | "UsersPermissionsUser"
+  GenericMorph: "ComponentBaseContact" | "ComponentBaseLocation" | "Discipline" | "Event" | "I18NLocale" | "UploadFile" | "UploadFolder" | "UserDiscipline" | "UserEvent" | "UserGroup" | "UserPlayLocation" | "UsersPermissionsPermission" | "UsersPermissionsRole" | "UsersPermissionsUser"
 }
 
 export interface NexusGenTypeInterfaces {

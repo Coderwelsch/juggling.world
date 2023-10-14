@@ -1,4 +1,3 @@
-import { apolloInternalClient } from "@/src/lib/clients/apollo-internal-client"
 import { gql } from "@apollo/client"
 
 export interface AllPlayersResponse {
@@ -10,6 +9,11 @@ export interface AllPlayersResponse {
 				location: {
 					latitude: number
 					longitude: number
+				}
+				userPlayLocations: {
+					data: {
+						id: string
+					}[]
 				}
 				city: string
 				avatar?: {
@@ -24,39 +28,38 @@ export interface AllPlayersResponse {
 	}
 }
 
-export const getAllPlayersQuery = () =>
-	apolloInternalClient.query<AllPlayersResponse>({
-		query: gql`
-			query {
-				players: usersPermissionsUsers(
-					filters: {
-						confirmed: { eq: true }
-						blocked: { eq: false }
-						location: {
-							latitude: { not: null }
-							longitude: { not: null }
+export const allPlayersQuery = gql`
+	query {
+		players: usersPermissionsUsers(
+			filters: {
+				confirmed: { eq: true }
+				blocked: { eq: false }
+				location: { latitude: { not: null }, longitude: { not: null } }
+			}
+		) {
+			data {
+				id
+				attributes {
+					username
+					city
+					avatar {
+						data {
+							attributes {
+								url
+							}
 						}
 					}
-				) {
-					data {
-						id
-						attributes {
-							username
-							city
-							avatar {
-								data {
-									attributes {
-										url
-									}
-								}
-							}
-							location {
-								latitude
-								longitude
-							}
+					location {
+						latitude
+						longitude
+					}
+					userPlayLocations {
+						data {
+							id
 						}
 					}
 				}
 			}
-		`,
-	})
+		}
+	}
+`

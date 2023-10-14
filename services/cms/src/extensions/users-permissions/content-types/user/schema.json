@@ -105,6 +105,22 @@
     },
     "city": {
       "type": "string"
+    },
+    "userEvents": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::user-event.user-event",
+      "inversedBy": "users"
+    },
+    "aboutMe": {
+      "type": "text",
+      "maxLength": 256
+    },
+    "userPlayLocations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::user-play-location.user-play-location",
+      "mappedBy": "users"
     }
   }
 }

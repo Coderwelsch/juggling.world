@@ -362,219 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiDisciplineDiscipline extends Schema.CollectionType {
-  collectionName: 'disciplines';
-  info: {
-    singularName: 'discipline';
-    pluralName: 'disciplines';
-    displayName: 'Discipline';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.Required &
-      Attribute.Unique &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }> &
-      Attribute.SetMinMaxLength<{
-        minLength: 3;
-      }>;
-    icon: Attribute.Media &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    slug: Attribute.UID<'api::discipline.discipline', 'name'> &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    users: Attribute.Relation<
-      'api::discipline.discipline',
-      'oneToMany',
-      'api::user-discipline.user-discipline'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::discipline.discipline',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::discipline.discipline',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    localizations: Attribute.Relation<
-      'api::discipline.discipline',
-      'oneToMany',
-      'api::discipline.discipline'
-    >;
-    locale: Attribute.String;
-  };
-}
-
-export interface ApiEventEvent extends Schema.CollectionType {
-  collectionName: 'events';
-  info: {
-    singularName: 'event';
-    pluralName: 'events';
-    displayName: 'Event';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String & Attribute.Required & Attribute.DefaultTo<'3'>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::event.event',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::event.event',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiUserDisciplineUserDiscipline extends Schema.CollectionType {
-  collectionName: 'user_disciplines';
-  info: {
-    singularName: 'user-discipline';
-    pluralName: 'user-disciplines';
-    displayName: 'User Disciplines';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    discipline: Attribute.Relation<
-      'api::user-discipline.user-discipline',
-      'manyToOne',
-      'api::discipline.discipline'
-    >;
-    level: Attribute.Enumeration<['beginner', 'intermediate', 'expert']> &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }> &
-      Attribute.DefaultTo<'beginner'>;
-    user: Attribute.Relation<
-      'api::user-discipline.user-discipline',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    isTeaching: Attribute.Boolean &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    startedAt: Attribute.Date &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::user-discipline.user-discipline',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::user-discipline.user-discipline',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    localizations: Attribute.Relation<
-      'api::user-discipline.user-discipline',
-      'oneToMany',
-      'api::user-discipline.user-discipline'
-    >;
-    locale: Attribute.String;
-  };
-}
-
-export interface ApiUserGroupUserGroup extends Schema.CollectionType {
-  collectionName: 'user_groups';
-  info: {
-    singularName: 'user-group';
-    pluralName: 'user-groups';
-    displayName: 'User Group';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String & Attribute.Required;
-    members: Attribute.Relation<
-      'api::user-group.user-group',
-      'manyToMany',
-      'plugin::users-permissions.user'
-    >;
-    admins: Attribute.Relation<
-      'api::user-group.user-group',
-      'manyToMany',
-      'plugin::users-permissions.user'
-    >;
-    description: Attribute.RichText;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::user-group.user-group',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::user-group.user-group',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -891,6 +678,20 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     >;
     avatar: Attribute.Media;
     city: Attribute.String;
+    userEvents: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToOne',
+      'api::user-event.user-event'
+    >;
+    aboutMe: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        maxLength: 256;
+      }>;
+    userPlayLocations: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::user-play-location.user-play-location'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -908,6 +709,306 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiDisciplineDiscipline extends Schema.CollectionType {
+  collectionName: 'disciplines';
+  info: {
+    singularName: 'discipline';
+    pluralName: 'disciplines';
+    displayName: 'Discipline';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+      }>;
+    icon: Attribute.Media &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    slug: Attribute.UID<'api::discipline.discipline', 'name'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    users: Attribute.Relation<
+      'api::discipline.discipline',
+      'oneToMany',
+      'api::user-discipline.user-discipline'
+    >;
+    userEvents: Attribute.Relation<
+      'api::discipline.discipline',
+      'manyToOne',
+      'api::user-event.user-event'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::discipline.discipline',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::discipline.discipline',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::discipline.discipline',
+      'oneToMany',
+      'api::discipline.discipline'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiEventEvent extends Schema.CollectionType {
+  collectionName: 'events';
+  info: {
+    singularName: 'event';
+    pluralName: 'events';
+    displayName: 'Event';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required & Attribute.DefaultTo<'3'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::event.event',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::event.event',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiUserDisciplineUserDiscipline extends Schema.CollectionType {
+  collectionName: 'user_disciplines';
+  info: {
+    singularName: 'user-discipline';
+    pluralName: 'user-disciplines';
+    displayName: 'User Disciplines';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    discipline: Attribute.Relation<
+      'api::user-discipline.user-discipline',
+      'manyToOne',
+      'api::discipline.discipline'
+    >;
+    level: Attribute.Enumeration<['beginner', 'intermediate', 'expert']> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Attribute.DefaultTo<'beginner'>;
+    user: Attribute.Relation<
+      'api::user-discipline.user-discipline',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    isTeaching: Attribute.Boolean &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    startedAt: Attribute.Date &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-discipline.user-discipline',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-discipline.user-discipline',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::user-discipline.user-discipline',
+      'oneToMany',
+      'api::user-discipline.user-discipline'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiUserEventUserEvent extends Schema.CollectionType {
+  collectionName: 'user_events';
+  info: {
+    singularName: 'user-event';
+    pluralName: 'user-events';
+    displayName: 'User Event';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    start: Attribute.DateTime;
+    end: Attribute.DateTime;
+    users: Attribute.Relation<
+      'api::user-event.user-event',
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
+    disciplines: Attribute.Relation<
+      'api::user-event.user-event',
+      'oneToMany',
+      'api::discipline.discipline'
+    >;
+    image: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-event.user-event',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-event.user-event',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiUserGroupUserGroup extends Schema.CollectionType {
+  collectionName: 'user_groups';
+  info: {
+    singularName: 'user-group';
+    pluralName: 'user-groups';
+    displayName: 'User Group';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    members: Attribute.Relation<
+      'api::user-group.user-group',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    admins: Attribute.Relation<
+      'api::user-group.user-group',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    description: Attribute.RichText;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-group.user-group',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-group.user-group',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiUserPlayLocationUserPlayLocation
+  extends Schema.CollectionType {
+  collectionName: 'user_play_locations';
+  info: {
+    singularName: 'user-play-location';
+    pluralName: 'user-play-locations';
+    displayName: 'User Play Location';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    location: Attribute.Component<'base.location'>;
+    users: Attribute.Relation<
+      'api::user-play-location.user-play-location',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    name: Attribute.String & Attribute.Required;
+    image: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-play-location.user-play-location',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-play-location.user-play-location',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -918,16 +1019,18 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::discipline.discipline': ApiDisciplineDiscipline;
-      'api::event.event': ApiEventEvent;
-      'api::user-discipline.user-discipline': ApiUserDisciplineUserDiscipline;
-      'api::user-group.user-group': ApiUserGroupUserGroup;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::discipline.discipline': ApiDisciplineDiscipline;
+      'api::event.event': ApiEventEvent;
+      'api::user-discipline.user-discipline': ApiUserDisciplineUserDiscipline;
+      'api::user-event.user-event': ApiUserEventUserEvent;
+      'api::user-group.user-group': ApiUserGroupUserGroup;
+      'api::user-play-location.user-play-location': ApiUserPlayLocationUserPlayLocation;
     }
   }
 }

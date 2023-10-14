@@ -151,6 +151,7 @@ type Discipline {
   publishedAt: DateTime
   slug: String!
   updatedAt: DateTime
+  userEvents: UserEventEntityResponse
   users(filters: UserDisciplineFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserDisciplineRelationResponseCollection
 }
 
@@ -180,6 +181,7 @@ input DisciplineFiltersInput {
   publishedAt: DateTimeFilterInput
   slug: StringFilterInput
   updatedAt: DateTimeFilterInput
+  userEvents: UserEventFiltersInput
   users: UserDisciplineFiltersInput
 }
 
@@ -188,6 +190,7 @@ input DisciplineInput {
   name: String
   publishedAt: DateTime
   slug: String
+  userEvents: ID
   users: [ID]
 }
 
@@ -278,7 +281,7 @@ input FloatFilterInput {
   startsWith: Float
 }
 
-union GenericMorph = ComponentBaseContact | ComponentBaseLocation | Discipline | Event | I18NLocale | UploadFile | UploadFolder | UserDiscipline | UserGroup | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
+union GenericMorph = ComponentBaseContact | ComponentBaseLocation | Discipline | Event | I18NLocale | UploadFile | UploadFolder | UserDiscipline | UserEvent | UserGroup | UserPlayLocation | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
 
 type I18NLocale {
   code: String
@@ -444,7 +447,9 @@ type Mutation {
   createUploadFolder(data: UploadFolderInput!): UploadFolderEntityResponse
   createUserDiscipline(data: UserDisciplineInput!, locale: I18NLocaleCode): UserDisciplineEntityResponse
   createUserDisciplineLocalization(data: UserDisciplineInput, id: ID, locale: I18NLocaleCode): UserDisciplineEntityResponse
+  createUserEvent(data: UserEventInput!): UserEventEntityResponse
   createUserGroup(data: UserGroupInput!): UserGroupEntityResponse
+  createUserPlayLocation(data: UserPlayLocationInput!): UserPlayLocationEntityResponse
 
   """Create a new role"""
   createUsersPermissionsRole(data: UsersPermissionsRoleInput!): UsersPermissionsCreateRolePayload
@@ -456,7 +461,9 @@ type Mutation {
   deleteUploadFile(id: ID!): UploadFileEntityResponse
   deleteUploadFolder(id: ID!): UploadFolderEntityResponse
   deleteUserDiscipline(id: ID!, locale: I18NLocaleCode): UserDisciplineEntityResponse
+  deleteUserEvent(id: ID!): UserEventEntityResponse
   deleteUserGroup(id: ID!): UserGroupEntityResponse
+  deleteUserPlayLocation(id: ID!): UserPlayLocationEntityResponse
 
   """Delete an existing role"""
   deleteUsersPermissionsRole(id: ID!): UsersPermissionsDeleteRolePayload
@@ -486,7 +493,9 @@ type Mutation {
   updateUploadFile(data: UploadFileInput!, id: ID!): UploadFileEntityResponse
   updateUploadFolder(data: UploadFolderInput!, id: ID!): UploadFolderEntityResponse
   updateUserDiscipline(data: UserDisciplineInput!, id: ID!, locale: I18NLocaleCode): UserDisciplineEntityResponse
+  updateUserEvent(data: UserEventInput!, id: ID!): UserEventEntityResponse
   updateUserGroup(data: UserGroupInput!, id: ID!): UserGroupEntityResponse
+  updateUserPlayLocation(data: UserPlayLocationInput!, id: ID!): UserPlayLocationEntityResponse
 
   """Update an existing role"""
   updateUsersPermissionsRole(data: UsersPermissionsRoleInput!, id: ID!): UsersPermissionsUpdateRolePayload
@@ -529,8 +538,12 @@ type Query {
   uploadFolders(filters: UploadFolderFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFolderEntityResponseCollection
   userDiscipline(id: ID, locale: I18NLocaleCode): UserDisciplineEntityResponse
   userDisciplines(filters: UserDisciplineFiltersInput, locale: I18NLocaleCode, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserDisciplineEntityResponseCollection
+  userEvent(id: ID): UserEventEntityResponse
+  userEvents(filters: UserEventFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserEventEntityResponseCollection
   userGroup(id: ID): UserGroupEntityResponse
   userGroups(filters: UserGroupFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserGroupEntityResponseCollection
+  userPlayLocation(id: ID): UserPlayLocationEntityResponse
+  userPlayLocations(filters: UserPlayLocationFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserPlayLocationEntityResponseCollection
   usersPermissionsRole(id: ID): UsersPermissionsRoleEntityResponse
   usersPermissionsRoles(filters: UsersPermissionsRoleFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsRoleEntityResponseCollection
   usersPermissionsUser(id: ID): UsersPermissionsUserEntityResponse
@@ -789,6 +802,58 @@ type UserDisciplineRelationResponseCollection {
   data: [UserDisciplineEntity!]!
 }
 
+type UserEvent {
+  createdAt: DateTime
+  disciplines(filters: DisciplineFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): DisciplineRelationResponseCollection
+  end: DateTime
+  image: UploadFileEntityResponse
+  publishedAt: DateTime
+  start: DateTime
+  updatedAt: DateTime
+  users(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsUserRelationResponseCollection
+}
+
+type UserEventEntity {
+  attributes: UserEvent
+  id: ID
+}
+
+type UserEventEntityResponse {
+  data: UserEventEntity
+}
+
+type UserEventEntityResponseCollection {
+  data: [UserEventEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input UserEventFiltersInput {
+  and: [UserEventFiltersInput]
+  createdAt: DateTimeFilterInput
+  disciplines: DisciplineFiltersInput
+  end: DateTimeFilterInput
+  id: IDFilterInput
+  not: UserEventFiltersInput
+  or: [UserEventFiltersInput]
+  publishedAt: DateTimeFilterInput
+  start: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+  users: UsersPermissionsUserFiltersInput
+}
+
+input UserEventInput {
+  disciplines: [ID]
+  end: DateTime
+  image: ID
+  publishedAt: DateTime
+  start: DateTime
+  users: [ID]
+}
+
+type UserEventRelationResponseCollection {
+  data: [UserEventEntity!]!
+}
+
 type UserGroup {
   admins(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsUserRelationResponseCollection
   createdAt: DateTime
@@ -837,6 +902,55 @@ input UserGroupInput {
 
 type UserGroupRelationResponseCollection {
   data: [UserGroupEntity!]!
+}
+
+type UserPlayLocation {
+  createdAt: DateTime
+  image: UploadFileEntityResponse
+  location: ComponentBaseLocation
+  name: String!
+  publishedAt: DateTime
+  updatedAt: DateTime
+  users(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsUserRelationResponseCollection
+}
+
+type UserPlayLocationEntity {
+  attributes: UserPlayLocation
+  id: ID
+}
+
+type UserPlayLocationEntityResponse {
+  data: UserPlayLocationEntity
+}
+
+type UserPlayLocationEntityResponseCollection {
+  data: [UserPlayLocationEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input UserPlayLocationFiltersInput {
+  and: [UserPlayLocationFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  location: ComponentBaseLocationFiltersInput
+  name: StringFilterInput
+  not: UserPlayLocationFiltersInput
+  or: [UserPlayLocationFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+  users: UsersPermissionsUserFiltersInput
+}
+
+input UserPlayLocationInput {
+  image: ID
+  location: ComponentBaseLocationInput
+  name: String
+  publishedAt: DateTime
+  users: [ID]
+}
+
+type UserPlayLocationRelationResponseCollection {
+  data: [UserPlayLocationEntity!]!
 }
 
 type UsersPermissionsCreateRolePayload {
@@ -980,6 +1094,7 @@ type UsersPermissionsUpdateRolePayload {
 }
 
 type UsersPermissionsUser {
+  aboutMe: String
   adminGroups(filters: UserGroupFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserGroupRelationResponseCollection
   avatar: UploadFileEntityResponse
   blocked: Boolean
@@ -994,6 +1109,8 @@ type UsersPermissionsUser {
   publicContact(filters: ComponentBaseContactFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentBaseContact]
   role: UsersPermissionsRoleEntityResponse
   updatedAt: DateTime
+  userEvents: UserEventEntityResponse
+  userPlayLocations(filters: UserPlayLocationFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserPlayLocationRelationResponseCollection
   username: String!
 }
 
@@ -1012,6 +1129,7 @@ type UsersPermissionsUserEntityResponseCollection {
 }
 
 input UsersPermissionsUserFiltersInput {
+  aboutMe: StringFilterInput
   adminGroups: UserGroupFiltersInput
   and: [UsersPermissionsUserFiltersInput]
   blocked: BooleanFilterInput
@@ -1032,10 +1150,13 @@ input UsersPermissionsUserFiltersInput {
   resetPasswordToken: StringFilterInput
   role: UsersPermissionsRoleFiltersInput
   updatedAt: DateTimeFilterInput
+  userEvents: UserEventFiltersInput
+  userPlayLocations: UserPlayLocationFiltersInput
   username: StringFilterInput
 }
 
 input UsersPermissionsUserInput {
+  aboutMe: String
   adminGroups: [ID]
   avatar: ID
   blocked: Boolean
@@ -1051,6 +1172,8 @@ input UsersPermissionsUserInput {
   publicContact: [ComponentBaseContactInput]
   resetPasswordToken: String
   role: ID
+  userEvents: ID
+  userPlayLocations: [ID]
   username: String
 }
 
