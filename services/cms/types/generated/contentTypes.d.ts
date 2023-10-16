@@ -678,11 +678,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     >;
     avatar: Attribute.Media;
     city: Attribute.String;
-    userEvents: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'manyToOne',
-      'api::user-event.user-event'
-    >;
     aboutMe: Attribute.Text &
       Attribute.SetMinMaxLength<{
         maxLength: 256;
@@ -691,6 +686,16 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.user',
       'manyToMany',
       'api::user-play-location.user-play-location'
+    >;
+    participatedUserEvents: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::user-event.user-event'
+    >;
+    userEvents: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::user-event.user-event'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -899,9 +904,9 @@ export interface ApiUserEventUserEvent extends Schema.CollectionType {
   attributes: {
     start: Attribute.DateTime;
     end: Attribute.DateTime;
-    users: Attribute.Relation<
+    user: Attribute.Relation<
       'api::user-event.user-event',
-      'oneToMany',
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
     disciplines: Attribute.Relation<
@@ -910,6 +915,18 @@ export interface ApiUserEventUserEvent extends Schema.CollectionType {
       'api::discipline.discipline'
     >;
     image: Attribute.Media;
+    public: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<true>;
+    where: Attribute.Relation<
+      'api::user-event.user-event',
+      'manyToOne',
+      'api::user-play-location.user-play-location'
+    >;
+    description: Attribute.RichText;
+    participants: Attribute.Relation<
+      'api::user-event.user-event',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -991,6 +1008,12 @@ export interface ApiUserPlayLocationUserPlayLocation
     >;
     name: Attribute.String & Attribute.Required;
     image: Attribute.Media;
+    description: Attribute.RichText & Attribute.Required;
+    userEvents: Attribute.Relation<
+      'api::user-play-location.user-play-location',
+      'oneToMany',
+      'api::user-event.user-event'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

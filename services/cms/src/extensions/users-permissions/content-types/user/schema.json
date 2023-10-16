@@ -106,12 +106,6 @@
     "city": {
       "type": "string"
     },
-    "userEvents": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::user-event.user-event",
-      "inversedBy": "users"
-    },
     "aboutMe": {
       "type": "text",
       "maxLength": 256
@@ -121,6 +115,18 @@
       "relation": "manyToMany",
       "target": "api::user-play-location.user-play-location",
       "mappedBy": "users"
+    },
+    "participatedUserEvents": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-event.user-event",
+      "mappedBy": "participants"
+    },
+    "userEvents": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-event.user-event",
+      "mappedBy": "user"
     }
   }
 }

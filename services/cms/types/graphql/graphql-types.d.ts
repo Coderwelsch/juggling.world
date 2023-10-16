@@ -441,23 +441,31 @@ export interface NexusGenInputs {
   UserEventFiltersInput: { // input type
     and?: Array<NexusGenInputs['UserEventFiltersInput'] | null> | null; // [UserEventFiltersInput]
     createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    description?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
     disciplines?: NexusGenInputs['DisciplineFiltersInput'] | null; // DisciplineFiltersInput
     end?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
     id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
     not?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
     or?: Array<NexusGenInputs['UserEventFiltersInput'] | null> | null; // [UserEventFiltersInput]
+    participants?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+    public?: NexusGenInputs['BooleanFilterInput'] | null; // BooleanFilterInput
     publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
     start?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
     updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
-    users?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+    user?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+    where?: NexusGenInputs['UserPlayLocationFiltersInput'] | null; // UserPlayLocationFiltersInput
   }
   UserEventInput: { // input type
+    description?: string | null; // String
     disciplines?: Array<string | null> | null; // [ID]
     end?: NexusGenScalars['DateTime'] | null; // DateTime
     image?: string | null; // ID
+    participants?: string | null; // ID
+    public?: boolean | null; // Boolean
     publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     start?: NexusGenScalars['DateTime'] | null; // DateTime
-    users?: Array<string | null> | null; // [ID]
+    user?: string | null; // ID
+    where?: string | null; // ID
   }
   UserGroupFiltersInput: { // input type
     admins?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
@@ -482,6 +490,7 @@ export interface NexusGenInputs {
   UserPlayLocationFiltersInput: { // input type
     and?: Array<NexusGenInputs['UserPlayLocationFiltersInput'] | null> | null; // [UserPlayLocationFiltersInput]
     createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    description?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
     id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
     location?: NexusGenInputs['ComponentBaseLocationFiltersInput'] | null; // ComponentBaseLocationFiltersInput
     name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
@@ -489,13 +498,16 @@ export interface NexusGenInputs {
     or?: Array<NexusGenInputs['UserPlayLocationFiltersInput'] | null> | null; // [UserPlayLocationFiltersInput]
     publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
     updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    userEvents?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
     users?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
   }
   UserPlayLocationInput: { // input type
+    description?: string | null; // String
     image?: string | null; // ID
     location?: NexusGenInputs['ComponentBaseLocationInput'] | null; // ComponentBaseLocationInput
     name?: string | null; // String
     publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    userEvents?: Array<string | null> | null; // [ID]
     users?: Array<string | null> | null; // [ID]
   }
   UsersPermissionsLoginInput: { // input type
@@ -558,6 +570,7 @@ export interface NexusGenInputs {
     location?: NexusGenInputs['ComponentBaseLocationFiltersInput'] | null; // ComponentBaseLocationFiltersInput
     not?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
     or?: Array<NexusGenInputs['UsersPermissionsUserFiltersInput'] | null> | null; // [UsersPermissionsUserFiltersInput]
+    participatedUserEvents?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
     password?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
     provider?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
     publicContact?: NexusGenInputs['ComponentBaseContactFiltersInput'] | null; // ComponentBaseContactFiltersInput
@@ -580,12 +593,13 @@ export interface NexusGenInputs {
     email?: string | null; // String
     groups?: Array<string | null> | null; // [ID]
     location?: NexusGenInputs['ComponentBaseLocationInput'] | null; // ComponentBaseLocationInput
+    participatedUserEvents?: Array<string | null> | null; // [ID]
     password?: string | null; // String
     provider?: string | null; // String
     publicContact?: Array<NexusGenInputs['ComponentBaseContactInput'] | null> | null; // [ComponentBaseContactInput]
     resetPasswordToken?: string | null; // String
     role?: string | null; // ID
-    userEvents?: string | null; // ID
+    userEvents?: Array<string | null> | null; // [ID]
     userPlayLocations?: Array<string | null> | null; // [ID]
     username?: string | null; // String
   }
@@ -719,7 +733,9 @@ export interface NexusGenObjects {
   UserDisciplineRelationResponseCollection: {};
   UserEvent: { // root type
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    description?: string | null; // String
     end?: NexusGenScalars['DateTime'] | null; // DateTime
+    public: boolean; // Boolean!
     publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     start?: NexusGenScalars['DateTime'] | null; // DateTime
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
@@ -741,6 +757,7 @@ export interface NexusGenObjects {
   UserGroupRelationResponseCollection: {};
   UserPlayLocation: { // root type
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    description: string; // String!
     name: string; // String!
     publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
@@ -1076,13 +1093,17 @@ export interface NexusGenFieldTypes {
   }
   UserEvent: { // field return type
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    description: string | null; // String
     disciplines: NexusGenRootTypes['DisciplineRelationResponseCollection'] | null; // DisciplineRelationResponseCollection
     end: NexusGenScalars['DateTime'] | null; // DateTime
     image: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    participants: NexusGenRootTypes['UsersPermissionsUserEntityResponse'] | null; // UsersPermissionsUserEntityResponse
+    public: boolean; // Boolean!
     publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
     start: NexusGenScalars['DateTime'] | null; // DateTime
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
-    users: NexusGenRootTypes['UsersPermissionsUserRelationResponseCollection'] | null; // UsersPermissionsUserRelationResponseCollection
+    user: NexusGenRootTypes['UsersPermissionsUserEntityResponse'] | null; // UsersPermissionsUserEntityResponse
+    where: NexusGenRootTypes['UserPlayLocationEntityResponse'] | null; // UserPlayLocationEntityResponse
   }
   UserEventEntity: { // field return type
     attributes: NexusGenRootTypes['UserEvent'] | null; // UserEvent
@@ -1123,11 +1144,13 @@ export interface NexusGenFieldTypes {
   }
   UserPlayLocation: { // field return type
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    description: string; // String!
     image: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     location: NexusGenRootTypes['ComponentBaseLocation'] | null; // ComponentBaseLocation
     name: string; // String!
     publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    userEvents: NexusGenRootTypes['UserEventRelationResponseCollection'] | null; // UserEventRelationResponseCollection
     users: NexusGenRootTypes['UsersPermissionsUserRelationResponseCollection'] | null; // UsersPermissionsUserRelationResponseCollection
   }
   UserPlayLocationEntity: { // field return type
@@ -1229,11 +1252,12 @@ export interface NexusGenFieldTypes {
     email: string; // String!
     groups: NexusGenRootTypes['UserGroupRelationResponseCollection'] | null; // UserGroupRelationResponseCollection
     location: NexusGenRootTypes['ComponentBaseLocation'] | null; // ComponentBaseLocation
+    participatedUserEvents: NexusGenRootTypes['UserEventRelationResponseCollection'] | null; // UserEventRelationResponseCollection
     provider: string | null; // String
     publicContact: Array<NexusGenRootTypes['ComponentBaseContact'] | null> | null; // [ComponentBaseContact]
     role: NexusGenRootTypes['UsersPermissionsRoleEntityResponse'] | null; // UsersPermissionsRoleEntityResponse
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
-    userEvents: NexusGenRootTypes['UserEventEntityResponse'] | null; // UserEventEntityResponse
+    userEvents: NexusGenRootTypes['UserEventRelationResponseCollection'] | null; // UserEventRelationResponseCollection
     userPlayLocations: NexusGenRootTypes['UserPlayLocationRelationResponseCollection'] | null; // UserPlayLocationRelationResponseCollection
     username: string; // String!
   }
@@ -1502,13 +1526,17 @@ export interface NexusGenFieldTypeNames {
   }
   UserEvent: { // field return type name
     createdAt: 'DateTime'
+    description: 'String'
     disciplines: 'DisciplineRelationResponseCollection'
     end: 'DateTime'
     image: 'UploadFileEntityResponse'
+    participants: 'UsersPermissionsUserEntityResponse'
+    public: 'Boolean'
     publishedAt: 'DateTime'
     start: 'DateTime'
     updatedAt: 'DateTime'
-    users: 'UsersPermissionsUserRelationResponseCollection'
+    user: 'UsersPermissionsUserEntityResponse'
+    where: 'UserPlayLocationEntityResponse'
   }
   UserEventEntity: { // field return type name
     attributes: 'UserEvent'
@@ -1549,11 +1577,13 @@ export interface NexusGenFieldTypeNames {
   }
   UserPlayLocation: { // field return type name
     createdAt: 'DateTime'
+    description: 'String'
     image: 'UploadFileEntityResponse'
     location: 'ComponentBaseLocation'
     name: 'String'
     publishedAt: 'DateTime'
     updatedAt: 'DateTime'
+    userEvents: 'UserEventRelationResponseCollection'
     users: 'UsersPermissionsUserRelationResponseCollection'
   }
   UserPlayLocationEntity: { // field return type name
@@ -1655,11 +1685,12 @@ export interface NexusGenFieldTypeNames {
     email: 'String'
     groups: 'UserGroupRelationResponseCollection'
     location: 'ComponentBaseLocation'
+    participatedUserEvents: 'UserEventRelationResponseCollection'
     provider: 'String'
     publicContact: 'ComponentBaseContact'
     role: 'UsersPermissionsRoleEntityResponse'
     updatedAt: 'DateTime'
-    userEvents: 'UserEventEntityResponse'
+    userEvents: 'UserEventRelationResponseCollection'
     userPlayLocations: 'UserPlayLocationRelationResponseCollection'
     username: 'String'
   }
@@ -1981,11 +2012,6 @@ export interface NexusGenArgTypes {
       publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
       sort: Array<string | null> | null; // [String]
     }
-    users: { // args
-      filters?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
-      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
-      sort: Array<string | null> | null; // [String]
-    }
   }
   UserGroup: {
     admins: { // args
@@ -2000,6 +2026,12 @@ export interface NexusGenArgTypes {
     }
   }
   UserPlayLocation: {
+    userEvents: { // args
+      filters?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
     users: { // args
       filters?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
       pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
@@ -2037,9 +2069,21 @@ export interface NexusGenArgTypes {
       publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
       sort: Array<string | null> | null; // [String]
     }
+    participatedUserEvents: { // args
+      filters?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
     publicContact: { // args
       filters?: NexusGenInputs['ComponentBaseContactFiltersInput'] | null; // ComponentBaseContactFiltersInput
       pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+    userEvents: { // args
+      filters?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
       sort: Array<string | null> | null; // [String]
     }
     userPlayLocations: { // args

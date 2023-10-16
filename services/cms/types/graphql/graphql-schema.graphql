@@ -804,13 +804,17 @@ type UserDisciplineRelationResponseCollection {
 
 type UserEvent {
   createdAt: DateTime
+  description: String
   disciplines(filters: DisciplineFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): DisciplineRelationResponseCollection
   end: DateTime
   image: UploadFileEntityResponse
+  participants: UsersPermissionsUserEntityResponse
+  public: Boolean!
   publishedAt: DateTime
   start: DateTime
   updatedAt: DateTime
-  users(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsUserRelationResponseCollection
+  user: UsersPermissionsUserEntityResponse
+  where: UserPlayLocationEntityResponse
 }
 
 type UserEventEntity {
@@ -830,24 +834,32 @@ type UserEventEntityResponseCollection {
 input UserEventFiltersInput {
   and: [UserEventFiltersInput]
   createdAt: DateTimeFilterInput
+  description: StringFilterInput
   disciplines: DisciplineFiltersInput
   end: DateTimeFilterInput
   id: IDFilterInput
   not: UserEventFiltersInput
   or: [UserEventFiltersInput]
+  participants: UsersPermissionsUserFiltersInput
+  public: BooleanFilterInput
   publishedAt: DateTimeFilterInput
   start: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
-  users: UsersPermissionsUserFiltersInput
+  user: UsersPermissionsUserFiltersInput
+  where: UserPlayLocationFiltersInput
 }
 
 input UserEventInput {
+  description: String
   disciplines: [ID]
   end: DateTime
   image: ID
+  participants: ID
+  public: Boolean
   publishedAt: DateTime
   start: DateTime
-  users: [ID]
+  user: ID
+  where: ID
 }
 
 type UserEventRelationResponseCollection {
@@ -906,11 +918,13 @@ type UserGroupRelationResponseCollection {
 
 type UserPlayLocation {
   createdAt: DateTime
+  description: String!
   image: UploadFileEntityResponse
   location: ComponentBaseLocation
   name: String!
   publishedAt: DateTime
   updatedAt: DateTime
+  userEvents(filters: UserEventFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserEventRelationResponseCollection
   users(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsUserRelationResponseCollection
 }
 
@@ -931,6 +945,7 @@ type UserPlayLocationEntityResponseCollection {
 input UserPlayLocationFiltersInput {
   and: [UserPlayLocationFiltersInput]
   createdAt: DateTimeFilterInput
+  description: StringFilterInput
   id: IDFilterInput
   location: ComponentBaseLocationFiltersInput
   name: StringFilterInput
@@ -938,14 +953,17 @@ input UserPlayLocationFiltersInput {
   or: [UserPlayLocationFiltersInput]
   publishedAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  userEvents: UserEventFiltersInput
   users: UsersPermissionsUserFiltersInput
 }
 
 input UserPlayLocationInput {
+  description: String
   image: ID
   location: ComponentBaseLocationInput
   name: String
   publishedAt: DateTime
+  userEvents: [ID]
   users: [ID]
 }
 
@@ -1105,11 +1123,12 @@ type UsersPermissionsUser {
   email: String!
   groups(filters: UserGroupFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserGroupRelationResponseCollection
   location: ComponentBaseLocation
+  participatedUserEvents(filters: UserEventFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserEventRelationResponseCollection
   provider: String
   publicContact(filters: ComponentBaseContactFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentBaseContact]
   role: UsersPermissionsRoleEntityResponse
   updatedAt: DateTime
-  userEvents: UserEventEntityResponse
+  userEvents(filters: UserEventFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserEventRelationResponseCollection
   userPlayLocations(filters: UserPlayLocationFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserPlayLocationRelationResponseCollection
   username: String!
 }
@@ -1144,6 +1163,7 @@ input UsersPermissionsUserFiltersInput {
   location: ComponentBaseLocationFiltersInput
   not: UsersPermissionsUserFiltersInput
   or: [UsersPermissionsUserFiltersInput]
+  participatedUserEvents: UserEventFiltersInput
   password: StringFilterInput
   provider: StringFilterInput
   publicContact: ComponentBaseContactFiltersInput
@@ -1167,12 +1187,13 @@ input UsersPermissionsUserInput {
   email: String
   groups: [ID]
   location: ComponentBaseLocationInput
+  participatedUserEvents: [ID]
   password: String
   provider: String
   publicContact: [ComponentBaseContactInput]
   resetPasswordToken: String
   role: ID
-  userEvents: ID
+  userEvents: [ID]
   userPlayLocations: [ID]
   username: String
 }

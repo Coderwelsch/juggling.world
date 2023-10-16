@@ -18,11 +18,11 @@
     "end": {
       "type": "datetime"
     },
-    "users": {
+    "user": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "mappedBy": "userEvents"
+      "inversedBy": "userEvents"
     },
     "disciplines": {
       "type": "relation",
@@ -31,11 +31,32 @@
       "mappedBy": "userEvents"
     },
     "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "public": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "where": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::user-play-location.user-play-location",
+      "inversedBy": "userEvents"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "participants": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "participatedUserEvents"
     }
   }
 }
