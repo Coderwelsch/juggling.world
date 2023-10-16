@@ -17,7 +17,7 @@ export interface AllPlayersResponse {
 				}
 				city: string
 				avatar?: {
-					data: {
+					data?: {
 						attributes: {
 							url: string
 						}

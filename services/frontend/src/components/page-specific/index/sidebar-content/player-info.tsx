@@ -1,5 +1,6 @@
 import { Headline } from "@/src/components/headline/headline"
 import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
+import { Body } from "@/src/components/sidebar/sidebar"
 import { classNames } from "@/src/lib/class-names"
 import { playerInfoQuery, PlayerResponse } from "@/src/queries/player-info"
 import { useQuery } from "@apollo/client"
@@ -17,7 +18,7 @@ const Section = ({
 	return (
 		<div className={"flex flex-col gap-2"}>
 			<Headline size={6}>{title}</Headline>
-			<div className={"flex flex-row items-center gap-4"}>{children}</div>
+			<div className={"flex flex-col items-center gap-2"}>{children}</div>
 		</div>
 	)
 }
@@ -36,10 +37,10 @@ export const PlayerContent = ({
 	const { disciplines, avatar, username, city, aboutMe, userPlayLocations } =
 		player.data?.player?.data?.attributes || {}
 
-	const avatarUrl = avatar?.data.attributes.url
+	const avatarUrl = avatar?.data?.attributes.url
 
 	return (
-		<>
+		<Body>
 			<LoaderOverlay shown={!player.data} />
 
 			{player.data && (
@@ -74,11 +75,7 @@ export const PlayerContent = ({
 							</div>
 
 							{aboutMe && (
-								<p
-									className={
-										"pr-6 text-xs text-space-50 opacity-70"
-									}
-								>
+								<p className={"pr-6 text-xs text-space-50/70"}>
 									{aboutMe}
 								</p>
 							)}
@@ -89,80 +86,112 @@ export const PlayerContent = ({
 
 					<div className={"flex flex-col gap-6"}>
 						<Section title="Plays:">
-							{disciplines?.data.map((discipline) => {
-								const icon =
-									discipline.attributes.discipline.data
-										.attributes.icon?.data.attributes.url
+							<div className="flex w-full flex-row gap-4">
+								{disciplines?.data.map((discipline) => {
+									const { icon, name } =
+										discipline.attributes.discipline.data
+											.attributes || {}
 
-								return (
-									<div
-										key={discipline.id}
-										className={classNames(
-											"inline-flex flex-row items-center gap-2 bg-space-200 bg-opacity-20 p-1 pr-4 rounded-full",
-										)}
-									>
-										{icon && (
-											<div
-												className={
-													"flex h-8 w-8 items-center justify-center rounded-full border border-space-100 bg-space-50"
-												}
+									const iconUrl = icon?.data.attributes.url
+
+									return (
+										<div
+											key={discipline.id}
+											className={classNames(
+												"inline-flex flex-row items-center gap-2 bg-space-200 bg-opacity-20 p-1 pr-4 rounded-full",
+											)}
+										>
+											{iconUrl && (
+												<div
+													className={
+														"flex h-6 w-6 items-center justify-center rounded-full border border-space-100 bg-space-50"
+													}
+												>
+													<Image
+														className={classNames(
+															"h-4 w-4",
+														)}
+														alt={""}
+														width={32}
+														height={32}
+														src={`http://strapi${iconUrl}`}
+													/>
+												</div>
+											)}
+
+											<Headline
+												size={6}
+												renderAs={"h2"}
 											>
-												<Image
-													className={classNames(
-														"h-5 w-5",
-													)}
-													alt={""}
-													width={32}
-													height={32}
-													src={`http://strapi${icon}`}
-												/>
-											</div>
-										)}
-
-										<Headline size={5}>
-											{
-												discipline.attributes.discipline
-													.data.attributes.name
-											}
-										</Headline>
-									</div>
-								)
-							})}
+												{name}
+											</Headline>
+										</div>
+									)
+								})}
+							</div>
 						</Section>
 					</div>
 
 					<Section title={"Locations:"}>
-						{userPlayLocations?.data.map((location) => {
-							return (
-								<div
-									key={location.id}
-									className="relative flex cursor-pointer flex-row overflow-hidden rounded-lg border border-space-200/25 bg-space-100/40 shadow"
-									onClick={() => {
-										onLocationClick(location.id)
-									}}
-								>
-									<Image
-										width={160}
-										height={90}
-										src={
-											"http://strapi" +
-											location.attributes.image?.data
-												.attributes.url
-										}
-										alt={""}
-									/>
+						<p className="w-full pr-6 text-xs text-space-50/70">
+							Last locations where{" "}
+							<span className="italic">
+								{
+									player.data?.player?.data?.attributes
+										?.username
+								}
+							</span>{" "}
+							played:
+						</p>
 
-									<div className={"flex flex-col gap-2 p-3"}>
-										<p className={"text-center text-sm"}>
-											{location.attributes.name}
-										</p>
+						<div className="flex w-full flex-row space-x-4">
+							{userPlayLocations?.data.map((entry) => {
+								const { name, image } = entry.attributes || {}
+
+								return (
+									<div
+										key={entry.id}
+										className={classNames(
+											"relative cursor-pointer flex-col overflow-hidden rounded-lg",
+											"border border-space-200/25 bg-space-100/40 shadow",
+											"hover:bg-space-100/60 hover:border-space-200 transition-colors",
+										)}
+										onClick={() => {
+											onLocationClick(entry.id)
+										}}
+									>
+										<Image
+											width={160}
+											height={90}
+											objectFit={"cover"}
+											className={"aspect-video"}
+											src={
+												"http://strapi" +
+												image?.data.attributes.url
+											}
+											alt={""}
+										/>
+
+										<div
+											className={
+												"flex w-full flex-col gap-2 p-1"
+											}
+										>
+											<p
+												className={
+													"w-full text-ellipsis text-center text-xs"
+												}
+											>
+												{name}
+											</p>
+										</div>
 									</div>
-								</div>
-							)
-						})}
+								)
+							})}
+						</div>
 					</Section>
 				</div>
 			)}
-		</>
+		</Body>
 	)
 }

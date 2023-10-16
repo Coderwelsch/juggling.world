@@ -13,7 +13,7 @@ export interface PlayerResponse {
 					latitude: number
 				}
 				avatar?: {
-					data: {
+					data?: {
 						attributes: {
 							url: string
 						}

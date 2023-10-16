@@ -6,8 +6,8 @@ const headlineSizes = {
 	2: "text-3xl",
 	3: "text-xl",
 	4: "text-lg",
-	5: "text-md",
-	6: "text-sm",
+	5: "text-sm",
+	6: "text-xs",
 }
 
 interface HeadlineProps extends React.HTMLAttributes<HTMLHeadingElement> {

@@ -7,6 +7,7 @@ export interface PlayLocationResponse {
 			attributes: {
 				name: string
 				createdAt: string
+				description?: string
 				updatedAt: string
 				location: {
 					latitude: number
@@ -39,6 +40,7 @@ export const playLocationQuery = gql`
 					name
 					createdAt
 					updatedAt
+					description
 					location {
 						latitude
 						longitude

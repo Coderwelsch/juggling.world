@@ -7,6 +7,22 @@ interface SidebarProps {
 	onClose: () => void
 }
 
+export const Body = ({
+	children,
+	className,
+}: {
+	children: ReactNode
+	className?: string
+}) => {
+	return (
+		<div className="flex h-full flex-col overflow-y-scroll rounded-l-lg bg-space-900 text-space-50 shadow-xl">
+			<div className={classNames("relative flex-1 px-4 py-6", className)}>
+				{children}
+			</div>
+		</div>
+	)
+}
+
 const Sidebar = (
 	{ isShown, onClose, children }: SidebarProps,
 	ref: ForwardedRef<HTMLDivElement>,
@@ -29,11 +45,7 @@ const Sidebar = (
 							isShown ? "translate-x-0" : "translate-x-full",
 						)}
 					>
-						<div className="flex h-full flex-col overflow-y-scroll rounded-l-lg bg-space-900 text-space-50 shadow-xl">
-							<div className="relative flex-1 px-4 py-6 sm:px-6">
-								{children}
-							</div>
-						</div>
+						{children}
 					</div>
 				</section>
 			</div>
@@ -41,4 +53,6 @@ const Sidebar = (
 	)
 }
 
-export default forwardRef(Sidebar)
+const SidebarForwarded = forwardRef(Sidebar)
+
+export default SidebarForwarded

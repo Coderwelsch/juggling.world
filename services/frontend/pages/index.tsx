@@ -473,7 +473,7 @@ export default function App() {
 											label={player.attributes.username}
 											avatar={
 												player.attributes.avatar?.data
-													.attributes.url
+													?.attributes.url
 											}
 										/>
 									)}
