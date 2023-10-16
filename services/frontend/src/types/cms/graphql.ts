@@ -1169,13 +1169,17 @@ export type UserDisciplineRelationResponseCollection = {
 export type UserEvent = {
   __typename?: 'UserEvent';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
   disciplines?: Maybe<DisciplineRelationResponseCollection>;
   end?: Maybe<Scalars['DateTime']['output']>;
   image?: Maybe<UploadFileEntityResponse>;
+  participants?: Maybe<UsersPermissionsUserEntityResponse>;
+  public: Scalars['Boolean']['output'];
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   start?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  users?: Maybe<UsersPermissionsUserRelationResponseCollection>;
+  user?: Maybe<UsersPermissionsUserEntityResponse>;
+  where?: Maybe<UserPlayLocationEntityResponse>;
 };
 
 
@@ -1183,13 +1187,6 @@ export type UserEventDisciplinesArgs = {
   filters?: InputMaybe<DisciplineFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-
-export type UserEventUsersArgs = {
-  filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
@@ -1213,24 +1210,37 @@ export type UserEventEntityResponseCollection = {
 export type UserEventFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<UserEventFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
   disciplines?: InputMaybe<DisciplineFiltersInput>;
   end?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<UserEventFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<UserEventFiltersInput>>>;
+  participants?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  public?: InputMaybe<BooleanFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   start?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  users?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  where?: InputMaybe<UserPlayLocationFiltersInput>;
 };
 
 export type UserEventInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
   disciplines?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   end?: InputMaybe<Scalars['DateTime']['input']>;
   image?: InputMaybe<Scalars['ID']['input']>;
+  participants?: InputMaybe<Scalars['ID']['input']>;
+  public?: InputMaybe<Scalars['Boolean']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   start?: InputMaybe<Scalars['DateTime']['input']>;
-  users?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  user?: InputMaybe<Scalars['ID']['input']>;
+  where?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type UserEventRelationResponseCollection = {
+  __typename?: 'UserEventRelationResponseCollection';
+  data: Array<UserEventEntity>;
 };
 
 export type UserGroup = {
@@ -1305,12 +1315,29 @@ export type UserGroupRelationResponseCollection = {
 export type UserPlayLocation = {
   __typename?: 'UserPlayLocation';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  description: Scalars['String']['output'];
   image?: Maybe<UploadFileEntityResponse>;
   location?: Maybe<ComponentBaseLocation>;
   name: Scalars['String']['output'];
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  user?: Maybe<UsersPermissionsUserEntityResponse>;
+  userEvents?: Maybe<UserEventRelationResponseCollection>;
+  users?: Maybe<UsersPermissionsUserRelationResponseCollection>;
+};
+
+
+export type UserPlayLocationUserEventsArgs = {
+  filters?: InputMaybe<UserEventFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+
+export type UserPlayLocationUsersArgs = {
+  filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type UserPlayLocationEntity = {
@@ -1333,6 +1360,7 @@ export type UserPlayLocationEntityResponseCollection = {
 export type UserPlayLocationFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<UserPlayLocationFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   location?: InputMaybe<ComponentBaseLocationFiltersInput>;
   name?: InputMaybe<StringFilterInput>;
@@ -1340,15 +1368,18 @@ export type UserPlayLocationFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<UserPlayLocationFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  userEvents?: InputMaybe<UserEventFiltersInput>;
+  users?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
 
 export type UserPlayLocationInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['ID']['input']>;
   location?: InputMaybe<ComponentBaseLocationInput>;
   name?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  user?: InputMaybe<Scalars['ID']['input']>;
+  userEvents?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
 };
 
 export type UserPlayLocationRelationResponseCollection = {
@@ -1519,11 +1550,12 @@ export type UsersPermissionsUser = {
   email: Scalars['String']['output'];
   groups?: Maybe<UserGroupRelationResponseCollection>;
   location?: Maybe<ComponentBaseLocation>;
+  participatedUserEvents?: Maybe<UserEventRelationResponseCollection>;
   provider?: Maybe<Scalars['String']['output']>;
   publicContact?: Maybe<Array<Maybe<ComponentBaseContact>>>;
   role?: Maybe<UsersPermissionsRoleEntityResponse>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  userEvents?: Maybe<UserEventEntityResponse>;
+  userEvents?: Maybe<UserEventRelationResponseCollection>;
   userPlayLocations?: Maybe<UserPlayLocationRelationResponseCollection>;
   username: Scalars['String']['output'];
 };
@@ -1553,9 +1585,25 @@ export type UsersPermissionsUserGroupsArgs = {
 };
 
 
+export type UsersPermissionsUserParticipatedUserEventsArgs = {
+  filters?: InputMaybe<UserEventFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+
 export type UsersPermissionsUserPublicContactArgs = {
   filters?: InputMaybe<ComponentBaseContactFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+
+export type UsersPermissionsUserUserEventsArgs = {
+  filters?: InputMaybe<UserEventFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
@@ -1600,6 +1648,7 @@ export type UsersPermissionsUserFiltersInput = {
   location?: InputMaybe<ComponentBaseLocationFiltersInput>;
   not?: InputMaybe<UsersPermissionsUserFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
+  participatedUserEvents?: InputMaybe<UserEventFiltersInput>;
   password?: InputMaybe<StringFilterInput>;
   provider?: InputMaybe<StringFilterInput>;
   publicContact?: InputMaybe<ComponentBaseContactFiltersInput>;
@@ -1623,12 +1672,13 @@ export type UsersPermissionsUserInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   groups?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   location?: InputMaybe<ComponentBaseLocationInput>;
+  participatedUserEvents?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   password?: InputMaybe<Scalars['String']['input']>;
   provider?: InputMaybe<Scalars['String']['input']>;
   publicContact?: InputMaybe<Array<InputMaybe<ComponentBaseContactInput>>>;
   resetPasswordToken?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['ID']['input']>;
-  userEvents?: InputMaybe<Scalars['ID']['input']>;
+  userEvents?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   userPlayLocations?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
