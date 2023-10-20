@@ -1,4 +1,5 @@
-import type { Schema, Attribute } from '@strapi/strapi';
+import type { Attribute, Schema } from "@strapi/strapi"
+
 
 export interface AdminPermission extends Schema.CollectionType {
   collectionName: 'admin_permissions';
@@ -655,27 +656,27 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     confirmed: Attribute.Boolean & Attribute.DefaultTo<false>;
     blocked: Attribute.Boolean & Attribute.DefaultTo<false>;
     role: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'manyToOne',
-      'plugin::users-permissions.role'
-    >;
-    disciplines: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::user-discipline.user-discipline'
-    >;
-    location: Attribute.Component<'base.location'>;
-    publicContact: Attribute.Component<'base.contact', true>;
-    groups: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'manyToMany',
-      'api::user-group.user-group'
-    >;
-    adminGroups: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'manyToMany',
-      'api::user-group.user-group'
-    >;
+		"plugin::users-permissions.user",
+		"manyToOne",
+		"plugin::users-permissions.role"
+	>;
+	  disciplines: Attribute.Relation<
+		  "plugin::users-permissions.user",
+		  "oneToMany",
+		  "api::user-discipline.user-discipline"
+	  >;
+	  location: Attribute.Component<"base.location">;
+	  publicContact: Attribute.Component<"base.contact">;
+	  groups: Attribute.Relation<
+		  "plugin::users-permissions.user",
+		  "manyToMany",
+		  "api::user-group.user-group"
+	  >;
+	  adminGroups: Attribute.Relation<
+		  "plugin::users-permissions.user",
+		  "manyToMany",
+		  "api::user-group.user-group"
+	  >;
     avatar: Attribute.Media;
     city: Attribute.String;
     aboutMe: Attribute.Text &
@@ -687,26 +688,31 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToMany',
       'api::user-play-location.user-play-location'
     >;
-    participatedUserEvents: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::user-event.user-event'
-    >;
-    userEvents: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::user-event.user-event'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::users-permissions.user',
+	  participatedUserEvents: Attribute.Relation<
+		  "plugin::users-permissions.user",
+		  "oneToMany",
+		  "api::user-event.user-event"
+	  >;
+	  userEvents: Attribute.Relation<
+		  "plugin::users-permissions.user",
+		  "oneToMany",
+		  "api::user-event.user-event"
+	  >;
+	  groupEventsAdmins: Attribute.Relation<
+		  "plugin::users-permissions.user",
+		  "manyToMany",
+		  "api::user-group-event.user-group-event"
+	  >;
+	  createdAt: Attribute.DateTime;
+	  updatedAt: Attribute.DateTime;
+	  createdBy: Attribute.Relation<
+		  "plugin::users-permissions.user",
+		  "oneToOne",
+		  "admin::user"
+	  > &
+		  Attribute.Private;
+	  updatedBy: Attribute.Relation<
+		  "plugin::users-permissions.user",
       'oneToOne',
       'admin::user'
     > &
@@ -917,26 +923,27 @@ export interface ApiUserEventUserEvent extends Schema.CollectionType {
     image: Attribute.Media;
     public: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<true>;
     where: Attribute.Relation<
-      'api::user-event.user-event',
-      'manyToOne',
-      'api::user-play-location.user-play-location'
-    >;
-    description: Attribute.RichText;
-    participants: Attribute.Relation<
-      'api::user-event.user-event',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::user-event.user-event',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
+		"api::user-event.user-event",
+		"manyToOne",
+		"api::user-play-location.user-play-location"
+	>;
+	  description: Attribute.RichText;
+	  participants: Attribute.Relation<
+		  "api::user-event.user-event",
+		  "manyToOne",
+		  "plugin::users-permissions.user"
+	  >;
+	  name: Attribute.String;
+	  createdAt: Attribute.DateTime;
+	  updatedAt: Attribute.DateTime;
+	  publishedAt: Attribute.DateTime;
+	  createdBy: Attribute.Relation<
+		  "api::user-event.user-event",
+		  "oneToOne",
+		  "admin::user"
+	  > &
+		  Attribute.Private;
+	  updatedBy: Attribute.Relation<
       'api::user-event.user-event',
       'oneToOne',
       'admin::user'
@@ -959,43 +966,104 @@ export interface ApiUserGroupUserGroup extends Schema.CollectionType {
   attributes: {
     name: Attribute.String & Attribute.Required;
     members: Attribute.Relation<
-      'api::user-group.user-group',
-      'manyToMany',
-      'plugin::users-permissions.user'
-    >;
-    admins: Attribute.Relation<
-      'api::user-group.user-group',
-      'manyToMany',
-      'plugin::users-permissions.user'
-    >;
-    description: Attribute.RichText;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::user-group.user-group',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::user-group.user-group',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
+		"api::user-group.user-group",
+		"manyToMany",
+		"plugin::users-permissions.user"
+	>;
+	  admins: Attribute.Relation<
+		  "api::user-group.user-group",
+		  "manyToMany",
+		  "plugin::users-permissions.user"
+	  >;
+	  description: Attribute.RichText;
+	  location: Attribute.Component<"base.location"> & Attribute.Required;
+	  contact: Attribute.Component<"base.contact">;
+	  avatar: Attribute.Media;
+	  userGroupEvents: Attribute.Relation<
+		  "api::user-group.user-group",
+		  "oneToMany",
+		  "api::user-group-event.user-group-event"
+	  >;
+	  createdAt: Attribute.DateTime;
+	  updatedAt: Attribute.DateTime;
+	  publishedAt: Attribute.DateTime;
+	  createdBy: Attribute.Relation<
+		  "api::user-group.user-group",
+		  "oneToOne",
+		  "admin::user"
+	  > &
+		  Attribute.Private;
+	  updatedBy: Attribute.Relation<
+		  "api::user-group.user-group",
+		  "oneToOne",
+		  "admin::user"
+	  > &
+		  Attribute.Private;
   };
 }
 
+
+export interface ApiUserGroupEventUserGroupEvent extends Schema.CollectionType {
+	collectionName: "user_group_events";
+	info: {
+		singularName: "user-group-event";
+		pluralName: "user-group-events";
+		displayName: "User Group Event";
+		description: "";
+	};
+	options: {
+		draftAndPublish: true;
+	};
+	attributes: {
+		name: Attribute.String & Attribute.Required;
+		description: Attribute.RichText & Attribute.Required;
+		group: Attribute.Relation<
+			"api::user-group-event.user-group-event",
+			"manyToOne",
+			"api::user-group.user-group"
+		>;
+		image: Attribute.Media;
+		public: Attribute.Boolean & Attribute.DefaultTo<true>;
+		admins: Attribute.Relation<
+			"api::user-group-event.user-group-event",
+			"manyToMany",
+			"plugin::users-permissions.user"
+		>;
+		start: Attribute.DateTime;
+		end: Attribute.DateTime;
+		location: Attribute.Relation<
+			"api::user-group-event.user-group-event",
+			"manyToOne",
+			"api::user-play-location.user-play-location"
+		>;
+		createdAt: Attribute.DateTime;
+		updatedAt: Attribute.DateTime;
+		publishedAt: Attribute.DateTime;
+		createdBy: Attribute.Relation<
+			"api::user-group-event.user-group-event",
+			"oneToOne",
+			"admin::user"
+		> &
+			Attribute.Private;
+		updatedBy: Attribute.Relation<
+			"api::user-group-event.user-group-event",
+			"oneToOne",
+			"admin::user"
+		> &
+			Attribute.Private;
+	};
+}
+
+
 export interface ApiUserPlayLocationUserPlayLocation
-  extends Schema.CollectionType {
-  collectionName: 'user_play_locations';
-  info: {
-    singularName: 'user-play-location';
-    pluralName: 'user-play-locations';
-    displayName: 'User Play Location';
-    description: '';
-  };
+	extends Schema.CollectionType {
+	collectionName: "user_play_locations";
+	info: {
+		singularName: "user-play-location";
+		pluralName: "user-play-locations";
+		displayName: "User Play Location";
+		description: "";
+	};
   options: {
     draftAndPublish: true;
   };
@@ -1004,26 +1072,31 @@ export interface ApiUserPlayLocationUserPlayLocation
     users: Attribute.Relation<
       'api::user-play-location.user-play-location',
       'manyToMany',
-      'plugin::users-permissions.user'
-    >;
-    name: Attribute.String & Attribute.Required;
-    image: Attribute.Media;
-    description: Attribute.RichText & Attribute.Required;
-    userEvents: Attribute.Relation<
-      'api::user-play-location.user-play-location',
-      'oneToMany',
-      'api::user-event.user-event'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::user-play-location.user-play-location',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
+		"plugin::users-permissions.user"
+	>;
+	  name: Attribute.String & Attribute.Required;
+	  image: Attribute.Media;
+	  description: Attribute.RichText & Attribute.Required;
+	  userEvents: Attribute.Relation<
+		  "api::user-play-location.user-play-location",
+		  "oneToMany",
+		  "api::user-event.user-event"
+	  >;
+	  groupEventsLocations: Attribute.Relation<
+		  "api::user-play-location.user-play-location",
+		  "oneToMany",
+		  "api::user-group-event.user-group-event"
+	  >;
+	  createdAt: Attribute.DateTime;
+	  updatedAt: Attribute.DateTime;
+	  publishedAt: Attribute.DateTime;
+	  createdBy: Attribute.Relation<
+		  "api::user-play-location.user-play-location",
+		  "oneToOne",
+		  "admin::user"
+	  > &
+		  Attribute.Private;
+	  updatedBy: Attribute.Relation<
       'api::user-play-location.user-play-location',
       'oneToOne',
       'admin::user'
@@ -1043,17 +1116,18 @@ declare module '@strapi/types' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'plugin::upload.file': PluginUploadFile;
-      'plugin::upload.folder': PluginUploadFolder;
-      'plugin::i18n.locale': PluginI18NLocale;
-      'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
-      'plugin::users-permissions.role': PluginUsersPermissionsRole;
-      'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::discipline.discipline': ApiDisciplineDiscipline;
-      'api::event.event': ApiEventEvent;
-      'api::user-discipline.user-discipline': ApiUserDisciplineUserDiscipline;
-      'api::user-event.user-event': ApiUserEventUserEvent;
-      'api::user-group.user-group': ApiUserGroupUserGroup;
-      'api::user-play-location.user-play-location': ApiUserPlayLocationUserPlayLocation;
-    }
+		"plugin::upload.folder": PluginUploadFolder;
+		"plugin::i18n.locale": PluginI18NLocale;
+		"plugin::users-permissions.permission": PluginUsersPermissionsPermission;
+		"plugin::users-permissions.role": PluginUsersPermissionsRole;
+		"plugin::users-permissions.user": PluginUsersPermissionsUser;
+		"api::discipline.discipline": ApiDisciplineDiscipline;
+		"api::event.event": ApiEventEvent;
+		"api::user-discipline.user-discipline": ApiUserDisciplineUserDiscipline;
+		"api::user-event.user-event": ApiUserEventUserEvent;
+		"api::user-group.user-group": ApiUserGroupUserGroup;
+		"api::user-group-event.user-group-event": ApiUserGroupEventUserGroupEvent;
+		"api::user-play-location.user-play-location": ApiUserPlayLocationUserPlayLocation;
+	}
   }
 }

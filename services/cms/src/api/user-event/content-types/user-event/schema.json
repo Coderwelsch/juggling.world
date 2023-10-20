@@ -47,16 +47,19 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::user-play-location.user-play-location",
-      "inversedBy": "userEvents"
-    },
-    "description": {
-      "type": "richtext"
-    },
-    "participants": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "participatedUserEvents"
-    }
+		"inversedBy": "userEvents"
+	},
+	  "description": {
+		  "type": "richtext"
+	  },
+	  "participants": {
+		  "type": "relation",
+		  "relation": "manyToOne",
+		  "target": "plugin::users-permissions.user",
+		  "inversedBy": "participatedUserEvents"
+	  },
+	  "name": {
+		  "type": "string"
+	  }
   }
 }

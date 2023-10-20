@@ -21,16 +21,40 @@
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "groups"
-    },
-    "admins": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "adminGroups"
-    },
-    "description": {
-      "type": "richtext",
-      "required": false
-    }
+	},
+	  "admins": {
+		  "type": "relation",
+		  "relation": "manyToMany",
+		  "target": "plugin::users-permissions.user",
+		  "inversedBy": "adminGroups"
+	  },
+	  "description": {
+		  "type": "richtext",
+		  "required": false
+	  },
+	  "location": {
+		  "type": "component",
+		  "repeatable": false,
+		  "component": "base.location",
+		  "required": true
+	  },
+	  "contact": {
+		  "type": "component",
+		  "repeatable": false,
+		  "component": "base.contact"
+	  },
+	  "avatar": {
+		  "allowedTypes": [
+			  "images"
+		  ],
+		  "type": "media",
+		  "multiple": false
+	  },
+	  "userGroupEvents": {
+		  "type": "relation",
+		  "relation": "oneToMany",
+		  "target": "api::user-group-event.user-group-event",
+		  "mappedBy": "group"
+	  }
   }
 }

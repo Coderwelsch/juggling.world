@@ -78,11 +78,11 @@
       "required": false
     },
     "publicContact": {
-      "type": "component",
-      "repeatable": true,
-      "component": "base.contact",
-      "required": false
-    },
+		"type": "component",
+		"repeatable": false,
+		"component": "base.contact",
+		"required": false
+	},
     "groups": {
       "type": "relation",
       "relation": "manyToMany",
@@ -117,16 +117,22 @@
       "mappedBy": "users"
     },
     "participatedUserEvents": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::user-event.user-event",
-      "mappedBy": "participants"
-    },
-    "userEvents": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::user-event.user-event",
-      "mappedBy": "user"
-    }
+		"type": "relation",
+		"relation": "oneToMany",
+		"target": "api::user-event.user-event",
+		"mappedBy": "participants"
+	},
+	  "userEvents": {
+		  "type": "relation",
+		  "relation": "oneToMany",
+		  "target": "api::user-event.user-event",
+		  "mappedBy": "user"
+	  },
+	  "groupEventsAdmins": {
+		  "type": "relation",
+		  "relation": "manyToMany",
+		  "target": "api::user-group-event.user-group-event",
+		  "mappedBy": "admins"
+	  }
   }
 }

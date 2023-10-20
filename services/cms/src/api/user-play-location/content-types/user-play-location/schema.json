@@ -34,16 +34,22 @@
       "allowedTypes": [
         "images"
       ]
-    },
-    "description": {
-      "type": "richtext",
-      "required": true
-    },
-    "userEvents": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::user-event.user-event",
-      "mappedBy": "where"
-    }
+	},
+	  "description": {
+		  "type": "richtext",
+		  "required": true
+	  },
+	  "userEvents": {
+		  "type": "relation",
+		  "relation": "oneToMany",
+		  "target": "api::user-event.user-event",
+		  "mappedBy": "where"
+	  },
+	  "groupEventsLocations": {
+		  "type": "relation",
+		  "relation": "oneToMany",
+		  "target": "api::user-group-event.user-group-event",
+		  "mappedBy": "location"
+	  }
   }
 }
