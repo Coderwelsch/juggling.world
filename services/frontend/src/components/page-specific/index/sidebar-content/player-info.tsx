@@ -74,8 +74,8 @@ export const PlayerContent = ({
 						<div className={"flex flex-col gap-1"}>
 							<div>
 								<Headline
-									size={3}
-									className={"leading-6"}
+									size={ 3 }
+									className={ "leading-6" }
 								>
 									{ username }
 								</Headline>
