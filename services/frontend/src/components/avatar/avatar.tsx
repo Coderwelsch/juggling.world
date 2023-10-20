@@ -11,7 +11,6 @@ interface AvatarProps {
 	height?: number
 }
 
-
 export const Avatar = ({
 	className,
 	src,

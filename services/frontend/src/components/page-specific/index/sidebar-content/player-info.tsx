@@ -77,14 +77,14 @@ export const PlayerContent = ({
 									size={3}
 									className={"leading-6"}
 								>
-									{username}
+									{ username }
 								</Headline>
 
-								{city && (
-									<p className={"text-sm text-space-200"}>
-										{city}
+								{ city && (
+									<p className={ "text-sm text-space-200" }>
+										{ city }
 									</p>
-								)}
+								) }
 							</div>
 
 							{ aboutMe && (

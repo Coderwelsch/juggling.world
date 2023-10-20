@@ -32,7 +32,6 @@ export interface AllGroupsResponse {
 	}
 }
 
-
 export const allGroupsQuery = gql`
 	query {
 		groups: userGroups(publicationState: LIVE) {

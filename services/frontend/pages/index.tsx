@@ -32,7 +32,7 @@ export const PlayersContext = createContext<
 export const MapContext = createContext<mapboxgl.Map | undefined>(undefined)
 
 export default function App() {
-	const [isMapReady, setIsMapReady] = useState(false)
+	const [ isMapReady, setIsMapReady ] = useState(false)
 	const mapRef = useRef<mapboxgl.Map | undefined>()
 	const sidebarRef = useRef<HTMLDivElement | null>(null)
 	const [ isInterfaceShown, setIsInterfaceShown ] = useState(false)
@@ -399,13 +399,13 @@ export default function App() {
 					mapboxAccessToken={
 						process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
 					}
-					projection={{
+					projection={ {
 						name: "globe",
-					}}
-					initialViewState={initialViewState}
-					mapStyle={process.env.NEXT_PUBLIC_MAPBOX_STYLE_URL}
-					onClick={onMapClick}
-					onLoad={onMapLoad}
+					} }
+					initialViewState={ initialViewState }
+					mapStyle={ process.env.NEXT_PUBLIC_MAPBOX_STYLE_URL }
+					onClick={ onMapClick }
+					onLoad={ onMapLoad }
 				>
 					<MapContext.Provider value={ mapRef.current }>
 						{/* Play Location Markers */ }
@@ -472,7 +472,7 @@ export default function App() {
 									] }
 									focused={ isFocused }
 									active={ isActive }
-									onClick={() =>
+									onClick={ () =>
 										onPlayerMarkerClick(player.id)
 									}
 									icon={
@@ -486,7 +486,7 @@ export default function App() {
 											/>
 										)
 									}
-									className={"z-10"}
+									className={ "z-10" }
 								>
 									{ isFocused && (
 										<MarkerLabel
