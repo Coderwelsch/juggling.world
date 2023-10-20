@@ -15,7 +15,10 @@ import Sidebar from "@/src/components/sidebar/sidebar"
 import { classNames } from "@/src/lib/class-names"
 import { mapValueRange } from "@/src/lib/map-value-range"
 import { allGroupsQuery, AllGroupsResponse } from "@/src/queries/all-groups"
-import { allPlayLocationsQuery, AllPlayLocationsResponse } from "@/src/queries/all-play-locations"
+import {
+	allPlayLocationsQuery,
+	AllPlayLocationsResponse,
+} from "@/src/queries/all-play-locations"
 import { allPlayersQuery, AllPlayersResponse } from "@/src/queries/all-players"
 import { useQuery } from "@apollo/client"
 import mapboxgl from "mapbox-gl"
@@ -23,7 +26,6 @@ import "mapbox-gl/dist/mapbox-gl.css"
 import * as React from "react"
 import { createContext, useCallback, useEffect, useRef, useState } from "react"
 import Map, { ViewState } from "react-map-gl"
-
 
 export const PlayersContext = createContext<
 	AllPlayersResponse["players"]["data"]

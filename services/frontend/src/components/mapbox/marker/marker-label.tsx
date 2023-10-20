@@ -1,7 +1,6 @@
 import { classNames } from "@/src/lib/class-names"
 import * as React from "react"
 
-
 interface MarkerLabelProps {
 	label: string
 	className?: string

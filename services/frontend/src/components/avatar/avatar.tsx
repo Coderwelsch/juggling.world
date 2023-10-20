@@ -2,7 +2,6 @@ import { classNames } from "@/src/lib/class-names"
 import { getStrapiUrl } from "@/src/lib/get-strapi-url"
 import Image from "next/image"
 
-
 interface AvatarProps {
 	src: string
 	alt?: string

@@ -10,7 +10,6 @@ import Image from "next/image"
 import * as React from "react"
 import { ReactNode } from "react"
 
-
 const Section = ({
 	title,
 	children,

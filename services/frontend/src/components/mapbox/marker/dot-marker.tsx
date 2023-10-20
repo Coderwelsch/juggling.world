@@ -3,7 +3,6 @@ import * as React from "react"
 import { ReactNode } from "react"
 import { Marker } from "react-map-gl"
 
-
 type Intent = "primary" | "secondary" | "active"
 
 const dotMarkerStyles: {

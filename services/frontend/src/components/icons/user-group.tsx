@@ -1,7 +1,6 @@
 // icon:user-group | Fontawesome https://fontawesome.com/ | Fontawesome
 import * as React from "react"
 
-
 function IconUserGroup(props: React.SVGProps<SVGSVGElement>) {
 	return (
 		<svg

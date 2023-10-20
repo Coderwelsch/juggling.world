@@ -1,12 +1,14 @@
 import { Headline } from "@/src/components/headline/headline"
 import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
 import { Body } from "@/src/components/sidebar/sidebar"
-import { playLocationQuery, PlayLocationResponse } from "@/src/queries/play-location-info"
+import {
+	playLocationQuery,
+	PlayLocationResponse,
+} from "@/src/queries/play-location-info"
 import { useQuery } from "@apollo/client"
 import Image from "next/image"
 import * as React from "react"
 import Markdown from "react-markdown"
-
 
 export const LocationContent = ({ id }: { id: string }) => {
 	const location = useQuery<PlayLocationResponse>(playLocationQuery, {
