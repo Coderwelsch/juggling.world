@@ -72,18 +72,18 @@ export const DotMarker = ({
 						/>
 					)}
 
-					{ icon }
+					{icon}
 				</div>
 			</div>
 
 			{children && (
 				<div
-					className={ classNames(
+					className={classNames(
 						"absolute -translate-x-1/2 cursor-pointer translate-y-3.5",
 						active && "translate-y-4",
-					) }
+					)}
 				>
-					{ children }
+					{children}
 				</div>
 			)}
 		</div>

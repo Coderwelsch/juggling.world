@@ -32,11 +32,11 @@ export const PlayersContext = createContext<
 export const MapContext = createContext<mapboxgl.Map | undefined>(undefined)
 
 export default function App() {
-	const [ isMapReady, setIsMapReady ] = useState(false)
+	const [isMapReady, setIsMapReady] = useState(false)
 	const mapRef = useRef<mapboxgl.Map | undefined>()
 	const sidebarRef = useRef<HTMLDivElement | null>(null)
-	const [ isInterfaceShown, setIsInterfaceShown ] = useState(false)
-	const [ isSpinAnimationInterrupted, setIsSpinAnimationInterrupted ] =
+	const [isInterfaceShown, setIsInterfaceShown] = useState(false)
+	const [isSpinAnimationInterrupted, setIsSpinAnimationInterrupted] =
 		useState(false)
 
 	const initialViewState: Partial<ViewState> = {
@@ -51,11 +51,11 @@ export default function App() {
 		allPlayLocationsQuery,
 	)
 
-	const [ selectedPlayerId, setSelectedPlayerId ] = useState<string | null>(
+	const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(
 		null,
 	)
 
-	const [ selectedLocationId, setSelectedLocationId ] = useState<string | null>(
+	const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
 		null,
 	)
 
@@ -389,7 +389,7 @@ export default function App() {
 					allGroups.loading ||
 					!isMapReady
 				}
-				fullPage={ true }
+				fullPage={true}
 			/>
 
 			<LandingPageNav visible={!isInterfaceShown} />
@@ -399,17 +399,17 @@ export default function App() {
 					mapboxAccessToken={
 						process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
 					}
-					projection={ {
+					projection={{
 						name: "globe",
-					} }
-					initialViewState={ initialViewState }
-					mapStyle={ process.env.NEXT_PUBLIC_MAPBOX_STYLE_URL }
-					onClick={ onMapClick }
-					onLoad={ onMapLoad }
+					}}
+					initialViewState={initialViewState}
+					mapStyle={process.env.NEXT_PUBLIC_MAPBOX_STYLE_URL}
+					onClick={onMapClick}
+					onLoad={onMapLoad}
 				>
-					<MapContext.Provider value={ mapRef.current }>
-						{/* Play Location Markers */ }
-						{ allPlayLocations?.data?.locations.data.map(
+					<MapContext.Provider value={mapRef.current}>
+						{/* Play Location Markers */}
+						{allPlayLocations?.data?.locations.data.map(
 							(location) => {
 								const isFocused = focusedLocations.includes(
 									location.id,
@@ -421,7 +421,7 @@ export default function App() {
 								const { location: locationData } =
 									location.attributes
 
-								const coordinates: [ number, number ] = [
+								const coordinates: [number, number] = [
 									locationData.longitude,
 									locationData.latitude,
 								]
@@ -432,32 +432,32 @@ export default function App() {
 
 								return (
 									<DotMarker
-										key={ location.id }
-										location={ coordinates }
-										intent={ "active" }
-										focused={ isFocused }
-										active={ isActive }
-										onClick={ () =>
+										key={location.id}
+										location={coordinates}
+										intent={"active"}
+										focused={isFocused}
+										active={isActive}
+										onClick={() =>
 											onLocationMarkerClick(location.id)
 										}
 										icon={
 											avatarUrl && (
-												<Avatar src={ avatarUrl } />
+												<Avatar src={avatarUrl} />
 											)
 										}
 									>
-										{ isFocused && (
+										{isFocused && (
 											<MarkerLabel
-												label={ location.attributes.name }
+												label={location.attributes.name}
 											/>
-										) }
+										)}
 									</DotMarker>
 								)
 							},
-						) }
+						)}
 
-						{/* Player Markers */ }
-						{ allPlayersData?.data?.players.data.map((player) => {
+						{/* Player Markers */}
+						{allPlayersData?.data?.players.data.map((player) => {
 							const isFocused = focusedPlayers.includes(player.id)
 							const isActive = selectedPlayerId === player.id
 							const avatarUrl =
@@ -465,19 +465,19 @@ export default function App() {
 
 							return (
 								<DotMarker
-									key={ player.id }
-									location={ [
+									key={player.id}
+									location={[
 										player.attributes.location.longitude,
 										player.attributes.location.latitude,
-									] }
-									focused={ isFocused }
-									active={ isActive }
-									onClick={ () =>
+									]}
+									focused={isFocused}
+									active={isActive}
+									onClick={() =>
 										onPlayerMarkerClick(player.id)
 									}
 									icon={
 										avatarUrl ? (
-											<Avatar src={ avatarUrl } />
+											<Avatar src={avatarUrl} />
 										) : (
 											<IconUserLarge
 												className={
@@ -486,46 +486,45 @@ export default function App() {
 											/>
 										)
 									}
-									className={ "z-10" }
+									className={"z-10"}
 								>
-									{ isFocused && (
+									{isFocused && (
 										<MarkerLabel
-											label={ player.attributes.username }
+											label={player.attributes.username}
 										/>
-									) }
+									)}
 								</DotMarker>
 							)
-						}) }
+						})}
 
-						{/* Group Markers */ }
-						{ allGroups?.data?.groups.data.map((group) => {
+						{/* Group Markers */}
+						{allGroups?.data?.groups.data.map((group) => {
 							const avatarUrl =
 								group.attributes.avatar?.data?.attributes.url
 
 							return (
 								<DotMarker
-									key={ group.id }
-									location={ [
+									key={group.id}
+									location={[
 										group.attributes.location.longitude,
 										group.attributes.location.latitude,
-									] }
-									onClick={ () => {
-									} }
-									icon={ <Avatar src={ avatarUrl } /> }
-									className={ "z-10" }
+									]}
+									onClick={() => {}}
+									icon={<Avatar src={avatarUrl} />}
+									className={"z-10"}
 								/>
 							)
-						}) }
+						})}
 
-						{ connectionLines.map((line, index) => (
+						{connectionLines.map((line, index) => (
 							<Line
-								key={ index }
-								coordinates={ line }
-								color={ "rgb(16,185,129)" }
-								width={ 4 }
-								outlineWidth={ 2 }
+								key={index}
+								coordinates={line}
+								color={"rgb(16,185,129)"}
+								width={4}
+								outlineWidth={2}
 							/>
-						)) }
+						))}
 					</MapContext.Provider>
 				</Map>
 
@@ -588,7 +587,7 @@ export default function App() {
 					onClose={() => {}}
 				>
 					<PlayersContext.Provider
-						value={ allPlayersData?.data?.players.data || [] }
+						value={allPlayersData?.data?.players.data || []}
 					>
 						{selectedPlayerId && (
 							<PlayerContent

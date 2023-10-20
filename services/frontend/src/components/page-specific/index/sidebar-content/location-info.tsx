@@ -33,12 +33,12 @@ export const LocationContent = ({ id }: { id: string }) => {
 							/>
 						)}
 
-						<div className={ "flex flex-col gap-2 px-6 py-2" }>
+						<div className={"flex flex-col gap-2 px-6 py-2"}>
 							<Headline
-								size={ 3 }
-								className={ "leading-6" }
+								size={3}
+								className={"leading-6"}
 							>
-								{ location.data.location.data.attributes.name }
+								{location.data.location.data.attributes.name}
 							</Headline>
 
 							<div className="prose text-sm text-space-50 text-opacity-75 prose-a:text-space-300 hover:prose-a:text-space-400">

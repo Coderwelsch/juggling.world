@@ -20,14 +20,14 @@ export const Avatar = ({
 }: AvatarProps) => {
 	return (
 		<Image
-			src={ getStrapiUrl(src) }
-			alt={ alt }
-			width={ width }
-			height={ height }
-			className={ classNames(
+			src={getStrapiUrl(src)}
+			alt={alt}
+			width={width}
+			height={height}
+			className={classNames(
 				"rounded-full w-full aspect-square",
 				className,
-			) }
+			)}
 		/>
 	)
 }

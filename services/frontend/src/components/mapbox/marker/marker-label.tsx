@@ -9,15 +9,15 @@ interface MarkerLabelProps {
 
 export const MarkerLabel = ({ label, className }: MarkerLabelProps) => (
 	<div
-		className={ classNames(
+		className={classNames(
 			"flex gap-1 whitespace-nowrap rounded-full border-2 border-fuchsia-100 bg-fuchsia-950 p-1",
 			"!font-sans",
 			className,
-		) }
-		style={ {
+		)}
+		style={{
 			font: "initial",
-		} }
+		}}
 	>
-		<p className={ "px-1 text-xs text-white" }>{ label }</p>
+		<p className={"px-1 text-xs text-white"}>{label}</p>
 	</div>
 )

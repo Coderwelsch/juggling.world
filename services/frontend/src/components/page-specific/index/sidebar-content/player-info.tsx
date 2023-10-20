@@ -19,9 +19,9 @@ const Section = ({
 	children: ReactNode
 }) => {
 	return (
-		<div className={ "flex flex-col gap-1" }>
-			<Headline size={ 5 }>{ title }</Headline>
-			<div className={ "flex flex-col items-center gap-2" }>{ children }</div>
+		<div className={"flex flex-col gap-1"}>
+			<Headline size={5}>{title}</Headline>
+			<div className={"flex flex-col items-center gap-2"}>{children}</div>
 		</div>
 	)
 }
@@ -38,7 +38,7 @@ export const PlayerContent = ({
 	})
 
 	const { disciplines, avatar, username, city, aboutMe, userPlayLocations } =
-	player.data?.player?.data?.attributes || {}
+		player.data?.player?.data?.attributes || {}
 
 	const avatarUrl = avatar?.data?.attributes.url
 
@@ -47,14 +47,14 @@ export const PlayerContent = ({
 			<LoaderOverlay shown={!player.data} />
 
 			{player.data && (
-				<div className={ "flex w-full flex-col gap-5" }>
-					<div className={ "flex flex-row items-center gap-4" }>
-						{ avatarUrl ? (
+				<div className={"flex w-full flex-col gap-5"}>
+					<div className={"flex flex-row items-center gap-4"}>
+						{avatarUrl ? (
 							<Avatar
-								src={ avatarUrl }
-								width={ 120 }
-								height={ 120 }
-								alt={ username || "" }
+								src={avatarUrl}
+								width={120}
+								height={120}
+								alt={username || ""}
 								className={
 									"h-20 w-20 rounded-full border border-space-200"
 								}
@@ -66,7 +66,7 @@ export const PlayerContent = ({
 								}
 							>
 								<IconUserLarge
-									className={ "h-12 w-12 fill-neutral-50" }
+									className={"h-12 w-12 fill-neutral-50"}
 								/>
 							</div>
 						)}
@@ -74,84 +74,84 @@ export const PlayerContent = ({
 						<div className={"flex flex-col gap-1"}>
 							<div>
 								<Headline
-									size={ 3 }
-									className={ "leading-6" }
+									size={3}
+									className={"leading-6"}
 								>
-									{ username }
+									{username}
 								</Headline>
 
-								{ city && (
-									<p className={ "text-sm text-space-200" }>
-										{ city }
+								{city && (
+									<p className={"text-sm text-space-200"}>
+										{city}
 									</p>
-								) }
+								)}
 							</div>
 
-							{ aboutMe && (
-								<p className={ "pr-6 text-xs text-space-50/70" }>
-									{ aboutMe }
+							{aboutMe && (
+								<p className={"pr-6 text-xs text-space-50/70"}>
+									{aboutMe}
 								</p>
-							) }
+							)}
 						</div>
 					</div>
 
-					<div className={ "h-px w-full bg-space-100 opacity-30" } />
+					<div className={"h-px w-full bg-space-100 opacity-30"} />
 
 					<Section title="Plays:">
 						<div className="flex w-full flex-row gap-4">
-							{ disciplines?.data.map((discipline) => {
+							{disciplines?.data.map((discipline) => {
 								const { icon, name } =
-								discipline.attributes.discipline.data
-									.attributes || {}
+									discipline.attributes.discipline.data
+										.attributes || {}
 
 								const iconUrl = icon?.data.attributes.url
 
 								return (
 									<div
-										key={ discipline.id }
-										className={ classNames(
+										key={discipline.id}
+										className={classNames(
 											"inline-flex flex-row items-center gap-2 bg-space-200 bg-opacity-20 p-1 pr-4 rounded-full",
-										) }
+										)}
 									>
-										{ iconUrl && (
+										{iconUrl && (
 											<div
 												className={
 													"flex h-6 w-6 items-center justify-center rounded-full border border-space-100 bg-space-50"
 												}
 											>
 												<Image
-													className={ classNames(
+													className={classNames(
 														"h-4 w-4",
-													) }
-													alt={ "" }
-													width={ 32 }
-													height={ 32 }
-													src={ `http://strapi${ iconUrl }` }
+													)}
+													alt={""}
+													width={32}
+													height={32}
+													src={`http://strapi${iconUrl}`}
 												/>
 											</div>
-										) }
+										)}
 
 										<Headline
-											size={ 6 }
-											renderAs={ "h2" }
+											size={6}
+											renderAs={"h2"}
 										>
-											{ name }
+											{name}
 										</Headline>
 									</div>
 								)
-							}) }
+							})}
 						</div>
 					</Section>
 
 					<Section title={"Locations:"}>
 						<p className="w-full pr-6 text-sm text-space-50/70">
-							Last locations where{ " " }
+							Last locations where{" "}
 							<span className="italic">
 								{
 									player.data?.player?.data?.attributes
 										?.username
 								}
-							</span>{ " " }
+							</span>{" "}
 							played:
 						</p>
 

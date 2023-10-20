@@ -16,10 +16,10 @@ export type MakeEmpty<
 export type Incremental<T> =
 	| T
 	| {
-	[P in keyof T]?: P extends " $fragmentName" | "__typename"
-		? T[P]
-		: never
-}
+			[P in keyof T]?: P extends " $fragmentName" | "__typename"
+				? T[P]
+				: never
+	  }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
 	ID: { input: string; output: string }
@@ -240,7 +240,6 @@ export type DisciplineRelationResponseCollection = {
 	__typename?: "DisciplineRelationResponseCollection"
 	data: Array<DisciplineEntity>
 }
-
 
 export enum Enum_Userdiscipline_Level {
 	Beginner = "beginner",
@@ -735,7 +734,6 @@ export type PaginationArg = {
 	pageSize?: InputMaybe<Scalars["Int"]["input"]>
 	start?: InputMaybe<Scalars["Int"]["input"]>
 }
-
 
 export enum PublicationState {
 	Live = "LIVE",
