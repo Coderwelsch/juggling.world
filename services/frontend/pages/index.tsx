@@ -1,5 +1,5 @@
 import DIABOLO_STICKS from "@/src/assets/diabolo-sticks.svg"
-import IconPark from "@/src/components/icons/tree"
+import { Avatar } from "@/src/components/avatar/avatar"
 import IconUserLarge from "@/src/components/icons/user-large"
 import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
 import { MapOverlay } from "@/src/components/map-overlay/map-overlay"
@@ -14,10 +14,8 @@ import { PlayerContent } from "@/src/components/page-specific/index/sidebar-cont
 import Sidebar from "@/src/components/sidebar/sidebar"
 import { classNames } from "@/src/lib/class-names"
 import { mapValueRange } from "@/src/lib/map-value-range"
-import {
-	allPlayLocationsQuery,
-	AllPlayLocationsResponse,
-} from "@/src/queries/all-play-locations"
+import { allGroupsQuery, AllGroupsResponse } from "@/src/queries/all-groups"
+import { allPlayLocationsQuery, AllPlayLocationsResponse } from "@/src/queries/all-play-locations"
 import { allPlayersQuery, AllPlayersResponse } from "@/src/queries/all-players"
 import { useQuery } from "@apollo/client"
 import mapboxgl from "mapbox-gl"
@@ -25,6 +23,7 @@ import "mapbox-gl/dist/mapbox-gl.css"
 import * as React from "react"
 import { createContext, useCallback, useEffect, useRef, useState } from "react"
 import Map, { ViewState } from "react-map-gl"
+
 
 export const PlayersContext = createContext<
 	AllPlayersResponse["players"]["data"]
@@ -36,8 +35,8 @@ export default function App() {
 	const [isMapReady, setIsMapReady] = useState(false)
 	const mapRef = useRef<mapboxgl.Map | undefined>()
 	const sidebarRef = useRef<HTMLDivElement | null>(null)
-	const [isInterfaceShown, setIsInterfaceShown] = useState(false)
-	const [isSpinAnimationInterrupted, setIsSpinAnimationInterrupted] =
+	const [ isInterfaceShown, setIsInterfaceShown ] = useState(false)
+	const [ isSpinAnimationInterrupted, setIsSpinAnimationInterrupted ] =
 		useState(false)
 
 	const initialViewState: Partial<ViewState> = {
@@ -46,16 +45,17 @@ export default function App() {
 		zoom: 1,
 	}
 
-	const playersData = useQuery<AllPlayersResponse>(allPlayersQuery)
-	const playLocations = useQuery<AllPlayLocationsResponse>(
+	const allGroups = useQuery<AllGroupsResponse>(allGroupsQuery)
+	const allPlayersData = useQuery<AllPlayersResponse>(allPlayersQuery)
+	const allPlayLocations = useQuery<AllPlayLocationsResponse>(
 		allPlayLocationsQuery,
 	)
 
-	const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(
+	const [ selectedPlayerId, setSelectedPlayerId ] = useState<string | null>(
 		null,
 	)
 
-	const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
+	const [ selectedLocationId, setSelectedLocationId ] = useState<string | null>(
 		null,
 	)
 
@@ -71,7 +71,7 @@ export default function App() {
 				return
 			}
 
-			const player = playersData.data?.players.data.find(
+			const player = allPlayersData.data?.players.data.find(
 				(p) => p.id === id,
 			)
 
@@ -93,7 +93,7 @@ export default function App() {
 			const lines: [[number, number], [number, number]][] = []
 
 			player.attributes.userPlayLocations.data.forEach((l) => {
-				const location = playLocations.data?.locations.data.find(
+				const location = allPlayLocations.data?.locations.data.find(
 					(pl) => pl.id === l.id,
 				)
 
@@ -116,8 +116,8 @@ export default function App() {
 			setConnectionLines(lines)
 		},
 		[
-			playLocations.data?.locations.data,
-			playersData.data?.players.data,
+			allPlayLocations.data?.locations.data,
+			allPlayersData.data?.players.data,
 			selectedPlayerId,
 		],
 	)
@@ -128,7 +128,7 @@ export default function App() {
 				return
 			}
 
-			const location = playLocations.data?.locations.data.find(
+			const location = allPlayLocations.data?.locations.data.find(
 				(l) => l.id === id,
 			)
 
@@ -154,7 +154,7 @@ export default function App() {
 			}
 
 			location.attributes.users?.data.forEach((l) => {
-				const player = playersData.data?.players.data.find(
+				const player = allPlayersData.data?.players.data.find(
 					(pl) => pl.id === l.id,
 				)
 
@@ -177,8 +177,8 @@ export default function App() {
 			setConnectionLines(lines)
 		},
 		[
-			playLocations.data?.locations.data,
-			playersData.data?.players.data,
+			allPlayLocations.data?.locations.data,
+			allPlayersData.data?.players.data,
 			selectedLocationId,
 		],
 	)
@@ -242,7 +242,7 @@ export default function App() {
 
 		const bounds = new mapboxgl.LngLatBounds()
 
-		const playLocation = playLocations.data?.locations.data.find(
+		const playLocation = allPlayLocations.data?.locations.data.find(
 			(l) => l.id === selectedLocationId,
 		)
 
@@ -256,7 +256,7 @@ export default function App() {
 		])
 
 		playLocation.attributes.users?.data.forEach((user) => {
-			const player = playersData.data?.players.data.find(
+			const player = allPlayersData.data?.players.data.find(
 				(p) => p.id === user.id,
 			)
 
@@ -281,8 +281,8 @@ export default function App() {
 			},
 		})
 	}, [
-		playLocations.data?.locations.data,
-		playersData.data?.players.data,
+		allPlayLocations.data?.locations.data,
+		allPlayersData.data?.players.data,
 		selectedLocationId,
 	])
 
@@ -291,7 +291,7 @@ export default function App() {
 	}, [
 		selectedPlayerId,
 		selectedLocationId,
-		playLocations.data,
+		allPlayLocations.data,
 		focusSelectedLocation,
 	])
 
@@ -306,7 +306,7 @@ export default function App() {
 			return
 		}
 
-		const player = playersData.data?.players.data.find(
+		const player = allPlayersData.data?.players.data.find(
 			(p) => p.id === selectedPlayerId,
 		)
 
@@ -322,7 +322,7 @@ export default function App() {
 		])
 
 		player.attributes.userPlayLocations.data.forEach((location) => {
-			const playLocation = playLocations.data?.locations.data.find(
+			const playLocation = allPlayLocations.data?.locations.data.find(
 				(l) => l.id === location.id,
 			)
 
@@ -348,8 +348,8 @@ export default function App() {
 		})
 	}, [
 		selectedPlayerId,
-		playersData.data?.players.data,
-		playLocations.data?.locations.data,
+		allPlayersData.data?.players.data,
+		allPlayLocations.data?.locations.data,
 	])
 
 	useEffect(() => {
@@ -357,7 +357,7 @@ export default function App() {
 	}, [
 		selectedPlayerId,
 		selectedLocationId,
-		playLocations.data,
+		allPlayLocations.data,
 		focusSelectedPlayer,
 	])
 
@@ -383,8 +383,13 @@ export default function App() {
 	return (
 		<>
 			<LoaderOverlay
-				shown={playersData.loading || !isMapReady}
-				fullPage={true}
+				shown={
+					allPlayersData.loading ||
+					allPlayLocations.loading ||
+					allGroups.loading ||
+					!isMapReady
+				}
+				fullPage={ true }
 			/>
 
 			<LandingPageNav visible={!isInterfaceShown} />
@@ -402,94 +407,125 @@ export default function App() {
 					onClick={onMapClick}
 					onLoad={onMapLoad}
 				>
-					<MapContext.Provider value={mapRef.current}>
-						{/* Play Location Markers */}
-						{playLocations?.data?.locations.data.map((location) => {
-							const isFocused = focusedLocations.includes(
-								location.id,
-							)
+					<MapContext.Provider value={ mapRef.current }>
+						{/* Play Location Markers */ }
+						{ allPlayLocations?.data?.locations.data.map(
+							(location) => {
+								const isFocused = focusedLocations.includes(
+									location.id,
+								)
 
-							const isActive = selectedLocationId === location.id
+								const isActive =
+									selectedLocationId === location.id
 
-							const { location: locationData } =
-								location.attributes
+								const { location: locationData } =
+									location.attributes
 
-							const coordinates: [number, number] = [
-								locationData.longitude,
-								locationData.latitude,
-							]
+								const coordinates: [ number, number ] = [
+									locationData.longitude,
+									locationData.latitude,
+								]
 
-							return (
-								<DotMarker
-									key={location.id}
-									location={coordinates}
-									intent={"active"}
-									focused={isFocused}
-									active={isActive}
-									onClick={() =>
-										onLocationMarkerClick(location.id)
-									}
-									icon={
-										<IconPark className="fill-neutral-50" />
-									}
-								>
-									{isFocused && (
-										<MarkerLabel
-											label={location.attributes.name}
-											avatar={
-												location.attributes.image?.data
-													.attributes.url
-											}
-										/>
-									)}
-								</DotMarker>
-							)
-						})}
+								const avatarUrl =
+									location.attributes.image?.data.attributes
+										.url
 
-						{/* Player Markers */}
-						{playersData?.data?.players.data.map((player) => {
+								return (
+									<DotMarker
+										key={ location.id }
+										location={ coordinates }
+										intent={ "active" }
+										focused={ isFocused }
+										active={ isActive }
+										onClick={ () =>
+											onLocationMarkerClick(location.id)
+										}
+										icon={
+											avatarUrl && (
+												<Avatar src={ avatarUrl } />
+											)
+										}
+									>
+										{ isFocused && (
+											<MarkerLabel
+												label={ location.attributes.name }
+											/>
+										) }
+									</DotMarker>
+								)
+							},
+						) }
+
+						{/* Player Markers */ }
+						{ allPlayersData?.data?.players.data.map((player) => {
 							const isFocused = focusedPlayers.includes(player.id)
 							const isActive = selectedPlayerId === player.id
+							const avatarUrl =
+								player.attributes.avatar?.data?.attributes.url
 
 							return (
 								<DotMarker
-									key={player.id}
-									location={[
+									key={ player.id }
+									location={ [
 										player.attributes.location.longitude,
 										player.attributes.location.latitude,
-									]}
-									focused={isFocused}
-									active={isActive}
+									] }
+									focused={ isFocused }
+									active={ isActive }
 									onClick={() =>
 										onPlayerMarkerClick(player.id)
 									}
 									icon={
-										<IconUserLarge className="fill-neutral-50" />
+										avatarUrl ? (
+											<Avatar src={ avatarUrl } />
+										) : (
+											<IconUserLarge
+												className={
+													"w-full fill-neutral-50"
+												}
+											/>
+										)
 									}
 									className={"z-10"}
 								>
-									{isFocused && (
+									{ isFocused && (
 										<MarkerLabel
-											label={player.attributes.username}
-											avatar={
-												player.attributes.avatar?.data
-													?.attributes.url
-											}
+											label={ player.attributes.username }
 										/>
-									)}
+									) }
 								</DotMarker>
 							)
-						})}
+						}) }
 
-						{connectionLines.map((line, index) => (
+						{/* Group Markers */ }
+						{ allGroups?.data?.groups.data.map((group) => {
+							const avatarUrl =
+								group.attributes.avatar?.data?.attributes.url
+
+							return (
+								<DotMarker
+									key={ group.id }
+									location={ [
+										group.attributes.location.longitude,
+										group.attributes.location.latitude,
+									] }
+									onClick={ () => {
+									} }
+									icon={ <Avatar src={ avatarUrl } /> }
+									className={ "z-10" }
+								/>
+							)
+						}) }
+
+						{ connectionLines.map((line, index) => (
 							<Line
-								key={index}
-								coordinates={line}
-								color={"rgb(16,185,129)"}
-								width={4}
-								outlineWidth={2}
+								key={ index }
+								coordinates={ line }
+								color={ "rgb(16,185,129)" }
+								width={ 4 }
+								outlineWidth={ 2 }
 							/>
-						))}
+						)) }
 					</MapContext.Provider>
 				</Map>
 
@@ -552,7 +588,7 @@ export default function App() {
 					onClose={() => {}}
 				>
 					<PlayersContext.Provider
-						value={playersData?.data?.players.data || []}
+						value={ allPlayersData?.data?.players.data || [] }
 					>
 						{selectedPlayerId && (
 							<PlayerContent

@@ -1,13 +1,14 @@
 import { classNames } from "@/src/lib/class-names"
 import { ReactNode } from "react"
 
+
 const headlineSizes = {
 	1: "text-4xl",
 	2: "text-3xl",
-	3: "text-xl",
+	3: "text-2xl",
 	4: "text-lg",
-	5: "text-sm",
-	6: "text-xs",
+	5: "text-md",
+	6: "text-sm",
 }
 
 interface HeadlineProps extends React.HTMLAttributes<HTMLHeadingElement> {

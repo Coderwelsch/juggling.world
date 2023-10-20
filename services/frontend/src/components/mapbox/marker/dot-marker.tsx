@@ -1,7 +1,8 @@
 import { classNames } from "@/src/lib/class-names"
-import { ReactNode } from "react"
 import * as React from "react"
+import { ReactNode } from "react"
 import { Marker } from "react-map-gl"
+
 
 type Intent = "primary" | "secondary" | "active"
 
@@ -10,14 +11,14 @@ const dotMarkerStyles: {
 	selected: Record<Intent, string>
 } = {
 	idle: {
-		primary: "bg-fuchsia-700 hover:border-2 hover:border-fuchsia-50",
+		primary: "bg-fuchsia-700 hover:border-2 hover:border-neutral-50",
 		secondary: "bg-fuchsia-400",
-		active: "bg-emerald-400 hover:border-2 hover:border-emerald-50",
+		active: "bg-emerald-400 hover:border-2 hover:border-neutral-50",
 	},
 	selected: {
-		primary: "bg-fuchsia-500 border-2 border-fuchsia-50",
-		secondary: "bg-fuchsia-600 border-2 border-fuchsia-50",
-		active: "bg-emerald-500 border-2 border-emerald-50",
+		primary: "bg-fuchsia-500 border-2 border-neutral-50",
+		secondary: "bg-fuchsia-600 border-2 border-neutral-50",
+		active: "bg-emerald-500 border-2 border-neutral-50",
 	},
 }
 
@@ -57,7 +58,8 @@ export const DotMarker = ({
 				<div
 					className={classNames(
 						"rounded-full overflow-hidden flex justify-center items-center",
-						active ? "h-7 w-7" : "h-6 w-6",
+						active ? "h-8 w-8" : "h-7 w-7",
+						"hover:h-8 hover:w-8",
 						dotMarkerStyles[focused ? "selected" : "idle"][intent],
 						className,
 					)}
@@ -70,17 +72,18 @@ export const DotMarker = ({
 						/>
 					)}
 
-					{!active && icon}
+					{ icon }
 				</div>
 			</div>
 
 			{children && (
 				<div
-					className={
-						"absolute -translate-x-1/2 translate-y-3.5 cursor-pointer"
-					}
+					className={ classNames(
+						"absolute -translate-x-1/2 cursor-pointer translate-y-3.5",
+						active && "translate-y-4",
+					) }
 				>
-					{children}
+					{ children }
 				</div>
 			)}
 		</div>
