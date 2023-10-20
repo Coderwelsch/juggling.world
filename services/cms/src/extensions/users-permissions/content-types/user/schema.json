@@ -1,138 +1,138 @@
 {
-  "kind": "collectionType",
-  "collectionName": "up_users",
-  "info": {
-    "name": "user",
-    "description": "",
-    "singularName": "user",
-    "pluralName": "users",
-    "displayName": "User"
-  },
-  "options": {
-    "draftAndPublish": false
-  },
-  "attributes": {
-    "username": {
-      "type": "string",
-      "minLength": 3,
-      "unique": true,
-      "configurable": false,
-      "required": true
-    },
-    "email": {
-      "type": "email",
-      "minLength": 6,
-      "configurable": false,
-      "required": true
-    },
-    "provider": {
-      "type": "string",
-      "configurable": false
-    },
-    "password": {
-      "type": "password",
-      "minLength": 6,
-      "configurable": false,
-      "private": true,
-      "searchable": false
-    },
-    "resetPasswordToken": {
-      "type": "string",
-      "configurable": false,
-      "private": true,
-      "searchable": false
-    },
-    "confirmationToken": {
-      "type": "string",
-      "configurable": false,
-      "private": true,
-      "searchable": false
-    },
-    "confirmed": {
-      "type": "boolean",
-      "default": false,
-      "configurable": false
-    },
-    "blocked": {
-      "type": "boolean",
-      "default": false,
-      "configurable": false
-    },
-    "role": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.role",
-      "inversedBy": "users",
-      "configurable": false
-    },
-    "disciplines": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::user-discipline.user-discipline",
-      "mappedBy": "user"
-    },
-    "location": {
-      "type": "component",
-      "repeatable": false,
-      "component": "base.location",
-      "required": false
-    },
-    "publicContact": {
-		"type": "component",
-		"repeatable": false,
-		"component": "base.contact",
-		"required": false
+	"kind": "collectionType",
+	"collectionName": "up_users",
+	"info": {
+		"name": "user",
+		"description": "",
+		"singularName": "user",
+		"pluralName": "users",
+		"displayName": "User"
 	},
-    "groups": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::user-group.user-group",
-      "mappedBy": "members"
-    },
-    "adminGroups": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::user-group.user-group",
-      "mappedBy": "admins"
-    },
-    "avatar": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
-    "city": {
-      "type": "string"
-    },
-    "aboutMe": {
-      "type": "text",
-      "maxLength": 256
-    },
-    "userPlayLocations": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::user-play-location.user-play-location",
-      "mappedBy": "users"
-    },
-    "participatedUserEvents": {
-		"type": "relation",
-		"relation": "oneToMany",
-		"target": "api::user-event.user-event",
-		"mappedBy": "participants"
+	"options": {
+		"draftAndPublish": false
 	},
-	  "userEvents": {
-		  "type": "relation",
-		  "relation": "oneToMany",
-		  "target": "api::user-event.user-event",
-		  "mappedBy": "user"
-	  },
-	  "groupEventsAdmins": {
-		  "type": "relation",
-		  "relation": "manyToMany",
-		  "target": "api::user-group-event.user-group-event",
-		  "mappedBy": "admins"
-	  }
-  }
+	"attributes": {
+		"username": {
+			"type": "string",
+			"minLength": 3,
+			"unique": true,
+			"configurable": false,
+			"required": true
+		},
+		"email": {
+			"type": "email",
+			"minLength": 6,
+			"configurable": false,
+			"required": true
+		},
+		"provider": {
+			"type": "string",
+			"configurable": false
+		},
+		"password": {
+			"type": "password",
+			"minLength": 6,
+			"configurable": false,
+			"private": true,
+			"searchable": false
+		},
+		"resetPasswordToken": {
+			"type": "string",
+			"configurable": false,
+			"private": true,
+			"searchable": false
+		},
+		"confirmationToken": {
+			"type": "string",
+			"configurable": false,
+			"private": true,
+			"searchable": false
+		},
+		"confirmed": {
+			"type": "boolean",
+			"default": false,
+			"configurable": false
+		},
+		"blocked": {
+			"type": "boolean",
+			"default": false,
+			"configurable": false
+		},
+		"role": {
+			"type": "relation",
+			"relation": "manyToOne",
+			"target": "plugin::users-permissions.role",
+			"inversedBy": "users",
+			"configurable": false
+		},
+		"disciplines": {
+			"type": "relation",
+			"relation": "oneToMany",
+			"target": "api::user-discipline.user-discipline",
+			"mappedBy": "user"
+		},
+		"location": {
+			"type": "component",
+			"repeatable": false,
+			"component": "base.location",
+			"required": false
+		},
+		"publicContact": {
+			"type": "component",
+			"repeatable": false,
+			"component": "base.contact",
+			"required": false
+		},
+		"groups": {
+			"type": "relation",
+			"relation": "manyToMany",
+			"target": "api::user-group.user-group",
+			"mappedBy": "members"
+		},
+		"adminGroups": {
+			"type": "relation",
+			"relation": "manyToMany",
+			"target": "api::user-group.user-group",
+			"mappedBy": "admins"
+		},
+		"avatar": {
+			"type": "media",
+			"multiple": false,
+			"required": false,
+			"allowedTypes": [
+				"images"
+			]
+		},
+		"city": {
+			"type": "string"
+		},
+		"aboutMe": {
+			"type": "text",
+			"maxLength": 256
+		},
+		"userPlayLocations": {
+			"type": "relation",
+			"relation": "manyToMany",
+			"target": "api::user-play-location.user-play-location",
+			"mappedBy": "users"
+		},
+		"participatedUserEvents": {
+			"type": "relation",
+			"relation": "oneToMany",
+			"target": "api::user-event.user-event",
+			"mappedBy": "participants"
+		},
+		"userEvents": {
+			"type": "relation",
+			"relation": "oneToMany",
+			"target": "api::user-event.user-event",
+			"mappedBy": "user"
+		},
+		"groupEventsAdmins": {
+			"type": "relation",
+			"relation": "manyToMany",
+			"target": "api::user-group-event.user-group-event",
+			"mappedBy": "admins"
+		}
+	}
 }

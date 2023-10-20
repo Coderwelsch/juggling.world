@@ -1,60 +1,60 @@
 {
-  "kind": "collectionType",
-  "collectionName": "user_groups",
-  "info": {
-    "singularName": "user-group",
-    "pluralName": "user-groups",
-    "displayName": "User Group",
-    "description": ""
-  },
-  "options": {
-    "draftAndPublish": true
-  },
-  "pluginOptions": {},
-  "attributes": {
-    "name": {
-      "type": "string",
-      "required": true
-    },
-    "members": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "groups"
+	"kind": "collectionType",
+	"collectionName": "user_groups",
+	"info": {
+		"singularName": "user-group",
+		"pluralName": "user-groups",
+		"displayName": "User Group",
+		"description": ""
 	},
-	  "admins": {
-		  "type": "relation",
-		  "relation": "manyToMany",
-		  "target": "plugin::users-permissions.user",
-		  "inversedBy": "adminGroups"
-	  },
-	  "description": {
-		  "type": "richtext",
-		  "required": false
-	  },
-	  "location": {
-		  "type": "component",
-		  "repeatable": false,
-		  "component": "base.location",
-		  "required": true
-	  },
-	  "contact": {
-		  "type": "component",
-		  "repeatable": false,
-		  "component": "base.contact"
-	  },
-	  "avatar": {
-		  "allowedTypes": [
-			  "images"
-		  ],
-		  "type": "media",
-		  "multiple": false
-	  },
-	  "userGroupEvents": {
-		  "type": "relation",
-		  "relation": "oneToMany",
-		  "target": "api::user-group-event.user-group-event",
-		  "mappedBy": "group"
-	  }
-  }
+	"options": {
+		"draftAndPublish": true
+	},
+	"pluginOptions": {},
+	"attributes": {
+		"name": {
+			"type": "string",
+			"required": true
+		},
+		"members": {
+			"type": "relation",
+			"relation": "manyToMany",
+			"target": "plugin::users-permissions.user",
+			"inversedBy": "groups"
+		},
+		"admins": {
+			"type": "relation",
+			"relation": "manyToMany",
+			"target": "plugin::users-permissions.user",
+			"inversedBy": "adminGroups"
+		},
+		"description": {
+			"type": "richtext",
+			"required": false
+		},
+		"location": {
+			"type": "component",
+			"repeatable": false,
+			"component": "base.location",
+			"required": true
+		},
+		"contact": {
+			"type": "component",
+			"repeatable": false,
+			"component": "base.contact"
+		},
+		"avatar": {
+			"allowedTypes": [
+				"images"
+			],
+			"type": "media",
+			"multiple": false
+		},
+		"userGroupEvents": {
+			"type": "relation",
+			"relation": "oneToMany",
+			"target": "api::user-group-event.user-group-event",
+			"mappedBy": "group"
+		}
+	}
 }
