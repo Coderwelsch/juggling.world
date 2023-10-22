@@ -1,7 +1,6 @@
 import { classNames } from "@/src/lib/class-names"
 import { ReactNode } from "react"
 
-
 const headlineSizes = {
 	1: "text-4xl",
 	2: "text-3xl",

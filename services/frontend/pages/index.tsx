@@ -1,12 +1,11 @@
 import DIABOLO_STICKS from "@/src/assets/diabolo-sticks.svg"
 import { Avatar } from "@/src/components/avatar/avatar"
-import IconUserLarge from "@/src/components/icons/user-large"
 import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
 import { MapOverlay } from "@/src/components/map-overlay/map-overlay"
 import { useAnimation } from "@/src/components/mapbox/hooks/use-animation"
 import { useIsUserInteractingWithMap } from "@/src/components/mapbox/hooks/use-is-user-interacting-with-map"
+import { ClusterMarker } from "@/src/components/mapbox/marker/cluster-marker"
 import { DotMarker } from "@/src/components/mapbox/marker/dot-marker"
-import { MarkerLabel } from "@/src/components/mapbox/marker/marker-label"
 import { Line } from "@/src/components/mapbox/shapes/Line"
 import { LandingPageNav } from "@/src/components/nav/landing-page-nav"
 import { LocationContent } from "@/src/components/page-specific/index/sidebar-content/location-info"
@@ -21,11 +20,40 @@ import {
 } from "@/src/queries/all-play-locations"
 import { allPlayersQuery, AllPlayersResponse } from "@/src/queries/all-players"
 import { useQuery } from "@apollo/client"
-import mapboxgl from "mapbox-gl"
+import { BBox } from "geojson"
+import mapboxgl, { LngLatLike } from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import * as React from "react"
-import { createContext, useCallback, useEffect, useRef, useState } from "react"
-import Map, { ViewState } from "react-map-gl"
+import {
+	createContext,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react"
+import Map, { ViewState, ViewStateChangeEvent } from "react-map-gl"
+import { PointFeature } from "supercluster"
+import useSupercluster from "use-supercluster"
+
+interface CustomMarkerProperties {
+	cluster?: boolean
+	point_count?: number
+	type?: "location" | "group" | "player"
+	id?: string
+	image?: string
+}
+
+const TEMPLATE_GEOJSON: PointFeature<CustomMarkerProperties> = {
+	type: "Feature",
+	properties: {
+		cluster: false,
+	},
+	geometry: {
+		type: "Point",
+		coordinates: [0, 0],
+	},
+}
 
 export const PlayersContext = createContext<
 	AllPlayersResponse["players"]["data"]
@@ -53,9 +81,94 @@ export default function App() {
 		allPlayLocationsQuery,
 	)
 
+	const [mapZoom, setMapZoom] = useState(1)
+
+	const boundingBounds: BBox = mapRef.current
+		? (mapRef.current.getBounds().toArray().flat() as BBox)
+		: [0, 0, 0, 0, 0, 0]
+
+	const superClusterPoints: PointFeature<CustomMarkerProperties>[] =
+		useMemo(() => {
+			if (
+				!allGroups.data ||
+				!allPlayersData.data ||
+				!allPlayLocations.data
+			) {
+				return []
+			}
+
+			const geoJsonPoints: PointFeature<CustomMarkerProperties>[] = []
+
+			allGroups.data.groups.data.forEach((group) => {
+				geoJsonPoints.push({
+					...TEMPLATE_GEOJSON,
+					properties: {
+						...TEMPLATE_GEOJSON.properties,
+						type: "group",
+						id: group.id,
+						image: group.attributes.avatar.data.attributes.url,
+					},
+					geometry: {
+						...TEMPLATE_GEOJSON.geometry,
+						coordinates: [
+							group.attributes.location.longitude,
+							group.attributes.location.latitude,
+						],
+					},
+				})
+			})
+
+			allPlayersData.data.players.data.forEach((player) => {
+				geoJsonPoints.push({
+					...TEMPLATE_GEOJSON,
+					properties: {
+						...TEMPLATE_GEOJSON.properties,
+						type: "player",
+						id: player.id,
+						image: player.attributes.avatar?.data?.attributes.url,
+					},
+					geometry: {
+						...TEMPLATE_GEOJSON.geometry,
+						coordinates: [
+							player.attributes.location.longitude,
+							player.attributes.location.latitude,
+						],
+					},
+				})
+			})
+
+			allPlayLocations.data.locations.data.forEach((location) => {
+				geoJsonPoints.push({
+					...TEMPLATE_GEOJSON,
+					properties: {
+						...TEMPLATE_GEOJSON.properties,
+						type: "location",
+						id: location.id,
+						image: location.attributes.image?.data?.attributes.url,
+					},
+					geometry: {
+						...TEMPLATE_GEOJSON.geometry,
+						coordinates: [
+							location.attributes.location.longitude,
+							location.attributes.location.latitude,
+						],
+					},
+				})
+			})
+
+			return geoJsonPoints
+		}, [allGroups.data, allPlayersData.data, allPlayLocations.data])
+
 	const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(
 		null,
 	)
+
+	const { clusters, supercluster } = useSupercluster({
+		points: superClusterPoints ? superClusterPoints : [],
+		bounds: boundingBounds,
+		zoom: mapZoom,
+		options: { radius: 75, maxZoom: 20 },
+	})
 
 	const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
 		null,
@@ -63,6 +176,7 @@ export default function App() {
 
 	const [focusedLocations, setFocusedLocations] = useState<string[]>([])
 	const [focusedPlayers, setFocusedPlayers] = useState<string[]>([])
+
 	const [connectionLines, setConnectionLines] = useState<
 		[[number, number], [number, number]][]
 	>([])
@@ -83,30 +197,72 @@ export default function App() {
 
 			setSelectedPlayerId(id)
 			setSelectedLocationId(null)
-
 			setIsInterfaceShown(true)
-
 			setFocusedPlayers([id])
 			setFocusedLocations(
 				player?.attributes.userPlayLocations.data.map((l) => l.id) ||
 					[],
 			)
+		},
+		[allPlayersData.data?.players.data, selectedPlayerId],
+	)
 
-			const lines: [[number, number], [number, number]][] = []
+	useEffect(() => {
+		const lines: [[number, number], [number, number]][] = []
 
-			player.attributes.userPlayLocations.data.forEach((l) => {
-				const location = allPlayLocations.data?.locations.data.find(
-					(pl) => pl.id === l.id,
-				)
+		if (selectedPlayerId) {
+			const player = allPlayersData.data?.players.data.find(
+				(p) => p.id === selectedPlayerId,
+			)
 
-				if (!location) {
-					return
+			if (!player) {
+				return
+			}
+
+			// check if the player’s play locations are hidden in a cluster
+			// to connect the lines to the cluster position
+			const clustersCountainingLocations = clusters.filter((cluster) => {
+				if (!cluster.id) {
+					return false
 				}
 
+				const id = Number.parseInt(cluster.id.toString())
+				const clusterChilds = supercluster?.getChildren(id)
+
+				if (!clusterChilds) {
+					return false
+				}
+
+				const hiddenLocation = clusterChilds
+					.filter((c) => c.properties.type === "location")
+					.find((child) => {
+						return player.attributes.userPlayLocations.data.find(
+							(l) => {
+								if (l.id === child.properties.id) {
+									return true
+								}
+							},
+						)
+					})
+
+				console.log(
+					"contains a connected user play location?",
+					Boolean(hiddenLocation),
+				)
+
+				return Boolean(hiddenLocation)
+			})
+
+			console.log(
+				"clustersCountainingLocations",
+				clustersCountainingLocations,
+			)
+
+			clustersCountainingLocations.forEach((cluster) => {
 				lines.push([
 					[
-						location.attributes.location.longitude,
-						location.attributes.location.latitude,
+						cluster.geometry.coordinates[0],
+						cluster.geometry.coordinates[1],
 					],
 					[
 						player.attributes.location.longitude,
@@ -114,42 +270,10 @@ export default function App() {
 					],
 				])
 			})
-
-			setConnectionLines(lines)
-		},
-		[
-			allPlayLocations.data?.locations.data,
-			allPlayersData.data?.players.data,
-			selectedPlayerId,
-		],
-	)
-
-	const onLocationMarkerClick = useCallback(
-		(id: string) => {
-			if (selectedLocationId === id) {
-				return
-			}
-
+		} else if (selectedLocationId) {
 			const location = allPlayLocations.data?.locations.data.find(
-				(l) => l.id === id,
+				(l) => l.id === selectedLocationId,
 			)
-
-			if (!location) {
-				return
-			}
-
-			setSelectedLocationId(id)
-			setSelectedPlayerId(null)
-
-			setIsInterfaceShown(true)
-
-			setFocusedPlayers(
-				location.attributes.users?.data.map((l) => l.id) || [],
-			)
-
-			setFocusedLocations([id])
-
-			const lines: [[number, number], [number, number]][] = []
 
 			if (!location) {
 				return
@@ -175,14 +299,42 @@ export default function App() {
 					],
 				])
 			})
+		}
 
-			setConnectionLines(lines)
+		setConnectionLines(lines)
+	}, [
+		selectedPlayerId,
+		selectedLocationId,
+		allPlayersData.data?.players.data,
+		allPlayLocations.data?.locations.data,
+		clusters.length,
+		clusters,
+		supercluster,
+	])
+
+	const onLocationMarkerClick = useCallback(
+		(id: string) => {
+			if (selectedLocationId === id) {
+				return
+			}
+
+			const location = allPlayLocations.data?.locations.data.find(
+				(l) => l.id === id,
+			)
+
+			if (!location) {
+				return
+			}
+
+			setSelectedLocationId(id)
+			setSelectedPlayerId(null)
+			setIsInterfaceShown(true)
+			setFocusedPlayers(
+				location.attributes.users?.data.map((l) => l.id) || [],
+			)
+			setFocusedLocations([id])
 		},
-		[
-			allPlayLocations.data?.locations.data,
-			allPlayersData.data?.players.data,
-			selectedLocationId,
-		],
+		[allPlayLocations.data?.locations.data, selectedLocationId],
 	)
 
 	const onMapClick = useCallback((e: mapboxgl.MapLayerMouseEvent) => {
@@ -382,6 +534,93 @@ export default function App() {
 		}
 	}, [handleZoom, isMapReady])
 
+	const mapMarkers = useMemo(
+		() =>
+			clusters.map((cluster) => {
+				if (cluster.properties.cluster) {
+					return (
+						<ClusterMarker
+							key={cluster.id}
+							location={cluster.geometry.coordinates}
+							onClick={() => {
+								if (
+									!mapRef.current ||
+									!supercluster ||
+									!cluster.id
+								) {
+									return
+								}
+
+								const center: LngLatLike = [
+									cluster.geometry.coordinates[0],
+									cluster.geometry.coordinates[1],
+								]
+
+								const expansionZoom = Math.min(
+									supercluster.getClusterExpansionZoom(
+										Number.parseInt(cluster.id.toString()),
+									),
+									20,
+								)
+
+								mapRef.current.flyTo({
+									center,
+									zoom: expansionZoom,
+								})
+							}}
+							count={cluster.properties.point_count || 0}
+						/>
+					)
+				}
+
+				if (cluster.properties.id === undefined) {
+					return
+				}
+
+				const markerId: string = cluster.properties.id
+				const image = cluster.properties.image
+				const type = cluster.properties.type
+
+				let isFocused = false
+				let isActive = false
+				let onClick = () => {}
+
+				switch (type) {
+					case "location":
+						isFocused = focusedLocations.includes(markerId)
+						isActive = selectedLocationId === markerId
+						onClick = () => onLocationMarkerClick(markerId)
+						break
+
+					case "player":
+						isFocused = focusedPlayers.includes(markerId)
+						isActive = selectedPlayerId === markerId
+						onClick = () => onPlayerMarkerClick(markerId)
+				}
+
+				return (
+					<DotMarker
+						key={`${type}-${markerId}`}
+						location={cluster.geometry.coordinates}
+						focused={isFocused}
+						active={isActive}
+						icon={image && <Avatar src={image} />}
+						onClick={onClick}
+					/>
+				)
+			}),
+		[
+			clusters,
+			focusedLocations,
+			focusedPlayers,
+			onLocationMarkerClick,
+			onPlayerMarkerClick,
+			selectedLocationId,
+			selectedPlayerId,
+			supercluster,
+		],
+	)
+
 	return (
 		<>
 			<LoaderOverlay
@@ -407,116 +646,13 @@ export default function App() {
 					initialViewState={initialViewState}
 					mapStyle={process.env.NEXT_PUBLIC_MAPBOX_STYLE_URL}
 					onClick={onMapClick}
+					onMove={(event: ViewStateChangeEvent) => {
+						setMapZoom(event.viewState.zoom)
+					}}
 					onLoad={onMapLoad}
 				>
 					<MapContext.Provider value={mapRef.current}>
-						{/* Play Location Markers */}
-						{allPlayLocations?.data?.locations.data.map(
-							(location) => {
-								const isFocused = focusedLocations.includes(
-									location.id,
-								)
-
-								const isActive =
-									selectedLocationId === location.id
-
-								const { location: locationData } =
-									location.attributes
-
-								const coordinates: [number, number] = [
-									locationData.longitude,
-									locationData.latitude,
-								]
-
-								const avatarUrl =
-									location.attributes.image?.data.attributes
-										.url
-
-								return (
-									<DotMarker
-										key={location.id}
-										location={coordinates}
-										intent={"active"}
-										focused={isFocused}
-										active={isActive}
-										onClick={() =>
-											onLocationMarkerClick(location.id)
-										}
-										icon={
-											avatarUrl && (
-												<Avatar src={avatarUrl} />
-											)
-										}
-									>
-										{isFocused && (
-											<MarkerLabel
-												label={location.attributes.name}
-											/>
-										)}
-									</DotMarker>
-								)
-							},
-						)}
-
-						{/* Player Markers */}
-						{allPlayersData?.data?.players.data.map((player) => {
-							const isFocused = focusedPlayers.includes(player.id)
-							const isActive = selectedPlayerId === player.id
-							const avatarUrl =
-								player.attributes.avatar?.data?.attributes.url
-
-							return (
-								<DotMarker
-									key={player.id}
-									location={[
-										player.attributes.location.longitude,
-										player.attributes.location.latitude,
-									]}
-									focused={isFocused}
-									active={isActive}
-									onClick={() =>
-										onPlayerMarkerClick(player.id)
-									}
-									icon={
-										avatarUrl ? (
-											<Avatar src={avatarUrl} />
-										) : (
-											<IconUserLarge
-												className={
-													"w-full fill-neutral-50"
-												}
-											/>
-										)
-									}
-									className={"z-10"}
-								>
-									{isFocused && (
-										<MarkerLabel
-											label={player.attributes.username}
-										/>
-									)}
-								</DotMarker>
-							)
-						})}
-
-						{/* Group Markers */}
-						{allGroups?.data?.groups.data.map((group) => {
-							const avatarUrl =
-								group.attributes.avatar?.data?.attributes.url
-
-							return (
-								<DotMarker
-									key={group.id}
-									location={[
-										group.attributes.location.longitude,
-										group.attributes.location.latitude,
-									]}
-									onClick={() => {}}
-									icon={<Avatar src={avatarUrl} />}
-									className={"z-10"}
-								/>
-							)
-						})}
+						{mapMarkers}
 
 						{connectionLines.map((line, index) => (
 							<Line

@@ -1,4 +1,5 @@
 import { classNames } from "@/src/lib/class-names"
+import { Position } from "geojson"
 import * as React from "react"
 import { ReactNode } from "react"
 import { Marker } from "react-map-gl"
@@ -22,7 +23,7 @@ const dotMarkerStyles: {
 }
 
 interface DotMarkerProps {
-	location: [number, number]
+	location: Position
 	focused?: boolean
 	active?: boolean
 	className?: string
