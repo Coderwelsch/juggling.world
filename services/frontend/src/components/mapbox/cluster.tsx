@@ -1,90 +1,149 @@
 import { MapContext } from "@/pages"
 import { ClusterMarker } from "@/src/components/mapbox/marker/cluster-marker"
-import { DotMarker } from "@/src/components/mapbox/marker/dot-marker"
-import { useCallback, useContext, useEffect, useMemo, useState } from "react"
-import { PointFeature } from "supercluster"
+import { BBox, Position } from "geojson"
+import {
+	ReactNode,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from "react"
+import Supercluster, { AnyProps, PointFeature } from "supercluster"
 import useSupercluster from "use-supercluster"
 
-interface BasePoint<P> extends Record<string, unknown> {
+export interface ClusterBasePoint<P> extends Record<string, unknown> {
 	properties: P
 	id: string
-	type: string
-	point_count?: number
 	coordinates: [number, number]
 }
 
-interface ClusterProps<PointProperties> {
-	points: BasePoint<PointProperties>[]
+interface ClusterProps<PointProperties = AnyProps> {
+	points: ClusterBasePoint<PointProperties>[]
+	options?: Supercluster.Options<AnyProps, AnyProps>
+	renderMarker: (props: {
+		point: Position
+		props: PointProperties
+		id: string
+	}) => ReactNode
+	renderCluster?: (props: {
+		point: Position
+		count: number
+		clusterId: number | string
+		nextZoomLevel: number
+		clusteredElems: PointProperties[]
+	}) => ReactNode
 }
 
-export const Cluster = <P extends { cluster: boolean }>({
+export const Cluster = <P = Record<string, unknown>,>({
 	points,
+	options = {},
+	renderMarker,
+	renderCluster,
 }: ClusterProps<P>) => {
 	const map = useContext(MapContext)
 
-	const [zoom, setZoom] = useState(0)
+	const [viewport, setViewport] = useState<{ bounds: BBox; zoom: number }>({
+		zoom: 0,
+		bounds: [0, 0, 0, 0],
+	})
 
-	const handleZoom = useCallback(() => {
+	const handleMove = useCallback(() => {
 		if (!map) {
 			return
 		}
 
-		const newZoom = map.getZoom()
+		const newViewport = { ...viewport }
+		const bounds = map.getBounds().toArray()
 
-		if (newZoom !== zoom) {
-			setZoom(newZoom)
-		}
-	}, [map, zoom])
+		newViewport.bounds = [
+			bounds[0][0],
+			bounds[0][1],
+			bounds[1][0],
+			bounds[1][1],
+		]
+
+		newViewport.zoom = map.getZoom()
+
+		setViewport(newViewport)
+	}, [map, viewport])
 
 	useEffect(() => {
 		if (!map) {
 			return
 		}
 
-		map.on("zoom", handleZoom)
+		map.on("zoom", handleMove)
+		map.on("move", handleMove)
 
 		return () => {
-			map.off("zoom", handleZoom)
+			map.off("zoom", handleMove)
+			map.off("move", handleMove)
 		}
-	}, [handleZoom, map])
+	}, [handleMove, map])
 
-	const geoJsonPoints = useMemo<
-		PointFeature<{ id: string; cluster?: boolean; point_count?: number }>[]
-	>(() => {
-		return points.map(({ id, type, coordinates, properties }) => {
-			return {
-				type: "Feature",
-				properties: { cluster: false, id, type, properties },
-				geometry: {
-					type: "Point",
-					coordinates,
-				},
-			}
-		})
-	}, [points])
+	const geoJsonPoints = useMemo<Array<PointFeature<ClusterBasePoint<P>>>>(
+		() =>
+			points.map(({ id, type, coordinates, properties }) => {
+				const point: PointFeature<ClusterBasePoint<P>> = {
+					type: "Feature",
+					properties: { id, type, properties, coordinates },
+					geometry: {
+						type: "Point",
+						coordinates,
+					},
+				}
 
-	const { clusters, supercluster } = useSupercluster({
+				return point
+			}),
+		[points],
+	)
+
+	const { clusters, supercluster } = useSupercluster<ClusterBasePoint<P>>({
 		points: geoJsonPoints,
-		zoom,
+		zoom: viewport.zoom,
+		bounds: viewport.bounds,
+		options: {
+			radius: 75,
+			maxZoom: 20,
+			...options,
+		},
 	})
 
 	return clusters.map((cluster) => {
 		if (cluster.properties.cluster) {
-			const count = cluster.properties.point_count || 0
+			const count = parseInt(
+				cluster.properties.point_count?.toString() || "2",
+			)
+
+			const clusterId = Number.parseInt((cluster.id || 0).toString())
+
+			const children = supercluster!
+				.getChildren(clusterId)
+				.map((child) => child.properties.properties)
+
+			const expansionZoom =
+				supercluster!.getClusterExpansionZoom(clusterId)
+
+			if (renderCluster) {
+				return renderCluster({
+					point: cluster.geometry.coordinates,
+					count,
+					clusterId,
+					nextZoomLevel: expansionZoom,
+					clusteredElems: children,
+				})
+			}
 
 			return (
 				<ClusterMarker
 					key={cluster.id}
 					location={cluster.geometry.coordinates}
-					count={count}
+					count={parseInt(count.toString(), 10)}
 					onClick={() => {
 						if (!supercluster) {
 							return
 						}
-
-						const clusterId = Number.parseInt(
-							(cluster.id || 0).toString(),
-						)
 
 						const expansionZoom = Math.min(
 							supercluster.getClusterExpansionZoom(clusterId),
@@ -105,12 +164,10 @@ export const Cluster = <P extends { cluster: boolean }>({
 			)
 		}
 
-		return (
-			<DotMarker
-				key={cluster.properties.id}
-				location={cluster.geometry.coordinates}
-				onClick={() => {}}
-			/>
-		)
+		return renderMarker({
+			point: cluster.geometry.coordinates,
+			props: cluster.properties.properties,
+			id: cluster.properties.id,
+		})
 	})
 }

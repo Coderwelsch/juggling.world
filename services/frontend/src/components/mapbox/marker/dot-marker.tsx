@@ -72,7 +72,13 @@ export const DotMarker = ({
 						/>
 					)}
 
-					{icon}
+					<div
+						className={
+							"flex h-full w-full items-center justify-center"
+						}
+					>
+						{icon}
+					</div>
 				</div>
 			</div>
 
