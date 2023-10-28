@@ -60,7 +60,7 @@ export const useFocusLocationCallback = (
 				top: 128,
 				bottom: 86, // because of the marker label
 				left: 64,
-				right: sidebarRef.current?.clientWidth ?? 0,
+				right: (sidebarRef.current?.clientWidth ?? 0) + 64,
 			},
 		})
 	}, [

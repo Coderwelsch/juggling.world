@@ -60,7 +60,7 @@ export const useFocusSelectedPlayerCallback = (
 				top: 128,
 				bottom: 86,
 				left: 64,
-				right: sidebarRef.current?.clientWidth ?? 0,
+				right: (sidebarRef.current?.clientWidth ?? 0) + 82,
 			},
 		})
 	}, [
