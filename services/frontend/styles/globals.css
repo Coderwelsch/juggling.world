@@ -6,4 +6,26 @@
 	body {
 		line-height: 1.5;
 	}
+
+	.animate-sonar {
+		animation: sonar 1.5s ease-in-out infinite;
+
+		@apply absolute -z-10;
+		@apply h-full w-full;
+		@apply -translate-x-1/2 -translate-y-1/2;
+		@apply bg-fuchsia-700;
+		@apply rounded-full;
+	}
+
+	@keyframes sonar {
+		0% {
+			transform: scale(0.9);
+			opacity: 1;
+		}
+
+		100% {
+			transform: scale(1.8);
+			opacity: 0;
+		}
+	}
 }

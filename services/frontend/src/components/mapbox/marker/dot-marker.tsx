@@ -33,6 +33,10 @@ export interface DotMarkerProps {
 	children?: ReactNode
 }
 
+const SonarAnimation = () => (
+	<div className="animate-sonar h-full w-full bg-fuchsia-900" />
+)
+
 export const DotMarker = ({
 	children,
 	intent = "primary",
@@ -55,6 +59,8 @@ export const DotMarker = ({
 					"absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer"
 				}
 			>
+				{active && <SonarAnimation />}
+
 				<div
 					className={classNames(
 						"rounded-full overflow-hidden flex justify-center items-center",
