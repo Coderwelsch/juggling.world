@@ -173,7 +173,6 @@ export const PlayerContent = ({
 										<Image
 											width={160}
 											height={90}
-											objectFit={"cover"}
 											className={"aspect-video"}
 											src={
 												"http://strapi" +
