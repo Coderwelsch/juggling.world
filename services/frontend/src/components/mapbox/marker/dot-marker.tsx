@@ -22,7 +22,7 @@ const dotMarkerStyles: {
 	},
 }
 
-interface DotMarkerProps {
+export interface DotMarkerProps {
 	location: Position
 	focused?: boolean
 	active?: boolean

@@ -7,18 +7,21 @@ import {
 	useContext,
 	useEffect,
 	useMemo,
+	useRef,
 	useState,
 } from "react"
 import Supercluster, { AnyProps, PointFeature } from "supercluster"
 import useSupercluster from "use-supercluster"
 
-export interface ClusterBasePoint<P> extends Record<string, unknown> {
+export interface ClusterBasePoint<P = Record<string, any>> {
+	cluster?: boolean
+	point_count?: number
 	properties: P
 	id: string
 	coordinates: [number, number]
 }
 
-interface ClusterProps<PointProperties = AnyProps> {
+interface ClusterProps<PointProperties = Record<string, any>> {
 	points: ClusterBasePoint<PointProperties>[]
 	options?: Supercluster.Options<AnyProps, AnyProps>
 	renderMarker: (props: {
@@ -33,11 +36,22 @@ interface ClusterProps<PointProperties = AnyProps> {
 		nextZoomLevel: number
 		clusteredElems: PointProperties[]
 	}) => ReactNode
+	children?: (props: {
+		clusters: (
+			| Supercluster.PointFeature<ClusterBasePoint<PointProperties>>
+			| Supercluster.PointFeature<
+					Supercluster.ClusterProperties & Supercluster.AnyProps
+			  >
+		)[]
+		supercluster: Supercluster<ClusterBasePoint<PointProperties>>
+		pointLookupTable: Record<string, [number, number]>
+	}) => React.ReactNode
 }
 
 export const Cluster = <P = Record<string, unknown>,>({
 	points,
 	options = {},
+	children,
 	renderMarker,
 	renderCluster,
 }: ClusterProps<P>) => {
@@ -84,10 +98,10 @@ export const Cluster = <P = Record<string, unknown>,>({
 
 	const geoJsonPoints = useMemo<Array<PointFeature<ClusterBasePoint<P>>>>(
 		() =>
-			points.map(({ id, type, coordinates, properties }) => {
+			points.map(({ id, coordinates, properties }) => {
 				const point: PointFeature<ClusterBasePoint<P>> = {
 					type: "Feature",
-					properties: { id, type, properties, coordinates },
+					properties: { id, properties, coordinates },
 					geometry: {
 						type: "Point",
 						coordinates,
@@ -110,64 +124,163 @@ export const Cluster = <P = Record<string, unknown>,>({
 		},
 	})
 
-	return clusters.map((cluster) => {
-		if (cluster.properties.cluster) {
-			const count = parseInt(
-				cluster.properties.point_count?.toString() || "2",
-			)
+	// needed to prevent updates when the supercluster instance changes
+	const superclusterRef = useRef<Supercluster<ClusterBasePoint<P>>>()
 
-			const clusterId = Number.parseInt((cluster.id || 0).toString())
+	useEffect(() => {
+		superclusterRef.current = supercluster
+	}, [supercluster])
 
-			const children = supercluster!
-				.getChildren(clusterId)
-				.map((child) => child.properties.properties)
+	const [latestClusters, setLatestClusters] =
+		useState<typeof clusters>(clusters)
 
-			const expansionZoom =
-				supercluster!.getClusterExpansionZoom(clusterId)
+	useEffect(() => {
+		let shouldUpdate = false
 
-			if (renderCluster) {
-				return renderCluster({
-					point: cluster.geometry.coordinates,
-					count,
-					clusterId,
-					nextZoomLevel: expansionZoom,
-					clusteredElems: children,
-				})
-			}
-
-			return (
-				<ClusterMarker
-					key={cluster.id}
-					location={cluster.geometry.coordinates}
-					count={parseInt(count.toString(), 10)}
-					onClick={() => {
-						if (!supercluster) {
-							return
-						}
-
-						const expansionZoom = Math.min(
-							supercluster.getClusterExpansionZoom(clusterId),
-							20,
-						)
-
-						const center: [number, number] = [
-							cluster.geometry.coordinates[0],
-							cluster.geometry.coordinates[1],
-						]
-
-						map?.flyTo({
-							center,
-							zoom: expansionZoom,
-						})
-					}}
-				/>
+		if (clusters.length !== latestClusters.length) {
+			shouldUpdate = true
+		} else {
+			shouldUpdate = clusters.some(
+				(cluster) =>
+					!latestClusters.some(({ id }) => id === cluster.id),
 			)
 		}
 
-		return renderMarker({
-			point: cluster.geometry.coordinates,
-			props: cluster.properties.properties,
-			id: cluster.properties.id,
+		if (shouldUpdate) {
+			setLatestClusters(clusters)
+		}
+	}, [clusters, latestClusters])
+
+	const mappedClusters = useMemo(() => {
+		return latestClusters.map((cluster) => {
+			if (cluster.properties.cluster) {
+				// TODO:
+				const count = parseInt(
+					cluster.properties.point_count?.toString() || "0",
+				)
+
+				// TODO:
+				const clusterId = Number.parseInt((cluster.id || 0).toString())
+
+				const children: P[] = superclusterRef
+					.current!.getLeaves(clusterId, Infinity)
+					.map((child) => child.properties.properties)
+
+				if (!superclusterRef.current) {
+					return null
+				}
+
+				const expansionZoom =
+					superclusterRef.current.getClusterExpansionZoom(clusterId)
+
+				if (renderCluster) {
+					return renderCluster({
+						point: cluster.geometry.coordinates,
+						count,
+						clusterId,
+						nextZoomLevel: expansionZoom,
+						clusteredElems: children,
+					})
+				}
+
+				return (
+					<ClusterMarker
+						key={cluster.id}
+						location={cluster.geometry.coordinates}
+						count={parseInt(count.toString(), 10)}
+						onClick={() => {
+							if (!superclusterRef.current) {
+								return
+							}
+
+							const expansionZoom = Math.min(
+								superclusterRef.current.getClusterExpansionZoom(
+									clusterId,
+								),
+								20,
+							)
+
+							const center: [number, number] = [
+								cluster.geometry.coordinates[0],
+								cluster.geometry.coordinates[1],
+							]
+
+							map?.flyTo({
+								center,
+								zoom: expansionZoom,
+							})
+						}}
+					/>
+				)
+			}
+
+			return renderMarker({
+				point: cluster.geometry.coordinates,
+				props: cluster.properties.properties,
+				id: cluster.properties.id,
+			})
 		})
-	})
+	}, [latestClusters, map, renderCluster, renderMarker])
+
+	const renderedChildren = useMemo(() => {
+		if (!children) {
+			return null
+		}
+
+		if (!superclusterRef.current) {
+			return null
+		}
+
+		const pointLookupTable: Record<string, [number, number]> = {}
+
+		latestClusters.forEach((point) => {
+			if (!superclusterRef.current) {
+				return
+			}
+
+			if (point.properties.cluster) {
+				const elems = superclusterRef.current.getLeaves(
+					Number(point.id),
+					Infinity,
+				)
+
+				elems.forEach((elem) => {
+					if (elem.properties.id in pointLookupTable) {
+						return
+					}
+
+					if (elem.properties.cluster) {
+						console.log("elem is cluster", elem)
+					}
+
+					pointLookupTable[elem.properties.id] = [
+						point.geometry.coordinates[0],
+						point.geometry.coordinates[1],
+					]
+				})
+			} else {
+				if (point.properties.id in pointLookupTable) {
+					return
+				}
+
+				pointLookupTable[point.properties.id] = [
+					point.geometry.coordinates[0],
+					point.geometry.coordinates[1],
+				]
+			}
+		})
+
+		return children({
+			clusters: latestClusters,
+			supercluster: superclusterRef.current!,
+			pointLookupTable,
+		})
+	}, [children, latestClusters, superclusterRef])
+
+	return (
+		<>
+			{renderedChildren}
+			{mappedClusters}
+		</>
+	)
 }

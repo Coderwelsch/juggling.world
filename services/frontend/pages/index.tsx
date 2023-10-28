@@ -1,3 +1,4 @@
+import { useFocusLocationCallback } from "@/src/components/page-specific/index/hooks/use-focus-location-callback"
 import DIABOLO_STICKS from "@/src/assets/diabolo-sticks.svg"
 import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
 import { MapOverlay } from "@/src/components/map-overlay/map-overlay"
@@ -6,8 +7,13 @@ import { useAnimation } from "@/src/components/mapbox/hooks/use-animation"
 import { useIsUserInteractingWithMap } from "@/src/components/mapbox/hooks/use-is-user-interacting-with-map"
 import { ClusterMarker } from "@/src/components/mapbox/marker/cluster-marker"
 import { DotMarker } from "@/src/components/mapbox/marker/dot-marker"
-import { Line } from "@/src/components/mapbox/shapes/Line"
+import { MarkerLabel } from "@/src/components/mapbox/marker/marker-label"
 import { LandingPageNav } from "@/src/components/nav/landing-page-nav"
+import { useFocusSelectedPlayerCallback } from "@/src/components/page-specific/index/hooks/use-focus-selected-player-callback"
+import {
+	CustomMarkerProperties,
+	MemoizedLines,
+} from "@/src/components/page-specific/index/map/connection-lines"
 import { LocationContent } from "@/src/components/page-specific/index/sidebar-content/location-info"
 import { PlayerContent } from "@/src/components/page-specific/index/sidebar-content/player-info"
 import Sidebar from "@/src/components/sidebar/sidebar"
@@ -21,6 +27,7 @@ import {
 } from "@/src/queries/all-play-locations"
 import { allPlayersQuery, AllPlayersResponse } from "@/src/queries/all-players"
 import { useQuery } from "@apollo/client"
+import { Position } from "geojson"
 import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import Image from "next/image"
@@ -34,12 +41,6 @@ import {
 	useState,
 } from "react"
 import Map, { ViewState, ViewStateChangeEvent } from "react-map-gl"
-
-interface CustomMarkerProperties {
-	id: string
-	type: "group" | "player" | "location"
-	imageUrl?: string
-}
 
 export const PlayersContext = createContext<
 	AllPlayersResponse["players"]["data"]
@@ -90,6 +91,7 @@ export default function App() {
 					properties: {
 						imageUrl: group.attributes.avatar.data.attributes.url,
 						type: "group",
+						name: group.attributes.name,
 						id: group.id.toString(),
 					},
 				})
@@ -105,6 +107,7 @@ export default function App() {
 					properties: {
 						id: player.id.toString(),
 						type: "player",
+						name: player.attributes.username,
 						imageUrl:
 							player.attributes.avatar?.data?.attributes.url,
 					},
@@ -119,10 +122,11 @@ export default function App() {
 						location.attributes.location.latitude,
 					],
 					properties: {
+						id: location.id.toString(),
 						type: "location",
+						name: location.attributes.name,
 						imageUrl:
 							location.attributes.image?.data?.attributes.url,
-						id: location.id.toString(),
 					},
 				})
 			})
@@ -140,10 +144,6 @@ export default function App() {
 
 	const [focusedLocations, setFocusedLocations] = useState<string[]>([])
 	const [focusedPlayers, setFocusedPlayers] = useState<string[]>([])
-
-	const [connectionLines, setConnectionLines] = useState<
-		[[number, number], [number, number]][]
-	>([])
 
 	const onPlayerMarkerClick = useCallback(
 		(id: string) => {
@@ -171,111 +171,6 @@ export default function App() {
 		},
 		[allPlayersData.data?.players.data, selectedPlayerId],
 	)
-
-	// useEffect(() => {
-	// 	const lines: [[number, number], [number, number]][] = []
-	//
-	// 	if (selectedPlayerId) {
-	// 		const player = allPlayersData.data?.players.data.find(
-	// 			(p) => p.id === selectedPlayerId,
-	// 		)
-	//
-	// 		if (!player) {
-	// 			return
-	// 		}
-	//
-	// 		// check if the player’s play locations are hidden in a cluster
-	// 		// to connect the lines to the cluster position
-	// 		const clustersCountainingLocations = clusters.filter((cluster) => {
-	// 			if (!cluster.id) {
-	// 				return false
-	// 			}
-	//
-	// 			const id = Number.parseInt(cluster.id.toString())
-	// 			const clusterChilds = supercluster?.getChildren(id)
-	//
-	// 			if (!clusterChilds) {
-	// 				return false
-	// 			}
-	//
-	// 			const hiddenLocation = clusterChilds
-	// 				.filter((c) => c.properties.type === "location")
-	// 				.find((child) => {
-	// 					return player.attributes.userPlayLocations.data.find(
-	// 						(l) => {
-	// 							if (l.id === child.properties.id) {
-	// 								return true
-	// 							}
-	// 						},
-	// 					)
-	// 				})
-	//
-	// 			console.log(
-	// 				"contains a connected user play location?",
-	// 				Boolean(hiddenLocation),
-	// 			)
-	//
-	// 			return Boolean(hiddenLocation)
-	// 		})
-	//
-	// 		console.log(
-	// 			"clustersCountainingLocations",
-	// 			clustersCountainingLocations,
-	// 		)
-	//
-	// 		clustersCountainingLocations.forEach((cluster) => {
-	// 			lines.push([
-	// 				[
-	// 					cluster.geometry.coordinates[0],
-	// 					cluster.geometry.coordinates[1],
-	// 				],
-	// 				[
-	// 					player.attributes.location.longitude,
-	// 					player.attributes.location.latitude,
-	// 				],
-	// 			])
-	// 		})
-	// 	} else if (selectedLocationId) {
-	// 		const location = allPlayLocations.data?.locations.data.find(
-	// 			(l) => l.id === selectedLocationId,
-	// 		)
-	//
-	// 		if (!location) {
-	// 			return
-	// 		}
-	//
-	// 		location.attributes.users?.data.forEach((l) => {
-	// 			const player = allPlayersData.data?.players.data.find(
-	// 				(pl) => pl.id === l.id,
-	// 			)
-	//
-	// 			if (!player) {
-	// 				return
-	// 			}
-	//
-	// 			lines.push([
-	// 				[
-	// 					player.attributes.location.longitude,
-	// 					player.attributes.location.latitude,
-	// 				],
-	// 				[
-	// 					location.attributes.location.longitude,
-	// 					location.attributes.location.latitude,
-	// 				],
-	// 			])
-	// 		})
-	// 	}
-	//
-	// 	setConnectionLines(lines)
-	// }, [
-	// 	selectedPlayerId,
-	// 	selectedLocationId,
-	// 	allPlayersData.data?.players.data,
-	// 	allPlayLocations.data?.locations.data,
-	// 	clusters.length,
-	// 	clusters,
-	// 	supercluster,
-	// ])
 
 	const onLocationMarkerClick = useCallback(
 		(id: string) => {
@@ -317,7 +212,6 @@ export default function App() {
 
 		setFocusedLocations([])
 		setFocusedPlayers([])
-		setConnectionLines([])
 	}, [])
 
 	const onMapLoad = useCallback(({ target }: mapboxgl.MapboxEvent) => {
@@ -349,62 +243,13 @@ export default function App() {
 
 	const [openerOpacity, setOpenerOpacity] = useState(1)
 
-	const focusSelectedLocation = useCallback(() => {
-		const map = mapRef.current
-
-		if (!map) {
-			return
-		}
-
-		if (!selectedLocationId) {
-			return
-		}
-
-		const bounds = new mapboxgl.LngLatBounds()
-
-		const playLocation = allPlayLocations.data?.locations.data.find(
-			(l) => l.id === selectedLocationId,
-		)
-
-		if (!playLocation) {
-			return
-		}
-
-		bounds.extend([
-			playLocation.attributes.location.longitude,
-			playLocation.attributes.location.latitude,
-		])
-
-		playLocation.attributes.users?.data.forEach((user) => {
-			const player = allPlayersData.data?.players.data.find(
-				(p) => p.id === user.id,
-			)
-
-			if (!player) {
-				return
-			}
-
-			bounds.extend([
-				player.attributes.location.longitude,
-				player.attributes.location.latitude,
-			])
-		})
-
-		map?.fitBounds(bounds, {
-			duration: 3000,
-			essential: true,
-			padding: {
-				top: 128,
-				bottom: 86, // because of the marker label
-				left: 64,
-				right: sidebarRef.current?.clientWidth ?? 0,
-			},
-		})
-	}, [
-		allPlayLocations.data?.locations.data,
-		allPlayersData.data?.players.data,
+	const focusSelectedLocation = useFocusLocationCallback(
+		mapRef,
 		selectedLocationId,
-	])
+		allPlayLocations,
+		allPlayersData,
+		sidebarRef,
+	)
 
 	useEffect(() => {
 		focusSelectedLocation()
@@ -415,62 +260,13 @@ export default function App() {
 		focusSelectedLocation,
 	])
 
-	const focusSelectedPlayer = useCallback(() => {
-		const map = mapRef.current
-
-		if (!map) {
-			return
-		}
-
-		if (!selectedPlayerId) {
-			return
-		}
-
-		const player = allPlayersData.data?.players.data.find(
-			(p) => p.id === selectedPlayerId,
-		)
-
-		if (!player) {
-			return
-		}
-
-		const bounds = new mapboxgl.LngLatBounds()
-
-		bounds.extend([
-			player.attributes.location.longitude,
-			player.attributes.location.latitude,
-		])
-
-		player.attributes.userPlayLocations.data.forEach((location) => {
-			const playLocation = allPlayLocations.data?.locations.data.find(
-				(l) => l.id === location.id,
-			)
-
-			if (!playLocation) {
-				return
-			}
-
-			bounds.extend([
-				playLocation.attributes.location.longitude,
-				playLocation.attributes.location.latitude,
-			])
-		})
-
-		map?.fitBounds(bounds, {
-			duration: 3000,
-			essential: true,
-			padding: {
-				top: 128,
-				bottom: 86,
-				left: 64,
-				right: sidebarRef.current?.clientWidth ?? 0,
-			},
-		})
-	}, [
+	const focusSelectedPlayer = useFocusSelectedPlayerCallback(
+		mapRef,
 		selectedPlayerId,
-		allPlayersData.data?.players.data,
-		allPlayLocations.data?.locations.data,
-	])
+		allPlayersData,
+		allPlayLocations,
+		sidebarRef,
+	)
 
 	useEffect(() => {
 		focusSelectedPlayer()
@@ -500,6 +296,116 @@ export default function App() {
 		}
 	}, [handleZoom, isMapReady])
 
+	const onRenderMarker = useCallback(
+		({
+			point,
+			props,
+			id,
+		}: {
+			point: Position
+			props: CustomMarkerProperties
+			id: string
+		}) => {
+			const type = props.type
+			let isActive = false
+			let isFocused = false
+
+			if (type === "player") {
+				isActive = `${type}-${selectedPlayerId}` === id
+				isFocused = focusedPlayers.includes(props.id)
+			} else if (type === "location") {
+				isActive = `${type}-${selectedLocationId}` === id
+				isFocused = focusedLocations.includes(props.id)
+			}
+
+			return (
+				<DotMarker
+					key={`${type}-${id}`}
+					location={point}
+					active={isActive}
+					focused={isFocused}
+					icon={
+						props.imageUrl && (
+							<Image
+								src={getStrapiUrl(props.imageUrl)}
+								className={
+									"h-full w-full overflow-hidden rounded-full"
+								}
+								alt={type}
+								width={32}
+								height={32}
+							/>
+						)
+					}
+					intent={type === "group" ? "primary" : "active"}
+					onClick={() => {
+						switch (type) {
+							case "location":
+								onLocationMarkerClick(props.id)
+								break
+
+							case "player":
+								onPlayerMarkerClick(props.id)
+								break
+						}
+					}}
+				>
+					<MarkerLabel label={props.name} />
+				</DotMarker>
+			)
+		},
+		[
+			focusedLocations,
+			focusedPlayers,
+			onLocationMarkerClick,
+			onPlayerMarkerClick,
+			selectedLocationId,
+			selectedPlayerId,
+		],
+	)
+
+	const renderCluster = ({
+		point,
+		count,
+		clusterId,
+		nextZoomLevel,
+		clusteredElems,
+	}: {
+		point: Position
+		count: number
+		clusterId: string | number
+		nextZoomLevel: number
+		clusteredElems: CustomMarkerProperties[]
+	}) => {
+		const isActive = clusteredElems.some(
+			(props: CustomMarkerProperties) => {
+				if (props.type === "player") {
+					return props.id === selectedPlayerId
+				} else if (props.type === "location") {
+					return props.id === selectedLocationId
+				}
+
+				return false
+			},
+		)
+
+		return (
+			<ClusterMarker
+				key={clusterId}
+				active={isActive}
+				focused={isActive}
+				location={point}
+				onClick={() => {
+					mapRef.current?.flyTo({
+						center: [point[0], point[1]],
+						zoom: nextZoomLevel,
+						duration: 500,
+					})
+				}}
+				count={count}
+			/>
+		)
+	}
 	return (
 		<>
 			<LoaderOverlay
@@ -533,83 +439,22 @@ export default function App() {
 					<MapContext.Provider value={mapRef.current}>
 						<Cluster<CustomMarkerProperties>
 							points={superClusterPoints}
-							renderMarker={({ point, props, id }) => {
-								const type = props.type
-
-								return (
-									<DotMarker
-										key={`${type}-${id}`}
-										location={point}
-										icon={
-											props.imageUrl && (
-												<Image
-													src={getStrapiUrl(
-														props.imageUrl,
-													)}
-													className={
-														"h-full w-full overflow-hidden rounded-full"
-													}
-													alt={type}
-													width={32}
-													height={32}
-												/>
-											)
-										}
-										intent={
-											type === "group"
-												? "primary"
-												: "active"
-										}
-										onClick={() => {
-											switch (type) {
-												case "location":
-													onLocationMarkerClick(
-														props.id,
-													)
-													break
-
-												case "player":
-													onPlayerMarkerClick(
-														props.id,
-													)
-													break
-											}
-										}}
-									/>
-								)
+							options={{
+								maxZoom: 20,
 							}}
-							renderCluster={({
-								point,
-								count,
-								clusterId,
-								nextZoomLevel,
-								clusteredElems,
-							}) => {
-								return (
-									<ClusterMarker
-										key={clusterId}
-										location={point}
-										onClick={() => {
-											mapRef.current?.flyTo({
-												center: [point[0], point[1]],
-												zoom: nextZoomLevel,
-											})
-										}}
-										count={count}
-									/>
-								)
-							}}
-						/>
-
-						{connectionLines.map((line, index) => (
-							<Line
-								key={index}
-								coordinates={line}
-								color={"rgb(16,185,129)"}
-								width={4}
-								outlineWidth={2}
-							/>
-						))}
+							renderMarker={onRenderMarker}
+							renderCluster={renderCluster}
+						>
+							{({ pointLookupTable }) => (
+								<MemoizedLines
+									selectedLocationId={selectedLocationId}
+									allPlayLocations={allPlayLocations.data}
+									allPlayersData={allPlayersData.data}
+									selectedPlayerId={selectedPlayerId}
+									pointLookupTable={pointLookupTable}
+								/>
+							)}
+						</Cluster>
 					</MapContext.Provider>
 				</Map>
 
