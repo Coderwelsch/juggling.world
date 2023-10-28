@@ -4,7 +4,7 @@ import * as React from "react"
 import { ReactNode } from "react"
 import { Marker } from "react-map-gl"
 
-type Intent = "primary" | "secondary" | "active"
+export type Intent = "primary" | "secondary" | "active"
 
 const dotMarkerStyles: {
 	idle: Record<Intent, string>
@@ -64,7 +64,7 @@ export const DotMarker = ({
 						className,
 					)}
 				>
-					{active && (
+					{!icon && active && (
 						<div
 							className={classNames(
 								"absolute h-2 w-2 top-1/2 left-1/2 rounded-full bg-neutral-50 transform -translate-x-1/2 -translate-y-1/2",

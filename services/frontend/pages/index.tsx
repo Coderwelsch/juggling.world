@@ -1,3 +1,4 @@
+import IconUserLarge from "@/src/components/icons/user-large"
 import { useFocusLocationCallback } from "@/src/components/page-specific/index/hooks/use-focus-location-callback"
 import DIABOLO_STICKS from "@/src/assets/diabolo-sticks.svg"
 import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
@@ -6,7 +7,7 @@ import { Cluster, ClusterBasePoint } from "@/src/components/mapbox/cluster"
 import { useAnimation } from "@/src/components/mapbox/hooks/use-animation"
 import { useIsUserInteractingWithMap } from "@/src/components/mapbox/hooks/use-is-user-interacting-with-map"
 import { ClusterMarker } from "@/src/components/mapbox/marker/cluster-marker"
-import { DotMarker } from "@/src/components/mapbox/marker/dot-marker"
+import { DotMarker, Intent } from "@/src/components/mapbox/marker/dot-marker"
 import { MarkerLabel } from "@/src/components/mapbox/marker/marker-label"
 import { LandingPageNav } from "@/src/components/nav/landing-page-nav"
 import { useFocusSelectedPlayerCallback } from "@/src/components/page-specific/index/hooks/use-focus-selected-player-callback"
@@ -307,15 +308,21 @@ export default function App() {
 			id: string
 		}) => {
 			const type = props.type
+
 			let isActive = false
 			let isFocused = false
+			let intent: Intent = "primary"
 
 			if (type === "player") {
 				isActive = `${type}-${selectedPlayerId}` === id
 				isFocused = focusedPlayers.includes(props.id)
+				intent = "primary"
 			} else if (type === "location") {
 				isActive = `${type}-${selectedLocationId}` === id
 				isFocused = focusedLocations.includes(props.id)
+				intent = "secondary"
+			} else if (type === "group") {
+				intent = "active"
 			}
 
 			return (
@@ -325,7 +332,7 @@ export default function App() {
 					active={isActive}
 					focused={isFocused}
 					icon={
-						props.imageUrl && (
+						props.imageUrl ? (
 							<Image
 								src={getStrapiUrl(props.imageUrl)}
 								className={
@@ -335,9 +342,13 @@ export default function App() {
 								width={32}
 								height={32}
 							/>
+						) : (
+							<IconUserLarge
+								className={"h-3.5 w-3.5 fill-neutral-50"}
+							/>
 						)
 					}
-					intent={type === "group" ? "primary" : "active"}
+					intent={intent}
 					onClick={() => {
 						switch (type) {
 							case "location":
