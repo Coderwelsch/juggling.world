@@ -69,8 +69,6 @@ export default function Register() {
 
 	return (
 		<>
-			<LandingPageNav />
-
 			<section
 				className={
 					"flex h-full w-full flex-col items-center justify-center gap-6 p-12"
@@ -90,7 +88,11 @@ export default function Register() {
 						Registration
 					</Headline>
 
-					<p className={"max-w-sm text-center text-space-50"}>
+					<p
+						className={
+							"max-w-sm text-center text-space-100 text-opacity-75"
+						}
+					>
 						Create an account to find other diabolo players around
 						the globe … or next door!
 					</p>
