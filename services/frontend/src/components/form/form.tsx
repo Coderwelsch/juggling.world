@@ -1,7 +1,11 @@
 import { classNames } from "@/src/lib/class-names"
-import { ReactNode } from "react"
+import { DetailedHTMLProps, FormHTMLAttributes, ReactNode } from "react"
 
-interface FormProps extends React.HTMLAttributes<HTMLFormElement> {
+interface FormProps
+	extends DetailedHTMLProps<
+		FormHTMLAttributes<HTMLFormElement>,
+		HTMLFormElement
+	> {
 	children: ReactNode
 	onSubmit?: () => void
 }

@@ -3,7 +3,6 @@ import { Form } from "@/src/components/form/form"
 import { FormField } from "@/src/components/form/form-field/form-field"
 import { Headline } from "@/src/components/headline/headline"
 import { LogoSmall } from "@/src/components/logo/logo-small"
-import { LandingPageNav } from "@/src/components/nav/landing-page-nav"
 import {
 	createUserQuery,
 	UserCreationMutationInput,
@@ -11,6 +10,8 @@ import {
 } from "@/src/queries/register-user"
 import { useMutation } from "@apollo/client"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/router"
+import { useEffect } from "react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { z } from "zod"
 
@@ -36,6 +37,8 @@ export default function Register() {
 		defaultValues: DEFAULT_REGISTRATION_INPUT,
 		resolver: zodResolver(registrationInputSchema),
 	})
+
+	const router = useRouter()
 
 	const [registerUser, registerState] = useMutation<
 		UserCreationMutationResponse,
@@ -63,6 +66,24 @@ export default function Register() {
 			console.error(error)
 		})
 	}
+
+	useEffect(() => {
+		if (!registerState.data) {
+			return
+		}
+
+		const searchParams = new URLSearchParams({
+			email: registerState.data?.register.user.email,
+		})
+
+		const timeout = setTimeout(() => {
+			router.push(`./success${searchParams.toString()}`)
+		}, 3000)
+
+		return () => {
+			clearTimeout(timeout)
+		}
+	}, [registerState, router])
 
 	console.log("registerUser", registerState)
 	console.log("formState", formState)
@@ -100,7 +121,7 @@ export default function Register() {
 
 				<div
 					className={
-						"w-full max-w-sm rounded-xl border border-space-300 border-opacity-30 bg-space-900 text-white"
+						"w-full max-w-sm rounded-xl border border-space-300/30 bg-space-900 text-white"
 					}
 				>
 					<Form
@@ -186,13 +207,14 @@ export default function Register() {
 						<Button
 							rounded={false}
 							type={"submit"}
+							loading={registerState.loading}
 							disabled={
 								registerState.loading || !formState.isValid
 							}
 							error={Boolean(registerState.error)}
 							success={Boolean(registerState.data)}
 						>
-							Register
+							{registerState.data ? "Registered …" : "Register"}
 						</Button>
 					</Form>
 				</div>

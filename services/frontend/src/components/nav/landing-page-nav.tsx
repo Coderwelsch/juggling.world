@@ -4,6 +4,7 @@ import { Headline } from "@/src/components/headline/headline"
 import { LogoSmall } from "@/src/components/logo/logo-small"
 import { NavLink } from "@/src/components/nav/nav-link"
 import { classNames } from "@/src/lib/class-names"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { ReactNode } from "react"
 
@@ -25,6 +26,8 @@ const NavItem = ({ children, href }: NavItemProps) => {
 }
 
 export const LandingPageNav = ({ visible = true }: { visible?: boolean }) => {
+	const session = useSession()
+
 	return (
 		<nav
 			className={classNames(
@@ -64,12 +67,21 @@ export const LandingPageNav = ({ visible = true }: { visible?: boolean }) => {
 
 					<DividerVertical />
 
-					<Button
-						size={"sm"}
-						href={"/register"}
-					>
-						login / register
-					</Button>
+					{session.status === "authenticated" ? (
+						<Button
+							size={"sm"}
+							href={"/dashboard"}
+						>
+							Dashboard
+						</Button>
+					) : (
+						<Button
+							size={"sm"}
+							href={"/signin"}
+						>
+							login / register
+						</Button>
+					)}
 				</div>
 			</div>
 		</nav>

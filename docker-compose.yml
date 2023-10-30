@@ -90,6 +90,9 @@ services:
             - strapi:strapi
         environment:
             NEXT_PUBLIC_API_URL: http://${DOMAIN_FRONTEND}
+            NEXTAUTH_URL: http://${DOMAIN_FRONTEND}
+            NEXTAUTH_URL_INTERNAL: http://frontend
+            NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
             NEXT_TELEMETRY_DISABLED: "1"
             NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN: ${MAPBOX_ACCESS_TOKEN}
             NEXT_PUBLIC_MAPBOX_STYLE_URL: ${MAPBOX_STYLE_URL}
