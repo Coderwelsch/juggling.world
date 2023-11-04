@@ -7,13 +7,17 @@
 		line-height: 1.5;
 	}
 
+	body * {
+		@apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-space-950 focus:ring-violet-500;
+	}
+
 	.animate-sonar {
 		animation: sonar 1.5s ease-in-out infinite;
 
 		@apply absolute -z-10;
 		@apply h-full w-full;
 		@apply -translate-x-1/2 -translate-y-1/2;
-		@apply bg-fuchsia-700;
+		@apply bg-violet-700;
 		@apply rounded-full;
 	}
 
