@@ -4,25 +4,25 @@ import * as React from "react"
 import { ReactNode } from "react"
 import { Marker } from "react-map-gl"
 
-type Intent = "primary" | "secondary" | "active"
+export type Intent = "primary" | "secondary" | "active"
 
 const dotMarkerStyles: {
 	idle: Record<Intent, string>
 	selected: Record<Intent, string>
 } = {
 	idle: {
-		primary: "bg-fuchsia-700 hover:border-2 hover:border-neutral-50",
-		secondary: "bg-fuchsia-400",
+		primary: "bg-violet-700 hover:border-2 hover:border-neutral-50",
+		secondary: "bg-violet-400",
 		active: "bg-emerald-400 hover:border-2 hover:border-neutral-50",
 	},
 	selected: {
-		primary: "bg-fuchsia-500 border-2 border-neutral-50",
-		secondary: "bg-fuchsia-600 border-2 border-neutral-50",
+		primary: "bg-violet-500 border-2 border-neutral-50",
+		secondary: "bg-violet-600 border-2 border-neutral-50",
 		active: "bg-emerald-500 border-2 border-neutral-50",
 	},
 }
 
-interface DotMarkerProps {
+export interface DotMarkerProps {
 	location: Position
 	focused?: boolean
 	active?: boolean
@@ -32,6 +32,10 @@ interface DotMarkerProps {
 	icon?: ReactNode
 	children?: ReactNode
 }
+
+const SonarAnimation = () => (
+	<div className="animate-sonar h-full w-full bg-violet-900" />
+)
 
 export const DotMarker = ({
 	children,
@@ -55,6 +59,8 @@ export const DotMarker = ({
 					"absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer"
 				}
 			>
+				{active && <SonarAnimation />}
+
 				<div
 					className={classNames(
 						"rounded-full overflow-hidden flex justify-center items-center",
@@ -64,7 +70,7 @@ export const DotMarker = ({
 						className,
 					)}
 				>
-					{active && (
+					{!icon && active && (
 						<div
 							className={classNames(
 								"absolute h-2 w-2 top-1/2 left-1/2 rounded-full bg-neutral-50 transform -translate-x-1/2 -translate-y-1/2",
@@ -72,7 +78,13 @@ export const DotMarker = ({
 						/>
 					)}
 
-					{icon}
+					<div
+						className={
+							"flex h-full w-full items-center justify-center"
+						}
+					>
+						{icon}
+					</div>
 				</div>
 			</div>
 

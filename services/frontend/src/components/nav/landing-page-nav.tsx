@@ -4,6 +4,7 @@ import { Headline } from "@/src/components/headline/headline"
 import { LogoSmall } from "@/src/components/logo/logo-small"
 import { NavLink } from "@/src/components/nav/nav-link"
 import { classNames } from "@/src/lib/class-names"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { ReactNode } from "react"
 
@@ -16,8 +17,8 @@ const NavItem = ({ children, href }: NavItemProps) => {
 	return (
 		<NavLink
 			href={href}
-			className={"font-semibold text-indigo-950 hover:text-fuchsia-500"}
-			activeClassName={"text-fuchsia-500"}
+			className={"font-semibold text-violet-950 hover:text-violet-500"}
+			activeClassName={"text-violet-500"}
 		>
 			{children}
 		</NavLink>
@@ -25,6 +26,8 @@ const NavItem = ({ children, href }: NavItemProps) => {
 }
 
 export const LandingPageNav = ({ visible = true }: { visible?: boolean }) => {
+	const session = useSession()
+
 	return (
 		<nav
 			className={classNames(
@@ -39,16 +42,16 @@ export const LandingPageNav = ({ visible = true }: { visible?: boolean }) => {
 				>
 					<LogoSmall className={"w-14"} />
 
-					<div className="flex flex-col text-2xl font-semibold text-indigo-950">
+					<div className="flex flex-col text-2xl font-semibold text-violet-950">
 						<Headline
 							size={4}
 							renderAs={"h1"}
 							className={"font-semibold leading-5"}
 						>
-							diabolo.world
+							juggling.world
 						</Headline>
 
-						<p className="text-xs font-medium text-indigo-950">
+						<p className="text-xs font-medium text-violet-950">
 							share · connect · learn
 						</p>
 					</div>
@@ -64,12 +67,21 @@ export const LandingPageNav = ({ visible = true }: { visible?: boolean }) => {
 
 					<DividerVertical />
 
-					<Button
-						size={"sm"}
-						href={"/register"}
-					>
-						login / register
-					</Button>
+					{session.status === "authenticated" ? (
+						<Button
+							size={"sm"}
+							href={"/dashboard"}
+						>
+							Dashboard
+						</Button>
+					) : (
+						<Button
+							size={"sm"}
+							href={"/signin"}
+						>
+							login / register
+						</Button>
+					)}
 				</div>
 			</div>
 		</nav>

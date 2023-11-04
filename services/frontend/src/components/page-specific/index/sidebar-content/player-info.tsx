@@ -31,6 +31,7 @@ export const PlayerContent = ({
 }: {
 	id: string
 	onLocationClick: (id: string) => void
+	onDisciplineClick: (id: string) => void
 }) => {
 	const player = useQuery<PlayerResponse>(playerInfoQuery, {
 		variables: { id },
@@ -61,7 +62,7 @@ export const PlayerContent = ({
 						) : (
 							<div
 								className={
-									"flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-space-200 bg-fuchsia-400"
+									"flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-space-200 bg-violet-400"
 								}
 							>
 								<IconUserLarge
@@ -154,50 +155,52 @@ export const PlayerContent = ({
 							played:
 						</p>
 
-						<div className="flex w-full flex-row space-x-4">
-							{userPlayLocations?.data.map((entry) => {
-								const { name, image } = entry.attributes || {}
+						<div className="flex w-full flex-row gap-2">
+							{userPlayLocations?.data
+								.slice(0, 3)
+								.map((entry) => {
+									const { name, image } =
+										entry.attributes || {}
 
-								return (
-									<div
-										key={entry.id}
-										className={classNames(
-											"relative cursor-pointer flex-col overflow-hidden rounded-lg",
-											"border border-space-200/25 bg-space-100/40 shadow",
-											"hover:bg-space-100/60 hover:border-space-200 transition-colors",
-										)}
-										onClick={() => {
-											onLocationClick(entry.id)
-										}}
-									>
-										<Image
-											width={160}
-											height={90}
-											objectFit={"cover"}
-											className={"aspect-video"}
-											src={
-												"http://strapi" +
-												image?.data.attributes.url
-											}
-											alt={""}
-										/>
-
+									return (
 										<div
-											className={
-												"flex w-full flex-col gap-2 p-1"
-											}
+											key={entry.id}
+											className={classNames(
+												"w-1/3 relative cursor-pointer flex-col overflow-hidden rounded-lg",
+												"border border-space-200/25 bg-space-100/40 shadow",
+												"hover:bg-space-100/60 hover:border-space-200 transition-colors",
+											)}
+											onClick={() => {
+												onLocationClick(entry.id)
+											}}
 										>
-											<p
+											<Image
+												width={160}
+												height={90}
+												className={"aspect-video"}
+												src={
+													"http://strapi" +
+													image?.data.attributes.url
+												}
+												alt={""}
+											/>
+
+											<div
 												className={
-													"w-full text-ellipsis text-center text-xs"
+													"flex w-full flex-col gap-2 p-1"
 												}
 											>
-												{name}
-											</p>
+												<p
+													className={
+														"w-full text-ellipsis text-center text-xs"
+													}
+												>
+													{name}
+												</p>
+											</div>
 										</div>
-									</div>
-								)
-							})}
+									)
+								})}
 						</div>
 					</Section>
 				</div>

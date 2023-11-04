@@ -4,7 +4,7 @@ import { ForwardedRef, forwardRef, ReactNode } from "react"
 interface SidebarProps {
 	isShown: boolean
 	children: ReactNode
-	onClose: () => void
+	onClose?: () => void
 }
 
 export const Body = ({
