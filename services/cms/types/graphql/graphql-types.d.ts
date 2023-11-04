@@ -3,2288 +3,2280 @@
  * Do not make changes to this file directly
  */
 
-declare global {
-	interface NexusGen extends NexusGenTypes {
-	}
-}
 
+
+
+
+
+
+declare global {
+  interface NexusGen extends NexusGenTypes {}
+}
 
 export interface NexusGenInputs {
-	BooleanFilterInput: { // input type
-		and?: Array<boolean | null> | null; // [Boolean]
-		between?: Array<boolean | null> | null; // [Boolean]
-		contains?: boolean | null; // Boolean
-		containsi?: boolean | null; // Boolean
-		endsWith?: boolean | null; // Boolean
-		eq?: boolean | null; // Boolean
-		eqi?: boolean | null; // Boolean
-		gt?: boolean | null; // Boolean
-		gte?: boolean | null; // Boolean
-		in?: Array<boolean | null> | null; // [Boolean]
-		lt?: boolean | null; // Boolean
-		lte?: boolean | null; // Boolean
-		ne?: boolean | null; // Boolean
-		nei?: boolean | null; // Boolean
-		not?: NexusGenInputs["BooleanFilterInput"] | null; // BooleanFilterInput
-		notContains?: boolean | null; // Boolean
-		notContainsi?: boolean | null; // Boolean
-		notIn?: Array<boolean | null> | null; // [Boolean]
-		notNull?: boolean | null; // Boolean
-		null?: boolean | null; // Boolean
-		or?: Array<boolean | null> | null; // [Boolean]
-		startsWith?: boolean | null; // Boolean
-	}
-	ComponentBaseContactFiltersInput: { // input type
-		and?: Array<NexusGenInputs["ComponentBaseContactFiltersInput"] | null> | null; // [ComponentBaseContactFiltersInput]
-		email?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		facebook?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		instagram?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		not?: NexusGenInputs["ComponentBaseContactFiltersInput"] | null; // ComponentBaseContactFiltersInput
-		or?: Array<NexusGenInputs["ComponentBaseContactFiltersInput"] | null> | null; // [ComponentBaseContactFiltersInput]
-		reddit?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		signal?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		telegram?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		whatsapp?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-	}
-	ComponentBaseContactInput: { // input type
-		email?: string | null; // String
-		facebook?: string | null; // String
-		id?: string | null; // ID
-		instagram?: string | null; // String
-		reddit?: string | null; // String
-		signal?: string | null; // String
-		telegram?: string | null; // String
-		whatsapp?: string | null; // String
-	}
-	ComponentBaseLocationFiltersInput: { // input type
-		and?: Array<NexusGenInputs["ComponentBaseLocationFiltersInput"] | null> | null; // [ComponentBaseLocationFiltersInput]
-		latitude?: NexusGenInputs["FloatFilterInput"] | null; // FloatFilterInput
-		longitude?: NexusGenInputs["FloatFilterInput"] | null; // FloatFilterInput
-		not?: NexusGenInputs["ComponentBaseLocationFiltersInput"] | null; // ComponentBaseLocationFiltersInput
-		or?: Array<NexusGenInputs["ComponentBaseLocationFiltersInput"] | null> | null; // [ComponentBaseLocationFiltersInput]
-	}
-	ComponentBaseLocationInput: { // input type
-		id?: string | null; // ID
-		latitude?: number | null; // Float
-		longitude?: number | null; // Float
-	}
-	DateFilterInput: { // input type
-		and?: Array<NexusGenScalars["Date"] | null> | null; // [Date]
-		between?: Array<NexusGenScalars["Date"] | null> | null; // [Date]
-		contains?: NexusGenScalars["Date"] | null; // Date
-		containsi?: NexusGenScalars["Date"] | null; // Date
-		endsWith?: NexusGenScalars["Date"] | null; // Date
-		eq?: NexusGenScalars["Date"] | null; // Date
-		eqi?: NexusGenScalars["Date"] | null; // Date
-		gt?: NexusGenScalars["Date"] | null; // Date
-		gte?: NexusGenScalars["Date"] | null; // Date
-		in?: Array<NexusGenScalars["Date"] | null> | null; // [Date]
-		lt?: NexusGenScalars["Date"] | null; // Date
-		lte?: NexusGenScalars["Date"] | null; // Date
-		ne?: NexusGenScalars["Date"] | null; // Date
-		nei?: NexusGenScalars["Date"] | null; // Date
-		not?: NexusGenInputs["DateFilterInput"] | null; // DateFilterInput
-		notContains?: NexusGenScalars["Date"] | null; // Date
-		notContainsi?: NexusGenScalars["Date"] | null; // Date
-		notIn?: Array<NexusGenScalars["Date"] | null> | null; // [Date]
-		notNull?: boolean | null; // Boolean
-		null?: boolean | null; // Boolean
-		or?: Array<NexusGenScalars["Date"] | null> | null; // [Date]
-		startsWith?: NexusGenScalars["Date"] | null; // Date
-	}
-	DateTimeFilterInput: { // input type
-		and?: Array<NexusGenScalars["DateTime"] | null> | null; // [DateTime]
-		between?: Array<NexusGenScalars["DateTime"] | null> | null; // [DateTime]
-		contains?: NexusGenScalars["DateTime"] | null; // DateTime
-		containsi?: NexusGenScalars["DateTime"] | null; // DateTime
-		endsWith?: NexusGenScalars["DateTime"] | null; // DateTime
-		eq?: NexusGenScalars["DateTime"] | null; // DateTime
-		eqi?: NexusGenScalars["DateTime"] | null; // DateTime
-		gt?: NexusGenScalars["DateTime"] | null; // DateTime
-		gte?: NexusGenScalars["DateTime"] | null; // DateTime
-		in?: Array<NexusGenScalars["DateTime"] | null> | null; // [DateTime]
-		lt?: NexusGenScalars["DateTime"] | null; // DateTime
-		lte?: NexusGenScalars["DateTime"] | null; // DateTime
-		ne?: NexusGenScalars["DateTime"] | null; // DateTime
-		nei?: NexusGenScalars["DateTime"] | null; // DateTime
-		not?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		notContains?: NexusGenScalars["DateTime"] | null; // DateTime
-		notContainsi?: NexusGenScalars["DateTime"] | null; // DateTime
-		notIn?: Array<NexusGenScalars["DateTime"] | null> | null; // [DateTime]
-		notNull?: boolean | null; // Boolean
-		null?: boolean | null; // Boolean
-		or?: Array<NexusGenScalars["DateTime"] | null> | null; // [DateTime]
-		startsWith?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	DisciplineFiltersInput: { // input type
-		and?: Array<NexusGenInputs["DisciplineFiltersInput"] | null> | null; // [DisciplineFiltersInput]
-		createdAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		id?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		locale?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		localizations?: NexusGenInputs["DisciplineFiltersInput"] | null; // DisciplineFiltersInput
-		name?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		not?: NexusGenInputs["DisciplineFiltersInput"] | null; // DisciplineFiltersInput
-		or?: Array<NexusGenInputs["DisciplineFiltersInput"] | null> | null; // [DisciplineFiltersInput]
-		publishedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		slug?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		updatedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		userEvents?: NexusGenInputs["UserEventFiltersInput"] | null; // UserEventFiltersInput
-		users?: NexusGenInputs["UserDisciplineFiltersInput"] | null; // UserDisciplineFiltersInput
-	}
-	DisciplineInput: { // input type
-		icon?: string | null; // ID
-		name?: string | null; // String
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		slug?: string | null; // String
-		userEvents?: string | null; // ID
-		users?: Array<string | null> | null; // [ID]
-	}
-	EventFiltersInput: { // input type
-		and?: Array<NexusGenInputs["EventFiltersInput"] | null> | null; // [EventFiltersInput]
-		createdAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		id?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		name?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		not?: NexusGenInputs["EventFiltersInput"] | null; // EventFiltersInput
-		or?: Array<NexusGenInputs["EventFiltersInput"] | null> | null; // [EventFiltersInput]
-		publishedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		updatedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-	}
-	EventInput: { // input type
-		name?: string | null; // String
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	FileInfoInput: { // input type
-		alternativeText?: string | null; // String
-		caption?: string | null; // String
-		name?: string | null; // String
-	}
-	FloatFilterInput: { // input type
-		and?: Array<number | null> | null; // [Float]
-		between?: Array<number | null> | null; // [Float]
-		contains?: number | null; // Float
-		containsi?: number | null; // Float
-		endsWith?: number | null; // Float
-		eq?: number | null; // Float
-		eqi?: number | null; // Float
-		gt?: number | null; // Float
-		gte?: number | null; // Float
-		in?: Array<number | null> | null; // [Float]
-		lt?: number | null; // Float
-		lte?: number | null; // Float
-		ne?: number | null; // Float
-		nei?: number | null; // Float
-		not?: NexusGenInputs["FloatFilterInput"] | null; // FloatFilterInput
-		notContains?: number | null; // Float
-		notContainsi?: number | null; // Float
-		notIn?: Array<number | null> | null; // [Float]
-		notNull?: boolean | null; // Boolean
-		null?: boolean | null; // Boolean
-		or?: Array<number | null> | null; // [Float]
-		startsWith?: number | null; // Float
-	}
-	I18NLocaleFiltersInput: { // input type
-		and?: Array<NexusGenInputs["I18NLocaleFiltersInput"] | null> | null; // [I18NLocaleFiltersInput]
-		code?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		createdAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		id?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		name?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		not?: NexusGenInputs["I18NLocaleFiltersInput"] | null; // I18NLocaleFiltersInput
-		or?: Array<NexusGenInputs["I18NLocaleFiltersInput"] | null> | null; // [I18NLocaleFiltersInput]
-		updatedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-	}
-	I18NLocaleInput: { // input type
-		code?: string | null; // String
-		name?: string | null; // String
-	}
-	IDFilterInput: { // input type
-		and?: Array<string | null> | null; // [ID]
-		between?: Array<string | null> | null; // [ID]
-		contains?: string | null; // ID
-		containsi?: string | null; // ID
-		endsWith?: string | null; // ID
-		eq?: string | null; // ID
-		eqi?: string | null; // ID
-		gt?: string | null; // ID
-		gte?: string | null; // ID
-		in?: Array<string | null> | null; // [ID]
-		lt?: string | null; // ID
-		lte?: string | null; // ID
-		ne?: string | null; // ID
-		nei?: string | null; // ID
-		not?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		notContains?: string | null; // ID
-		notContainsi?: string | null; // ID
-		notIn?: Array<string | null> | null; // [ID]
-		notNull?: boolean | null; // Boolean
-		null?: boolean | null; // Boolean
-		or?: Array<string | null> | null; // [ID]
-		startsWith?: string | null; // ID
-	}
-	IntFilterInput: { // input type
-		and?: Array<number | null> | null; // [Int]
-		between?: Array<number | null> | null; // [Int]
-		contains?: number | null; // Int
-		containsi?: number | null; // Int
-		endsWith?: number | null; // Int
-		eq?: number | null; // Int
-		eqi?: number | null; // Int
-		gt?: number | null; // Int
-		gte?: number | null; // Int
-		in?: Array<number | null> | null; // [Int]
-		lt?: number | null; // Int
-		lte?: number | null; // Int
-		ne?: number | null; // Int
-		nei?: number | null; // Int
-		not?: NexusGenInputs["IntFilterInput"] | null; // IntFilterInput
-		notContains?: number | null; // Int
-		notContainsi?: number | null; // Int
-		notIn?: Array<number | null> | null; // [Int]
-		notNull?: boolean | null; // Boolean
-		null?: boolean | null; // Boolean
-		or?: Array<number | null> | null; // [Int]
-		startsWith?: number | null; // Int
-	}
-	JSONFilterInput: { // input type
-		and?: Array<NexusGenScalars["JSON"] | null> | null; // [JSON]
-		between?: Array<NexusGenScalars["JSON"] | null> | null; // [JSON]
-		contains?: NexusGenScalars["JSON"] | null; // JSON
-		containsi?: NexusGenScalars["JSON"] | null; // JSON
-		endsWith?: NexusGenScalars["JSON"] | null; // JSON
-		eq?: NexusGenScalars["JSON"] | null; // JSON
-		eqi?: NexusGenScalars["JSON"] | null; // JSON
-		gt?: NexusGenScalars["JSON"] | null; // JSON
-		gte?: NexusGenScalars["JSON"] | null; // JSON
-		in?: Array<NexusGenScalars["JSON"] | null> | null; // [JSON]
-		lt?: NexusGenScalars["JSON"] | null; // JSON
-		lte?: NexusGenScalars["JSON"] | null; // JSON
-		ne?: NexusGenScalars["JSON"] | null; // JSON
-		nei?: NexusGenScalars["JSON"] | null; // JSON
-		not?: NexusGenInputs["JSONFilterInput"] | null; // JSONFilterInput
-		notContains?: NexusGenScalars["JSON"] | null; // JSON
-		notContainsi?: NexusGenScalars["JSON"] | null; // JSON
-		notIn?: Array<NexusGenScalars["JSON"] | null> | null; // [JSON]
-		notNull?: boolean | null; // Boolean
-		null?: boolean | null; // Boolean
-		or?: Array<NexusGenScalars["JSON"] | null> | null; // [JSON]
-		startsWith?: NexusGenScalars["JSON"] | null; // JSON
-	}
-	LongFilterInput: { // input type
-		and?: Array<NexusGenScalars["Long"] | null> | null; // [Long]
-		between?: Array<NexusGenScalars["Long"] | null> | null; // [Long]
-		contains?: NexusGenScalars["Long"] | null; // Long
-		containsi?: NexusGenScalars["Long"] | null; // Long
-		endsWith?: NexusGenScalars["Long"] | null; // Long
-		eq?: NexusGenScalars["Long"] | null; // Long
-		eqi?: NexusGenScalars["Long"] | null; // Long
-		gt?: NexusGenScalars["Long"] | null; // Long
-		gte?: NexusGenScalars["Long"] | null; // Long
-		in?: Array<NexusGenScalars["Long"] | null> | null; // [Long]
-		lt?: NexusGenScalars["Long"] | null; // Long
-		lte?: NexusGenScalars["Long"] | null; // Long
-		ne?: NexusGenScalars["Long"] | null; // Long
-		nei?: NexusGenScalars["Long"] | null; // Long
-		not?: NexusGenInputs["LongFilterInput"] | null; // LongFilterInput
-		notContains?: NexusGenScalars["Long"] | null; // Long
-		notContainsi?: NexusGenScalars["Long"] | null; // Long
-		notIn?: Array<NexusGenScalars["Long"] | null> | null; // [Long]
-		notNull?: boolean | null; // Boolean
-		null?: boolean | null; // Boolean
-		or?: Array<NexusGenScalars["Long"] | null> | null; // [Long]
-		startsWith?: NexusGenScalars["Long"] | null; // Long
-	}
-	PaginationArg: { // input type
-		limit?: number | null; // Int
-		page?: number | null; // Int
-		pageSize?: number | null; // Int
-		start?: number | null; // Int
-	}
-	StringFilterInput: { // input type
-		and?: Array<string | null> | null; // [String]
-		between?: Array<string | null> | null; // [String]
-		contains?: string | null; // String
-		containsi?: string | null; // String
-		endsWith?: string | null; // String
-		eq?: string | null; // String
-		eqi?: string | null; // String
-		gt?: string | null; // String
-		gte?: string | null; // String
-		in?: Array<string | null> | null; // [String]
-		lt?: string | null; // String
-		lte?: string | null; // String
-		ne?: string | null; // String
-		nei?: string | null; // String
-		not?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		notContains?: string | null; // String
-		notContainsi?: string | null; // String
-		notIn?: Array<string | null> | null; // [String]
-		notNull?: boolean | null; // Boolean
-		null?: boolean | null; // Boolean
-		or?: Array<string | null> | null; // [String]
-		startsWith?: string | null; // String
-	}
-	TimeFilterInput: { // input type
-		and?: Array<NexusGenScalars["Time"] | null> | null; // [Time]
-		between?: Array<NexusGenScalars["Time"] | null> | null; // [Time]
-		contains?: NexusGenScalars["Time"] | null; // Time
-		containsi?: NexusGenScalars["Time"] | null; // Time
-		endsWith?: NexusGenScalars["Time"] | null; // Time
-		eq?: NexusGenScalars["Time"] | null; // Time
-		eqi?: NexusGenScalars["Time"] | null; // Time
-		gt?: NexusGenScalars["Time"] | null; // Time
-		gte?: NexusGenScalars["Time"] | null; // Time
-		in?: Array<NexusGenScalars["Time"] | null> | null; // [Time]
-		lt?: NexusGenScalars["Time"] | null; // Time
-		lte?: NexusGenScalars["Time"] | null; // Time
-		ne?: NexusGenScalars["Time"] | null; // Time
-		nei?: NexusGenScalars["Time"] | null; // Time
-		not?: NexusGenInputs["TimeFilterInput"] | null; // TimeFilterInput
-		notContains?: NexusGenScalars["Time"] | null; // Time
-		notContainsi?: NexusGenScalars["Time"] | null; // Time
-		notIn?: Array<NexusGenScalars["Time"] | null> | null; // [Time]
-		notNull?: boolean | null; // Boolean
-		null?: boolean | null; // Boolean
-		or?: Array<NexusGenScalars["Time"] | null> | null; // [Time]
-		startsWith?: NexusGenScalars["Time"] | null; // Time
-	}
-	UploadFileFiltersInput: { // input type
-		alternativeText?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		and?: Array<NexusGenInputs["UploadFileFiltersInput"] | null> | null; // [UploadFileFiltersInput]
-		caption?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		createdAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		ext?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		folder?: NexusGenInputs["UploadFolderFiltersInput"] | null; // UploadFolderFiltersInput
-		folderPath?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		formats?: NexusGenInputs["JSONFilterInput"] | null; // JSONFilterInput
-		hash?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		height?: NexusGenInputs["IntFilterInput"] | null; // IntFilterInput
-		id?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		mime?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		name?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		not?: NexusGenInputs["UploadFileFiltersInput"] | null; // UploadFileFiltersInput
-		or?: Array<NexusGenInputs["UploadFileFiltersInput"] | null> | null; // [UploadFileFiltersInput]
-		previewUrl?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		provider?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		provider_metadata?: NexusGenInputs["JSONFilterInput"] | null; // JSONFilterInput
-		size?: NexusGenInputs["FloatFilterInput"] | null; // FloatFilterInput
-		updatedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		url?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		width?: NexusGenInputs["IntFilterInput"] | null; // IntFilterInput
-	}
-	UploadFileInput: { // input type
-		alternativeText?: string | null; // String
-		caption?: string | null; // String
-		ext?: string | null; // String
-		folder?: string | null; // ID
-		folderPath?: string | null; // String
-		formats?: NexusGenScalars["JSON"] | null; // JSON
-		hash?: string | null; // String
-		height?: number | null; // Int
-		mime?: string | null; // String
-		name?: string | null; // String
-		previewUrl?: string | null; // String
-		provider?: string | null; // String
-		provider_metadata?: NexusGenScalars["JSON"] | null; // JSON
-		size?: number | null; // Float
-		url?: string | null; // String
-		width?: number | null; // Int
-	}
-	UploadFolderFiltersInput: { // input type
-		and?: Array<NexusGenInputs["UploadFolderFiltersInput"] | null> | null; // [UploadFolderFiltersInput]
-		children?: NexusGenInputs["UploadFolderFiltersInput"] | null; // UploadFolderFiltersInput
-		createdAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		files?: NexusGenInputs["UploadFileFiltersInput"] | null; // UploadFileFiltersInput
-		id?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		name?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		not?: NexusGenInputs["UploadFolderFiltersInput"] | null; // UploadFolderFiltersInput
-		or?: Array<NexusGenInputs["UploadFolderFiltersInput"] | null> | null; // [UploadFolderFiltersInput]
-		parent?: NexusGenInputs["UploadFolderFiltersInput"] | null; // UploadFolderFiltersInput
-		path?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		pathId?: NexusGenInputs["IntFilterInput"] | null; // IntFilterInput
-		updatedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-	}
-	UploadFolderInput: { // input type
-		children?: Array<string | null> | null; // [ID]
-		files?: Array<string | null> | null; // [ID]
-		name?: string | null; // String
-		parent?: string | null; // ID
-		path?: string | null; // String
-		pathId?: number | null; // Int
-	}
-	UserDisciplineFiltersInput: { // input type
-		and?: Array<NexusGenInputs["UserDisciplineFiltersInput"] | null> | null; // [UserDisciplineFiltersInput]
-		createdAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		discipline?: NexusGenInputs["DisciplineFiltersInput"] | null; // DisciplineFiltersInput
-		id?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		isTeaching?: NexusGenInputs["BooleanFilterInput"] | null; // BooleanFilterInput
-		level?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		locale?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		localizations?: NexusGenInputs["UserDisciplineFiltersInput"] | null; // UserDisciplineFiltersInput
-		not?: NexusGenInputs["UserDisciplineFiltersInput"] | null; // UserDisciplineFiltersInput
-		or?: Array<NexusGenInputs["UserDisciplineFiltersInput"] | null> | null; // [UserDisciplineFiltersInput]
-		publishedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		startedAt?: NexusGenInputs["DateFilterInput"] | null; // DateFilterInput
-		updatedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		user?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-	}
-	UserDisciplineInput: { // input type
-		discipline?: string | null; // ID
-		isTeaching?: boolean | null; // Boolean
-		level?: NexusGenEnums["ENUM_USERDISCIPLINE_LEVEL"] | null; // ENUM_USERDISCIPLINE_LEVEL
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		startedAt?: NexusGenScalars["Date"] | null; // Date
-		user?: string | null; // ID
-	}
-	UserEventFiltersInput: { // input type
-		and?: Array<NexusGenInputs["UserEventFiltersInput"] | null> | null; // [UserEventFiltersInput]
-		createdAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		description?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		disciplines?: NexusGenInputs["DisciplineFiltersInput"] | null; // DisciplineFiltersInput
-		end?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		id?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		name?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		not?: NexusGenInputs["UserEventFiltersInput"] | null; // UserEventFiltersInput
-		or?: Array<NexusGenInputs["UserEventFiltersInput"] | null> | null; // [UserEventFiltersInput]
-		participants?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-		public?: NexusGenInputs["BooleanFilterInput"] | null; // BooleanFilterInput
-		publishedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		start?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		updatedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		user?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-		where?: NexusGenInputs["UserPlayLocationFiltersInput"] | null; // UserPlayLocationFiltersInput
-	}
-	UserEventInput: { // input type
-		description?: string | null; // String
-		disciplines?: Array<string | null> | null; // [ID]
-		end?: NexusGenScalars["DateTime"] | null; // DateTime
-		image?: string | null; // ID
-		name?: string | null; // String
-		participants?: string | null; // ID
-		public?: boolean | null; // Boolean
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		start?: NexusGenScalars["DateTime"] | null; // DateTime
-		user?: string | null; // ID
-		where?: string | null; // ID
-	}
-	UserGroupEventFiltersInput: { // input type
-		admins?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-		and?: Array<NexusGenInputs["UserGroupEventFiltersInput"] | null> | null; // [UserGroupEventFiltersInput]
-		createdAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		description?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		end?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		group?: NexusGenInputs["UserGroupFiltersInput"] | null; // UserGroupFiltersInput
-		id?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		location?: NexusGenInputs["UserPlayLocationFiltersInput"] | null; // UserPlayLocationFiltersInput
-		name?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		not?: NexusGenInputs["UserGroupEventFiltersInput"] | null; // UserGroupEventFiltersInput
-		or?: Array<NexusGenInputs["UserGroupEventFiltersInput"] | null> | null; // [UserGroupEventFiltersInput]
-		public?: NexusGenInputs["BooleanFilterInput"] | null; // BooleanFilterInput
-		publishedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		start?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		updatedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-	}
-	UserGroupEventInput: { // input type
-		admins?: Array<string | null> | null; // [ID]
-		description?: string | null; // String
-		end?: NexusGenScalars["DateTime"] | null; // DateTime
-		group?: string | null; // ID
-		image?: string | null; // ID
-		location?: string | null; // ID
-		name?: string | null; // String
-		public?: boolean | null; // Boolean
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		start?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	UserGroupFiltersInput: { // input type
-		admins?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-		and?: Array<NexusGenInputs["UserGroupFiltersInput"] | null> | null; // [UserGroupFiltersInput]
-		contact?: NexusGenInputs["ComponentBaseContactFiltersInput"] | null; // ComponentBaseContactFiltersInput
-		createdAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		description?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		id?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		location?: NexusGenInputs["ComponentBaseLocationFiltersInput"] | null; // ComponentBaseLocationFiltersInput
-		members?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-		name?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		not?: NexusGenInputs["UserGroupFiltersInput"] | null; // UserGroupFiltersInput
-		or?: Array<NexusGenInputs["UserGroupFiltersInput"] | null> | null; // [UserGroupFiltersInput]
-		publishedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		updatedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		userGroupEvents?: NexusGenInputs["UserGroupEventFiltersInput"] | null; // UserGroupEventFiltersInput
-	}
-	UserGroupInput: { // input type
-		admins?: Array<string | null> | null; // [ID]
-		avatar?: string | null; // ID
-		contact?: NexusGenInputs["ComponentBaseContactInput"] | null; // ComponentBaseContactInput
-		description?: string | null; // String
-		location?: NexusGenInputs["ComponentBaseLocationInput"] | null; // ComponentBaseLocationInput
-		members?: Array<string | null> | null; // [ID]
-		name?: string | null; // String
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		userGroupEvents?: Array<string | null> | null; // [ID]
-	}
-	UserPlayLocationFiltersInput: { // input type
-		and?: Array<NexusGenInputs["UserPlayLocationFiltersInput"] | null> | null; // [UserPlayLocationFiltersInput]
-		createdAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		description?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		groupEventsLocations?: NexusGenInputs["UserGroupEventFiltersInput"] | null; // UserGroupEventFiltersInput
-		id?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		location?: NexusGenInputs["ComponentBaseLocationFiltersInput"] | null; // ComponentBaseLocationFiltersInput
-		name?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		not?: NexusGenInputs["UserPlayLocationFiltersInput"] | null; // UserPlayLocationFiltersInput
-		or?: Array<NexusGenInputs["UserPlayLocationFiltersInput"] | null> | null; // [UserPlayLocationFiltersInput]
-		publishedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		updatedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		userEvents?: NexusGenInputs["UserEventFiltersInput"] | null; // UserEventFiltersInput
-		users?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-	}
-	UserPlayLocationInput: { // input type
-		description?: string | null; // String
-		groupEventsLocations?: Array<string | null> | null; // [ID]
-		image?: string | null; // ID
-		location?: NexusGenInputs["ComponentBaseLocationInput"] | null; // ComponentBaseLocationInput
-		name?: string | null; // String
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		userEvents?: Array<string | null> | null; // [ID]
-		users?: Array<string | null> | null; // [ID]
-	}
-	UsersPermissionsLoginInput: { // input type
-		identifier: string; // String!
-		password: string; // String!
-		provider: string; // String!
-	}
-	UsersPermissionsPermissionFiltersInput: { // input type
-		action?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		and?: Array<NexusGenInputs["UsersPermissionsPermissionFiltersInput"] | null> | null; // [UsersPermissionsPermissionFiltersInput]
-		createdAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		id?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		not?: NexusGenInputs["UsersPermissionsPermissionFiltersInput"] | null; // UsersPermissionsPermissionFiltersInput
-		or?: Array<NexusGenInputs["UsersPermissionsPermissionFiltersInput"] | null> | null; // [UsersPermissionsPermissionFiltersInput]
-		role?: NexusGenInputs["UsersPermissionsRoleFiltersInput"] | null; // UsersPermissionsRoleFiltersInput
-		updatedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-	}
-	UsersPermissionsPermissionInput: { // input type
-		action?: string | null; // String
-		role?: string | null; // ID
-	}
-	UsersPermissionsRegisterInput: { // input type
-		email: string; // String!
-		password: string; // String!
-		username: string; // String!
-	}
-	UsersPermissionsRoleFiltersInput: { // input type
-		and?: Array<NexusGenInputs["UsersPermissionsRoleFiltersInput"] | null> | null; // [UsersPermissionsRoleFiltersInput]
-		createdAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		description?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		id?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		name?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		not?: NexusGenInputs["UsersPermissionsRoleFiltersInput"] | null; // UsersPermissionsRoleFiltersInput
-		or?: Array<NexusGenInputs["UsersPermissionsRoleFiltersInput"] | null> | null; // [UsersPermissionsRoleFiltersInput]
-		permissions?: NexusGenInputs["UsersPermissionsPermissionFiltersInput"] | null; // UsersPermissionsPermissionFiltersInput
-		type?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		updatedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		users?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-	}
-	UsersPermissionsRoleInput: { // input type
-		description?: string | null; // String
-		name?: string | null; // String
-		permissions?: Array<string | null> | null; // [ID]
-		type?: string | null; // String
-		users?: Array<string | null> | null; // [ID]
-	}
-	UsersPermissionsUserFiltersInput: { // input type
-		aboutMe?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		adminGroups?: NexusGenInputs["UserGroupFiltersInput"] | null; // UserGroupFiltersInput
-		and?: Array<NexusGenInputs["UsersPermissionsUserFiltersInput"] | null> | null; // [UsersPermissionsUserFiltersInput]
-		blocked?: NexusGenInputs["BooleanFilterInput"] | null; // BooleanFilterInput
-		city?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		confirmationToken?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		confirmed?: NexusGenInputs["BooleanFilterInput"] | null; // BooleanFilterInput
-		createdAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		disciplines?: NexusGenInputs["UserDisciplineFiltersInput"] | null; // UserDisciplineFiltersInput
-		email?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		groupEventsAdmins?: NexusGenInputs["UserGroupEventFiltersInput"] | null; // UserGroupEventFiltersInput
-		groups?: NexusGenInputs["UserGroupFiltersInput"] | null; // UserGroupFiltersInput
-		id?: NexusGenInputs["IDFilterInput"] | null; // IDFilterInput
-		location?: NexusGenInputs["ComponentBaseLocationFiltersInput"] | null; // ComponentBaseLocationFiltersInput
-		not?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-		or?: Array<NexusGenInputs["UsersPermissionsUserFiltersInput"] | null> | null; // [UsersPermissionsUserFiltersInput]
-		participatedUserEvents?: NexusGenInputs["UserEventFiltersInput"] | null; // UserEventFiltersInput
-		password?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		provider?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		publicContact?: NexusGenInputs["ComponentBaseContactFiltersInput"] | null; // ComponentBaseContactFiltersInput
-		resetPasswordToken?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-		role?: NexusGenInputs["UsersPermissionsRoleFiltersInput"] | null; // UsersPermissionsRoleFiltersInput
-		updatedAt?: NexusGenInputs["DateTimeFilterInput"] | null; // DateTimeFilterInput
-		userEvents?: NexusGenInputs["UserEventFiltersInput"] | null; // UserEventFiltersInput
-		userPlayLocations?: NexusGenInputs["UserPlayLocationFiltersInput"] | null; // UserPlayLocationFiltersInput
-		username?: NexusGenInputs["StringFilterInput"] | null; // StringFilterInput
-	}
-	UsersPermissionsUserInput: { // input type
-		aboutMe?: string | null; // String
-		adminGroups?: Array<string | null> | null; // [ID]
-		avatar?: string | null; // ID
-		blocked?: boolean | null; // Boolean
-		city?: string | null; // String
-		confirmationToken?: string | null; // String
-		confirmed?: boolean | null; // Boolean
-		disciplines?: Array<string | null> | null; // [ID]
-		email?: string | null; // String
-		groupEventsAdmins?: Array<string | null> | null; // [ID]
-		groups?: Array<string | null> | null; // [ID]
-		location?: NexusGenInputs["ComponentBaseLocationInput"] | null; // ComponentBaseLocationInput
-		participatedUserEvents?: Array<string | null> | null; // [ID]
-		password?: string | null; // String
-		provider?: string | null; // String
-		publicContact?: NexusGenInputs["ComponentBaseContactInput"] | null; // ComponentBaseContactInput
-		resetPasswordToken?: string | null; // String
-		role?: string | null; // ID
-		userEvents?: Array<string | null> | null; // [ID]
-		userPlayLocations?: Array<string | null> | null; // [ID]
-		username?: string | null; // String
-	}
+  BooleanFilterInput: { // input type
+    and?: Array<boolean | null> | null; // [Boolean]
+    between?: Array<boolean | null> | null; // [Boolean]
+    contains?: boolean | null; // Boolean
+    containsi?: boolean | null; // Boolean
+    endsWith?: boolean | null; // Boolean
+    eq?: boolean | null; // Boolean
+    eqi?: boolean | null; // Boolean
+    gt?: boolean | null; // Boolean
+    gte?: boolean | null; // Boolean
+    in?: Array<boolean | null> | null; // [Boolean]
+    lt?: boolean | null; // Boolean
+    lte?: boolean | null; // Boolean
+    ne?: boolean | null; // Boolean
+    nei?: boolean | null; // Boolean
+    not?: NexusGenInputs['BooleanFilterInput'] | null; // BooleanFilterInput
+    notContains?: boolean | null; // Boolean
+    notContainsi?: boolean | null; // Boolean
+    notIn?: Array<boolean | null> | null; // [Boolean]
+    notNull?: boolean | null; // Boolean
+    null?: boolean | null; // Boolean
+    or?: Array<boolean | null> | null; // [Boolean]
+    startsWith?: boolean | null; // Boolean
+  }
+  ComponentBaseContactFiltersInput: { // input type
+    and?: Array<NexusGenInputs['ComponentBaseContactFiltersInput'] | null> | null; // [ComponentBaseContactFiltersInput]
+    email?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    facebook?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    instagram?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['ComponentBaseContactFiltersInput'] | null; // ComponentBaseContactFiltersInput
+    or?: Array<NexusGenInputs['ComponentBaseContactFiltersInput'] | null> | null; // [ComponentBaseContactFiltersInput]
+    reddit?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    signal?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    telegram?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    whatsapp?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+  }
+  ComponentBaseContactInput: { // input type
+    email?: string | null; // String
+    facebook?: string | null; // String
+    id?: string | null; // ID
+    instagram?: string | null; // String
+    reddit?: string | null; // String
+    signal?: string | null; // String
+    telegram?: string | null; // String
+    whatsapp?: string | null; // String
+  }
+  ComponentBaseLocationFiltersInput: { // input type
+    and?: Array<NexusGenInputs['ComponentBaseLocationFiltersInput'] | null> | null; // [ComponentBaseLocationFiltersInput]
+    latitude?: NexusGenInputs['FloatFilterInput'] | null; // FloatFilterInput
+    longitude?: NexusGenInputs['FloatFilterInput'] | null; // FloatFilterInput
+    not?: NexusGenInputs['ComponentBaseLocationFiltersInput'] | null; // ComponentBaseLocationFiltersInput
+    or?: Array<NexusGenInputs['ComponentBaseLocationFiltersInput'] | null> | null; // [ComponentBaseLocationFiltersInput]
+  }
+  ComponentBaseLocationInput: { // input type
+    id?: string | null; // ID
+    latitude?: number | null; // Float
+    longitude?: number | null; // Float
+  }
+  DateFilterInput: { // input type
+    and?: Array<NexusGenScalars['Date'] | null> | null; // [Date]
+    between?: Array<NexusGenScalars['Date'] | null> | null; // [Date]
+    contains?: NexusGenScalars['Date'] | null; // Date
+    containsi?: NexusGenScalars['Date'] | null; // Date
+    endsWith?: NexusGenScalars['Date'] | null; // Date
+    eq?: NexusGenScalars['Date'] | null; // Date
+    eqi?: NexusGenScalars['Date'] | null; // Date
+    gt?: NexusGenScalars['Date'] | null; // Date
+    gte?: NexusGenScalars['Date'] | null; // Date
+    in?: Array<NexusGenScalars['Date'] | null> | null; // [Date]
+    lt?: NexusGenScalars['Date'] | null; // Date
+    lte?: NexusGenScalars['Date'] | null; // Date
+    ne?: NexusGenScalars['Date'] | null; // Date
+    nei?: NexusGenScalars['Date'] | null; // Date
+    not?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
+    notContains?: NexusGenScalars['Date'] | null; // Date
+    notContainsi?: NexusGenScalars['Date'] | null; // Date
+    notIn?: Array<NexusGenScalars['Date'] | null> | null; // [Date]
+    notNull?: boolean | null; // Boolean
+    null?: boolean | null; // Boolean
+    or?: Array<NexusGenScalars['Date'] | null> | null; // [Date]
+    startsWith?: NexusGenScalars['Date'] | null; // Date
+  }
+  DateTimeFilterInput: { // input type
+    and?: Array<NexusGenScalars['DateTime'] | null> | null; // [DateTime]
+    between?: Array<NexusGenScalars['DateTime'] | null> | null; // [DateTime]
+    contains?: NexusGenScalars['DateTime'] | null; // DateTime
+    containsi?: NexusGenScalars['DateTime'] | null; // DateTime
+    endsWith?: NexusGenScalars['DateTime'] | null; // DateTime
+    eq?: NexusGenScalars['DateTime'] | null; // DateTime
+    eqi?: NexusGenScalars['DateTime'] | null; // DateTime
+    gt?: NexusGenScalars['DateTime'] | null; // DateTime
+    gte?: NexusGenScalars['DateTime'] | null; // DateTime
+    in?: Array<NexusGenScalars['DateTime'] | null> | null; // [DateTime]
+    lt?: NexusGenScalars['DateTime'] | null; // DateTime
+    lte?: NexusGenScalars['DateTime'] | null; // DateTime
+    ne?: NexusGenScalars['DateTime'] | null; // DateTime
+    nei?: NexusGenScalars['DateTime'] | null; // DateTime
+    not?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    notContains?: NexusGenScalars['DateTime'] | null; // DateTime
+    notContainsi?: NexusGenScalars['DateTime'] | null; // DateTime
+    notIn?: Array<NexusGenScalars['DateTime'] | null> | null; // [DateTime]
+    notNull?: boolean | null; // Boolean
+    null?: boolean | null; // Boolean
+    or?: Array<NexusGenScalars['DateTime'] | null> | null; // [DateTime]
+    startsWith?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  DisciplineFiltersInput: { // input type
+    and?: Array<NexusGenInputs['DisciplineFiltersInput'] | null> | null; // [DisciplineFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    locale?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    localizations?: NexusGenInputs['DisciplineFiltersInput'] | null; // DisciplineFiltersInput
+    name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['DisciplineFiltersInput'] | null; // DisciplineFiltersInput
+    or?: Array<NexusGenInputs['DisciplineFiltersInput'] | null> | null; // [DisciplineFiltersInput]
+    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    slug?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    userEvents?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+    users?: NexusGenInputs['UserDisciplineFiltersInput'] | null; // UserDisciplineFiltersInput
+  }
+  DisciplineInput: { // input type
+    icon?: string | null; // ID
+    name?: string | null; // String
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    slug?: string | null; // String
+    userEvents?: string | null; // ID
+    users?: Array<string | null> | null; // [ID]
+  }
+  EventFiltersInput: { // input type
+    and?: Array<NexusGenInputs['EventFiltersInput'] | null> | null; // [EventFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['EventFiltersInput'] | null; // EventFiltersInput
+    or?: Array<NexusGenInputs['EventFiltersInput'] | null> | null; // [EventFiltersInput]
+    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+  }
+  EventInput: { // input type
+    name?: string | null; // String
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  FileInfoInput: { // input type
+    alternativeText?: string | null; // String
+    caption?: string | null; // String
+    name?: string | null; // String
+  }
+  FloatFilterInput: { // input type
+    and?: Array<number | null> | null; // [Float]
+    between?: Array<number | null> | null; // [Float]
+    contains?: number | null; // Float
+    containsi?: number | null; // Float
+    endsWith?: number | null; // Float
+    eq?: number | null; // Float
+    eqi?: number | null; // Float
+    gt?: number | null; // Float
+    gte?: number | null; // Float
+    in?: Array<number | null> | null; // [Float]
+    lt?: number | null; // Float
+    lte?: number | null; // Float
+    ne?: number | null; // Float
+    nei?: number | null; // Float
+    not?: NexusGenInputs['FloatFilterInput'] | null; // FloatFilterInput
+    notContains?: number | null; // Float
+    notContainsi?: number | null; // Float
+    notIn?: Array<number | null> | null; // [Float]
+    notNull?: boolean | null; // Boolean
+    null?: boolean | null; // Boolean
+    or?: Array<number | null> | null; // [Float]
+    startsWith?: number | null; // Float
+  }
+  I18NLocaleFiltersInput: { // input type
+    and?: Array<NexusGenInputs['I18NLocaleFiltersInput'] | null> | null; // [I18NLocaleFiltersInput]
+    code?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['I18NLocaleFiltersInput'] | null; // I18NLocaleFiltersInput
+    or?: Array<NexusGenInputs['I18NLocaleFiltersInput'] | null> | null; // [I18NLocaleFiltersInput]
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+  }
+  I18NLocaleInput: { // input type
+    code?: string | null; // String
+    name?: string | null; // String
+  }
+  IDFilterInput: { // input type
+    and?: Array<string | null> | null; // [ID]
+    between?: Array<string | null> | null; // [ID]
+    contains?: string | null; // ID
+    containsi?: string | null; // ID
+    endsWith?: string | null; // ID
+    eq?: string | null; // ID
+    eqi?: string | null; // ID
+    gt?: string | null; // ID
+    gte?: string | null; // ID
+    in?: Array<string | null> | null; // [ID]
+    lt?: string | null; // ID
+    lte?: string | null; // ID
+    ne?: string | null; // ID
+    nei?: string | null; // ID
+    not?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    notContains?: string | null; // ID
+    notContainsi?: string | null; // ID
+    notIn?: Array<string | null> | null; // [ID]
+    notNull?: boolean | null; // Boolean
+    null?: boolean | null; // Boolean
+    or?: Array<string | null> | null; // [ID]
+    startsWith?: string | null; // ID
+  }
+  IntFilterInput: { // input type
+    and?: Array<number | null> | null; // [Int]
+    between?: Array<number | null> | null; // [Int]
+    contains?: number | null; // Int
+    containsi?: number | null; // Int
+    endsWith?: number | null; // Int
+    eq?: number | null; // Int
+    eqi?: number | null; // Int
+    gt?: number | null; // Int
+    gte?: number | null; // Int
+    in?: Array<number | null> | null; // [Int]
+    lt?: number | null; // Int
+    lte?: number | null; // Int
+    ne?: number | null; // Int
+    nei?: number | null; // Int
+    not?: NexusGenInputs['IntFilterInput'] | null; // IntFilterInput
+    notContains?: number | null; // Int
+    notContainsi?: number | null; // Int
+    notIn?: Array<number | null> | null; // [Int]
+    notNull?: boolean | null; // Boolean
+    null?: boolean | null; // Boolean
+    or?: Array<number | null> | null; // [Int]
+    startsWith?: number | null; // Int
+  }
+  JSONFilterInput: { // input type
+    and?: Array<NexusGenScalars['JSON'] | null> | null; // [JSON]
+    between?: Array<NexusGenScalars['JSON'] | null> | null; // [JSON]
+    contains?: NexusGenScalars['JSON'] | null; // JSON
+    containsi?: NexusGenScalars['JSON'] | null; // JSON
+    endsWith?: NexusGenScalars['JSON'] | null; // JSON
+    eq?: NexusGenScalars['JSON'] | null; // JSON
+    eqi?: NexusGenScalars['JSON'] | null; // JSON
+    gt?: NexusGenScalars['JSON'] | null; // JSON
+    gte?: NexusGenScalars['JSON'] | null; // JSON
+    in?: Array<NexusGenScalars['JSON'] | null> | null; // [JSON]
+    lt?: NexusGenScalars['JSON'] | null; // JSON
+    lte?: NexusGenScalars['JSON'] | null; // JSON
+    ne?: NexusGenScalars['JSON'] | null; // JSON
+    nei?: NexusGenScalars['JSON'] | null; // JSON
+    not?: NexusGenInputs['JSONFilterInput'] | null; // JSONFilterInput
+    notContains?: NexusGenScalars['JSON'] | null; // JSON
+    notContainsi?: NexusGenScalars['JSON'] | null; // JSON
+    notIn?: Array<NexusGenScalars['JSON'] | null> | null; // [JSON]
+    notNull?: boolean | null; // Boolean
+    null?: boolean | null; // Boolean
+    or?: Array<NexusGenScalars['JSON'] | null> | null; // [JSON]
+    startsWith?: NexusGenScalars['JSON'] | null; // JSON
+  }
+  LongFilterInput: { // input type
+    and?: Array<NexusGenScalars['Long'] | null> | null; // [Long]
+    between?: Array<NexusGenScalars['Long'] | null> | null; // [Long]
+    contains?: NexusGenScalars['Long'] | null; // Long
+    containsi?: NexusGenScalars['Long'] | null; // Long
+    endsWith?: NexusGenScalars['Long'] | null; // Long
+    eq?: NexusGenScalars['Long'] | null; // Long
+    eqi?: NexusGenScalars['Long'] | null; // Long
+    gt?: NexusGenScalars['Long'] | null; // Long
+    gte?: NexusGenScalars['Long'] | null; // Long
+    in?: Array<NexusGenScalars['Long'] | null> | null; // [Long]
+    lt?: NexusGenScalars['Long'] | null; // Long
+    lte?: NexusGenScalars['Long'] | null; // Long
+    ne?: NexusGenScalars['Long'] | null; // Long
+    nei?: NexusGenScalars['Long'] | null; // Long
+    not?: NexusGenInputs['LongFilterInput'] | null; // LongFilterInput
+    notContains?: NexusGenScalars['Long'] | null; // Long
+    notContainsi?: NexusGenScalars['Long'] | null; // Long
+    notIn?: Array<NexusGenScalars['Long'] | null> | null; // [Long]
+    notNull?: boolean | null; // Boolean
+    null?: boolean | null; // Boolean
+    or?: Array<NexusGenScalars['Long'] | null> | null; // [Long]
+    startsWith?: NexusGenScalars['Long'] | null; // Long
+  }
+  PaginationArg: { // input type
+    limit?: number | null; // Int
+    page?: number | null; // Int
+    pageSize?: number | null; // Int
+    start?: number | null; // Int
+  }
+  StringFilterInput: { // input type
+    and?: Array<string | null> | null; // [String]
+    between?: Array<string | null> | null; // [String]
+    contains?: string | null; // String
+    containsi?: string | null; // String
+    endsWith?: string | null; // String
+    eq?: string | null; // String
+    eqi?: string | null; // String
+    gt?: string | null; // String
+    gte?: string | null; // String
+    in?: Array<string | null> | null; // [String]
+    lt?: string | null; // String
+    lte?: string | null; // String
+    ne?: string | null; // String
+    nei?: string | null; // String
+    not?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    notContains?: string | null; // String
+    notContainsi?: string | null; // String
+    notIn?: Array<string | null> | null; // [String]
+    notNull?: boolean | null; // Boolean
+    null?: boolean | null; // Boolean
+    or?: Array<string | null> | null; // [String]
+    startsWith?: string | null; // String
+  }
+  TimeFilterInput: { // input type
+    and?: Array<NexusGenScalars['Time'] | null> | null; // [Time]
+    between?: Array<NexusGenScalars['Time'] | null> | null; // [Time]
+    contains?: NexusGenScalars['Time'] | null; // Time
+    containsi?: NexusGenScalars['Time'] | null; // Time
+    endsWith?: NexusGenScalars['Time'] | null; // Time
+    eq?: NexusGenScalars['Time'] | null; // Time
+    eqi?: NexusGenScalars['Time'] | null; // Time
+    gt?: NexusGenScalars['Time'] | null; // Time
+    gte?: NexusGenScalars['Time'] | null; // Time
+    in?: Array<NexusGenScalars['Time'] | null> | null; // [Time]
+    lt?: NexusGenScalars['Time'] | null; // Time
+    lte?: NexusGenScalars['Time'] | null; // Time
+    ne?: NexusGenScalars['Time'] | null; // Time
+    nei?: NexusGenScalars['Time'] | null; // Time
+    not?: NexusGenInputs['TimeFilterInput'] | null; // TimeFilterInput
+    notContains?: NexusGenScalars['Time'] | null; // Time
+    notContainsi?: NexusGenScalars['Time'] | null; // Time
+    notIn?: Array<NexusGenScalars['Time'] | null> | null; // [Time]
+    notNull?: boolean | null; // Boolean
+    null?: boolean | null; // Boolean
+    or?: Array<NexusGenScalars['Time'] | null> | null; // [Time]
+    startsWith?: NexusGenScalars['Time'] | null; // Time
+  }
+  UploadFileFiltersInput: { // input type
+    alternativeText?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    and?: Array<NexusGenInputs['UploadFileFiltersInput'] | null> | null; // [UploadFileFiltersInput]
+    caption?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    ext?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    folder?: NexusGenInputs['UploadFolderFiltersInput'] | null; // UploadFolderFiltersInput
+    folderPath?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    formats?: NexusGenInputs['JSONFilterInput'] | null; // JSONFilterInput
+    hash?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    height?: NexusGenInputs['IntFilterInput'] | null; // IntFilterInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    mime?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['UploadFileFiltersInput'] | null; // UploadFileFiltersInput
+    or?: Array<NexusGenInputs['UploadFileFiltersInput'] | null> | null; // [UploadFileFiltersInput]
+    previewUrl?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    provider?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    provider_metadata?: NexusGenInputs['JSONFilterInput'] | null; // JSONFilterInput
+    size?: NexusGenInputs['FloatFilterInput'] | null; // FloatFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    url?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    width?: NexusGenInputs['IntFilterInput'] | null; // IntFilterInput
+  }
+  UploadFileInput: { // input type
+    alternativeText?: string | null; // String
+    caption?: string | null; // String
+    ext?: string | null; // String
+    folder?: string | null; // ID
+    folderPath?: string | null; // String
+    formats?: NexusGenScalars['JSON'] | null; // JSON
+    hash?: string | null; // String
+    height?: number | null; // Int
+    mime?: string | null; // String
+    name?: string | null; // String
+    previewUrl?: string | null; // String
+    provider?: string | null; // String
+    provider_metadata?: NexusGenScalars['JSON'] | null; // JSON
+    size?: number | null; // Float
+    url?: string | null; // String
+    width?: number | null; // Int
+  }
+  UploadFolderFiltersInput: { // input type
+    and?: Array<NexusGenInputs['UploadFolderFiltersInput'] | null> | null; // [UploadFolderFiltersInput]
+    children?: NexusGenInputs['UploadFolderFiltersInput'] | null; // UploadFolderFiltersInput
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    files?: NexusGenInputs['UploadFileFiltersInput'] | null; // UploadFileFiltersInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['UploadFolderFiltersInput'] | null; // UploadFolderFiltersInput
+    or?: Array<NexusGenInputs['UploadFolderFiltersInput'] | null> | null; // [UploadFolderFiltersInput]
+    parent?: NexusGenInputs['UploadFolderFiltersInput'] | null; // UploadFolderFiltersInput
+    path?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    pathId?: NexusGenInputs['IntFilterInput'] | null; // IntFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+  }
+  UploadFolderInput: { // input type
+    children?: Array<string | null> | null; // [ID]
+    files?: Array<string | null> | null; // [ID]
+    name?: string | null; // String
+    parent?: string | null; // ID
+    path?: string | null; // String
+    pathId?: number | null; // Int
+  }
+  UserDisciplineFiltersInput: { // input type
+    and?: Array<NexusGenInputs['UserDisciplineFiltersInput'] | null> | null; // [UserDisciplineFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    discipline?: NexusGenInputs['DisciplineFiltersInput'] | null; // DisciplineFiltersInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    isTeaching?: NexusGenInputs['BooleanFilterInput'] | null; // BooleanFilterInput
+    level?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    locale?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    localizations?: NexusGenInputs['UserDisciplineFiltersInput'] | null; // UserDisciplineFiltersInput
+    not?: NexusGenInputs['UserDisciplineFiltersInput'] | null; // UserDisciplineFiltersInput
+    or?: Array<NexusGenInputs['UserDisciplineFiltersInput'] | null> | null; // [UserDisciplineFiltersInput]
+    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    startedAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    user?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+  }
+  UserDisciplineInput: { // input type
+    discipline?: string | null; // ID
+    isTeaching?: boolean | null; // Boolean
+    level?: NexusGenEnums['ENUM_USERDISCIPLINE_LEVEL'] | null; // ENUM_USERDISCIPLINE_LEVEL
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    startedAt?: NexusGenScalars['Date'] | null; // Date
+    user?: string | null; // ID
+  }
+  UserEventFiltersInput: { // input type
+    and?: Array<NexusGenInputs['UserEventFiltersInput'] | null> | null; // [UserEventFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    description?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    disciplines?: NexusGenInputs['DisciplineFiltersInput'] | null; // DisciplineFiltersInput
+    end?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+    or?: Array<NexusGenInputs['UserEventFiltersInput'] | null> | null; // [UserEventFiltersInput]
+    participants?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+    public?: NexusGenInputs['BooleanFilterInput'] | null; // BooleanFilterInput
+    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    start?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    user?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+    where?: NexusGenInputs['UserPlayLocationFiltersInput'] | null; // UserPlayLocationFiltersInput
+  }
+  UserEventInput: { // input type
+    description?: string | null; // String
+    disciplines?: Array<string | null> | null; // [ID]
+    end?: NexusGenScalars['DateTime'] | null; // DateTime
+    image?: string | null; // ID
+    name?: string | null; // String
+    participants?: string | null; // ID
+    public?: boolean | null; // Boolean
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    start?: NexusGenScalars['DateTime'] | null; // DateTime
+    user?: string | null; // ID
+    where?: string | null; // ID
+  }
+  UserGroupEventFiltersInput: { // input type
+    admins?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+    and?: Array<NexusGenInputs['UserGroupEventFiltersInput'] | null> | null; // [UserGroupEventFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    description?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    end?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    group?: NexusGenInputs['UserGroupFiltersInput'] | null; // UserGroupFiltersInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    location?: NexusGenInputs['UserPlayLocationFiltersInput'] | null; // UserPlayLocationFiltersInput
+    name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['UserGroupEventFiltersInput'] | null; // UserGroupEventFiltersInput
+    or?: Array<NexusGenInputs['UserGroupEventFiltersInput'] | null> | null; // [UserGroupEventFiltersInput]
+    public?: NexusGenInputs['BooleanFilterInput'] | null; // BooleanFilterInput
+    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    start?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+  }
+  UserGroupEventInput: { // input type
+    admins?: Array<string | null> | null; // [ID]
+    description?: string | null; // String
+    end?: NexusGenScalars['DateTime'] | null; // DateTime
+    group?: string | null; // ID
+    image?: string | null; // ID
+    location?: string | null; // ID
+    name?: string | null; // String
+    public?: boolean | null; // Boolean
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    start?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UserGroupFiltersInput: { // input type
+    admins?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+    and?: Array<NexusGenInputs['UserGroupFiltersInput'] | null> | null; // [UserGroupFiltersInput]
+    contact?: NexusGenInputs['ComponentBaseContactFiltersInput'] | null; // ComponentBaseContactFiltersInput
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    description?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    location?: NexusGenInputs['ComponentBaseLocationFiltersInput'] | null; // ComponentBaseLocationFiltersInput
+    members?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+    name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['UserGroupFiltersInput'] | null; // UserGroupFiltersInput
+    or?: Array<NexusGenInputs['UserGroupFiltersInput'] | null> | null; // [UserGroupFiltersInput]
+    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    userGroupEvents?: NexusGenInputs['UserGroupEventFiltersInput'] | null; // UserGroupEventFiltersInput
+  }
+  UserGroupInput: { // input type
+    admins?: Array<string | null> | null; // [ID]
+    avatar?: string | null; // ID
+    contact?: NexusGenInputs['ComponentBaseContactInput'] | null; // ComponentBaseContactInput
+    description?: string | null; // String
+    location?: NexusGenInputs['ComponentBaseLocationInput'] | null; // ComponentBaseLocationInput
+    members?: Array<string | null> | null; // [ID]
+    name?: string | null; // String
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    userGroupEvents?: Array<string | null> | null; // [ID]
+  }
+  UserPlayLocationFiltersInput: { // input type
+    and?: Array<NexusGenInputs['UserPlayLocationFiltersInput'] | null> | null; // [UserPlayLocationFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    description?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    groupEventsLocations?: NexusGenInputs['UserGroupEventFiltersInput'] | null; // UserGroupEventFiltersInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    location?: NexusGenInputs['ComponentBaseLocationFiltersInput'] | null; // ComponentBaseLocationFiltersInput
+    name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['UserPlayLocationFiltersInput'] | null; // UserPlayLocationFiltersInput
+    or?: Array<NexusGenInputs['UserPlayLocationFiltersInput'] | null> | null; // [UserPlayLocationFiltersInput]
+    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    userEvents?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+    users?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+  }
+  UserPlayLocationInput: { // input type
+    description?: string | null; // String
+    groupEventsLocations?: Array<string | null> | null; // [ID]
+    image?: string | null; // ID
+    location?: NexusGenInputs['ComponentBaseLocationInput'] | null; // ComponentBaseLocationInput
+    name?: string | null; // String
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    userEvents?: Array<string | null> | null; // [ID]
+    users?: Array<string | null> | null; // [ID]
+  }
+  UsersPermissionsLoginInput: { // input type
+    identifier: string; // String!
+    password: string; // String!
+    provider: string; // String!
+  }
+  UsersPermissionsPermissionFiltersInput: { // input type
+    action?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    and?: Array<NexusGenInputs['UsersPermissionsPermissionFiltersInput'] | null> | null; // [UsersPermissionsPermissionFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    not?: NexusGenInputs['UsersPermissionsPermissionFiltersInput'] | null; // UsersPermissionsPermissionFiltersInput
+    or?: Array<NexusGenInputs['UsersPermissionsPermissionFiltersInput'] | null> | null; // [UsersPermissionsPermissionFiltersInput]
+    role?: NexusGenInputs['UsersPermissionsRoleFiltersInput'] | null; // UsersPermissionsRoleFiltersInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+  }
+  UsersPermissionsPermissionInput: { // input type
+    action?: string | null; // String
+    role?: string | null; // ID
+  }
+  UsersPermissionsRegisterInput: { // input type
+    email: string; // String!
+    password: string; // String!
+    username: string; // String!
+  }
+  UsersPermissionsRoleFiltersInput: { // input type
+    and?: Array<NexusGenInputs['UsersPermissionsRoleFiltersInput'] | null> | null; // [UsersPermissionsRoleFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    description?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['UsersPermissionsRoleFiltersInput'] | null; // UsersPermissionsRoleFiltersInput
+    or?: Array<NexusGenInputs['UsersPermissionsRoleFiltersInput'] | null> | null; // [UsersPermissionsRoleFiltersInput]
+    permissions?: NexusGenInputs['UsersPermissionsPermissionFiltersInput'] | null; // UsersPermissionsPermissionFiltersInput
+    type?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    users?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+  }
+  UsersPermissionsRoleInput: { // input type
+    description?: string | null; // String
+    name?: string | null; // String
+    permissions?: Array<string | null> | null; // [ID]
+    type?: string | null; // String
+    users?: Array<string | null> | null; // [ID]
+  }
+  UsersPermissionsUserFiltersInput: { // input type
+    aboutMe?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    adminGroups?: NexusGenInputs['UserGroupFiltersInput'] | null; // UserGroupFiltersInput
+    and?: Array<NexusGenInputs['UsersPermissionsUserFiltersInput'] | null> | null; // [UsersPermissionsUserFiltersInput]
+    blocked?: NexusGenInputs['BooleanFilterInput'] | null; // BooleanFilterInput
+    city?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    confirmationToken?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    confirmed?: NexusGenInputs['BooleanFilterInput'] | null; // BooleanFilterInput
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    disciplines?: NexusGenInputs['UserDisciplineFiltersInput'] | null; // UserDisciplineFiltersInput
+    email?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    groupEventsAdmins?: NexusGenInputs['UserGroupEventFiltersInput'] | null; // UserGroupEventFiltersInput
+    groups?: NexusGenInputs['UserGroupFiltersInput'] | null; // UserGroupFiltersInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    location?: NexusGenInputs['ComponentBaseLocationFiltersInput'] | null; // ComponentBaseLocationFiltersInput
+    not?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+    or?: Array<NexusGenInputs['UsersPermissionsUserFiltersInput'] | null> | null; // [UsersPermissionsUserFiltersInput]
+    participatedUserEvents?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+    password?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    provider?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    publicContact?: NexusGenInputs['ComponentBaseContactFiltersInput'] | null; // ComponentBaseContactFiltersInput
+    resetPasswordToken?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    role?: NexusGenInputs['UsersPermissionsRoleFiltersInput'] | null; // UsersPermissionsRoleFiltersInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    userEvents?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+    userPlayLocations?: NexusGenInputs['UserPlayLocationFiltersInput'] | null; // UserPlayLocationFiltersInput
+    username?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+  }
+  UsersPermissionsUserInput: { // input type
+    aboutMe?: string | null; // String
+    adminGroups?: Array<string | null> | null; // [ID]
+    avatar?: string | null; // ID
+    blocked?: boolean | null; // Boolean
+    city?: string | null; // String
+    confirmationToken?: string | null; // String
+    confirmed?: boolean | null; // Boolean
+    disciplines?: Array<string | null> | null; // [ID]
+    email?: string | null; // String
+    groupEventsAdmins?: Array<string | null> | null; // [ID]
+    groups?: Array<string | null> | null; // [ID]
+    location?: NexusGenInputs['ComponentBaseLocationInput'] | null; // ComponentBaseLocationInput
+    participatedUserEvents?: Array<string | null> | null; // [ID]
+    password?: string | null; // String
+    provider?: string | null; // String
+    publicContact?: NexusGenInputs['ComponentBaseContactInput'] | null; // ComponentBaseContactInput
+    resetPasswordToken?: string | null; // String
+    role?: string | null; // ID
+    userEvents?: Array<string | null> | null; // [ID]
+    userPlayLocations?: Array<string | null> | null; // [ID]
+    username?: string | null; // String
+  }
 }
-
 
 export interface NexusGenEnums {
-	ENUM_USERDISCIPLINE_LEVEL: "beginner" | "expert" | "intermediate"
-	PublicationState: "live" | "preview"
+  ENUM_USERDISCIPLINE_LEVEL: "beginner" | "expert" | "intermediate"
+  PublicationState: "live" | "preview"
 }
-
 
 export interface NexusGenScalars {
-	String: string
-	Int: number
-	Float: number
-	Boolean: boolean
-	ID: string
-	Date: any
-	DateTime: any
-	I18NLocaleCode: any
-	JSON: any
-	Long: any
-	Time: any
-	Upload: any
+  String: string
+  Int: number
+  Float: number
+  Boolean: boolean
+  ID: string
+  Date: any
+  DateTime: any
+  I18NLocaleCode: any
+  JSON: any
+  Long: any
+  Time: any
+  Upload: any
 }
-
 
 export interface NexusGenObjects {
-	ComponentBaseContact: { // root type
-		email?: string | null; // String
-		facebook?: string | null; // String
-		id: string; // ID!
-		instagram?: string | null; // String
-		reddit?: string | null; // String
-		signal?: string | null; // String
-		telegram?: string | null; // String
-		whatsapp?: string | null; // String
-	}
-	ComponentBaseLocation: { // root type
-		id: string; // ID!
-		latitude: number; // Float!
-		longitude: number; // Float!
-	}
-	Discipline: { // root type
-		createdAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		locale?: string | null; // String
-		name: string; // String!
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		slug: string; // String!
-		updatedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	DisciplineEntity: {};
-	DisciplineEntityResponse: {};
-	DisciplineEntityResponseCollection: {};
-	DisciplineRelationResponseCollection: {};
-	Error: { // root type
-		message?: string | null; // String
-	}
-	Event: { // root type
-		createdAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		name: string; // String!
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		updatedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	EventEntity: {};
-	EventEntityResponse: {};
-	EventEntityResponseCollection: {};
-	EventRelationResponseCollection: {};
-	I18NLocale: { // root type
-		code?: string | null; // String
-		createdAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		name?: string | null; // String
-		updatedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	I18NLocaleEntity: {};
-	I18NLocaleEntityResponse: {};
-	I18NLocaleEntityResponseCollection: {};
-	I18NLocaleRelationResponseCollection: {};
-	Mutation: {};
-	Pagination: { // root type
-		page: number; // Int!
-		pageCount: number; // Int!
-		pageSize: number; // Int!
-		total: number; // Int!
-	}
-	Query: {};
-	ResponseCollectionMeta: {};
-	UploadFile: { // root type
-		alternativeText?: string | null; // String
-		caption?: string | null; // String
-		createdAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		ext?: string | null; // String
-		formats?: NexusGenScalars["JSON"] | null; // JSON
-		hash: string; // String!
-		height?: number | null; // Int
-		mime: string; // String!
-		name: string; // String!
-		previewUrl?: string | null; // String
-		provider: string; // String!
-		provider_metadata?: NexusGenScalars["JSON"] | null; // JSON
-		size: number; // Float!
-		updatedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		url: string; // String!
-		width?: number | null; // Int
-	}
-	UploadFileEntity: {};
-	UploadFileEntityResponse: {};
-	UploadFileEntityResponseCollection: {};
-	UploadFileRelationResponseCollection: {};
-	UploadFolder: { // root type
-		createdAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		name: string; // String!
-		path: string; // String!
-		pathId: number; // Int!
-		updatedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	UploadFolderEntity: {};
-	UploadFolderEntityResponse: {};
-	UploadFolderEntityResponseCollection: {};
-	UploadFolderRelationResponseCollection: {};
-	UserDiscipline: { // root type
-		createdAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		isTeaching?: boolean | null; // Boolean
-		level?: NexusGenEnums["ENUM_USERDISCIPLINE_LEVEL"] | null; // ENUM_USERDISCIPLINE_LEVEL
-		locale?: string | null; // String
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		startedAt?: NexusGenScalars["Date"] | null; // Date
-		updatedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	UserDisciplineEntity: {};
-	UserDisciplineEntityResponse: {};
-	UserDisciplineEntityResponseCollection: {};
-	UserDisciplineRelationResponseCollection: {};
-	UserEvent: { // root type
-		createdAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		description?: string | null; // String
-		end?: NexusGenScalars["DateTime"] | null; // DateTime
-		name?: string | null; // String
-		public: boolean; // Boolean!
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		start?: NexusGenScalars["DateTime"] | null; // DateTime
-		updatedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	UserEventEntity: {};
-	UserEventEntityResponse: {};
-	UserEventEntityResponseCollection: {};
-	UserEventRelationResponseCollection: {};
-	UserGroup: { // root type
-		createdAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		description?: string | null; // String
-		name: string; // String!
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		updatedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	UserGroupEntity: {};
-	UserGroupEntityResponse: {};
-	UserGroupEntityResponseCollection: {};
-	UserGroupEvent: { // root type
-		createdAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		description: string; // String!
-		end?: NexusGenScalars["DateTime"] | null; // DateTime
-		name: string; // String!
-		public?: boolean | null; // Boolean
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		start?: NexusGenScalars["DateTime"] | null; // DateTime
-		updatedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	UserGroupEventEntity: {};
-	UserGroupEventEntityResponse: {};
-	UserGroupEventEntityResponseCollection: {};
-	UserGroupEventRelationResponseCollection: {};
-	UserGroupRelationResponseCollection: {};
-	UserPlayLocation: { // root type
-		createdAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		description: string; // String!
-		name: string; // String!
-		publishedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		updatedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	UserPlayLocationEntity: {};
-	UserPlayLocationEntityResponse: {};
-	UserPlayLocationEntityResponseCollection: {};
-	UserPlayLocationRelationResponseCollection: {};
-	UsersPermissionsCreateRolePayload: { // root type
-		ok: boolean; // Boolean!
-	}
-	UsersPermissionsDeleteRolePayload: { // root type
-		ok: boolean; // Boolean!
-	}
-	UsersPermissionsLoginPayload: { // root type
-		jwt?: string | null; // String
-		user: NexusGenRootTypes["UsersPermissionsMe"]; // UsersPermissionsMe!
-	}
-	UsersPermissionsMe: { // root type
-		blocked?: boolean | null; // Boolean
-		confirmed?: boolean | null; // Boolean
-		email?: string | null; // String
-		id: string; // ID!
-		role?: NexusGenRootTypes["UsersPermissionsMeRole"] | null; // UsersPermissionsMeRole
-		username: string; // String!
-	}
-	UsersPermissionsMeRole: { // root type
-		description?: string | null; // String
-		id: string; // ID!
-		name: string; // String!
-		type?: string | null; // String
-	}
-	UsersPermissionsPasswordPayload: { // root type
-		ok: boolean; // Boolean!
-	}
-	UsersPermissionsPermission: { // root type
-		action: string; // String!
-		createdAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		updatedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	UsersPermissionsPermissionEntity: {};
-	UsersPermissionsPermissionEntityResponse: {};
-	UsersPermissionsPermissionEntityResponseCollection: {};
-	UsersPermissionsPermissionRelationResponseCollection: {};
-	UsersPermissionsRole: { // root type
-		createdAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		description?: string | null; // String
-		name: string; // String!
-		type?: string | null; // String
-		updatedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	UsersPermissionsRoleEntity: {};
-	UsersPermissionsRoleEntityResponse: {};
-	UsersPermissionsRoleEntityResponseCollection: {};
-	UsersPermissionsRoleRelationResponseCollection: {};
-	UsersPermissionsUpdateRolePayload: { // root type
-		ok: boolean; // Boolean!
-	}
-	UsersPermissionsUser: { // root type
-		aboutMe?: string | null; // String
-		blocked?: boolean | null; // Boolean
-		city?: string | null; // String
-		confirmed?: boolean | null; // Boolean
-		createdAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		email: string; // String!
-		provider?: string | null; // String
-		updatedAt?: NexusGenScalars["DateTime"] | null; // DateTime
-		username: string; // String!
-	}
-	UsersPermissionsUserEntity: {};
-	UsersPermissionsUserEntityResponse: {};
-	UsersPermissionsUserEntityResponseCollection: {};
-	UsersPermissionsUserRelationResponseCollection: {};
+  ComponentBaseContact: { // root type
+    email?: string | null; // String
+    facebook?: string | null; // String
+    id: string; // ID!
+    instagram?: string | null; // String
+    reddit?: string | null; // String
+    signal?: string | null; // String
+    telegram?: string | null; // String
+    whatsapp?: string | null; // String
+  }
+  ComponentBaseLocation: { // root type
+    id: string; // ID!
+    latitude: number; // Float!
+    longitude: number; // Float!
+  }
+  Discipline: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    locale?: string | null; // String
+    name: string; // String!
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    slug: string; // String!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  DisciplineEntity: {};
+  DisciplineEntityResponse: {};
+  DisciplineEntityResponseCollection: {};
+  DisciplineRelationResponseCollection: {};
+  Error: { // root type
+    message?: string | null; // String
+  }
+  Event: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    name: string; // String!
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  EventEntity: {};
+  EventEntityResponse: {};
+  EventEntityResponseCollection: {};
+  EventRelationResponseCollection: {};
+  I18NLocale: { // root type
+    code?: string | null; // String
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    name?: string | null; // String
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  I18NLocaleEntity: {};
+  I18NLocaleEntityResponse: {};
+  I18NLocaleEntityResponseCollection: {};
+  I18NLocaleRelationResponseCollection: {};
+  Mutation: {};
+  Pagination: { // root type
+    page: number; // Int!
+    pageCount: number; // Int!
+    pageSize: number; // Int!
+    total: number; // Int!
+  }
+  Query: {};
+  ResponseCollectionMeta: {};
+  UploadFile: { // root type
+    alternativeText?: string | null; // String
+    caption?: string | null; // String
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    ext?: string | null; // String
+    formats?: NexusGenScalars['JSON'] | null; // JSON
+    hash: string; // String!
+    height?: number | null; // Int
+    mime: string; // String!
+    name: string; // String!
+    previewUrl?: string | null; // String
+    provider: string; // String!
+    provider_metadata?: NexusGenScalars['JSON'] | null; // JSON
+    size: number; // Float!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    url: string; // String!
+    width?: number | null; // Int
+  }
+  UploadFileEntity: {};
+  UploadFileEntityResponse: {};
+  UploadFileEntityResponseCollection: {};
+  UploadFileRelationResponseCollection: {};
+  UploadFolder: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    name: string; // String!
+    path: string; // String!
+    pathId: number; // Int!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UploadFolderEntity: {};
+  UploadFolderEntityResponse: {};
+  UploadFolderEntityResponseCollection: {};
+  UploadFolderRelationResponseCollection: {};
+  UserDiscipline: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    isTeaching?: boolean | null; // Boolean
+    level?: NexusGenEnums['ENUM_USERDISCIPLINE_LEVEL'] | null; // ENUM_USERDISCIPLINE_LEVEL
+    locale?: string | null; // String
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    startedAt?: NexusGenScalars['Date'] | null; // Date
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UserDisciplineEntity: {};
+  UserDisciplineEntityResponse: {};
+  UserDisciplineEntityResponseCollection: {};
+  UserDisciplineRelationResponseCollection: {};
+  UserEvent: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    description?: string | null; // String
+    end?: NexusGenScalars['DateTime'] | null; // DateTime
+    name?: string | null; // String
+    public: boolean; // Boolean!
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    start?: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UserEventEntity: {};
+  UserEventEntityResponse: {};
+  UserEventEntityResponseCollection: {};
+  UserEventRelationResponseCollection: {};
+  UserGroup: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    description?: string | null; // String
+    name: string; // String!
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UserGroupEntity: {};
+  UserGroupEntityResponse: {};
+  UserGroupEntityResponseCollection: {};
+  UserGroupEvent: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    description: string; // String!
+    end?: NexusGenScalars['DateTime'] | null; // DateTime
+    name: string; // String!
+    public?: boolean | null; // Boolean
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    start?: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UserGroupEventEntity: {};
+  UserGroupEventEntityResponse: {};
+  UserGroupEventEntityResponseCollection: {};
+  UserGroupEventRelationResponseCollection: {};
+  UserGroupRelationResponseCollection: {};
+  UserPlayLocation: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    description: string; // String!
+    name: string; // String!
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UserPlayLocationEntity: {};
+  UserPlayLocationEntityResponse: {};
+  UserPlayLocationEntityResponseCollection: {};
+  UserPlayLocationRelationResponseCollection: {};
+  UsersPermissionsCreateRolePayload: { // root type
+    ok: boolean; // Boolean!
+  }
+  UsersPermissionsDeleteRolePayload: { // root type
+    ok: boolean; // Boolean!
+  }
+  UsersPermissionsLoginPayload: { // root type
+    jwt?: string | null; // String
+    user: NexusGenRootTypes['UsersPermissionsMe']; // UsersPermissionsMe!
+  }
+  UsersPermissionsMe: { // root type
+    blocked?: boolean | null; // Boolean
+    confirmed?: boolean | null; // Boolean
+    email?: string | null; // String
+    id: string; // ID!
+    role?: NexusGenRootTypes['UsersPermissionsMeRole'] | null; // UsersPermissionsMeRole
+    username: string; // String!
+  }
+  UsersPermissionsMeRole: { // root type
+    description?: string | null; // String
+    id: string; // ID!
+    name: string; // String!
+    type?: string | null; // String
+  }
+  UsersPermissionsPasswordPayload: { // root type
+    ok: boolean; // Boolean!
+  }
+  UsersPermissionsPermission: { // root type
+    action: string; // String!
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UsersPermissionsPermissionEntity: {};
+  UsersPermissionsPermissionEntityResponse: {};
+  UsersPermissionsPermissionEntityResponseCollection: {};
+  UsersPermissionsPermissionRelationResponseCollection: {};
+  UsersPermissionsRole: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    description?: string | null; // String
+    name: string; // String!
+    type?: string | null; // String
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UsersPermissionsRoleEntity: {};
+  UsersPermissionsRoleEntityResponse: {};
+  UsersPermissionsRoleEntityResponseCollection: {};
+  UsersPermissionsRoleRelationResponseCollection: {};
+  UsersPermissionsUpdateRolePayload: { // root type
+    ok: boolean; // Boolean!
+  }
+  UsersPermissionsUser: { // root type
+    aboutMe?: string | null; // String
+    blocked?: boolean | null; // Boolean
+    city?: string | null; // String
+    confirmed?: boolean | null; // Boolean
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    email: string; // String!
+    provider?: string | null; // String
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    username: string; // String!
+  }
+  UsersPermissionsUserEntity: {};
+  UsersPermissionsUserEntityResponse: {};
+  UsersPermissionsUserEntityResponseCollection: {};
+  UsersPermissionsUserRelationResponseCollection: {};
 }
-
 
 export interface NexusGenInterfaces {
 }
 
-
 export interface NexusGenUnions {
-	GenericMorph: NexusGenRootTypes["ComponentBaseContact"] | NexusGenRootTypes["ComponentBaseLocation"] | NexusGenRootTypes["Discipline"] | NexusGenRootTypes["Event"] | NexusGenRootTypes["I18NLocale"] | NexusGenRootTypes["UploadFile"] | NexusGenRootTypes["UploadFolder"] | NexusGenRootTypes["UserDiscipline"] | NexusGenRootTypes["UserEvent"] | NexusGenRootTypes["UserGroup"] | NexusGenRootTypes["UserGroupEvent"] | NexusGenRootTypes["UserPlayLocation"] | NexusGenRootTypes["UsersPermissionsPermission"] | NexusGenRootTypes["UsersPermissionsRole"] | NexusGenRootTypes["UsersPermissionsUser"];
+  GenericMorph: NexusGenRootTypes['ComponentBaseContact'] | NexusGenRootTypes['ComponentBaseLocation'] | NexusGenRootTypes['Discipline'] | NexusGenRootTypes['Event'] | NexusGenRootTypes['I18NLocale'] | NexusGenRootTypes['UploadFile'] | NexusGenRootTypes['UploadFolder'] | NexusGenRootTypes['UserDiscipline'] | NexusGenRootTypes['UserEvent'] | NexusGenRootTypes['UserGroup'] | NexusGenRootTypes['UserGroupEvent'] | NexusGenRootTypes['UserPlayLocation'] | NexusGenRootTypes['UsersPermissionsPermission'] | NexusGenRootTypes['UsersPermissionsRole'] | NexusGenRootTypes['UsersPermissionsUser'];
 }
-
 
 export type NexusGenRootTypes = NexusGenObjects & NexusGenUnions
 
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
-
 export interface NexusGenFieldTypes {
-	ComponentBaseContact: { // field return type
-		email: string | null; // String
-		facebook: string | null; // String
-		id: string; // ID!
-		instagram: string | null; // String
-		reddit: string | null; // String
-		signal: string | null; // String
-		telegram: string | null; // String
-		whatsapp: string | null; // String
-	}
-	ComponentBaseLocation: { // field return type
-		id: string; // ID!
-		latitude: number; // Float!
-		longitude: number; // Float!
-	}
-	Discipline: { // field return type
-		createdAt: NexusGenScalars["DateTime"] | null; // DateTime
-		icon: NexusGenRootTypes["UploadFileEntityResponse"]; // UploadFileEntityResponse!
-		locale: string | null; // String
-		localizations: NexusGenRootTypes["DisciplineRelationResponseCollection"] | null; // DisciplineRelationResponseCollection
-		name: string; // String!
-		publishedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		slug: string; // String!
-		updatedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		userEvents: NexusGenRootTypes["UserEventEntityResponse"] | null; // UserEventEntityResponse
-		users: NexusGenRootTypes["UserDisciplineRelationResponseCollection"] | null; // UserDisciplineRelationResponseCollection
-	}
-	DisciplineEntity: { // field return type
-		attributes: NexusGenRootTypes["Discipline"] | null; // Discipline
-		id: string | null; // ID
-	}
-	DisciplineEntityResponse: { // field return type
-		data: NexusGenRootTypes["DisciplineEntity"] | null; // DisciplineEntity
-	}
-	DisciplineEntityResponseCollection: { // field return type
-		data: NexusGenRootTypes["DisciplineEntity"][]; // [DisciplineEntity!]!
-		meta: NexusGenRootTypes["ResponseCollectionMeta"]; // ResponseCollectionMeta!
-	}
-	DisciplineRelationResponseCollection: { // field return type
-		data: NexusGenRootTypes["DisciplineEntity"][]; // [DisciplineEntity!]!
-	}
-	Error: { // field return type
-		code: string; // String!
-		message: string | null; // String
-	}
-	Event: { // field return type
-		createdAt: NexusGenScalars["DateTime"] | null; // DateTime
-		name: string; // String!
-		publishedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		updatedAt: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	EventEntity: { // field return type
-		attributes: NexusGenRootTypes["Event"] | null; // Event
-		id: string | null; // ID
-	}
-	EventEntityResponse: { // field return type
-		data: NexusGenRootTypes["EventEntity"] | null; // EventEntity
-	}
-	EventEntityResponseCollection: { // field return type
-		data: NexusGenRootTypes["EventEntity"][]; // [EventEntity!]!
-		meta: NexusGenRootTypes["ResponseCollectionMeta"]; // ResponseCollectionMeta!
-	}
-	EventRelationResponseCollection: { // field return type
-		data: NexusGenRootTypes["EventEntity"][]; // [EventEntity!]!
-	}
-	I18NLocale: { // field return type
-		code: string | null; // String
-		createdAt: NexusGenScalars["DateTime"] | null; // DateTime
-		name: string | null; // String
-		updatedAt: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	I18NLocaleEntity: { // field return type
-		attributes: NexusGenRootTypes["I18NLocale"] | null; // I18NLocale
-		id: string | null; // ID
-	}
-	I18NLocaleEntityResponse: { // field return type
-		data: NexusGenRootTypes["I18NLocaleEntity"] | null; // I18NLocaleEntity
-	}
-	I18NLocaleEntityResponseCollection: { // field return type
-		data: NexusGenRootTypes["I18NLocaleEntity"][]; // [I18NLocaleEntity!]!
-		meta: NexusGenRootTypes["ResponseCollectionMeta"]; // ResponseCollectionMeta!
-	}
-	I18NLocaleRelationResponseCollection: { // field return type
-		data: NexusGenRootTypes["I18NLocaleEntity"][]; // [I18NLocaleEntity!]!
-	}
-	Mutation: { // field return type
-		changePassword: NexusGenRootTypes["UsersPermissionsLoginPayload"] | null; // UsersPermissionsLoginPayload
-		createDiscipline: NexusGenRootTypes["DisciplineEntityResponse"] | null; // DisciplineEntityResponse
-		createDisciplineLocalization: NexusGenRootTypes["DisciplineEntityResponse"] | null; // DisciplineEntityResponse
-		createEvent: NexusGenRootTypes["EventEntityResponse"] | null; // EventEntityResponse
-		createUploadFile: NexusGenRootTypes["UploadFileEntityResponse"] | null; // UploadFileEntityResponse
-		createUploadFolder: NexusGenRootTypes["UploadFolderEntityResponse"] | null; // UploadFolderEntityResponse
-		createUserDiscipline: NexusGenRootTypes["UserDisciplineEntityResponse"] | null; // UserDisciplineEntityResponse
-		createUserDisciplineLocalization: NexusGenRootTypes["UserDisciplineEntityResponse"] | null; // UserDisciplineEntityResponse
-		createUserEvent: NexusGenRootTypes["UserEventEntityResponse"] | null; // UserEventEntityResponse
-		createUserGroup: NexusGenRootTypes["UserGroupEntityResponse"] | null; // UserGroupEntityResponse
-		createUserGroupEvent: NexusGenRootTypes["UserGroupEventEntityResponse"] | null; // UserGroupEventEntityResponse
-		createUserPlayLocation: NexusGenRootTypes["UserPlayLocationEntityResponse"] | null; // UserPlayLocationEntityResponse
-		createUsersPermissionsRole: NexusGenRootTypes["UsersPermissionsCreateRolePayload"] | null; // UsersPermissionsCreateRolePayload
-		createUsersPermissionsUser: NexusGenRootTypes["UsersPermissionsUserEntityResponse"]; // UsersPermissionsUserEntityResponse!
-		deleteDiscipline: NexusGenRootTypes["DisciplineEntityResponse"] | null; // DisciplineEntityResponse
-		deleteEvent: NexusGenRootTypes["EventEntityResponse"] | null; // EventEntityResponse
-		deleteUploadFile: NexusGenRootTypes["UploadFileEntityResponse"] | null; // UploadFileEntityResponse
-		deleteUploadFolder: NexusGenRootTypes["UploadFolderEntityResponse"] | null; // UploadFolderEntityResponse
-		deleteUserDiscipline: NexusGenRootTypes["UserDisciplineEntityResponse"] | null; // UserDisciplineEntityResponse
-		deleteUserEvent: NexusGenRootTypes["UserEventEntityResponse"] | null; // UserEventEntityResponse
-		deleteUserGroup: NexusGenRootTypes["UserGroupEntityResponse"] | null; // UserGroupEntityResponse
-		deleteUserGroupEvent: NexusGenRootTypes["UserGroupEventEntityResponse"] | null; // UserGroupEventEntityResponse
-		deleteUserPlayLocation: NexusGenRootTypes["UserPlayLocationEntityResponse"] | null; // UserPlayLocationEntityResponse
-		deleteUsersPermissionsRole: NexusGenRootTypes["UsersPermissionsDeleteRolePayload"] | null; // UsersPermissionsDeleteRolePayload
-		deleteUsersPermissionsUser: NexusGenRootTypes["UsersPermissionsUserEntityResponse"]; // UsersPermissionsUserEntityResponse!
-		emailConfirmation: NexusGenRootTypes["UsersPermissionsLoginPayload"] | null; // UsersPermissionsLoginPayload
-		forgotPassword: NexusGenRootTypes["UsersPermissionsPasswordPayload"] | null; // UsersPermissionsPasswordPayload
-		login: NexusGenRootTypes["UsersPermissionsLoginPayload"]; // UsersPermissionsLoginPayload!
-		multipleUpload: Array<NexusGenRootTypes["UploadFileEntityResponse"] | null>; // [UploadFileEntityResponse]!
-		register: NexusGenRootTypes["UsersPermissionsLoginPayload"]; // UsersPermissionsLoginPayload!
-		removeFile: NexusGenRootTypes["UploadFileEntityResponse"] | null; // UploadFileEntityResponse
-		resetPassword: NexusGenRootTypes["UsersPermissionsLoginPayload"] | null; // UsersPermissionsLoginPayload
-		updateDiscipline: NexusGenRootTypes["DisciplineEntityResponse"] | null; // DisciplineEntityResponse
-		updateEvent: NexusGenRootTypes["EventEntityResponse"] | null; // EventEntityResponse
-		updateFileInfo: NexusGenRootTypes["UploadFileEntityResponse"]; // UploadFileEntityResponse!
-		updateUploadFile: NexusGenRootTypes["UploadFileEntityResponse"] | null; // UploadFileEntityResponse
-		updateUploadFolder: NexusGenRootTypes["UploadFolderEntityResponse"] | null; // UploadFolderEntityResponse
-		updateUserDiscipline: NexusGenRootTypes["UserDisciplineEntityResponse"] | null; // UserDisciplineEntityResponse
-		updateUserEvent: NexusGenRootTypes["UserEventEntityResponse"] | null; // UserEventEntityResponse
-		updateUserGroup: NexusGenRootTypes["UserGroupEntityResponse"] | null; // UserGroupEntityResponse
-		updateUserGroupEvent: NexusGenRootTypes["UserGroupEventEntityResponse"] | null; // UserGroupEventEntityResponse
-		updateUserPlayLocation: NexusGenRootTypes["UserPlayLocationEntityResponse"] | null; // UserPlayLocationEntityResponse
-		updateUsersPermissionsRole: NexusGenRootTypes["UsersPermissionsUpdateRolePayload"] | null; // UsersPermissionsUpdateRolePayload
-		updateUsersPermissionsUser: NexusGenRootTypes["UsersPermissionsUserEntityResponse"]; // UsersPermissionsUserEntityResponse!
-		upload: NexusGenRootTypes["UploadFileEntityResponse"]; // UploadFileEntityResponse!
-	}
-	Pagination: { // field return type
-		page: number; // Int!
-		pageCount: number; // Int!
-		pageSize: number; // Int!
-		total: number; // Int!
-	}
-	Query: { // field return type
-		discipline: NexusGenRootTypes["DisciplineEntityResponse"] | null; // DisciplineEntityResponse
-		disciplines: NexusGenRootTypes["DisciplineEntityResponseCollection"] | null; // DisciplineEntityResponseCollection
-		event: NexusGenRootTypes["EventEntityResponse"] | null; // EventEntityResponse
-		events: NexusGenRootTypes["EventEntityResponseCollection"] | null; // EventEntityResponseCollection
-		i18NLocale: NexusGenRootTypes["I18NLocaleEntityResponse"] | null; // I18NLocaleEntityResponse
-		i18NLocales: NexusGenRootTypes["I18NLocaleEntityResponseCollection"] | null; // I18NLocaleEntityResponseCollection
-		me: NexusGenRootTypes["UsersPermissionsMe"] | null; // UsersPermissionsMe
-		uploadFile: NexusGenRootTypes["UploadFileEntityResponse"] | null; // UploadFileEntityResponse
-		uploadFiles: NexusGenRootTypes["UploadFileEntityResponseCollection"] | null; // UploadFileEntityResponseCollection
-		uploadFolder: NexusGenRootTypes["UploadFolderEntityResponse"] | null; // UploadFolderEntityResponse
-		uploadFolders: NexusGenRootTypes["UploadFolderEntityResponseCollection"] | null; // UploadFolderEntityResponseCollection
-		userDiscipline: NexusGenRootTypes["UserDisciplineEntityResponse"] | null; // UserDisciplineEntityResponse
-		userDisciplines: NexusGenRootTypes["UserDisciplineEntityResponseCollection"] | null; // UserDisciplineEntityResponseCollection
-		userEvent: NexusGenRootTypes["UserEventEntityResponse"] | null; // UserEventEntityResponse
-		userEvents: NexusGenRootTypes["UserEventEntityResponseCollection"] | null; // UserEventEntityResponseCollection
-		userGroup: NexusGenRootTypes["UserGroupEntityResponse"] | null; // UserGroupEntityResponse
-		userGroupEvent: NexusGenRootTypes["UserGroupEventEntityResponse"] | null; // UserGroupEventEntityResponse
-		userGroupEvents: NexusGenRootTypes["UserGroupEventEntityResponseCollection"] | null; // UserGroupEventEntityResponseCollection
-		userGroups: NexusGenRootTypes["UserGroupEntityResponseCollection"] | null; // UserGroupEntityResponseCollection
-		userPlayLocation: NexusGenRootTypes["UserPlayLocationEntityResponse"] | null; // UserPlayLocationEntityResponse
-		userPlayLocations: NexusGenRootTypes["UserPlayLocationEntityResponseCollection"] | null; // UserPlayLocationEntityResponseCollection
-		usersPermissionsRole: NexusGenRootTypes["UsersPermissionsRoleEntityResponse"] | null; // UsersPermissionsRoleEntityResponse
-		usersPermissionsRoles: NexusGenRootTypes["UsersPermissionsRoleEntityResponseCollection"] | null; // UsersPermissionsRoleEntityResponseCollection
-		usersPermissionsUser: NexusGenRootTypes["UsersPermissionsUserEntityResponse"] | null; // UsersPermissionsUserEntityResponse
-		usersPermissionsUsers: NexusGenRootTypes["UsersPermissionsUserEntityResponseCollection"] | null; // UsersPermissionsUserEntityResponseCollection
-	}
-	ResponseCollectionMeta: { // field return type
-		pagination: NexusGenRootTypes["Pagination"]; // Pagination!
-	}
-	UploadFile: { // field return type
-		alternativeText: string | null; // String
-		caption: string | null; // String
-		createdAt: NexusGenScalars["DateTime"] | null; // DateTime
-		ext: string | null; // String
-		formats: NexusGenScalars["JSON"] | null; // JSON
-		hash: string; // String!
-		height: number | null; // Int
-		mime: string; // String!
-		name: string; // String!
-		previewUrl: string | null; // String
-		provider: string; // String!
-		provider_metadata: NexusGenScalars["JSON"] | null; // JSON
-		related: Array<NexusGenRootTypes["GenericMorph"] | null> | null; // [GenericMorph]
-		size: number; // Float!
-		updatedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		url: string; // String!
-		width: number | null; // Int
-	}
-	UploadFileEntity: { // field return type
-		attributes: NexusGenRootTypes["UploadFile"] | null; // UploadFile
-		id: string | null; // ID
-	}
-	UploadFileEntityResponse: { // field return type
-		data: NexusGenRootTypes["UploadFileEntity"] | null; // UploadFileEntity
-	}
-	UploadFileEntityResponseCollection: { // field return type
-		data: NexusGenRootTypes["UploadFileEntity"][]; // [UploadFileEntity!]!
-		meta: NexusGenRootTypes["ResponseCollectionMeta"]; // ResponseCollectionMeta!
-	}
-	UploadFileRelationResponseCollection: { // field return type
-		data: NexusGenRootTypes["UploadFileEntity"][]; // [UploadFileEntity!]!
-	}
-	UploadFolder: { // field return type
-		children: NexusGenRootTypes["UploadFolderRelationResponseCollection"] | null; // UploadFolderRelationResponseCollection
-		createdAt: NexusGenScalars["DateTime"] | null; // DateTime
-		files: NexusGenRootTypes["UploadFileRelationResponseCollection"] | null; // UploadFileRelationResponseCollection
-		name: string; // String!
-		parent: NexusGenRootTypes["UploadFolderEntityResponse"] | null; // UploadFolderEntityResponse
-		path: string; // String!
-		pathId: number; // Int!
-		updatedAt: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	UploadFolderEntity: { // field return type
-		attributes: NexusGenRootTypes["UploadFolder"] | null; // UploadFolder
-		id: string | null; // ID
-	}
-	UploadFolderEntityResponse: { // field return type
-		data: NexusGenRootTypes["UploadFolderEntity"] | null; // UploadFolderEntity
-	}
-	UploadFolderEntityResponseCollection: { // field return type
-		data: NexusGenRootTypes["UploadFolderEntity"][]; // [UploadFolderEntity!]!
-		meta: NexusGenRootTypes["ResponseCollectionMeta"]; // ResponseCollectionMeta!
-	}
-	UploadFolderRelationResponseCollection: { // field return type
-		data: NexusGenRootTypes["UploadFolderEntity"][]; // [UploadFolderEntity!]!
-	}
-	UserDiscipline: { // field return type
-		createdAt: NexusGenScalars["DateTime"] | null; // DateTime
-		discipline: NexusGenRootTypes["DisciplineEntityResponse"] | null; // DisciplineEntityResponse
-		isTeaching: boolean | null; // Boolean
-		level: NexusGenEnums["ENUM_USERDISCIPLINE_LEVEL"] | null; // ENUM_USERDISCIPLINE_LEVEL
-		locale: string | null; // String
-		localizations: NexusGenRootTypes["UserDisciplineRelationResponseCollection"] | null; // UserDisciplineRelationResponseCollection
-		publishedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		startedAt: NexusGenScalars["Date"] | null; // Date
-		updatedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		user: NexusGenRootTypes["UsersPermissionsUserEntityResponse"] | null; // UsersPermissionsUserEntityResponse
-	}
-	UserDisciplineEntity: { // field return type
-		attributes: NexusGenRootTypes["UserDiscipline"] | null; // UserDiscipline
-		id: string | null; // ID
-	}
-	UserDisciplineEntityResponse: { // field return type
-		data: NexusGenRootTypes["UserDisciplineEntity"] | null; // UserDisciplineEntity
-	}
-	UserDisciplineEntityResponseCollection: { // field return type
-		data: NexusGenRootTypes["UserDisciplineEntity"][]; // [UserDisciplineEntity!]!
-		meta: NexusGenRootTypes["ResponseCollectionMeta"]; // ResponseCollectionMeta!
-	}
-	UserDisciplineRelationResponseCollection: { // field return type
-		data: NexusGenRootTypes["UserDisciplineEntity"][]; // [UserDisciplineEntity!]!
-	}
-	UserEvent: { // field return type
-		createdAt: NexusGenScalars["DateTime"] | null; // DateTime
-		description: string | null; // String
-		disciplines: NexusGenRootTypes["DisciplineRelationResponseCollection"] | null; // DisciplineRelationResponseCollection
-		end: NexusGenScalars["DateTime"] | null; // DateTime
-		image: NexusGenRootTypes["UploadFileEntityResponse"] | null; // UploadFileEntityResponse
-		name: string | null; // String
-		participants: NexusGenRootTypes["UsersPermissionsUserEntityResponse"] | null; // UsersPermissionsUserEntityResponse
-		public: boolean; // Boolean!
-		publishedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		start: NexusGenScalars["DateTime"] | null; // DateTime
-		updatedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		user: NexusGenRootTypes["UsersPermissionsUserEntityResponse"] | null; // UsersPermissionsUserEntityResponse
-		where: NexusGenRootTypes["UserPlayLocationEntityResponse"] | null; // UserPlayLocationEntityResponse
-	}
-	UserEventEntity: { // field return type
-		attributes: NexusGenRootTypes["UserEvent"] | null; // UserEvent
-		id: string | null; // ID
-	}
-	UserEventEntityResponse: { // field return type
-		data: NexusGenRootTypes["UserEventEntity"] | null; // UserEventEntity
-	}
-	UserEventEntityResponseCollection: { // field return type
-		data: NexusGenRootTypes["UserEventEntity"][]; // [UserEventEntity!]!
-		meta: NexusGenRootTypes["ResponseCollectionMeta"]; // ResponseCollectionMeta!
-	}
-	UserEventRelationResponseCollection: { // field return type
-		data: NexusGenRootTypes["UserEventEntity"][]; // [UserEventEntity!]!
-	}
-	UserGroup: { // field return type
-		admins: NexusGenRootTypes["UsersPermissionsUserRelationResponseCollection"] | null; // UsersPermissionsUserRelationResponseCollection
-		avatar: NexusGenRootTypes["UploadFileEntityResponse"] | null; // UploadFileEntityResponse
-		contact: NexusGenRootTypes["ComponentBaseContact"] | null; // ComponentBaseContact
-		createdAt: NexusGenScalars["DateTime"] | null; // DateTime
-		description: string | null; // String
-		location: NexusGenRootTypes["ComponentBaseLocation"]; // ComponentBaseLocation!
-		members: NexusGenRootTypes["UsersPermissionsUserRelationResponseCollection"] | null; // UsersPermissionsUserRelationResponseCollection
-		name: string; // String!
-		publishedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		updatedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		userGroupEvents: NexusGenRootTypes["UserGroupEventRelationResponseCollection"] | null; // UserGroupEventRelationResponseCollection
-	}
-	UserGroupEntity: { // field return type
-		attributes: NexusGenRootTypes["UserGroup"] | null; // UserGroup
-		id: string | null; // ID
-	}
-	UserGroupEntityResponse: { // field return type
-		data: NexusGenRootTypes["UserGroupEntity"] | null; // UserGroupEntity
-	}
-	UserGroupEntityResponseCollection: { // field return type
-		data: NexusGenRootTypes["UserGroupEntity"][]; // [UserGroupEntity!]!
-		meta: NexusGenRootTypes["ResponseCollectionMeta"]; // ResponseCollectionMeta!
-	}
-	UserGroupEvent: { // field return type
-		admins: NexusGenRootTypes["UsersPermissionsUserRelationResponseCollection"] | null; // UsersPermissionsUserRelationResponseCollection
-		createdAt: NexusGenScalars["DateTime"] | null; // DateTime
-		description: string; // String!
-		end: NexusGenScalars["DateTime"] | null; // DateTime
-		group: NexusGenRootTypes["UserGroupEntityResponse"] | null; // UserGroupEntityResponse
-		image: NexusGenRootTypes["UploadFileEntityResponse"] | null; // UploadFileEntityResponse
-		location: NexusGenRootTypes["UserPlayLocationEntityResponse"] | null; // UserPlayLocationEntityResponse
-		name: string; // String!
-		public: boolean | null; // Boolean
-		publishedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		start: NexusGenScalars["DateTime"] | null; // DateTime
-		updatedAt: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	UserGroupEventEntity: { // field return type
-		attributes: NexusGenRootTypes["UserGroupEvent"] | null; // UserGroupEvent
-		id: string | null; // ID
-	}
-	UserGroupEventEntityResponse: { // field return type
-		data: NexusGenRootTypes["UserGroupEventEntity"] | null; // UserGroupEventEntity
-	}
-	UserGroupEventEntityResponseCollection: { // field return type
-		data: NexusGenRootTypes["UserGroupEventEntity"][]; // [UserGroupEventEntity!]!
-		meta: NexusGenRootTypes["ResponseCollectionMeta"]; // ResponseCollectionMeta!
-	}
-	UserGroupEventRelationResponseCollection: { // field return type
-		data: NexusGenRootTypes["UserGroupEventEntity"][]; // [UserGroupEventEntity!]!
-	}
-	UserGroupRelationResponseCollection: { // field return type
-		data: NexusGenRootTypes["UserGroupEntity"][]; // [UserGroupEntity!]!
-	}
-	UserPlayLocation: { // field return type
-		createdAt: NexusGenScalars["DateTime"] | null; // DateTime
-		description: string; // String!
-		groupEventsLocations: NexusGenRootTypes["UserGroupEventRelationResponseCollection"] | null; // UserGroupEventRelationResponseCollection
-		image: NexusGenRootTypes["UploadFileEntityResponse"] | null; // UploadFileEntityResponse
-		location: NexusGenRootTypes["ComponentBaseLocation"] | null; // ComponentBaseLocation
-		name: string; // String!
-		publishedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		updatedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		userEvents: NexusGenRootTypes["UserEventRelationResponseCollection"] | null; // UserEventRelationResponseCollection
-		users: NexusGenRootTypes["UsersPermissionsUserRelationResponseCollection"] | null; // UsersPermissionsUserRelationResponseCollection
-	}
-	UserPlayLocationEntity: { // field return type
-		attributes: NexusGenRootTypes["UserPlayLocation"] | null; // UserPlayLocation
-		id: string | null; // ID
-	}
-	UserPlayLocationEntityResponse: { // field return type
-		data: NexusGenRootTypes["UserPlayLocationEntity"] | null; // UserPlayLocationEntity
-	}
-	UserPlayLocationEntityResponseCollection: { // field return type
-		data: NexusGenRootTypes["UserPlayLocationEntity"][]; // [UserPlayLocationEntity!]!
-		meta: NexusGenRootTypes["ResponseCollectionMeta"]; // ResponseCollectionMeta!
-	}
-	UserPlayLocationRelationResponseCollection: { // field return type
-		data: NexusGenRootTypes["UserPlayLocationEntity"][]; // [UserPlayLocationEntity!]!
-	}
-	UsersPermissionsCreateRolePayload: { // field return type
-		ok: boolean; // Boolean!
-	}
-	UsersPermissionsDeleteRolePayload: { // field return type
-		ok: boolean; // Boolean!
-	}
-	UsersPermissionsLoginPayload: { // field return type
-		jwt: string | null; // String
-		user: NexusGenRootTypes["UsersPermissionsMe"]; // UsersPermissionsMe!
-	}
-	UsersPermissionsMe: { // field return type
-		blocked: boolean | null; // Boolean
-		confirmed: boolean | null; // Boolean
-		email: string | null; // String
-		id: string; // ID!
-		role: NexusGenRootTypes["UsersPermissionsMeRole"] | null; // UsersPermissionsMeRole
-		username: string; // String!
-	}
-	UsersPermissionsMeRole: { // field return type
-		description: string | null; // String
-		id: string; // ID!
-		name: string; // String!
-		type: string | null; // String
-	}
-	UsersPermissionsPasswordPayload: { // field return type
-		ok: boolean; // Boolean!
-	}
-	UsersPermissionsPermission: { // field return type
-		action: string; // String!
-		createdAt: NexusGenScalars["DateTime"] | null; // DateTime
-		role: NexusGenRootTypes["UsersPermissionsRoleEntityResponse"] | null; // UsersPermissionsRoleEntityResponse
-		updatedAt: NexusGenScalars["DateTime"] | null; // DateTime
-	}
-	UsersPermissionsPermissionEntity: { // field return type
-		attributes: NexusGenRootTypes["UsersPermissionsPermission"] | null; // UsersPermissionsPermission
-		id: string | null; // ID
-	}
-	UsersPermissionsPermissionEntityResponse: { // field return type
-		data: NexusGenRootTypes["UsersPermissionsPermissionEntity"] | null; // UsersPermissionsPermissionEntity
-	}
-	UsersPermissionsPermissionEntityResponseCollection: { // field return type
-		data: NexusGenRootTypes["UsersPermissionsPermissionEntity"][]; // [UsersPermissionsPermissionEntity!]!
-		meta: NexusGenRootTypes["ResponseCollectionMeta"]; // ResponseCollectionMeta!
-	}
-	UsersPermissionsPermissionRelationResponseCollection: { // field return type
-		data: NexusGenRootTypes["UsersPermissionsPermissionEntity"][]; // [UsersPermissionsPermissionEntity!]!
-	}
-	UsersPermissionsRole: { // field return type
-		createdAt: NexusGenScalars["DateTime"] | null; // DateTime
-		description: string | null; // String
-		name: string; // String!
-		permissions: NexusGenRootTypes["UsersPermissionsPermissionRelationResponseCollection"] | null; // UsersPermissionsPermissionRelationResponseCollection
-		type: string | null; // String
-		updatedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		users: NexusGenRootTypes["UsersPermissionsUserRelationResponseCollection"] | null; // UsersPermissionsUserRelationResponseCollection
-	}
-	UsersPermissionsRoleEntity: { // field return type
-		attributes: NexusGenRootTypes["UsersPermissionsRole"] | null; // UsersPermissionsRole
-		id: string | null; // ID
-	}
-	UsersPermissionsRoleEntityResponse: { // field return type
-		data: NexusGenRootTypes["UsersPermissionsRoleEntity"] | null; // UsersPermissionsRoleEntity
-	}
-	UsersPermissionsRoleEntityResponseCollection: { // field return type
-		data: NexusGenRootTypes["UsersPermissionsRoleEntity"][]; // [UsersPermissionsRoleEntity!]!
-		meta: NexusGenRootTypes["ResponseCollectionMeta"]; // ResponseCollectionMeta!
-	}
-	UsersPermissionsRoleRelationResponseCollection: { // field return type
-		data: NexusGenRootTypes["UsersPermissionsRoleEntity"][]; // [UsersPermissionsRoleEntity!]!
-	}
-	UsersPermissionsUpdateRolePayload: { // field return type
-		ok: boolean; // Boolean!
-	}
-	UsersPermissionsUser: { // field return type
-		aboutMe: string | null; // String
-		adminGroups: NexusGenRootTypes["UserGroupRelationResponseCollection"] | null; // UserGroupRelationResponseCollection
-		avatar: NexusGenRootTypes["UploadFileEntityResponse"] | null; // UploadFileEntityResponse
-		blocked: boolean | null; // Boolean
-		city: string | null; // String
-		confirmed: boolean | null; // Boolean
-		createdAt: NexusGenScalars["DateTime"] | null; // DateTime
-		disciplines: NexusGenRootTypes["UserDisciplineRelationResponseCollection"] | null; // UserDisciplineRelationResponseCollection
-		email: string; // String!
-		groupEventsAdmins: NexusGenRootTypes["UserGroupEventRelationResponseCollection"] | null; // UserGroupEventRelationResponseCollection
-		groups: NexusGenRootTypes["UserGroupRelationResponseCollection"] | null; // UserGroupRelationResponseCollection
-		location: NexusGenRootTypes["ComponentBaseLocation"] | null; // ComponentBaseLocation
-		participatedUserEvents: NexusGenRootTypes["UserEventRelationResponseCollection"] | null; // UserEventRelationResponseCollection
-		provider: string | null; // String
-		publicContact: NexusGenRootTypes["ComponentBaseContact"] | null; // ComponentBaseContact
-		role: NexusGenRootTypes["UsersPermissionsRoleEntityResponse"] | null; // UsersPermissionsRoleEntityResponse
-		updatedAt: NexusGenScalars["DateTime"] | null; // DateTime
-		userEvents: NexusGenRootTypes["UserEventRelationResponseCollection"] | null; // UserEventRelationResponseCollection
-		userPlayLocations: NexusGenRootTypes["UserPlayLocationRelationResponseCollection"] | null; // UserPlayLocationRelationResponseCollection
-		username: string; // String!
-	}
-	UsersPermissionsUserEntity: { // field return type
-		attributes: NexusGenRootTypes["UsersPermissionsUser"] | null; // UsersPermissionsUser
-		id: string | null; // ID
-	}
-	UsersPermissionsUserEntityResponse: { // field return type
-		data: NexusGenRootTypes["UsersPermissionsUserEntity"] | null; // UsersPermissionsUserEntity
-	}
-	UsersPermissionsUserEntityResponseCollection: { // field return type
-		data: NexusGenRootTypes["UsersPermissionsUserEntity"][]; // [UsersPermissionsUserEntity!]!
-		meta: NexusGenRootTypes["ResponseCollectionMeta"]; // ResponseCollectionMeta!
-	}
-	UsersPermissionsUserRelationResponseCollection: { // field return type
-		data: NexusGenRootTypes["UsersPermissionsUserEntity"][]; // [UsersPermissionsUserEntity!]!
-	}
+  ComponentBaseContact: { // field return type
+    email: string | null; // String
+    facebook: string | null; // String
+    id: string; // ID!
+    instagram: string | null; // String
+    reddit: string | null; // String
+    signal: string | null; // String
+    telegram: string | null; // String
+    whatsapp: string | null; // String
+  }
+  ComponentBaseLocation: { // field return type
+    id: string; // ID!
+    latitude: number; // Float!
+    longitude: number; // Float!
+  }
+  Discipline: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    icon: NexusGenRootTypes['UploadFileEntityResponse']; // UploadFileEntityResponse!
+    locale: string | null; // String
+    localizations: NexusGenRootTypes['DisciplineRelationResponseCollection'] | null; // DisciplineRelationResponseCollection
+    name: string; // String!
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    slug: string; // String!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    userEvents: NexusGenRootTypes['UserEventEntityResponse'] | null; // UserEventEntityResponse
+    users: NexusGenRootTypes['UserDisciplineRelationResponseCollection'] | null; // UserDisciplineRelationResponseCollection
+  }
+  DisciplineEntity: { // field return type
+    attributes: NexusGenRootTypes['Discipline'] | null; // Discipline
+    id: string | null; // ID
+  }
+  DisciplineEntityResponse: { // field return type
+    data: NexusGenRootTypes['DisciplineEntity'] | null; // DisciplineEntity
+  }
+  DisciplineEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['DisciplineEntity'][]; // [DisciplineEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  DisciplineRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['DisciplineEntity'][]; // [DisciplineEntity!]!
+  }
+  Error: { // field return type
+    code: string; // String!
+    message: string | null; // String
+  }
+  Event: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    name: string; // String!
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  EventEntity: { // field return type
+    attributes: NexusGenRootTypes['Event'] | null; // Event
+    id: string | null; // ID
+  }
+  EventEntityResponse: { // field return type
+    data: NexusGenRootTypes['EventEntity'] | null; // EventEntity
+  }
+  EventEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['EventEntity'][]; // [EventEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  EventRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['EventEntity'][]; // [EventEntity!]!
+  }
+  I18NLocale: { // field return type
+    code: string | null; // String
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    name: string | null; // String
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  I18NLocaleEntity: { // field return type
+    attributes: NexusGenRootTypes['I18NLocale'] | null; // I18NLocale
+    id: string | null; // ID
+  }
+  I18NLocaleEntityResponse: { // field return type
+    data: NexusGenRootTypes['I18NLocaleEntity'] | null; // I18NLocaleEntity
+  }
+  I18NLocaleEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['I18NLocaleEntity'][]; // [I18NLocaleEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  I18NLocaleRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['I18NLocaleEntity'][]; // [I18NLocaleEntity!]!
+  }
+  Mutation: { // field return type
+    changePassword: NexusGenRootTypes['UsersPermissionsLoginPayload'] | null; // UsersPermissionsLoginPayload
+    createDiscipline: NexusGenRootTypes['DisciplineEntityResponse'] | null; // DisciplineEntityResponse
+    createDisciplineLocalization: NexusGenRootTypes['DisciplineEntityResponse'] | null; // DisciplineEntityResponse
+    createEvent: NexusGenRootTypes['EventEntityResponse'] | null; // EventEntityResponse
+    createUploadFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    createUploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
+    createUserDiscipline: NexusGenRootTypes['UserDisciplineEntityResponse'] | null; // UserDisciplineEntityResponse
+    createUserDisciplineLocalization: NexusGenRootTypes['UserDisciplineEntityResponse'] | null; // UserDisciplineEntityResponse
+    createUserEvent: NexusGenRootTypes['UserEventEntityResponse'] | null; // UserEventEntityResponse
+    createUserGroup: NexusGenRootTypes['UserGroupEntityResponse'] | null; // UserGroupEntityResponse
+    createUserGroupEvent: NexusGenRootTypes['UserGroupEventEntityResponse'] | null; // UserGroupEventEntityResponse
+    createUserPlayLocation: NexusGenRootTypes['UserPlayLocationEntityResponse'] | null; // UserPlayLocationEntityResponse
+    createUsersPermissionsRole: NexusGenRootTypes['UsersPermissionsCreateRolePayload'] | null; // UsersPermissionsCreateRolePayload
+    createUsersPermissionsUser: NexusGenRootTypes['UsersPermissionsUserEntityResponse']; // UsersPermissionsUserEntityResponse!
+    deleteDiscipline: NexusGenRootTypes['DisciplineEntityResponse'] | null; // DisciplineEntityResponse
+    deleteEvent: NexusGenRootTypes['EventEntityResponse'] | null; // EventEntityResponse
+    deleteUploadFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    deleteUploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
+    deleteUserDiscipline: NexusGenRootTypes['UserDisciplineEntityResponse'] | null; // UserDisciplineEntityResponse
+    deleteUserEvent: NexusGenRootTypes['UserEventEntityResponse'] | null; // UserEventEntityResponse
+    deleteUserGroup: NexusGenRootTypes['UserGroupEntityResponse'] | null; // UserGroupEntityResponse
+    deleteUserGroupEvent: NexusGenRootTypes['UserGroupEventEntityResponse'] | null; // UserGroupEventEntityResponse
+    deleteUserPlayLocation: NexusGenRootTypes['UserPlayLocationEntityResponse'] | null; // UserPlayLocationEntityResponse
+    deleteUsersPermissionsRole: NexusGenRootTypes['UsersPermissionsDeleteRolePayload'] | null; // UsersPermissionsDeleteRolePayload
+    deleteUsersPermissionsUser: NexusGenRootTypes['UsersPermissionsUserEntityResponse']; // UsersPermissionsUserEntityResponse!
+    emailConfirmation: NexusGenRootTypes['UsersPermissionsLoginPayload'] | null; // UsersPermissionsLoginPayload
+    forgotPassword: NexusGenRootTypes['UsersPermissionsPasswordPayload'] | null; // UsersPermissionsPasswordPayload
+    login: NexusGenRootTypes['UsersPermissionsLoginPayload']; // UsersPermissionsLoginPayload!
+    multipleUpload: Array<NexusGenRootTypes['UploadFileEntityResponse'] | null>; // [UploadFileEntityResponse]!
+    register: NexusGenRootTypes['UsersPermissionsLoginPayload']; // UsersPermissionsLoginPayload!
+    removeFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    resetPassword: NexusGenRootTypes['UsersPermissionsLoginPayload'] | null; // UsersPermissionsLoginPayload
+    updateDiscipline: NexusGenRootTypes['DisciplineEntityResponse'] | null; // DisciplineEntityResponse
+    updateEvent: NexusGenRootTypes['EventEntityResponse'] | null; // EventEntityResponse
+    updateFileInfo: NexusGenRootTypes['UploadFileEntityResponse']; // UploadFileEntityResponse!
+    updateUploadFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    updateUploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
+    updateUserDiscipline: NexusGenRootTypes['UserDisciplineEntityResponse'] | null; // UserDisciplineEntityResponse
+    updateUserEvent: NexusGenRootTypes['UserEventEntityResponse'] | null; // UserEventEntityResponse
+    updateUserGroup: NexusGenRootTypes['UserGroupEntityResponse'] | null; // UserGroupEntityResponse
+    updateUserGroupEvent: NexusGenRootTypes['UserGroupEventEntityResponse'] | null; // UserGroupEventEntityResponse
+    updateUserPlayLocation: NexusGenRootTypes['UserPlayLocationEntityResponse'] | null; // UserPlayLocationEntityResponse
+    updateUsersPermissionsRole: NexusGenRootTypes['UsersPermissionsUpdateRolePayload'] | null; // UsersPermissionsUpdateRolePayload
+    updateUsersPermissionsUser: NexusGenRootTypes['UsersPermissionsUserEntityResponse']; // UsersPermissionsUserEntityResponse!
+    upload: NexusGenRootTypes['UploadFileEntityResponse']; // UploadFileEntityResponse!
+  }
+  Pagination: { // field return type
+    page: number; // Int!
+    pageCount: number; // Int!
+    pageSize: number; // Int!
+    total: number; // Int!
+  }
+  Query: { // field return type
+    discipline: NexusGenRootTypes['DisciplineEntityResponse'] | null; // DisciplineEntityResponse
+    disciplines: NexusGenRootTypes['DisciplineEntityResponseCollection'] | null; // DisciplineEntityResponseCollection
+    event: NexusGenRootTypes['EventEntityResponse'] | null; // EventEntityResponse
+    events: NexusGenRootTypes['EventEntityResponseCollection'] | null; // EventEntityResponseCollection
+    i18NLocale: NexusGenRootTypes['I18NLocaleEntityResponse'] | null; // I18NLocaleEntityResponse
+    i18NLocales: NexusGenRootTypes['I18NLocaleEntityResponseCollection'] | null; // I18NLocaleEntityResponseCollection
+    me: NexusGenRootTypes['UsersPermissionsMe'] | null; // UsersPermissionsMe
+    uploadFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    uploadFiles: NexusGenRootTypes['UploadFileEntityResponseCollection'] | null; // UploadFileEntityResponseCollection
+    uploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
+    uploadFolders: NexusGenRootTypes['UploadFolderEntityResponseCollection'] | null; // UploadFolderEntityResponseCollection
+    userDiscipline: NexusGenRootTypes['UserDisciplineEntityResponse'] | null; // UserDisciplineEntityResponse
+    userDisciplines: NexusGenRootTypes['UserDisciplineEntityResponseCollection'] | null; // UserDisciplineEntityResponseCollection
+    userEvent: NexusGenRootTypes['UserEventEntityResponse'] | null; // UserEventEntityResponse
+    userEvents: NexusGenRootTypes['UserEventEntityResponseCollection'] | null; // UserEventEntityResponseCollection
+    userGroup: NexusGenRootTypes['UserGroupEntityResponse'] | null; // UserGroupEntityResponse
+    userGroupEvent: NexusGenRootTypes['UserGroupEventEntityResponse'] | null; // UserGroupEventEntityResponse
+    userGroupEvents: NexusGenRootTypes['UserGroupEventEntityResponseCollection'] | null; // UserGroupEventEntityResponseCollection
+    userGroups: NexusGenRootTypes['UserGroupEntityResponseCollection'] | null; // UserGroupEntityResponseCollection
+    userPlayLocation: NexusGenRootTypes['UserPlayLocationEntityResponse'] | null; // UserPlayLocationEntityResponse
+    userPlayLocations: NexusGenRootTypes['UserPlayLocationEntityResponseCollection'] | null; // UserPlayLocationEntityResponseCollection
+    usersPermissionsRole: NexusGenRootTypes['UsersPermissionsRoleEntityResponse'] | null; // UsersPermissionsRoleEntityResponse
+    usersPermissionsRoles: NexusGenRootTypes['UsersPermissionsRoleEntityResponseCollection'] | null; // UsersPermissionsRoleEntityResponseCollection
+    usersPermissionsUser: NexusGenRootTypes['UsersPermissionsUserEntityResponse'] | null; // UsersPermissionsUserEntityResponse
+    usersPermissionsUsers: NexusGenRootTypes['UsersPermissionsUserEntityResponseCollection'] | null; // UsersPermissionsUserEntityResponseCollection
+  }
+  ResponseCollectionMeta: { // field return type
+    pagination: NexusGenRootTypes['Pagination']; // Pagination!
+  }
+  UploadFile: { // field return type
+    alternativeText: string | null; // String
+    caption: string | null; // String
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    ext: string | null; // String
+    formats: NexusGenScalars['JSON'] | null; // JSON
+    hash: string; // String!
+    height: number | null; // Int
+    mime: string; // String!
+    name: string; // String!
+    previewUrl: string | null; // String
+    provider: string; // String!
+    provider_metadata: NexusGenScalars['JSON'] | null; // JSON
+    related: Array<NexusGenRootTypes['GenericMorph'] | null> | null; // [GenericMorph]
+    size: number; // Float!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    url: string; // String!
+    width: number | null; // Int
+  }
+  UploadFileEntity: { // field return type
+    attributes: NexusGenRootTypes['UploadFile'] | null; // UploadFile
+    id: string | null; // ID
+  }
+  UploadFileEntityResponse: { // field return type
+    data: NexusGenRootTypes['UploadFileEntity'] | null; // UploadFileEntity
+  }
+  UploadFileEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['UploadFileEntity'][]; // [UploadFileEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  UploadFileRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['UploadFileEntity'][]; // [UploadFileEntity!]!
+  }
+  UploadFolder: { // field return type
+    children: NexusGenRootTypes['UploadFolderRelationResponseCollection'] | null; // UploadFolderRelationResponseCollection
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    files: NexusGenRootTypes['UploadFileRelationResponseCollection'] | null; // UploadFileRelationResponseCollection
+    name: string; // String!
+    parent: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
+    path: string; // String!
+    pathId: number; // Int!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UploadFolderEntity: { // field return type
+    attributes: NexusGenRootTypes['UploadFolder'] | null; // UploadFolder
+    id: string | null; // ID
+  }
+  UploadFolderEntityResponse: { // field return type
+    data: NexusGenRootTypes['UploadFolderEntity'] | null; // UploadFolderEntity
+  }
+  UploadFolderEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['UploadFolderEntity'][]; // [UploadFolderEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  UploadFolderRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['UploadFolderEntity'][]; // [UploadFolderEntity!]!
+  }
+  UserDiscipline: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    discipline: NexusGenRootTypes['DisciplineEntityResponse'] | null; // DisciplineEntityResponse
+    isTeaching: boolean | null; // Boolean
+    level: NexusGenEnums['ENUM_USERDISCIPLINE_LEVEL'] | null; // ENUM_USERDISCIPLINE_LEVEL
+    locale: string | null; // String
+    localizations: NexusGenRootTypes['UserDisciplineRelationResponseCollection'] | null; // UserDisciplineRelationResponseCollection
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    startedAt: NexusGenScalars['Date'] | null; // Date
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    user: NexusGenRootTypes['UsersPermissionsUserEntityResponse'] | null; // UsersPermissionsUserEntityResponse
+  }
+  UserDisciplineEntity: { // field return type
+    attributes: NexusGenRootTypes['UserDiscipline'] | null; // UserDiscipline
+    id: string | null; // ID
+  }
+  UserDisciplineEntityResponse: { // field return type
+    data: NexusGenRootTypes['UserDisciplineEntity'] | null; // UserDisciplineEntity
+  }
+  UserDisciplineEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserDisciplineEntity'][]; // [UserDisciplineEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  UserDisciplineRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserDisciplineEntity'][]; // [UserDisciplineEntity!]!
+  }
+  UserEvent: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    description: string | null; // String
+    disciplines: NexusGenRootTypes['DisciplineRelationResponseCollection'] | null; // DisciplineRelationResponseCollection
+    end: NexusGenScalars['DateTime'] | null; // DateTime
+    image: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    name: string | null; // String
+    participants: NexusGenRootTypes['UsersPermissionsUserEntityResponse'] | null; // UsersPermissionsUserEntityResponse
+    public: boolean; // Boolean!
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    start: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    user: NexusGenRootTypes['UsersPermissionsUserEntityResponse'] | null; // UsersPermissionsUserEntityResponse
+    where: NexusGenRootTypes['UserPlayLocationEntityResponse'] | null; // UserPlayLocationEntityResponse
+  }
+  UserEventEntity: { // field return type
+    attributes: NexusGenRootTypes['UserEvent'] | null; // UserEvent
+    id: string | null; // ID
+  }
+  UserEventEntityResponse: { // field return type
+    data: NexusGenRootTypes['UserEventEntity'] | null; // UserEventEntity
+  }
+  UserEventEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserEventEntity'][]; // [UserEventEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  UserEventRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserEventEntity'][]; // [UserEventEntity!]!
+  }
+  UserGroup: { // field return type
+    admins: NexusGenRootTypes['UsersPermissionsUserRelationResponseCollection'] | null; // UsersPermissionsUserRelationResponseCollection
+    avatar: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    contact: NexusGenRootTypes['ComponentBaseContact'] | null; // ComponentBaseContact
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    description: string | null; // String
+    location: NexusGenRootTypes['ComponentBaseLocation']; // ComponentBaseLocation!
+    members: NexusGenRootTypes['UsersPermissionsUserRelationResponseCollection'] | null; // UsersPermissionsUserRelationResponseCollection
+    name: string; // String!
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    userGroupEvents: NexusGenRootTypes['UserGroupEventRelationResponseCollection'] | null; // UserGroupEventRelationResponseCollection
+  }
+  UserGroupEntity: { // field return type
+    attributes: NexusGenRootTypes['UserGroup'] | null; // UserGroup
+    id: string | null; // ID
+  }
+  UserGroupEntityResponse: { // field return type
+    data: NexusGenRootTypes['UserGroupEntity'] | null; // UserGroupEntity
+  }
+  UserGroupEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserGroupEntity'][]; // [UserGroupEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  UserGroupEvent: { // field return type
+    admins: NexusGenRootTypes['UsersPermissionsUserRelationResponseCollection'] | null; // UsersPermissionsUserRelationResponseCollection
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    description: string; // String!
+    end: NexusGenScalars['DateTime'] | null; // DateTime
+    group: NexusGenRootTypes['UserGroupEntityResponse'] | null; // UserGroupEntityResponse
+    image: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    location: NexusGenRootTypes['UserPlayLocationEntityResponse'] | null; // UserPlayLocationEntityResponse
+    name: string; // String!
+    public: boolean | null; // Boolean
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    start: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UserGroupEventEntity: { // field return type
+    attributes: NexusGenRootTypes['UserGroupEvent'] | null; // UserGroupEvent
+    id: string | null; // ID
+  }
+  UserGroupEventEntityResponse: { // field return type
+    data: NexusGenRootTypes['UserGroupEventEntity'] | null; // UserGroupEventEntity
+  }
+  UserGroupEventEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserGroupEventEntity'][]; // [UserGroupEventEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  UserGroupEventRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserGroupEventEntity'][]; // [UserGroupEventEntity!]!
+  }
+  UserGroupRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserGroupEntity'][]; // [UserGroupEntity!]!
+  }
+  UserPlayLocation: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    description: string; // String!
+    groupEventsLocations: NexusGenRootTypes['UserGroupEventRelationResponseCollection'] | null; // UserGroupEventRelationResponseCollection
+    image: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    location: NexusGenRootTypes['ComponentBaseLocation'] | null; // ComponentBaseLocation
+    name: string; // String!
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    userEvents: NexusGenRootTypes['UserEventRelationResponseCollection'] | null; // UserEventRelationResponseCollection
+    users: NexusGenRootTypes['UsersPermissionsUserRelationResponseCollection'] | null; // UsersPermissionsUserRelationResponseCollection
+  }
+  UserPlayLocationEntity: { // field return type
+    attributes: NexusGenRootTypes['UserPlayLocation'] | null; // UserPlayLocation
+    id: string | null; // ID
+  }
+  UserPlayLocationEntityResponse: { // field return type
+    data: NexusGenRootTypes['UserPlayLocationEntity'] | null; // UserPlayLocationEntity
+  }
+  UserPlayLocationEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserPlayLocationEntity'][]; // [UserPlayLocationEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  UserPlayLocationRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['UserPlayLocationEntity'][]; // [UserPlayLocationEntity!]!
+  }
+  UsersPermissionsCreateRolePayload: { // field return type
+    ok: boolean; // Boolean!
+  }
+  UsersPermissionsDeleteRolePayload: { // field return type
+    ok: boolean; // Boolean!
+  }
+  UsersPermissionsLoginPayload: { // field return type
+    jwt: string | null; // String
+    user: NexusGenRootTypes['UsersPermissionsMe']; // UsersPermissionsMe!
+  }
+  UsersPermissionsMe: { // field return type
+    blocked: boolean | null; // Boolean
+    confirmed: boolean | null; // Boolean
+    email: string | null; // String
+    id: string; // ID!
+    role: NexusGenRootTypes['UsersPermissionsMeRole'] | null; // UsersPermissionsMeRole
+    username: string; // String!
+  }
+  UsersPermissionsMeRole: { // field return type
+    description: string | null; // String
+    id: string; // ID!
+    name: string; // String!
+    type: string | null; // String
+  }
+  UsersPermissionsPasswordPayload: { // field return type
+    ok: boolean; // Boolean!
+  }
+  UsersPermissionsPermission: { // field return type
+    action: string; // String!
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    role: NexusGenRootTypes['UsersPermissionsRoleEntityResponse'] | null; // UsersPermissionsRoleEntityResponse
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  UsersPermissionsPermissionEntity: { // field return type
+    attributes: NexusGenRootTypes['UsersPermissionsPermission'] | null; // UsersPermissionsPermission
+    id: string | null; // ID
+  }
+  UsersPermissionsPermissionEntityResponse: { // field return type
+    data: NexusGenRootTypes['UsersPermissionsPermissionEntity'] | null; // UsersPermissionsPermissionEntity
+  }
+  UsersPermissionsPermissionEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['UsersPermissionsPermissionEntity'][]; // [UsersPermissionsPermissionEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  UsersPermissionsPermissionRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['UsersPermissionsPermissionEntity'][]; // [UsersPermissionsPermissionEntity!]!
+  }
+  UsersPermissionsRole: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    description: string | null; // String
+    name: string; // String!
+    permissions: NexusGenRootTypes['UsersPermissionsPermissionRelationResponseCollection'] | null; // UsersPermissionsPermissionRelationResponseCollection
+    type: string | null; // String
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    users: NexusGenRootTypes['UsersPermissionsUserRelationResponseCollection'] | null; // UsersPermissionsUserRelationResponseCollection
+  }
+  UsersPermissionsRoleEntity: { // field return type
+    attributes: NexusGenRootTypes['UsersPermissionsRole'] | null; // UsersPermissionsRole
+    id: string | null; // ID
+  }
+  UsersPermissionsRoleEntityResponse: { // field return type
+    data: NexusGenRootTypes['UsersPermissionsRoleEntity'] | null; // UsersPermissionsRoleEntity
+  }
+  UsersPermissionsRoleEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['UsersPermissionsRoleEntity'][]; // [UsersPermissionsRoleEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  UsersPermissionsRoleRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['UsersPermissionsRoleEntity'][]; // [UsersPermissionsRoleEntity!]!
+  }
+  UsersPermissionsUpdateRolePayload: { // field return type
+    ok: boolean; // Boolean!
+  }
+  UsersPermissionsUser: { // field return type
+    aboutMe: string | null; // String
+    adminGroups: NexusGenRootTypes['UserGroupRelationResponseCollection'] | null; // UserGroupRelationResponseCollection
+    avatar: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    blocked: boolean | null; // Boolean
+    city: string | null; // String
+    confirmed: boolean | null; // Boolean
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    disciplines: NexusGenRootTypes['UserDisciplineRelationResponseCollection'] | null; // UserDisciplineRelationResponseCollection
+    email: string; // String!
+    groupEventsAdmins: NexusGenRootTypes['UserGroupEventRelationResponseCollection'] | null; // UserGroupEventRelationResponseCollection
+    groups: NexusGenRootTypes['UserGroupRelationResponseCollection'] | null; // UserGroupRelationResponseCollection
+    location: NexusGenRootTypes['ComponentBaseLocation'] | null; // ComponentBaseLocation
+    participatedUserEvents: NexusGenRootTypes['UserEventRelationResponseCollection'] | null; // UserEventRelationResponseCollection
+    provider: string | null; // String
+    publicContact: NexusGenRootTypes['ComponentBaseContact'] | null; // ComponentBaseContact
+    role: NexusGenRootTypes['UsersPermissionsRoleEntityResponse'] | null; // UsersPermissionsRoleEntityResponse
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    userEvents: NexusGenRootTypes['UserEventRelationResponseCollection'] | null; // UserEventRelationResponseCollection
+    userPlayLocations: NexusGenRootTypes['UserPlayLocationRelationResponseCollection'] | null; // UserPlayLocationRelationResponseCollection
+    username: string; // String!
+  }
+  UsersPermissionsUserEntity: { // field return type
+    attributes: NexusGenRootTypes['UsersPermissionsUser'] | null; // UsersPermissionsUser
+    id: string | null; // ID
+  }
+  UsersPermissionsUserEntityResponse: { // field return type
+    data: NexusGenRootTypes['UsersPermissionsUserEntity'] | null; // UsersPermissionsUserEntity
+  }
+  UsersPermissionsUserEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['UsersPermissionsUserEntity'][]; // [UsersPermissionsUserEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  UsersPermissionsUserRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['UsersPermissionsUserEntity'][]; // [UsersPermissionsUserEntity!]!
+  }
 }
-
 
 export interface NexusGenFieldTypeNames {
-	ComponentBaseContact: { // field return type name
-		email: "String"
-		facebook: "String"
-		id: "ID"
-		instagram: "String"
-		reddit: "String"
-		signal: "String"
-		telegram: "String"
-		whatsapp: "String"
-	}
-	ComponentBaseLocation: { // field return type name
-		id: "ID"
-		latitude: "Float"
-		longitude: "Float"
-	}
-	Discipline: { // field return type name
-		createdAt: "DateTime"
-		icon: "UploadFileEntityResponse"
-		locale: "String"
-		localizations: "DisciplineRelationResponseCollection"
-		name: "String"
-		publishedAt: "DateTime"
-		slug: "String"
-		updatedAt: "DateTime"
-		userEvents: "UserEventEntityResponse"
-		users: "UserDisciplineRelationResponseCollection"
-	}
-	DisciplineEntity: { // field return type name
-		attributes: "Discipline"
-		id: "ID"
-	}
-	DisciplineEntityResponse: { // field return type name
-		data: "DisciplineEntity"
-	}
-	DisciplineEntityResponseCollection: { // field return type name
-		data: "DisciplineEntity"
-		meta: "ResponseCollectionMeta"
-	}
-	DisciplineRelationResponseCollection: { // field return type name
-		data: "DisciplineEntity"
-	}
-	Error: { // field return type name
-		code: "String"
-		message: "String"
-	}
-	Event: { // field return type name
-		createdAt: "DateTime"
-		name: "String"
-		publishedAt: "DateTime"
-		updatedAt: "DateTime"
-	}
-	EventEntity: { // field return type name
-		attributes: "Event"
-		id: "ID"
-	}
-	EventEntityResponse: { // field return type name
-		data: "EventEntity"
-	}
-	EventEntityResponseCollection: { // field return type name
-		data: "EventEntity"
-		meta: "ResponseCollectionMeta"
-	}
-	EventRelationResponseCollection: { // field return type name
-		data: "EventEntity"
-	}
-	I18NLocale: { // field return type name
-		code: "String"
-		createdAt: "DateTime"
-		name: "String"
-		updatedAt: "DateTime"
-	}
-	I18NLocaleEntity: { // field return type name
-		attributes: "I18NLocale"
-		id: "ID"
-	}
-	I18NLocaleEntityResponse: { // field return type name
-		data: "I18NLocaleEntity"
-	}
-	I18NLocaleEntityResponseCollection: { // field return type name
-		data: "I18NLocaleEntity"
-		meta: "ResponseCollectionMeta"
-	}
-	I18NLocaleRelationResponseCollection: { // field return type name
-		data: "I18NLocaleEntity"
-	}
-	Mutation: { // field return type name
-		changePassword: "UsersPermissionsLoginPayload"
-		createDiscipline: "DisciplineEntityResponse"
-		createDisciplineLocalization: "DisciplineEntityResponse"
-		createEvent: "EventEntityResponse"
-		createUploadFile: "UploadFileEntityResponse"
-		createUploadFolder: "UploadFolderEntityResponse"
-		createUserDiscipline: "UserDisciplineEntityResponse"
-		createUserDisciplineLocalization: "UserDisciplineEntityResponse"
-		createUserEvent: "UserEventEntityResponse"
-		createUserGroup: "UserGroupEntityResponse"
-		createUserGroupEvent: "UserGroupEventEntityResponse"
-		createUserPlayLocation: "UserPlayLocationEntityResponse"
-		createUsersPermissionsRole: "UsersPermissionsCreateRolePayload"
-		createUsersPermissionsUser: "UsersPermissionsUserEntityResponse"
-		deleteDiscipline: "DisciplineEntityResponse"
-		deleteEvent: "EventEntityResponse"
-		deleteUploadFile: "UploadFileEntityResponse"
-		deleteUploadFolder: "UploadFolderEntityResponse"
-		deleteUserDiscipline: "UserDisciplineEntityResponse"
-		deleteUserEvent: "UserEventEntityResponse"
-		deleteUserGroup: "UserGroupEntityResponse"
-		deleteUserGroupEvent: "UserGroupEventEntityResponse"
-		deleteUserPlayLocation: "UserPlayLocationEntityResponse"
-		deleteUsersPermissionsRole: "UsersPermissionsDeleteRolePayload"
-		deleteUsersPermissionsUser: "UsersPermissionsUserEntityResponse"
-		emailConfirmation: "UsersPermissionsLoginPayload"
-		forgotPassword: "UsersPermissionsPasswordPayload"
-		login: "UsersPermissionsLoginPayload"
-		multipleUpload: "UploadFileEntityResponse"
-		register: "UsersPermissionsLoginPayload"
-		removeFile: "UploadFileEntityResponse"
-		resetPassword: "UsersPermissionsLoginPayload"
-		updateDiscipline: "DisciplineEntityResponse"
-		updateEvent: "EventEntityResponse"
-		updateFileInfo: "UploadFileEntityResponse"
-		updateUploadFile: "UploadFileEntityResponse"
-		updateUploadFolder: "UploadFolderEntityResponse"
-		updateUserDiscipline: "UserDisciplineEntityResponse"
-		updateUserEvent: "UserEventEntityResponse"
-		updateUserGroup: "UserGroupEntityResponse"
-		updateUserGroupEvent: "UserGroupEventEntityResponse"
-		updateUserPlayLocation: "UserPlayLocationEntityResponse"
-		updateUsersPermissionsRole: "UsersPermissionsUpdateRolePayload"
-		updateUsersPermissionsUser: "UsersPermissionsUserEntityResponse"
-		upload: "UploadFileEntityResponse"
-	}
-	Pagination: { // field return type name
-		page: "Int"
-		pageCount: "Int"
-		pageSize: "Int"
-		total: "Int"
-	}
-	Query: { // field return type name
-		discipline: "DisciplineEntityResponse"
-		disciplines: "DisciplineEntityResponseCollection"
-		event: "EventEntityResponse"
-		events: "EventEntityResponseCollection"
-		i18NLocale: "I18NLocaleEntityResponse"
-		i18NLocales: "I18NLocaleEntityResponseCollection"
-		me: "UsersPermissionsMe"
-		uploadFile: "UploadFileEntityResponse"
-		uploadFiles: "UploadFileEntityResponseCollection"
-		uploadFolder: "UploadFolderEntityResponse"
-		uploadFolders: "UploadFolderEntityResponseCollection"
-		userDiscipline: "UserDisciplineEntityResponse"
-		userDisciplines: "UserDisciplineEntityResponseCollection"
-		userEvent: "UserEventEntityResponse"
-		userEvents: "UserEventEntityResponseCollection"
-		userGroup: "UserGroupEntityResponse"
-		userGroupEvent: "UserGroupEventEntityResponse"
-		userGroupEvents: "UserGroupEventEntityResponseCollection"
-		userGroups: "UserGroupEntityResponseCollection"
-		userPlayLocation: "UserPlayLocationEntityResponse"
-		userPlayLocations: "UserPlayLocationEntityResponseCollection"
-		usersPermissionsRole: "UsersPermissionsRoleEntityResponse"
-		usersPermissionsRoles: "UsersPermissionsRoleEntityResponseCollection"
-		usersPermissionsUser: "UsersPermissionsUserEntityResponse"
-		usersPermissionsUsers: "UsersPermissionsUserEntityResponseCollection"
-	}
-	ResponseCollectionMeta: { // field return type name
-		pagination: "Pagination"
-	}
-	UploadFile: { // field return type name
-		alternativeText: "String"
-		caption: "String"
-		createdAt: "DateTime"
-		ext: "String"
-		formats: "JSON"
-		hash: "String"
-		height: "Int"
-		mime: "String"
-		name: "String"
-		previewUrl: "String"
-		provider: "String"
-		provider_metadata: "JSON"
-		related: "GenericMorph"
-		size: "Float"
-		updatedAt: "DateTime"
-		url: "String"
-		width: "Int"
-	}
-	UploadFileEntity: { // field return type name
-		attributes: "UploadFile"
-		id: "ID"
-	}
-	UploadFileEntityResponse: { // field return type name
-		data: "UploadFileEntity"
-	}
-	UploadFileEntityResponseCollection: { // field return type name
-		data: "UploadFileEntity"
-		meta: "ResponseCollectionMeta"
-	}
-	UploadFileRelationResponseCollection: { // field return type name
-		data: "UploadFileEntity"
-	}
-	UploadFolder: { // field return type name
-		children: "UploadFolderRelationResponseCollection"
-		createdAt: "DateTime"
-		files: "UploadFileRelationResponseCollection"
-		name: "String"
-		parent: "UploadFolderEntityResponse"
-		path: "String"
-		pathId: "Int"
-		updatedAt: "DateTime"
-	}
-	UploadFolderEntity: { // field return type name
-		attributes: "UploadFolder"
-		id: "ID"
-	}
-	UploadFolderEntityResponse: { // field return type name
-		data: "UploadFolderEntity"
-	}
-	UploadFolderEntityResponseCollection: { // field return type name
-		data: "UploadFolderEntity"
-		meta: "ResponseCollectionMeta"
-	}
-	UploadFolderRelationResponseCollection: { // field return type name
-		data: "UploadFolderEntity"
-	}
-	UserDiscipline: { // field return type name
-		createdAt: "DateTime"
-		discipline: "DisciplineEntityResponse"
-		isTeaching: "Boolean"
-		level: "ENUM_USERDISCIPLINE_LEVEL"
-		locale: "String"
-		localizations: "UserDisciplineRelationResponseCollection"
-		publishedAt: "DateTime"
-		startedAt: "Date"
-		updatedAt: "DateTime"
-		user: "UsersPermissionsUserEntityResponse"
-	}
-	UserDisciplineEntity: { // field return type name
-		attributes: "UserDiscipline"
-		id: "ID"
-	}
-	UserDisciplineEntityResponse: { // field return type name
-		data: "UserDisciplineEntity"
-	}
-	UserDisciplineEntityResponseCollection: { // field return type name
-		data: "UserDisciplineEntity"
-		meta: "ResponseCollectionMeta"
-	}
-	UserDisciplineRelationResponseCollection: { // field return type name
-		data: "UserDisciplineEntity"
-	}
-	UserEvent: { // field return type name
-		createdAt: "DateTime"
-		description: "String"
-		disciplines: "DisciplineRelationResponseCollection"
-		end: "DateTime"
-		image: "UploadFileEntityResponse"
-		name: "String"
-		participants: "UsersPermissionsUserEntityResponse"
-		public: "Boolean"
-		publishedAt: "DateTime"
-		start: "DateTime"
-		updatedAt: "DateTime"
-		user: "UsersPermissionsUserEntityResponse"
-		where: "UserPlayLocationEntityResponse"
-	}
-	UserEventEntity: { // field return type name
-		attributes: "UserEvent"
-		id: "ID"
-	}
-	UserEventEntityResponse: { // field return type name
-		data: "UserEventEntity"
-	}
-	UserEventEntityResponseCollection: { // field return type name
-		data: "UserEventEntity"
-		meta: "ResponseCollectionMeta"
-	}
-	UserEventRelationResponseCollection: { // field return type name
-		data: "UserEventEntity"
-	}
-	UserGroup: { // field return type name
-		admins: "UsersPermissionsUserRelationResponseCollection"
-		avatar: "UploadFileEntityResponse"
-		contact: "ComponentBaseContact"
-		createdAt: "DateTime"
-		description: "String"
-		location: "ComponentBaseLocation"
-		members: "UsersPermissionsUserRelationResponseCollection"
-		name: "String"
-		publishedAt: "DateTime"
-		updatedAt: "DateTime"
-		userGroupEvents: "UserGroupEventRelationResponseCollection"
-	}
-	UserGroupEntity: { // field return type name
-		attributes: "UserGroup"
-		id: "ID"
-	}
-	UserGroupEntityResponse: { // field return type name
-		data: "UserGroupEntity"
-	}
-	UserGroupEntityResponseCollection: { // field return type name
-		data: "UserGroupEntity"
-		meta: "ResponseCollectionMeta"
-	}
-	UserGroupEvent: { // field return type name
-		admins: "UsersPermissionsUserRelationResponseCollection"
-		createdAt: "DateTime"
-		description: "String"
-		end: "DateTime"
-		group: "UserGroupEntityResponse"
-		image: "UploadFileEntityResponse"
-		location: "UserPlayLocationEntityResponse"
-		name: "String"
-		public: "Boolean"
-		publishedAt: "DateTime"
-		start: "DateTime"
-		updatedAt: "DateTime"
-	}
-	UserGroupEventEntity: { // field return type name
-		attributes: "UserGroupEvent"
-		id: "ID"
-	}
-	UserGroupEventEntityResponse: { // field return type name
-		data: "UserGroupEventEntity"
-	}
-	UserGroupEventEntityResponseCollection: { // field return type name
-		data: "UserGroupEventEntity"
-		meta: "ResponseCollectionMeta"
-	}
-	UserGroupEventRelationResponseCollection: { // field return type name
-		data: "UserGroupEventEntity"
-	}
-	UserGroupRelationResponseCollection: { // field return type name
-		data: "UserGroupEntity"
-	}
-	UserPlayLocation: { // field return type name
-		createdAt: "DateTime"
-		description: "String"
-		groupEventsLocations: "UserGroupEventRelationResponseCollection"
-		image: "UploadFileEntityResponse"
-		location: "ComponentBaseLocation"
-		name: "String"
-		publishedAt: "DateTime"
-		updatedAt: "DateTime"
-		userEvents: "UserEventRelationResponseCollection"
-		users: "UsersPermissionsUserRelationResponseCollection"
-	}
-	UserPlayLocationEntity: { // field return type name
-		attributes: "UserPlayLocation"
-		id: "ID"
-	}
-	UserPlayLocationEntityResponse: { // field return type name
-		data: "UserPlayLocationEntity"
-	}
-	UserPlayLocationEntityResponseCollection: { // field return type name
-		data: "UserPlayLocationEntity"
-		meta: "ResponseCollectionMeta"
-	}
-	UserPlayLocationRelationResponseCollection: { // field return type name
-		data: "UserPlayLocationEntity"
-	}
-	UsersPermissionsCreateRolePayload: { // field return type name
-		ok: "Boolean"
-	}
-	UsersPermissionsDeleteRolePayload: { // field return type name
-		ok: "Boolean"
-	}
-	UsersPermissionsLoginPayload: { // field return type name
-		jwt: "String"
-		user: "UsersPermissionsMe"
-	}
-	UsersPermissionsMe: { // field return type name
-		blocked: "Boolean"
-		confirmed: "Boolean"
-		email: "String"
-		id: "ID"
-		role: "UsersPermissionsMeRole"
-		username: "String"
-	}
-	UsersPermissionsMeRole: { // field return type name
-		description: "String"
-		id: "ID"
-		name: "String"
-		type: "String"
-	}
-	UsersPermissionsPasswordPayload: { // field return type name
-		ok: "Boolean"
-	}
-	UsersPermissionsPermission: { // field return type name
-		action: "String"
-		createdAt: "DateTime"
-		role: "UsersPermissionsRoleEntityResponse"
-		updatedAt: "DateTime"
-	}
-	UsersPermissionsPermissionEntity: { // field return type name
-		attributes: "UsersPermissionsPermission"
-		id: "ID"
-	}
-	UsersPermissionsPermissionEntityResponse: { // field return type name
-		data: "UsersPermissionsPermissionEntity"
-	}
-	UsersPermissionsPermissionEntityResponseCollection: { // field return type name
-		data: "UsersPermissionsPermissionEntity"
-		meta: "ResponseCollectionMeta"
-	}
-	UsersPermissionsPermissionRelationResponseCollection: { // field return type name
-		data: "UsersPermissionsPermissionEntity"
-	}
-	UsersPermissionsRole: { // field return type name
-		createdAt: "DateTime"
-		description: "String"
-		name: "String"
-		permissions: "UsersPermissionsPermissionRelationResponseCollection"
-		type: "String"
-		updatedAt: "DateTime"
-		users: "UsersPermissionsUserRelationResponseCollection"
-	}
-	UsersPermissionsRoleEntity: { // field return type name
-		attributes: "UsersPermissionsRole"
-		id: "ID"
-	}
-	UsersPermissionsRoleEntityResponse: { // field return type name
-		data: "UsersPermissionsRoleEntity"
-	}
-	UsersPermissionsRoleEntityResponseCollection: { // field return type name
-		data: "UsersPermissionsRoleEntity"
-		meta: "ResponseCollectionMeta"
-	}
-	UsersPermissionsRoleRelationResponseCollection: { // field return type name
-		data: "UsersPermissionsRoleEntity"
-	}
-	UsersPermissionsUpdateRolePayload: { // field return type name
-		ok: "Boolean"
-	}
-	UsersPermissionsUser: { // field return type name
-		aboutMe: "String"
-		adminGroups: "UserGroupRelationResponseCollection"
-		avatar: "UploadFileEntityResponse"
-		blocked: "Boolean"
-		city: "String"
-		confirmed: "Boolean"
-		createdAt: "DateTime"
-		disciplines: "UserDisciplineRelationResponseCollection"
-		email: "String"
-		groupEventsAdmins: "UserGroupEventRelationResponseCollection"
-		groups: "UserGroupRelationResponseCollection"
-		location: "ComponentBaseLocation"
-		participatedUserEvents: "UserEventRelationResponseCollection"
-		provider: "String"
-		publicContact: "ComponentBaseContact"
-		role: "UsersPermissionsRoleEntityResponse"
-		updatedAt: "DateTime"
-		userEvents: "UserEventRelationResponseCollection"
-		userPlayLocations: "UserPlayLocationRelationResponseCollection"
-		username: "String"
-	}
-	UsersPermissionsUserEntity: { // field return type name
-		attributes: "UsersPermissionsUser"
-		id: "ID"
-	}
-	UsersPermissionsUserEntityResponse: { // field return type name
-		data: "UsersPermissionsUserEntity"
-	}
-	UsersPermissionsUserEntityResponseCollection: { // field return type name
-		data: "UsersPermissionsUserEntity"
-		meta: "ResponseCollectionMeta"
-	}
-	UsersPermissionsUserRelationResponseCollection: { // field return type name
-		data: "UsersPermissionsUserEntity"
-	}
+  ComponentBaseContact: { // field return type name
+    email: 'String'
+    facebook: 'String'
+    id: 'ID'
+    instagram: 'String'
+    reddit: 'String'
+    signal: 'String'
+    telegram: 'String'
+    whatsapp: 'String'
+  }
+  ComponentBaseLocation: { // field return type name
+    id: 'ID'
+    latitude: 'Float'
+    longitude: 'Float'
+  }
+  Discipline: { // field return type name
+    createdAt: 'DateTime'
+    icon: 'UploadFileEntityResponse'
+    locale: 'String'
+    localizations: 'DisciplineRelationResponseCollection'
+    name: 'String'
+    publishedAt: 'DateTime'
+    slug: 'String'
+    updatedAt: 'DateTime'
+    userEvents: 'UserEventEntityResponse'
+    users: 'UserDisciplineRelationResponseCollection'
+  }
+  DisciplineEntity: { // field return type name
+    attributes: 'Discipline'
+    id: 'ID'
+  }
+  DisciplineEntityResponse: { // field return type name
+    data: 'DisciplineEntity'
+  }
+  DisciplineEntityResponseCollection: { // field return type name
+    data: 'DisciplineEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  DisciplineRelationResponseCollection: { // field return type name
+    data: 'DisciplineEntity'
+  }
+  Error: { // field return type name
+    code: 'String'
+    message: 'String'
+  }
+  Event: { // field return type name
+    createdAt: 'DateTime'
+    name: 'String'
+    publishedAt: 'DateTime'
+    updatedAt: 'DateTime'
+  }
+  EventEntity: { // field return type name
+    attributes: 'Event'
+    id: 'ID'
+  }
+  EventEntityResponse: { // field return type name
+    data: 'EventEntity'
+  }
+  EventEntityResponseCollection: { // field return type name
+    data: 'EventEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  EventRelationResponseCollection: { // field return type name
+    data: 'EventEntity'
+  }
+  I18NLocale: { // field return type name
+    code: 'String'
+    createdAt: 'DateTime'
+    name: 'String'
+    updatedAt: 'DateTime'
+  }
+  I18NLocaleEntity: { // field return type name
+    attributes: 'I18NLocale'
+    id: 'ID'
+  }
+  I18NLocaleEntityResponse: { // field return type name
+    data: 'I18NLocaleEntity'
+  }
+  I18NLocaleEntityResponseCollection: { // field return type name
+    data: 'I18NLocaleEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  I18NLocaleRelationResponseCollection: { // field return type name
+    data: 'I18NLocaleEntity'
+  }
+  Mutation: { // field return type name
+    changePassword: 'UsersPermissionsLoginPayload'
+    createDiscipline: 'DisciplineEntityResponse'
+    createDisciplineLocalization: 'DisciplineEntityResponse'
+    createEvent: 'EventEntityResponse'
+    createUploadFile: 'UploadFileEntityResponse'
+    createUploadFolder: 'UploadFolderEntityResponse'
+    createUserDiscipline: 'UserDisciplineEntityResponse'
+    createUserDisciplineLocalization: 'UserDisciplineEntityResponse'
+    createUserEvent: 'UserEventEntityResponse'
+    createUserGroup: 'UserGroupEntityResponse'
+    createUserGroupEvent: 'UserGroupEventEntityResponse'
+    createUserPlayLocation: 'UserPlayLocationEntityResponse'
+    createUsersPermissionsRole: 'UsersPermissionsCreateRolePayload'
+    createUsersPermissionsUser: 'UsersPermissionsUserEntityResponse'
+    deleteDiscipline: 'DisciplineEntityResponse'
+    deleteEvent: 'EventEntityResponse'
+    deleteUploadFile: 'UploadFileEntityResponse'
+    deleteUploadFolder: 'UploadFolderEntityResponse'
+    deleteUserDiscipline: 'UserDisciplineEntityResponse'
+    deleteUserEvent: 'UserEventEntityResponse'
+    deleteUserGroup: 'UserGroupEntityResponse'
+    deleteUserGroupEvent: 'UserGroupEventEntityResponse'
+    deleteUserPlayLocation: 'UserPlayLocationEntityResponse'
+    deleteUsersPermissionsRole: 'UsersPermissionsDeleteRolePayload'
+    deleteUsersPermissionsUser: 'UsersPermissionsUserEntityResponse'
+    emailConfirmation: 'UsersPermissionsLoginPayload'
+    forgotPassword: 'UsersPermissionsPasswordPayload'
+    login: 'UsersPermissionsLoginPayload'
+    multipleUpload: 'UploadFileEntityResponse'
+    register: 'UsersPermissionsLoginPayload'
+    removeFile: 'UploadFileEntityResponse'
+    resetPassword: 'UsersPermissionsLoginPayload'
+    updateDiscipline: 'DisciplineEntityResponse'
+    updateEvent: 'EventEntityResponse'
+    updateFileInfo: 'UploadFileEntityResponse'
+    updateUploadFile: 'UploadFileEntityResponse'
+    updateUploadFolder: 'UploadFolderEntityResponse'
+    updateUserDiscipline: 'UserDisciplineEntityResponse'
+    updateUserEvent: 'UserEventEntityResponse'
+    updateUserGroup: 'UserGroupEntityResponse'
+    updateUserGroupEvent: 'UserGroupEventEntityResponse'
+    updateUserPlayLocation: 'UserPlayLocationEntityResponse'
+    updateUsersPermissionsRole: 'UsersPermissionsUpdateRolePayload'
+    updateUsersPermissionsUser: 'UsersPermissionsUserEntityResponse'
+    upload: 'UploadFileEntityResponse'
+  }
+  Pagination: { // field return type name
+    page: 'Int'
+    pageCount: 'Int'
+    pageSize: 'Int'
+    total: 'Int'
+  }
+  Query: { // field return type name
+    discipline: 'DisciplineEntityResponse'
+    disciplines: 'DisciplineEntityResponseCollection'
+    event: 'EventEntityResponse'
+    events: 'EventEntityResponseCollection'
+    i18NLocale: 'I18NLocaleEntityResponse'
+    i18NLocales: 'I18NLocaleEntityResponseCollection'
+    me: 'UsersPermissionsMe'
+    uploadFile: 'UploadFileEntityResponse'
+    uploadFiles: 'UploadFileEntityResponseCollection'
+    uploadFolder: 'UploadFolderEntityResponse'
+    uploadFolders: 'UploadFolderEntityResponseCollection'
+    userDiscipline: 'UserDisciplineEntityResponse'
+    userDisciplines: 'UserDisciplineEntityResponseCollection'
+    userEvent: 'UserEventEntityResponse'
+    userEvents: 'UserEventEntityResponseCollection'
+    userGroup: 'UserGroupEntityResponse'
+    userGroupEvent: 'UserGroupEventEntityResponse'
+    userGroupEvents: 'UserGroupEventEntityResponseCollection'
+    userGroups: 'UserGroupEntityResponseCollection'
+    userPlayLocation: 'UserPlayLocationEntityResponse'
+    userPlayLocations: 'UserPlayLocationEntityResponseCollection'
+    usersPermissionsRole: 'UsersPermissionsRoleEntityResponse'
+    usersPermissionsRoles: 'UsersPermissionsRoleEntityResponseCollection'
+    usersPermissionsUser: 'UsersPermissionsUserEntityResponse'
+    usersPermissionsUsers: 'UsersPermissionsUserEntityResponseCollection'
+  }
+  ResponseCollectionMeta: { // field return type name
+    pagination: 'Pagination'
+  }
+  UploadFile: { // field return type name
+    alternativeText: 'String'
+    caption: 'String'
+    createdAt: 'DateTime'
+    ext: 'String'
+    formats: 'JSON'
+    hash: 'String'
+    height: 'Int'
+    mime: 'String'
+    name: 'String'
+    previewUrl: 'String'
+    provider: 'String'
+    provider_metadata: 'JSON'
+    related: 'GenericMorph'
+    size: 'Float'
+    updatedAt: 'DateTime'
+    url: 'String'
+    width: 'Int'
+  }
+  UploadFileEntity: { // field return type name
+    attributes: 'UploadFile'
+    id: 'ID'
+  }
+  UploadFileEntityResponse: { // field return type name
+    data: 'UploadFileEntity'
+  }
+  UploadFileEntityResponseCollection: { // field return type name
+    data: 'UploadFileEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  UploadFileRelationResponseCollection: { // field return type name
+    data: 'UploadFileEntity'
+  }
+  UploadFolder: { // field return type name
+    children: 'UploadFolderRelationResponseCollection'
+    createdAt: 'DateTime'
+    files: 'UploadFileRelationResponseCollection'
+    name: 'String'
+    parent: 'UploadFolderEntityResponse'
+    path: 'String'
+    pathId: 'Int'
+    updatedAt: 'DateTime'
+  }
+  UploadFolderEntity: { // field return type name
+    attributes: 'UploadFolder'
+    id: 'ID'
+  }
+  UploadFolderEntityResponse: { // field return type name
+    data: 'UploadFolderEntity'
+  }
+  UploadFolderEntityResponseCollection: { // field return type name
+    data: 'UploadFolderEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  UploadFolderRelationResponseCollection: { // field return type name
+    data: 'UploadFolderEntity'
+  }
+  UserDiscipline: { // field return type name
+    createdAt: 'DateTime'
+    discipline: 'DisciplineEntityResponse'
+    isTeaching: 'Boolean'
+    level: 'ENUM_USERDISCIPLINE_LEVEL'
+    locale: 'String'
+    localizations: 'UserDisciplineRelationResponseCollection'
+    publishedAt: 'DateTime'
+    startedAt: 'Date'
+    updatedAt: 'DateTime'
+    user: 'UsersPermissionsUserEntityResponse'
+  }
+  UserDisciplineEntity: { // field return type name
+    attributes: 'UserDiscipline'
+    id: 'ID'
+  }
+  UserDisciplineEntityResponse: { // field return type name
+    data: 'UserDisciplineEntity'
+  }
+  UserDisciplineEntityResponseCollection: { // field return type name
+    data: 'UserDisciplineEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  UserDisciplineRelationResponseCollection: { // field return type name
+    data: 'UserDisciplineEntity'
+  }
+  UserEvent: { // field return type name
+    createdAt: 'DateTime'
+    description: 'String'
+    disciplines: 'DisciplineRelationResponseCollection'
+    end: 'DateTime'
+    image: 'UploadFileEntityResponse'
+    name: 'String'
+    participants: 'UsersPermissionsUserEntityResponse'
+    public: 'Boolean'
+    publishedAt: 'DateTime'
+    start: 'DateTime'
+    updatedAt: 'DateTime'
+    user: 'UsersPermissionsUserEntityResponse'
+    where: 'UserPlayLocationEntityResponse'
+  }
+  UserEventEntity: { // field return type name
+    attributes: 'UserEvent'
+    id: 'ID'
+  }
+  UserEventEntityResponse: { // field return type name
+    data: 'UserEventEntity'
+  }
+  UserEventEntityResponseCollection: { // field return type name
+    data: 'UserEventEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  UserEventRelationResponseCollection: { // field return type name
+    data: 'UserEventEntity'
+  }
+  UserGroup: { // field return type name
+    admins: 'UsersPermissionsUserRelationResponseCollection'
+    avatar: 'UploadFileEntityResponse'
+    contact: 'ComponentBaseContact'
+    createdAt: 'DateTime'
+    description: 'String'
+    location: 'ComponentBaseLocation'
+    members: 'UsersPermissionsUserRelationResponseCollection'
+    name: 'String'
+    publishedAt: 'DateTime'
+    updatedAt: 'DateTime'
+    userGroupEvents: 'UserGroupEventRelationResponseCollection'
+  }
+  UserGroupEntity: { // field return type name
+    attributes: 'UserGroup'
+    id: 'ID'
+  }
+  UserGroupEntityResponse: { // field return type name
+    data: 'UserGroupEntity'
+  }
+  UserGroupEntityResponseCollection: { // field return type name
+    data: 'UserGroupEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  UserGroupEvent: { // field return type name
+    admins: 'UsersPermissionsUserRelationResponseCollection'
+    createdAt: 'DateTime'
+    description: 'String'
+    end: 'DateTime'
+    group: 'UserGroupEntityResponse'
+    image: 'UploadFileEntityResponse'
+    location: 'UserPlayLocationEntityResponse'
+    name: 'String'
+    public: 'Boolean'
+    publishedAt: 'DateTime'
+    start: 'DateTime'
+    updatedAt: 'DateTime'
+  }
+  UserGroupEventEntity: { // field return type name
+    attributes: 'UserGroupEvent'
+    id: 'ID'
+  }
+  UserGroupEventEntityResponse: { // field return type name
+    data: 'UserGroupEventEntity'
+  }
+  UserGroupEventEntityResponseCollection: { // field return type name
+    data: 'UserGroupEventEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  UserGroupEventRelationResponseCollection: { // field return type name
+    data: 'UserGroupEventEntity'
+  }
+  UserGroupRelationResponseCollection: { // field return type name
+    data: 'UserGroupEntity'
+  }
+  UserPlayLocation: { // field return type name
+    createdAt: 'DateTime'
+    description: 'String'
+    groupEventsLocations: 'UserGroupEventRelationResponseCollection'
+    image: 'UploadFileEntityResponse'
+    location: 'ComponentBaseLocation'
+    name: 'String'
+    publishedAt: 'DateTime'
+    updatedAt: 'DateTime'
+    userEvents: 'UserEventRelationResponseCollection'
+    users: 'UsersPermissionsUserRelationResponseCollection'
+  }
+  UserPlayLocationEntity: { // field return type name
+    attributes: 'UserPlayLocation'
+    id: 'ID'
+  }
+  UserPlayLocationEntityResponse: { // field return type name
+    data: 'UserPlayLocationEntity'
+  }
+  UserPlayLocationEntityResponseCollection: { // field return type name
+    data: 'UserPlayLocationEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  UserPlayLocationRelationResponseCollection: { // field return type name
+    data: 'UserPlayLocationEntity'
+  }
+  UsersPermissionsCreateRolePayload: { // field return type name
+    ok: 'Boolean'
+  }
+  UsersPermissionsDeleteRolePayload: { // field return type name
+    ok: 'Boolean'
+  }
+  UsersPermissionsLoginPayload: { // field return type name
+    jwt: 'String'
+    user: 'UsersPermissionsMe'
+  }
+  UsersPermissionsMe: { // field return type name
+    blocked: 'Boolean'
+    confirmed: 'Boolean'
+    email: 'String'
+    id: 'ID'
+    role: 'UsersPermissionsMeRole'
+    username: 'String'
+  }
+  UsersPermissionsMeRole: { // field return type name
+    description: 'String'
+    id: 'ID'
+    name: 'String'
+    type: 'String'
+  }
+  UsersPermissionsPasswordPayload: { // field return type name
+    ok: 'Boolean'
+  }
+  UsersPermissionsPermission: { // field return type name
+    action: 'String'
+    createdAt: 'DateTime'
+    role: 'UsersPermissionsRoleEntityResponse'
+    updatedAt: 'DateTime'
+  }
+  UsersPermissionsPermissionEntity: { // field return type name
+    attributes: 'UsersPermissionsPermission'
+    id: 'ID'
+  }
+  UsersPermissionsPermissionEntityResponse: { // field return type name
+    data: 'UsersPermissionsPermissionEntity'
+  }
+  UsersPermissionsPermissionEntityResponseCollection: { // field return type name
+    data: 'UsersPermissionsPermissionEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  UsersPermissionsPermissionRelationResponseCollection: { // field return type name
+    data: 'UsersPermissionsPermissionEntity'
+  }
+  UsersPermissionsRole: { // field return type name
+    createdAt: 'DateTime'
+    description: 'String'
+    name: 'String'
+    permissions: 'UsersPermissionsPermissionRelationResponseCollection'
+    type: 'String'
+    updatedAt: 'DateTime'
+    users: 'UsersPermissionsUserRelationResponseCollection'
+  }
+  UsersPermissionsRoleEntity: { // field return type name
+    attributes: 'UsersPermissionsRole'
+    id: 'ID'
+  }
+  UsersPermissionsRoleEntityResponse: { // field return type name
+    data: 'UsersPermissionsRoleEntity'
+  }
+  UsersPermissionsRoleEntityResponseCollection: { // field return type name
+    data: 'UsersPermissionsRoleEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  UsersPermissionsRoleRelationResponseCollection: { // field return type name
+    data: 'UsersPermissionsRoleEntity'
+  }
+  UsersPermissionsUpdateRolePayload: { // field return type name
+    ok: 'Boolean'
+  }
+  UsersPermissionsUser: { // field return type name
+    aboutMe: 'String'
+    adminGroups: 'UserGroupRelationResponseCollection'
+    avatar: 'UploadFileEntityResponse'
+    blocked: 'Boolean'
+    city: 'String'
+    confirmed: 'Boolean'
+    createdAt: 'DateTime'
+    disciplines: 'UserDisciplineRelationResponseCollection'
+    email: 'String'
+    groupEventsAdmins: 'UserGroupEventRelationResponseCollection'
+    groups: 'UserGroupRelationResponseCollection'
+    location: 'ComponentBaseLocation'
+    participatedUserEvents: 'UserEventRelationResponseCollection'
+    provider: 'String'
+    publicContact: 'ComponentBaseContact'
+    role: 'UsersPermissionsRoleEntityResponse'
+    updatedAt: 'DateTime'
+    userEvents: 'UserEventRelationResponseCollection'
+    userPlayLocations: 'UserPlayLocationRelationResponseCollection'
+    username: 'String'
+  }
+  UsersPermissionsUserEntity: { // field return type name
+    attributes: 'UsersPermissionsUser'
+    id: 'ID'
+  }
+  UsersPermissionsUserEntityResponse: { // field return type name
+    data: 'UsersPermissionsUserEntity'
+  }
+  UsersPermissionsUserEntityResponseCollection: { // field return type name
+    data: 'UsersPermissionsUserEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  UsersPermissionsUserRelationResponseCollection: { // field return type name
+    data: 'UsersPermissionsUserEntity'
+  }
 }
-
 
 export interface NexusGenArgTypes {
-	Discipline: {
-		localizations: { // args
-			filters?: NexusGenInputs["DisciplineFiltersInput"] | null; // DisciplineFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		users: { // args
-			filters?: NexusGenInputs["UserDisciplineFiltersInput"] | null; // UserDisciplineFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-	}
-	Mutation: {
-		changePassword: { // args
-			currentPassword: string; // String!
-			password: string; // String!
-			passwordConfirmation: string; // String!
-		}
-		createDiscipline: { // args
-			data: NexusGenInputs["DisciplineInput"]; // DisciplineInput!
-			locale?: NexusGenScalars["I18NLocaleCode"] | null; // I18NLocaleCode
-		}
-		createDisciplineLocalization: { // args
-			data?: NexusGenInputs["DisciplineInput"] | null; // DisciplineInput
-			id?: string | null; // ID
-			locale?: NexusGenScalars["I18NLocaleCode"] | null; // I18NLocaleCode
-		}
-		createEvent: { // args
-			data: NexusGenInputs["EventInput"]; // EventInput!
-		}
-		createUploadFile: { // args
-			data: NexusGenInputs["UploadFileInput"]; // UploadFileInput!
-		}
-		createUploadFolder: { // args
-			data: NexusGenInputs["UploadFolderInput"]; // UploadFolderInput!
-		}
-		createUserDiscipline: { // args
-			data: NexusGenInputs["UserDisciplineInput"]; // UserDisciplineInput!
-			locale?: NexusGenScalars["I18NLocaleCode"] | null; // I18NLocaleCode
-		}
-		createUserDisciplineLocalization: { // args
-			data?: NexusGenInputs["UserDisciplineInput"] | null; // UserDisciplineInput
-			id?: string | null; // ID
-			locale?: NexusGenScalars["I18NLocaleCode"] | null; // I18NLocaleCode
-		}
-		createUserEvent: { // args
-			data: NexusGenInputs["UserEventInput"]; // UserEventInput!
-		}
-		createUserGroup: { // args
-			data: NexusGenInputs["UserGroupInput"]; // UserGroupInput!
-		}
-		createUserGroupEvent: { // args
-			data: NexusGenInputs["UserGroupEventInput"]; // UserGroupEventInput!
-		}
-		createUserPlayLocation: { // args
-			data: NexusGenInputs["UserPlayLocationInput"]; // UserPlayLocationInput!
-		}
-		createUsersPermissionsRole: { // args
-			data: NexusGenInputs["UsersPermissionsRoleInput"]; // UsersPermissionsRoleInput!
-		}
-		createUsersPermissionsUser: { // args
-			data: NexusGenInputs["UsersPermissionsUserInput"]; // UsersPermissionsUserInput!
-		}
-		deleteDiscipline: { // args
-			id: string; // ID!
-			locale?: NexusGenScalars["I18NLocaleCode"] | null; // I18NLocaleCode
-		}
-		deleteEvent: { // args
-			id: string; // ID!
-		}
-		deleteUploadFile: { // args
-			id: string; // ID!
-		}
-		deleteUploadFolder: { // args
-			id: string; // ID!
-		}
-		deleteUserDiscipline: { // args
-			id: string; // ID!
-			locale?: NexusGenScalars["I18NLocaleCode"] | null; // I18NLocaleCode
-		}
-		deleteUserEvent: { // args
-			id: string; // ID!
-		}
-		deleteUserGroup: { // args
-			id: string; // ID!
-		}
-		deleteUserGroupEvent: { // args
-			id: string; // ID!
-		}
-		deleteUserPlayLocation: { // args
-			id: string; // ID!
-		}
-		deleteUsersPermissionsRole: { // args
-			id: string; // ID!
-		}
-		deleteUsersPermissionsUser: { // args
-			id: string; // ID!
-		}
-		emailConfirmation: { // args
-			confirmation: string; // String!
-		}
-		forgotPassword: { // args
-			email: string; // String!
-		}
-		login: { // args
-			input: NexusGenInputs["UsersPermissionsLoginInput"]; // UsersPermissionsLoginInput!
-		}
-		multipleUpload: { // args
-			field?: string | null; // String
-			files: Array<NexusGenScalars["Upload"] | null>; // [Upload]!
-			ref?: string | null; // String
-			refId?: string | null; // ID
-		}
-		register: { // args
-			input: NexusGenInputs["UsersPermissionsRegisterInput"]; // UsersPermissionsRegisterInput!
-		}
-		removeFile: { // args
-			id: string; // ID!
-		}
-		resetPassword: { // args
-			code: string; // String!
-			password: string; // String!
-			passwordConfirmation: string; // String!
-		}
-		updateDiscipline: { // args
-			data: NexusGenInputs["DisciplineInput"]; // DisciplineInput!
-			id: string; // ID!
-			locale?: NexusGenScalars["I18NLocaleCode"] | null; // I18NLocaleCode
-		}
-		updateEvent: { // args
-			data: NexusGenInputs["EventInput"]; // EventInput!
-			id: string; // ID!
-		}
-		updateFileInfo: { // args
-			id: string; // ID!
-			info?: NexusGenInputs["FileInfoInput"] | null; // FileInfoInput
-		}
-		updateUploadFile: { // args
-			data: NexusGenInputs["UploadFileInput"]; // UploadFileInput!
-			id: string; // ID!
-		}
-		updateUploadFolder: { // args
-			data: NexusGenInputs["UploadFolderInput"]; // UploadFolderInput!
-			id: string; // ID!
-		}
-		updateUserDiscipline: { // args
-			data: NexusGenInputs["UserDisciplineInput"]; // UserDisciplineInput!
-			id: string; // ID!
-			locale?: NexusGenScalars["I18NLocaleCode"] | null; // I18NLocaleCode
-		}
-		updateUserEvent: { // args
-			data: NexusGenInputs["UserEventInput"]; // UserEventInput!
-			id: string; // ID!
-		}
-		updateUserGroup: { // args
-			data: NexusGenInputs["UserGroupInput"]; // UserGroupInput!
-			id: string; // ID!
-		}
-		updateUserGroupEvent: { // args
-			data: NexusGenInputs["UserGroupEventInput"]; // UserGroupEventInput!
-			id: string; // ID!
-		}
-		updateUserPlayLocation: { // args
-			data: NexusGenInputs["UserPlayLocationInput"]; // UserPlayLocationInput!
-			id: string; // ID!
-		}
-		updateUsersPermissionsRole: { // args
-			data: NexusGenInputs["UsersPermissionsRoleInput"]; // UsersPermissionsRoleInput!
-			id: string; // ID!
-		}
-		updateUsersPermissionsUser: { // args
-			data: NexusGenInputs["UsersPermissionsUserInput"]; // UsersPermissionsUserInput!
-			id: string; // ID!
-		}
-		upload: { // args
-			field?: string | null; // String
-			file: NexusGenScalars["Upload"]; // Upload!
-			info?: NexusGenInputs["FileInfoInput"] | null; // FileInfoInput
-			ref?: string | null; // String
-			refId?: string | null; // ID
-		}
-	}
-	Query: {
-		discipline: { // args
-			id?: string | null; // ID
-			locale?: NexusGenScalars["I18NLocaleCode"] | null; // I18NLocaleCode
-		}
-		disciplines: { // args
-			filters?: NexusGenInputs["DisciplineFiltersInput"] | null; // DisciplineFiltersInput
-			locale?: NexusGenScalars["I18NLocaleCode"] | null; // I18NLocaleCode
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		event: { // args
-			id?: string | null; // ID
-		}
-		events: { // args
-			filters?: NexusGenInputs["EventFiltersInput"] | null; // EventFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		i18NLocale: { // args
-			id?: string | null; // ID
-		}
-		i18NLocales: { // args
-			filters?: NexusGenInputs["I18NLocaleFiltersInput"] | null; // I18NLocaleFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			sort: Array<string | null> | null; // [String]
-		}
-		uploadFile: { // args
-			id?: string | null; // ID
-		}
-		uploadFiles: { // args
-			filters?: NexusGenInputs["UploadFileFiltersInput"] | null; // UploadFileFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			sort: Array<string | null> | null; // [String]
-		}
-		uploadFolder: { // args
-			id?: string | null; // ID
-		}
-		uploadFolders: { // args
-			filters?: NexusGenInputs["UploadFolderFiltersInput"] | null; // UploadFolderFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			sort: Array<string | null> | null; // [String]
-		}
-		userDiscipline: { // args
-			id?: string | null; // ID
-			locale?: NexusGenScalars["I18NLocaleCode"] | null; // I18NLocaleCode
-		}
-		userDisciplines: { // args
-			filters?: NexusGenInputs["UserDisciplineFiltersInput"] | null; // UserDisciplineFiltersInput
-			locale?: NexusGenScalars["I18NLocaleCode"] | null; // I18NLocaleCode
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		userEvent: { // args
-			id?: string | null; // ID
-		}
-		userEvents: { // args
-			filters?: NexusGenInputs["UserEventFiltersInput"] | null; // UserEventFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		userGroup: { // args
-			id?: string | null; // ID
-		}
-		userGroupEvent: { // args
-			id?: string | null; // ID
-		}
-		userGroupEvents: { // args
-			filters?: NexusGenInputs["UserGroupEventFiltersInput"] | null; // UserGroupEventFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		userGroups: { // args
-			filters?: NexusGenInputs["UserGroupFiltersInput"] | null; // UserGroupFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		userPlayLocation: { // args
-			id?: string | null; // ID
-		}
-		userPlayLocations: { // args
-			filters?: NexusGenInputs["UserPlayLocationFiltersInput"] | null; // UserPlayLocationFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		usersPermissionsRole: { // args
-			id?: string | null; // ID
-		}
-		usersPermissionsRoles: { // args
-			filters?: NexusGenInputs["UsersPermissionsRoleFiltersInput"] | null; // UsersPermissionsRoleFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			sort: Array<string | null> | null; // [String]
-		}
-		usersPermissionsUser: { // args
-			id?: string | null; // ID
-		}
-		usersPermissionsUsers: { // args
-			filters?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			sort: Array<string | null> | null; // [String]
-		}
-	}
-	UploadFolder: {
-		children: { // args
-			filters?: NexusGenInputs["UploadFolderFiltersInput"] | null; // UploadFolderFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			sort: Array<string | null> | null; // [String]
-		}
-		files: { // args
-			filters?: NexusGenInputs["UploadFileFiltersInput"] | null; // UploadFileFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			sort: Array<string | null> | null; // [String]
-		}
-	}
-	UserDiscipline: {
-		localizations: { // args
-			filters?: NexusGenInputs["UserDisciplineFiltersInput"] | null; // UserDisciplineFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-	}
-	UserEvent: {
-		disciplines: { // args
-			filters?: NexusGenInputs["DisciplineFiltersInput"] | null; // DisciplineFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-	}
-	UserGroup: {
-		admins: { // args
-			filters?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			sort: Array<string | null> | null; // [String]
-		}
-		members: { // args
-			filters?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			sort: Array<string | null> | null; // [String]
-		}
-		userGroupEvents: { // args
-			filters?: NexusGenInputs["UserGroupEventFiltersInput"] | null; // UserGroupEventFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-	}
-	UserGroupEvent: {
-		admins: { // args
-			filters?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			sort: Array<string | null> | null; // [String]
-		}
-	}
-	UserPlayLocation: {
-		groupEventsLocations: { // args
-			filters?: NexusGenInputs["UserGroupEventFiltersInput"] | null; // UserGroupEventFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		userEvents: { // args
-			filters?: NexusGenInputs["UserEventFiltersInput"] | null; // UserEventFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		users: { // args
-			filters?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			sort: Array<string | null> | null; // [String]
-		}
-	}
-	UsersPermissionsRole: {
-		permissions: { // args
-			filters?: NexusGenInputs["UsersPermissionsPermissionFiltersInput"] | null; // UsersPermissionsPermissionFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			sort: Array<string | null> | null; // [String]
-		}
-		users: { // args
-			filters?: NexusGenInputs["UsersPermissionsUserFiltersInput"] | null; // UsersPermissionsUserFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			sort: Array<string | null> | null; // [String]
-		}
-	}
-	UsersPermissionsUser: {
-		adminGroups: { // args
-			filters?: NexusGenInputs["UserGroupFiltersInput"] | null; // UserGroupFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		disciplines: { // args
-			filters?: NexusGenInputs["UserDisciplineFiltersInput"] | null; // UserDisciplineFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		groupEventsAdmins: { // args
-			filters?: NexusGenInputs["UserGroupEventFiltersInput"] | null; // UserGroupEventFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		groups: { // args
-			filters?: NexusGenInputs["UserGroupFiltersInput"] | null; // UserGroupFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		participatedUserEvents: { // args
-			filters?: NexusGenInputs["UserEventFiltersInput"] | null; // UserEventFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		userEvents: { // args
-			filters?: NexusGenInputs["UserEventFiltersInput"] | null; // UserEventFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-		userPlayLocations: { // args
-			filters?: NexusGenInputs["UserPlayLocationFiltersInput"] | null; // UserPlayLocationFiltersInput
-			pagination: NexusGenInputs["PaginationArg"] | null; // PaginationArg
-			publicationState: NexusGenEnums["PublicationState"] | null; // PublicationState
-			sort: Array<string | null> | null; // [String]
-		}
-	}
+  Discipline: {
+    localizations: { // args
+      filters?: NexusGenInputs['DisciplineFiltersInput'] | null; // DisciplineFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    users: { // args
+      filters?: NexusGenInputs['UserDisciplineFiltersInput'] | null; // UserDisciplineFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+  }
+  Mutation: {
+    changePassword: { // args
+      currentPassword: string; // String!
+      password: string; // String!
+      passwordConfirmation: string; // String!
+    }
+    createDiscipline: { // args
+      data: NexusGenInputs['DisciplineInput']; // DisciplineInput!
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    createDisciplineLocalization: { // args
+      data?: NexusGenInputs['DisciplineInput'] | null; // DisciplineInput
+      id?: string | null; // ID
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    createEvent: { // args
+      data: NexusGenInputs['EventInput']; // EventInput!
+    }
+    createUploadFile: { // args
+      data: NexusGenInputs['UploadFileInput']; // UploadFileInput!
+    }
+    createUploadFolder: { // args
+      data: NexusGenInputs['UploadFolderInput']; // UploadFolderInput!
+    }
+    createUserDiscipline: { // args
+      data: NexusGenInputs['UserDisciplineInput']; // UserDisciplineInput!
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    createUserDisciplineLocalization: { // args
+      data?: NexusGenInputs['UserDisciplineInput'] | null; // UserDisciplineInput
+      id?: string | null; // ID
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    createUserEvent: { // args
+      data: NexusGenInputs['UserEventInput']; // UserEventInput!
+    }
+    createUserGroup: { // args
+      data: NexusGenInputs['UserGroupInput']; // UserGroupInput!
+    }
+    createUserGroupEvent: { // args
+      data: NexusGenInputs['UserGroupEventInput']; // UserGroupEventInput!
+    }
+    createUserPlayLocation: { // args
+      data: NexusGenInputs['UserPlayLocationInput']; // UserPlayLocationInput!
+    }
+    createUsersPermissionsRole: { // args
+      data: NexusGenInputs['UsersPermissionsRoleInput']; // UsersPermissionsRoleInput!
+    }
+    createUsersPermissionsUser: { // args
+      data: NexusGenInputs['UsersPermissionsUserInput']; // UsersPermissionsUserInput!
+    }
+    deleteDiscipline: { // args
+      id: string; // ID!
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    deleteEvent: { // args
+      id: string; // ID!
+    }
+    deleteUploadFile: { // args
+      id: string; // ID!
+    }
+    deleteUploadFolder: { // args
+      id: string; // ID!
+    }
+    deleteUserDiscipline: { // args
+      id: string; // ID!
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    deleteUserEvent: { // args
+      id: string; // ID!
+    }
+    deleteUserGroup: { // args
+      id: string; // ID!
+    }
+    deleteUserGroupEvent: { // args
+      id: string; // ID!
+    }
+    deleteUserPlayLocation: { // args
+      id: string; // ID!
+    }
+    deleteUsersPermissionsRole: { // args
+      id: string; // ID!
+    }
+    deleteUsersPermissionsUser: { // args
+      id: string; // ID!
+    }
+    emailConfirmation: { // args
+      confirmation: string; // String!
+    }
+    forgotPassword: { // args
+      email: string; // String!
+    }
+    login: { // args
+      input: NexusGenInputs['UsersPermissionsLoginInput']; // UsersPermissionsLoginInput!
+    }
+    multipleUpload: { // args
+      field?: string | null; // String
+      files: Array<NexusGenScalars['Upload'] | null>; // [Upload]!
+      ref?: string | null; // String
+      refId?: string | null; // ID
+    }
+    register: { // args
+      input: NexusGenInputs['UsersPermissionsRegisterInput']; // UsersPermissionsRegisterInput!
+    }
+    removeFile: { // args
+      id: string; // ID!
+    }
+    resetPassword: { // args
+      code: string; // String!
+      password: string; // String!
+      passwordConfirmation: string; // String!
+    }
+    updateDiscipline: { // args
+      data: NexusGenInputs['DisciplineInput']; // DisciplineInput!
+      id: string; // ID!
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    updateEvent: { // args
+      data: NexusGenInputs['EventInput']; // EventInput!
+      id: string; // ID!
+    }
+    updateFileInfo: { // args
+      id: string; // ID!
+      info?: NexusGenInputs['FileInfoInput'] | null; // FileInfoInput
+    }
+    updateUploadFile: { // args
+      data: NexusGenInputs['UploadFileInput']; // UploadFileInput!
+      id: string; // ID!
+    }
+    updateUploadFolder: { // args
+      data: NexusGenInputs['UploadFolderInput']; // UploadFolderInput!
+      id: string; // ID!
+    }
+    updateUserDiscipline: { // args
+      data: NexusGenInputs['UserDisciplineInput']; // UserDisciplineInput!
+      id: string; // ID!
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    updateUserEvent: { // args
+      data: NexusGenInputs['UserEventInput']; // UserEventInput!
+      id: string; // ID!
+    }
+    updateUserGroup: { // args
+      data: NexusGenInputs['UserGroupInput']; // UserGroupInput!
+      id: string; // ID!
+    }
+    updateUserGroupEvent: { // args
+      data: NexusGenInputs['UserGroupEventInput']; // UserGroupEventInput!
+      id: string; // ID!
+    }
+    updateUserPlayLocation: { // args
+      data: NexusGenInputs['UserPlayLocationInput']; // UserPlayLocationInput!
+      id: string; // ID!
+    }
+    updateUsersPermissionsRole: { // args
+      data: NexusGenInputs['UsersPermissionsRoleInput']; // UsersPermissionsRoleInput!
+      id: string; // ID!
+    }
+    updateUsersPermissionsUser: { // args
+      data: NexusGenInputs['UsersPermissionsUserInput']; // UsersPermissionsUserInput!
+      id: string; // ID!
+    }
+    upload: { // args
+      field?: string | null; // String
+      file: NexusGenScalars['Upload']; // Upload!
+      info?: NexusGenInputs['FileInfoInput'] | null; // FileInfoInput
+      ref?: string | null; // String
+      refId?: string | null; // ID
+    }
+  }
+  Query: {
+    discipline: { // args
+      id?: string | null; // ID
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    disciplines: { // args
+      filters?: NexusGenInputs['DisciplineFiltersInput'] | null; // DisciplineFiltersInput
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    event: { // args
+      id?: string | null; // ID
+    }
+    events: { // args
+      filters?: NexusGenInputs['EventFiltersInput'] | null; // EventFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    i18NLocale: { // args
+      id?: string | null; // ID
+    }
+    i18NLocales: { // args
+      filters?: NexusGenInputs['I18NLocaleFiltersInput'] | null; // I18NLocaleFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+    uploadFile: { // args
+      id?: string | null; // ID
+    }
+    uploadFiles: { // args
+      filters?: NexusGenInputs['UploadFileFiltersInput'] | null; // UploadFileFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+    uploadFolder: { // args
+      id?: string | null; // ID
+    }
+    uploadFolders: { // args
+      filters?: NexusGenInputs['UploadFolderFiltersInput'] | null; // UploadFolderFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+    userDiscipline: { // args
+      id?: string | null; // ID
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    userDisciplines: { // args
+      filters?: NexusGenInputs['UserDisciplineFiltersInput'] | null; // UserDisciplineFiltersInput
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    userEvent: { // args
+      id?: string | null; // ID
+    }
+    userEvents: { // args
+      filters?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    userGroup: { // args
+      id?: string | null; // ID
+    }
+    userGroupEvent: { // args
+      id?: string | null; // ID
+    }
+    userGroupEvents: { // args
+      filters?: NexusGenInputs['UserGroupEventFiltersInput'] | null; // UserGroupEventFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    userGroups: { // args
+      filters?: NexusGenInputs['UserGroupFiltersInput'] | null; // UserGroupFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    userPlayLocation: { // args
+      id?: string | null; // ID
+    }
+    userPlayLocations: { // args
+      filters?: NexusGenInputs['UserPlayLocationFiltersInput'] | null; // UserPlayLocationFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    usersPermissionsRole: { // args
+      id?: string | null; // ID
+    }
+    usersPermissionsRoles: { // args
+      filters?: NexusGenInputs['UsersPermissionsRoleFiltersInput'] | null; // UsersPermissionsRoleFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+    usersPermissionsUser: { // args
+      id?: string | null; // ID
+    }
+    usersPermissionsUsers: { // args
+      filters?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+  }
+  UploadFolder: {
+    children: { // args
+      filters?: NexusGenInputs['UploadFolderFiltersInput'] | null; // UploadFolderFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+    files: { // args
+      filters?: NexusGenInputs['UploadFileFiltersInput'] | null; // UploadFileFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+  }
+  UserDiscipline: {
+    localizations: { // args
+      filters?: NexusGenInputs['UserDisciplineFiltersInput'] | null; // UserDisciplineFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+  }
+  UserEvent: {
+    disciplines: { // args
+      filters?: NexusGenInputs['DisciplineFiltersInput'] | null; // DisciplineFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+  }
+  UserGroup: {
+    admins: { // args
+      filters?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+    members: { // args
+      filters?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+    userGroupEvents: { // args
+      filters?: NexusGenInputs['UserGroupEventFiltersInput'] | null; // UserGroupEventFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+  }
+  UserGroupEvent: {
+    admins: { // args
+      filters?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+  }
+  UserPlayLocation: {
+    groupEventsLocations: { // args
+      filters?: NexusGenInputs['UserGroupEventFiltersInput'] | null; // UserGroupEventFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    userEvents: { // args
+      filters?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    users: { // args
+      filters?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+  }
+  UsersPermissionsRole: {
+    permissions: { // args
+      filters?: NexusGenInputs['UsersPermissionsPermissionFiltersInput'] | null; // UsersPermissionsPermissionFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+    users: { // args
+      filters?: NexusGenInputs['UsersPermissionsUserFiltersInput'] | null; // UsersPermissionsUserFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+  }
+  UsersPermissionsUser: {
+    adminGroups: { // args
+      filters?: NexusGenInputs['UserGroupFiltersInput'] | null; // UserGroupFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    disciplines: { // args
+      filters?: NexusGenInputs['UserDisciplineFiltersInput'] | null; // UserDisciplineFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    groupEventsAdmins: { // args
+      filters?: NexusGenInputs['UserGroupEventFiltersInput'] | null; // UserGroupEventFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    groups: { // args
+      filters?: NexusGenInputs['UserGroupFiltersInput'] | null; // UserGroupFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    participatedUserEvents: { // args
+      filters?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    userEvents: { // args
+      filters?: NexusGenInputs['UserEventFiltersInput'] | null; // UserEventFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+    userPlayLocations: { // args
+      filters?: NexusGenInputs['UserPlayLocationFiltersInput'] | null; // UserPlayLocationFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+  }
 }
-
 
 export interface NexusGenAbstractTypeMembers {
-	GenericMorph: "ComponentBaseContact" | "ComponentBaseLocation" | "Discipline" | "Event" | "I18NLocale" | "UploadFile" | "UploadFolder" | "UserDiscipline" | "UserEvent" | "UserGroup" | "UserGroupEvent" | "UserPlayLocation" | "UsersPermissionsPermission" | "UsersPermissionsRole" | "UsersPermissionsUser"
+  GenericMorph: "ComponentBaseContact" | "ComponentBaseLocation" | "Discipline" | "Event" | "I18NLocale" | "UploadFile" | "UploadFolder" | "UserDiscipline" | "UserEvent" | "UserGroup" | "UserGroupEvent" | "UserPlayLocation" | "UsersPermissionsPermission" | "UsersPermissionsRole" | "UsersPermissionsUser"
 }
-
 
 export interface NexusGenTypeInterfaces {
 }
-
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
@@ -2303,62 +2295,51 @@ export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = never;
 export type NexusGenAbstractsUsingStrategyResolveType = "GenericMorph";
 
 export type NexusGenFeaturesConfig = {
-	abstractTypeStrategies: {
-		isTypeOf: false
-		resolveType: true
-		__typename: false
-	}
+  abstractTypeStrategies: {
+    isTypeOf: false
+    resolveType: true
+    __typename: false
+  }
 }
 
-
 export interface NexusGenTypes {
-	context: any;
-	inputTypes: NexusGenInputs;
-	rootTypes: NexusGenRootTypes;
-	inputTypeShapes: NexusGenInputs & NexusGenEnums & NexusGenScalars;
-	argTypes: NexusGenArgTypes;
-	fieldTypes: NexusGenFieldTypes;
-	fieldTypeNames: NexusGenFieldTypeNames;
-	allTypes: NexusGenAllTypes;
-	typeInterfaces: NexusGenTypeInterfaces;
-	objectNames: NexusGenObjectNames;
-	inputNames: NexusGenInputNames;
-	enumNames: NexusGenEnumNames;
-	interfaceNames: NexusGenInterfaceNames;
-	scalarNames: NexusGenScalarNames;
-	unionNames: NexusGenUnionNames;
-	allInputTypes: NexusGenTypes["inputNames"] | NexusGenTypes["enumNames"] | NexusGenTypes["scalarNames"];
-	allOutputTypes: NexusGenTypes["objectNames"] | NexusGenTypes["enumNames"] | NexusGenTypes["unionNames"] | NexusGenTypes["interfaceNames"] | NexusGenTypes["scalarNames"];
-	allNamedTypes: NexusGenTypes["allInputTypes"] | NexusGenTypes["allOutputTypes"]
-	abstractTypes: NexusGenTypes["interfaceNames"] | NexusGenTypes["unionNames"];
-	abstractTypeMembers: NexusGenAbstractTypeMembers;
-	objectsUsingAbstractStrategyIsTypeOf: NexusGenObjectsUsingAbstractStrategyIsTypeOf;
-	abstractsUsingStrategyResolveType: NexusGenAbstractsUsingStrategyResolveType;
-	features: NexusGenFeaturesConfig;
+  context: any;
+  inputTypes: NexusGenInputs;
+  rootTypes: NexusGenRootTypes;
+  inputTypeShapes: NexusGenInputs & NexusGenEnums & NexusGenScalars;
+  argTypes: NexusGenArgTypes;
+  fieldTypes: NexusGenFieldTypes;
+  fieldTypeNames: NexusGenFieldTypeNames;
+  allTypes: NexusGenAllTypes;
+  typeInterfaces: NexusGenTypeInterfaces;
+  objectNames: NexusGenObjectNames;
+  inputNames: NexusGenInputNames;
+  enumNames: NexusGenEnumNames;
+  interfaceNames: NexusGenInterfaceNames;
+  scalarNames: NexusGenScalarNames;
+  unionNames: NexusGenUnionNames;
+  allInputTypes: NexusGenTypes['inputNames'] | NexusGenTypes['enumNames'] | NexusGenTypes['scalarNames'];
+  allOutputTypes: NexusGenTypes['objectNames'] | NexusGenTypes['enumNames'] | NexusGenTypes['unionNames'] | NexusGenTypes['interfaceNames'] | NexusGenTypes['scalarNames'];
+  allNamedTypes: NexusGenTypes['allInputTypes'] | NexusGenTypes['allOutputTypes']
+  abstractTypes: NexusGenTypes['interfaceNames'] | NexusGenTypes['unionNames'];
+  abstractTypeMembers: NexusGenAbstractTypeMembers;
+  objectsUsingAbstractStrategyIsTypeOf: NexusGenObjectsUsingAbstractStrategyIsTypeOf;
+  abstractsUsingStrategyResolveType: NexusGenAbstractsUsingStrategyResolveType;
+  features: NexusGenFeaturesConfig;
 }
 
 
 declare global {
-	interface NexusGenPluginTypeConfig<TypeName extends string> {
-	}
-
-
-	interface NexusGenPluginInputTypeConfig<TypeName extends string> {
-	}
-
-
-	interface NexusGenPluginFieldConfig<TypeName extends string, FieldName extends string> {
-	}
-
-
-	interface NexusGenPluginInputFieldConfig<TypeName extends string, FieldName extends string> {
-	}
-
-
-	interface NexusGenPluginSchemaConfig {
-	}
-
-
-	interface NexusGenPluginArgConfig {
-	}
+  interface NexusGenPluginTypeConfig<TypeName extends string> {
+  }
+  interface NexusGenPluginInputTypeConfig<TypeName extends string> {
+  }
+  interface NexusGenPluginFieldConfig<TypeName extends string, FieldName extends string> {
+  }
+  interface NexusGenPluginInputFieldConfig<TypeName extends string, FieldName extends string> {
+  }
+  interface NexusGenPluginSchemaConfig {
+  }
+  interface NexusGenPluginArgConfig {
+  }
 }
