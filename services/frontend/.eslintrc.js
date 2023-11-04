@@ -30,6 +30,16 @@ module.exports = {
 	},
 	plugins: ["@typescript-eslint", "react", "prettier"],
 	rules: {
+		"max-len": [
+			"error",
+			{
+				code: 160,
+				ignoreComments: true,
+				ignoreStrings: true,
+				ignoreTemplateLiterals: true,
+				ignoreRegExpLiterals: true,
+			},
+		],
 		"no-unused-vars": "off",
 		"@typescript-eslint/no-unused-vars": "off",
 		"prettier/prettier": [
