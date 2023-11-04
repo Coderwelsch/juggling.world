@@ -1,65 +1,65 @@
 {
-	"kind": "collectionType",
-	"collectionName": "user_events",
-	"info": {
-		"singularName": "user-event",
-		"pluralName": "user-events",
-		"displayName": "User Event",
-		"description": ""
-	},
-	"options": {
-		"draftAndPublish": true
-	},
-	"pluginOptions": {},
-	"attributes": {
-		"start": {
-			"type": "datetime"
-		},
-		"end": {
-			"type": "datetime"
-		},
-		"user": {
-			"type": "relation",
-			"relation": "manyToOne",
-			"target": "plugin::users-permissions.user",
-			"inversedBy": "userEvents"
-		},
-		"disciplines": {
-			"type": "relation",
-			"relation": "oneToMany",
-			"target": "api::discipline.discipline",
-			"mappedBy": "userEvents"
-		},
-		"image": {
-			"type": "media",
-			"multiple": false,
-			"required": false,
-			"allowedTypes": [
-				"images"
-			]
-		},
-		"public": {
-			"type": "boolean",
-			"default": true,
-			"required": true
-		},
-		"where": {
-			"type": "relation",
-			"relation": "manyToOne",
-			"target": "api::user-play-location.user-play-location",
-			"inversedBy": "userEvents"
-		},
-		"description": {
-			"type": "richtext"
-		},
-		"participants": {
-			"type": "relation",
-			"relation": "manyToOne",
-			"target": "plugin::users-permissions.user",
-			"inversedBy": "participatedUserEvents"
-		},
-		"name": {
-			"type": "string"
-		}
-	}
+  "kind": "collectionType",
+  "collectionName": "user_events",
+  "info": {
+    "singularName": "user-event",
+    "pluralName": "user-events",
+    "displayName": "User Event",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "start": {
+      "type": "datetime"
+    },
+    "end": {
+      "type": "datetime"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "userEvents"
+    },
+    "disciplines": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::discipline.discipline",
+      "mappedBy": "userEvents"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "public": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "where": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::user-play-location.user-play-location",
+      "inversedBy": "userEvents"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "participants": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "participatedUserEvents"
+    },
+    "name": {
+      "type": "string"
+    }
+  }
 }
