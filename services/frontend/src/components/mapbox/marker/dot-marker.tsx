@@ -11,13 +11,13 @@ const dotMarkerStyles: {
 	selected: Record<Intent, string>
 } = {
 	idle: {
-		primary: "bg-fuchsia-700 hover:border-2 hover:border-neutral-50",
-		secondary: "bg-fuchsia-400",
+		primary: "bg-violet-700 hover:border-2 hover:border-neutral-50",
+		secondary: "bg-violet-400",
 		active: "bg-emerald-400 hover:border-2 hover:border-neutral-50",
 	},
 	selected: {
-		primary: "bg-fuchsia-500 border-2 border-neutral-50",
-		secondary: "bg-fuchsia-600 border-2 border-neutral-50",
+		primary: "bg-violet-500 border-2 border-neutral-50",
+		secondary: "bg-violet-600 border-2 border-neutral-50",
 		active: "bg-emerald-500 border-2 border-neutral-50",
 	},
 }
@@ -34,7 +34,7 @@ export interface DotMarkerProps {
 }
 
 const SonarAnimation = () => (
-	<div className="animate-sonar h-full w-full bg-fuchsia-900" />
+	<div className="animate-sonar h-full w-full bg-violet-900" />
 )
 
 export const DotMarker = ({

@@ -17,8 +17,8 @@ const NavItem = ({ children, href }: NavItemProps) => {
 	return (
 		<NavLink
 			href={href}
-			className={"font-semibold text-indigo-950 hover:text-fuchsia-500"}
-			activeClassName={"text-fuchsia-500"}
+			className={"font-semibold text-violet-950 hover:text-violet-500"}
+			activeClassName={"text-violet-500"}
 		>
 			{children}
 		</NavLink>
@@ -42,16 +42,16 @@ export const LandingPageNav = ({ visible = true }: { visible?: boolean }) => {
 				>
 					<LogoSmall className={"w-14"} />
 
-					<div className="flex flex-col text-2xl font-semibold text-indigo-950">
+					<div className="flex flex-col text-2xl font-semibold text-violet-950">
 						<Headline
 							size={4}
 							renderAs={"h1"}
 							className={"font-semibold leading-5"}
 						>
-							diabolo.world
+							juggling.world
 						</Headline>
 
-						<p className="text-xs font-medium text-indigo-950">
+						<p className="text-xs font-medium text-violet-950">
 							share · connect · learn
 						</p>
 					</div>

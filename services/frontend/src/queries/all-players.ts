@@ -15,6 +15,11 @@ export interface AllPlayersResponse {
 						id: string
 					}[]
 				}
+				disciplines: {
+					data: {
+						id: string
+					}[]
+				}
 				city: string
 				avatar?: {
 					data?: {
@@ -52,6 +57,11 @@ export const allPlayersQuery = gql`
 					location {
 						latitude
 						longitude
+					}
+					disciplines {
+						data {
+							id
+						}
 					}
 					userPlayLocations {
 						data {

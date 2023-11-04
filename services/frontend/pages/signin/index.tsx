@@ -2,6 +2,7 @@ import { Button } from "@/src/components/button/button"
 import { Form } from "@/src/components/form/form"
 import { FormField } from "@/src/components/form/form-field/form-field"
 import { Headline } from "@/src/components/headline/headline"
+import { IconBxChevronRight } from "@/src/components/icons/bx-chevron-right"
 import { LogoSmall } from "@/src/components/logo/logo-small"
 import {
 	signInUserQuery,
@@ -184,11 +185,17 @@ export default function Signin({
 						<Button
 							rounded={false}
 							type={"submit"}
+							size={"md"}
 							loading={signInState.loading}
 							disabled={signInState.loading || !formState.isValid}
 							error={Boolean(signInState.error)}
 							success={Boolean(signInState.data)}
 							onClick={handleSubmit(onSubmit)}
+							IconAfter={
+								<IconBxChevronRight
+									className={"h-full w-full"}
+								/>
+							}
 						>
 							{signInState.data ? "Signed in …" : "Sign In"}
 						</Button>

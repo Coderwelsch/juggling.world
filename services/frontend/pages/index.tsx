@@ -41,7 +41,9 @@ import {
 	useRef,
 	useState,
 } from "react"
+import { Simulate } from "react-dom/test-utils"
 import Map, { ViewState, ViewStateChangeEvent } from "react-map-gl"
+import play = Simulate.play
 
 export const PlayersContext = createContext<
 	AllPlayersResponse["players"]["data"]
@@ -54,7 +56,6 @@ export default function App() {
 	const mapRef = useRef<mapboxgl.Map | undefined>()
 	const sidebarRef = useRef<HTMLDivElement | null>(null)
 	const [isInterfaceShown, setIsInterfaceShown] = useState(false)
-	const [mapZoom, setMapZoom] = useState(0)
 	const [isSpinAnimationInterrupted, setIsSpinAnimationInterrupted] =
 		useState(false)
 
@@ -134,6 +135,47 @@ export default function App() {
 
 			return points
 		}, [allGroups.data, allPlayersData.data, allPlayLocations.data])
+
+	const [filterState, setFilterState] = useState<{
+		type: "discipline" | null
+		id: string | null
+	}>({
+		type: null,
+		id: null,
+	})
+
+	const filteredSuperclusterPoints = useMemo(() => {
+		if (!filterState.type || !filterState.id) {
+			return superClusterPoints
+		}
+
+		return superClusterPoints.filter((point) => {
+			const type = point.properties.type
+
+			if (filterState.type === "discipline") {
+				if (type === "player") {
+					const player = allPlayersData.data?.players.data.find(
+						(p) => p.id === point.properties.id,
+					)
+
+					if (!player) {
+						return false
+					}
+
+					return player.attributes.disciplines.data.some(
+						(d) => d.id === filterState.id,
+					)
+				}
+			}
+
+			return true
+		})
+	}, [
+		allPlayersData.data?.players.data,
+		filterState.id,
+		filterState.type,
+		superClusterPoints,
+	])
 
 	const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(
 		null,
@@ -417,6 +459,7 @@ export default function App() {
 			/>
 		)
 	}
+
 	return (
 		<>
 			<LoaderOverlay
@@ -442,14 +485,11 @@ export default function App() {
 					initialViewState={initialViewState}
 					mapStyle={process.env.NEXT_PUBLIC_MAPBOX_STYLE_URL}
 					onClick={onMapClick}
-					onMove={(event: ViewStateChangeEvent) => {
-						setMapZoom(event.viewState.zoom)
-					}}
 					onLoad={onMapLoad}
 				>
 					<MapContext.Provider value={mapRef.current}>
 						<Cluster<CustomMarkerProperties>
-							points={superClusterPoints}
+							points={filteredSuperclusterPoints}
 							options={{
 								maxZoom: 20,
 							}}
@@ -491,7 +531,7 @@ export default function App() {
 						/>
 
 						<MapOverlay.Description>
-							Welcome to the all new space for us diabolo
+							Welcome to the all new space for us juggling
 							enthusiasts all over the world! Let’s connect, share
 							and grow&nbsp;together!
 						</MapOverlay.Description>
@@ -533,6 +573,12 @@ export default function App() {
 						{selectedPlayerId && (
 							<PlayerContent
 								id={selectedPlayerId}
+								onDisciplineClick={(id) => {
+									setFilterState({
+										type: "discipline",
+										id,
+									})
+								}}
 								onLocationClick={onLocationMarkerClick}
 							/>
 						)}
