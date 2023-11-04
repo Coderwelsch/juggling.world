@@ -1207,6 +1207,7 @@ type UsersPermissionsUser {
   createdAt: DateTime
   disciplines(filters: UserDisciplineFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserDisciplineRelationResponseCollection
   email: String!
+  finishedSetup: Boolean
   groupEventsAdmins(filters: UserGroupEventFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserGroupEventRelationResponseCollection
   groups(filters: UserGroupFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): UserGroupRelationResponseCollection
   location: ComponentBaseLocation
@@ -1245,6 +1246,7 @@ input UsersPermissionsUserFiltersInput {
   createdAt: DateTimeFilterInput
   disciplines: UserDisciplineFiltersInput
   email: StringFilterInput
+  finishedSetup: BooleanFilterInput
   groupEventsAdmins: UserGroupEventFiltersInput
   groups: UserGroupFiltersInput
   id: IDFilterInput
@@ -1273,6 +1275,7 @@ input UsersPermissionsUserInput {
   confirmed: Boolean
   disciplines: [ID]
   email: String
+  finishedSetup: Boolean
   groupEventsAdmins: [ID]
   groups: [ID]
   location: ComponentBaseLocationInput

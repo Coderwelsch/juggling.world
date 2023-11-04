@@ -605,6 +605,7 @@ export interface NexusGenInputs {
     createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
     disciplines?: NexusGenInputs['UserDisciplineFiltersInput'] | null; // UserDisciplineFiltersInput
     email?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    finishedSetup?: NexusGenInputs['BooleanFilterInput'] | null; // BooleanFilterInput
     groupEventsAdmins?: NexusGenInputs['UserGroupEventFiltersInput'] | null; // UserGroupEventFiltersInput
     groups?: NexusGenInputs['UserGroupFiltersInput'] | null; // UserGroupFiltersInput
     id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
@@ -632,6 +633,7 @@ export interface NexusGenInputs {
     confirmed?: boolean | null; // Boolean
     disciplines?: Array<string | null> | null; // [ID]
     email?: string | null; // String
+    finishedSetup?: boolean | null; // Boolean
     groupEventsAdmins?: Array<string | null> | null; // [ID]
     groups?: Array<string | null> | null; // [ID]
     location?: NexusGenInputs['ComponentBaseLocationInput'] | null; // ComponentBaseLocationInput
@@ -880,6 +882,7 @@ export interface NexusGenObjects {
     confirmed?: boolean | null; // Boolean
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     email: string; // String!
+    finishedSetup?: boolean | null; // Boolean
     provider?: string | null; // String
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     username: string; // String!
@@ -1346,6 +1349,7 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
     disciplines: NexusGenRootTypes['UserDisciplineRelationResponseCollection'] | null; // UserDisciplineRelationResponseCollection
     email: string; // String!
+    finishedSetup: boolean | null; // Boolean
     groupEventsAdmins: NexusGenRootTypes['UserGroupEventRelationResponseCollection'] | null; // UserGroupEventRelationResponseCollection
     groups: NexusGenRootTypes['UserGroupRelationResponseCollection'] | null; // UserGroupRelationResponseCollection
     location: NexusGenRootTypes['ComponentBaseLocation'] | null; // ComponentBaseLocation
@@ -1819,6 +1823,7 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     disciplines: 'UserDisciplineRelationResponseCollection'
     email: 'String'
+    finishedSetup: 'Boolean'
     groupEventsAdmins: 'UserGroupEventRelationResponseCollection'
     groups: 'UserGroupRelationResponseCollection'
     location: 'ComponentBaseLocation'
