@@ -20,23 +20,23 @@ services:
             - "--certificatesresolvers.traefikresolver.acme.email=social@coderwelsch.com"
             - "--certificatesresolvers.traefikresolver.acme.storage=/letsencrypt/acme.json"
         labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.dashboard.rule=Host(`${DOMAIN_TRAEFIK}`)"
-            - "traefik.http.routers.dashboard.service=api@internal"
-            - "traefik.http.routers.dashboard.middlewares=auth"
+            traefik.enable: true
+            traefik.http.routers.dashboard.rule: Host(`${DOMAIN_TRAEFIK}`)
+            traefik.http.routers.dashboard.service: api@internal
+            traefik.http.routers.dashboard.middlewares: auth
             # credentials are test/test
-            - "traefik.http.middlewares.auth.basicauth.users: test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/"
+            traefik.http.middlewares.auth.basicauth.users: test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/
             # low priority rule for otherwise unmatched www. host prefixes
             # without this it is constant redirect
-            - "traefik.http.routers.unmatchedwww.rule=HostRegexp(`{name:^www\\..*}`)"
-            - "traefik.http.routers.unmatchedwww.service=noop@internal"
-            - "traefik.http.routers.unmatchedwww.priority=2"
+            traefik.http.routers.unmatchedwww.rule: HostRegexp(`{name:^www\..*}`)
+            traefik.http.routers.unmatchedwww.service: noop@internal
+            traefik.http.routers.unmatchedwww.priority: 2
             # lowest priority catchall rule, will add/replace www. host portion
-            - "traefik.http.routers.matchlast.rule: PathPrefix(`/`)"
-            - "traefik.http.routers.matchlast.priority: 1"
-            - "traefik.http.routers.matchlast.middlewares: addwww"
-            - "traefik.http.middlewares.addwww.redirectregex.regex: ^https://(?:www\\.)?(.*)"
-            - "traefik.http.middlewares.addwww.redirectregex.replacement: https://www.$$1"
+            traefik.http.routers.matchlast.rule: PathPrefix(`/`)
+            traefik.http.routers.matchlast.priority: 1
+            traefik.http.routers.matchlast.middlewares: addwww
+            traefik.http.middlewares.addwww.redirectregex.regex: ^https://(?:www\.)?(.*)
+            traefik.http.middlewares.addwww.redirectregex.replacement: https://www.$$1
         ports:
             - "443:443"
             - "80:80"
@@ -98,10 +98,10 @@ services:
         depends_on:
             - postgres
         labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.strapi.entrypoints=websecure"
-            - "traefik.http.routers.strapi.tls.certresolver=traefikresolver"
-            - "traefik.http.routers.strapi.rule=Host(`${DOMAIN_CMS}`)"
+            traefik.enable: true
+            traefik.http.routers.strapi.entrypoints: websecure
+            traefik.http.routers.strapi.tls.certresolver: traefikresolver
+            traefik.http.routers.strapi.rule: Host(`${DOMAIN_CMS}`)
         networks:
             - traefik_network
 
@@ -129,12 +129,12 @@ services:
         depends_on:
             - strapi
         labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.frontend.entrypoints=websecure"
-            - "traefik.http.routers.frontend.tls.certresolver=traefikresolver"
-            - "traefik.http.routers.frontend.rule=Host(`www.${DOMAIN_FRONTEND}`)"
-            - "traefik.http.routers.frontend.tls.domains[0].main=${DOMAIN_FRONTEND}"
-            - "traefik.http.routers.frontend.tls.domains[0].sans=www.${DOMAIN_FRONTEND}"
+            traefik.enable: true
+            traefik.http.routers.frontend.entrypoints: websecure
+            traefik.http.routers.frontend.rule: Host(`www.${DOMAIN_FRONTEND}`)
+            traefik.http.routers.frontend.tls.domains[0].main: ${DOMAIN_FRONTEND}
+            traefik.http.routers.frontend.tls.domains[0].sans: www.${DOMAIN_FRONTEND}
+            traefik.http.routers.frontend.tls.certresolver: traefikresolver
         networks:
             - traefik_network
 
