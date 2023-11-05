@@ -101,9 +101,7 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.strapi.entrypoints=websecure"
             - "traefik.http.routers.strapi.tls.certresolver=traefikresolver"
-            - "traefik.http.routers.strapi.rule: Host(`www.${DOMAIN_CMS}`)"
-            - "traefik.http.routers.strapi.tls.domains[0].main: ${DOMAIN_CMS}"
-            - "traefik.http.routers.strapi.tls.domains[0].sans: www.${DOMAIN_CMS}"
+            - "traefik.http.routers.strapi.rule=Host(`${DOMAIN_CMS}`)"
         networks:
             - traefik_network
 
@@ -134,9 +132,9 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.frontend.entrypoints=websecure"
             - "traefik.http.routers.frontend.tls.certresolver=traefikresolver"
-            - "traefik.http.routers.frontend.rule: Host(`www.${DOMAIN_FRONTEND}`)"
-            - "traefik.http.routers.frontend.tls.domains[0].main: ${DOMAIN_FRONTEND}"
-            - "traefik.http.routers.frontend.tls.domains[0].sans: www.${DOMAIN_FRONTEND}"
+            - "traefik.http.routers.frontend.rule=Host(`www.${DOMAIN_FRONTEND}`)"
+            - "traefik.http.routers.frontend.tls.domains[0].main=${DOMAIN_FRONTEND}"
+            - "traefik.http.routers.frontend.tls.domains[0].sans=www.${DOMAIN_FRONTEND}"
         networks:
             - traefik_network
 
