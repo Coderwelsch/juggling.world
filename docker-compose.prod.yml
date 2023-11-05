@@ -77,7 +77,6 @@ services:
             - "traefik.http.routers.strapi.rule=Host(`${DOMAIN_CMS}`)"
             - "traefik.http.routers.strapi.entrypoints=websecure"
             - "traefik.http.routers.strapi.tls.certresolver=traefikresolver"
-            - "traefik.http.routers.strapi.middlewares=redirect-to-https"
         networks:
             - traefik_network
 
@@ -107,9 +106,8 @@ services:
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.frontend.rule=Host(`${DOMAIN_FRONTEND}`)"
-            - "traefik.http.routers.strapi.entrypoints=websecure"
-            - "traefik.http.routers.strapi.tls.certresolver=traefikresolver"
-            - "traefik.http.routers.strapi.middlewares=redirect-to-https"
+            - "traefik.http.routers.frontend.entrypoints=websecure"
+            - "traefik.http.routers.frontend.tls.certresolver=traefikresolver"
         networks:
             - traefik_network
 
