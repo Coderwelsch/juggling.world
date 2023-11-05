@@ -1,6 +1,3 @@
-import { Strapi } from "@strapi/strapi"
-
-
 export default ({ env }) => {
 	const config = ({
 		host: env("HOST", "0.0.0.0"),
@@ -16,4 +13,4 @@ export default ({ env }) => {
 	})
 
 	return config
-};
+}
