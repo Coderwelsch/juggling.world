@@ -26,8 +26,7 @@ services:
             traefik.http.routers.dashboard.rule: Host(`${DOMAIN_TRAEFIK}`)
             traefik.http.routers.dashboard.service: api@internal
             traefik.http.routers.dashboard.middlewares: auth
-            # credentials are test/test
-            traefik.http.middlewares.auth.basicauth.users: test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/
+            traefik.http.middlewares.auth.basicauth.users: ${TRAEFIK_DASHBOARD_AUTH}
             # low priority rule for otherwise unmatched www. host prefixes
             # without this it is constant redirect
             traefik.http.routers.unmatchedwww.rule: HostRegexp(`{name:^www\..*}`)
