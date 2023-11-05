@@ -6,15 +6,40 @@ services:
         image: traefik:v2.10.4
         command:
             - "--api.insecure=false"
+            - "--api.dashboard=true"
             - "--providers.docker=true"
             - "--providers.docker.exposedbydefault=false"
             - "--entrypoints.websecure.address=:443"
+            - "--entrypoints.websecure.http.tls=true"
+            - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+            - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+            - "--entrypoints.web.http.tls.certResolver=traefikresolver"
             - "--certificatesresolvers.traefikresolver.acme.tlschallenge=true"
             - "--certificatesresolvers.traefikresolver.acme.email=social@coderwelsch.com"
             - "--certificatesresolvers.traefikresolver.acme.storage=/letsencrypt/acme.json"
+        labels:
+            traefik.enable: true
+            traefik.http.routers.dashboard.rule: Host(`traefik.localhost`)
+            traefik.http.routers.dashboard.service: api@internal
+            traefik.http.routers.dashboard.middlewares: auth
+            # credentials are test/test
+            traefik.http.middlewares.auth.basicauth.users: test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/
+
+            # low priority rule for otherwise unmatched www. host prefixes
+            # without this it is constant redirect
+            traefik.http.routers.unmatchedwww.rule: HostRegexp(`{name:^www\..*}`)
+            traefik.http.routers.unmatchedwww.service: noop@internal
+            traefik.http.routers.unmatchedwww.priority: 2
+
+            # lowest priority catchall rule, will add/replace www. host portion
+            traefik.http.routers.matchlast.rule: PathPrefix(`/`)
+            traefik.http.routers.matchlast.priority: 1
+            traefik.http.routers.matchlast.middlewares: addwww
+            traefik.http.middlewares.addwww.redirectregex.regex: ^https://(?:www\.)?(.*)
+            traefik.http.middlewares.addwww.redirectregex.replacement: https://www.$$1
         ports:
             - "443:443"
-            - "8080:8080"
+            - "80:80"
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
             - ./letsencrypt:/letsencrypt
@@ -46,7 +71,7 @@ services:
             APP_PROXY: true
             PORT: 80
             HOST: ${STRAPI_INTERNAL_HOST}
-            PUBLIC_URL: http://${DOMAIN_CMS}
+            PUBLIC_URL: https://${DOMAIN_CMS}
             APP_KEYS: ${STRAPI_APP_KEYS}
             API_TOKEN_SALT: ${STRAPI_API_TOKEN_SALT}
             ADMIN_JWT_SECRET: ${STRAPI_ADMIN_JWT_SECRET}
@@ -74,9 +99,11 @@ services:
             - postgres
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.strapi.rule=Host(`${DOMAIN_CMS}`)"
             - "traefik.http.routers.strapi.entrypoints=websecure"
             - "traefik.http.routers.strapi.tls.certresolver=traefikresolver"
+            - "traefik.http.routers.strapi.rule: Host(`www.${DOMAIN_CMS}`)"
+            - "traefik.http.routers.strapi.tls.domains[0].main: ${DOMAIN_CMS}"
+            - "traefik.http.routers.strapi.tls.domains[0].sans: www.${DOMAIN_CMS}"
         networks:
             - traefik_network
 
@@ -91,23 +118,25 @@ services:
         links:
             - strapi:strapi
         environment:
-            NEXT_PUBLIC_API_URL: http://${DOMAIN_FRONTEND}
-            NEXTAUTH_URL: http://${DOMAIN_FRONTEND}
+            NEXT_PUBLIC_API_URL: https://${DOMAIN_FRONTEND}
+            NEXTAUTH_URL: https://${DOMAIN_FRONTEND}
             NEXTAUTH_URL_INTERNAL: http://frontend
             NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
             NEXT_TELEMETRY_DISABLED: "1"
             NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN: ${MAPBOX_ACCESS_TOKEN}
             NEXT_PUBLIC_MAPBOX_STYLE_URL: ${MAPBOX_STYLE_URL}
-            NEXT_PUBLIC_CMS_GRAPHQL_API_URL: http://${DOMAIN_CMS}/graphql
+            NEXT_PUBLIC_CMS_GRAPHQL_API_URL: https://${DOMAIN_CMS}/graphql
             INTERNAL_CMS_GRAPHQL_API_URL: http://strapi/graphql
             CMS_API_ACCESS_TOKEN: ${STRAPI_API_ACCESS_TOKEN}
         depends_on:
             - strapi
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.frontend.rule=Host(`${DOMAIN_FRONTEND}`)"
             - "traefik.http.routers.frontend.entrypoints=websecure"
             - "traefik.http.routers.frontend.tls.certresolver=traefikresolver"
+            - "traefik.http.routers.frontend.rule: Host(`www.${DOMAIN_FRONTEND}`)"
+            - "traefik.http.routers.frontend.tls.domains[0].main: ${DOMAIN_FRONTEND}"
+            - "traefik.http.routers.frontend.tls.domains[0].sans: www.${DOMAIN_FRONTEND}"
         networks:
             - traefik_network
 
