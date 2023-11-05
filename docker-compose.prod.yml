@@ -8,10 +8,12 @@ services:
             - "--log.level=DEBUG"
             - "--api.insecure=false"
             - "--api.dashboard=true"
+            - "--accesslog.format=json"
             - "--providers.docker=true"
             - "--providers.docker.exposedbydefault=false"
             - "--entrypoints.websecure.address=:443"
             - "--entrypoints.websecure.http.tls=true"
+            - "--entrypoints.web.address=:80"
             - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
             - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
             - "--entrypoints.web.http.tls.certResolver=traefikresolver"
@@ -20,7 +22,7 @@ services:
             - "--certificatesresolvers.traefikresolver.acme.storage=/letsencrypt/acme.json"
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)"
+            - "traefik.http.routers.dashboard.rule=Host(`${DOMAIN_TRAEFIK}`)"
             - "traefik.http.routers.dashboard.service=api@internal"
             - "traefik.http.routers.dashboard.middlewares=auth"
             # credentials are test/test
