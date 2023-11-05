@@ -5,15 +5,19 @@ services:
         container_name: ${DOCKER_CONTAINER_NAMESPACE}_traefik
         image: traefik:v2.10.4
         command:
-            - "--api.insecure=true" # Disable for production, secure the API dashboard
+            - "--api.insecure=false"
             - "--providers.docker=true"
             - "--providers.docker.exposedbydefault=false"
-            - "--entrypoints.http.address=:80"
+            - "--entrypoints.websecure.address=:443"
+            - "--certificatesresolvers.traefikresolver.acme.tlschallenge=true"
+            - "--certificatesresolvers.traefikresolver.acme.email=social@coderwelsch.com"
+            - "--certificatesresolvers.traefikresolver.acme.storage=/letsencrypt/acme.json"
         ports:
-            - "80:80"
+            - "443:443"
             - "8080:8080"
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
+            - ./letsencrypt:/letsencrypt
         networks:
             - traefik_network
 
@@ -71,7 +75,9 @@ services:
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.strapi.rule=Host(`${DOMAIN_CMS}`)"
-            - "traefik.http.routers.strapi.entrypoints=http"
+            - "traefik.http.routers.strapi.entrypoints=websecure"
+            - "traefik.http.routers.strapi.tls.certresolver=traefikresolver"
+            - "traefik.http.routers.strapi.middlewares=redirect-to-https"
         networks:
             - traefik_network
 
@@ -101,7 +107,9 @@ services:
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.frontend.rule=Host(`${DOMAIN_FRONTEND}`)"
-            - "traefik.http.routers.frontend.entrypoints=http"
+            - "traefik.http.routers.strapi.entrypoints=websecure"
+            - "traefik.http.routers.strapi.tls.certresolver=traefikresolver"
+            - "traefik.http.routers.strapi.middlewares=redirect-to-https"
         networks:
             - traefik_network
 
