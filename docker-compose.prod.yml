@@ -1,6 +1,8 @@
 version: '3.8'
 
 services:
+    # see www redirect:
+    # https://community.traefik.io/t/redirect-from-non-www-to-www-with-traefik-2/15184/3
     traefik:
         container_name: ${DOCKER_CONTAINER_NAMESPACE}_traefik
         image: traefik:v2.10.4
