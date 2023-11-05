@@ -5,7 +5,6 @@ services:
         container_name: ${DOCKER_CONTAINER_NAMESPACE}_traefik
         image: traefik:v2.10.4
         command:
-            - "--log.level=DEBUG"
             - "--api.insecure=false"
             - "--api.dashboard=true"
             - "--accesslog.format=json"
