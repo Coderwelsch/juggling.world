@@ -30,6 +30,7 @@ module.exports = {
 	},
 	plugins: ["@typescript-eslint", "react", "prettier"],
 	rules: {
+		"tailwindcss/classnames-order": "warn",
 		"max-len": [
 			"error",
 			{
