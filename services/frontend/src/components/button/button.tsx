@@ -122,11 +122,11 @@ export const Button = ({
 			className={appliedClassNames}
 			{...props}
 		>
-			{IconBefore && <div className={iconSizes[size]}>{IconBefore}</div>}
+			{IconBefore}
 
 			{children}
 
-			{IconAfter && <div className={iconSizes[size]}>{IconAfter}</div>}
+			{IconAfter}
 
 			{loading && (
 				<LoadingWheel className={"absolute left-1/2 top-1/2 h-6 w-6"} />
