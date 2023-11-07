@@ -22,8 +22,6 @@ const TopNavLink = ({
 	const basePath = router.pathname
 	const pathName = href.startsWith(".") ? `${basePath}/${href}` : href
 
-	console.log("TopNavLink", { basePath, pathName, href })
-
 	return (
 		<li>
 			<Link
