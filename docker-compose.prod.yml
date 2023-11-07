@@ -102,6 +102,7 @@ services:
         labels:
             traefik.enable: true
             traefik.http.routers.strapi.entrypoints: websecure
+            traefik.http.routers.strapi.tls: true
             traefik.http.routers.strapi.tls.certresolver: traefikresolver
             traefik.http.routers.strapi.rule: Host(`${DOMAIN_CMS}`)
         networks:
@@ -135,9 +136,10 @@ services:
             traefik.enable: true
             traefik.http.routers.frontend.entrypoints: websecure
             traefik.http.routers.frontend.rule: Host(`www.${DOMAIN_FRONTEND}`)
+            traefik.http.routers.frontend.tls: true
+            traefik.http.routers.frontend.tls.certresolver: traefikresolver
             traefik.http.routers.frontend.tls.domains[0].main: ${DOMAIN_FRONTEND}
             traefik.http.routers.frontend.tls.domains[0].sans: www.${DOMAIN_FRONTEND}
-            traefik.http.routers.frontend.tls.certresolver: traefikresolver
         networks:
             - traefik_network
 
