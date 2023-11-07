@@ -7,7 +7,6 @@ interface FormProps
 		HTMLFormElement
 	> {
 	children: ReactNode
-	onSubmit?: () => void
 }
 
 export const Form = ({ children, className, ...props }: FormProps) => {
