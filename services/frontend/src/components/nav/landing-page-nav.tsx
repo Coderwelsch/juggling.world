@@ -58,14 +58,16 @@ export const LandingPageNav = ({ visible = true }: { visible?: boolean }) => {
 				</Link>
 
 				<div className="flex items-center justify-end gap-4 py-3 md:gap-8">
-					<div className={"flex flex-row gap-3 sm:gap-4 md:gap-6 "}>
+					<div
+						className={classNames("md:flex flex-row hidden gap-6")}
+					>
 						<NavItem href={"/"}>home</NavItem>
 						<NavItem href={"/tutorials"}>tutorials</NavItem>
 						<NavItem href={"/shops"}>shops</NavItem>
 						<NavItem href={"/about"}>about</NavItem>
 					</div>
 
-					<DividerVertical />
+					<DividerVertical className={"hidden md:block"} />
 
 					{session.status === "authenticated" ? (
 						<Button
