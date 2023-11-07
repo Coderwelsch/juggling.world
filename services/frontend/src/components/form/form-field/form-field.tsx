@@ -1,3 +1,4 @@
+import { FileField } from "@/src/components/form/form-field/file-field/file-field"
 import { FormLabel } from "@/src/components/form/form-field/form-label/form-label"
 import { InputField } from "@/src/components/form/form-field/input-field/input-field"
 import { ReactNode } from "react"
@@ -12,3 +13,4 @@ export const FormField = ({ children }: FormFieldProps) => {
 
 FormField.Label = FormLabel
 FormField.InputField = InputField
+FormField.FileField = FileField
