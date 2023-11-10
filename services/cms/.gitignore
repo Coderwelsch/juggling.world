@@ -1,4 +1,6 @@
 types
+.strapi
+.strapi-updater.json
 
 ############################
 # OS X
