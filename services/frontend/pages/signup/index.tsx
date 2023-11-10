@@ -109,19 +109,6 @@ export default function Register() {
 						Registration
 					</Headline>
 
-<<<<<<< Updated upstream:services/frontend/pages/signup/index.tsx
-					<p
-						className={
-							"max-w-sm text-center text-space-100 text-opacity-75"
-						}
-					>
-=======
-<<<<<<< Updated upstream:services/frontend/pages/register.tsx
-					<p className={"max-w-sm text-center text-space-50"}>
->>>>>>> Stashed changes:services/frontend/pages/register.tsx
-						Create an account to find other diabolo players around
-						the globe … or next door!
-=======
 					<p
 						className={
 							"max-w-sm text-center text-space-100 text-opacity-75"
@@ -129,7 +116,6 @@ export default function Register() {
 					>
 						Create an account to find other jugglers around the
 						globe … or next door?!
->>>>>>> Stashed changes:services/frontend/pages/signup/index.tsx
 					</p>
 				</div>
 
