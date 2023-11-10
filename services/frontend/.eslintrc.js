@@ -3,6 +3,11 @@ module.exports = {
 		browser: true,
 		es2021: true,
 	},
+	settings: {
+		react: {
+			version: "detect",
+		},
+	},
 	extends: [
 		"eslint:recommended",
 		"plugin:@typescript-eslint/recommended",
@@ -10,6 +15,7 @@ module.exports = {
 		"plugin:prettier/recommended",
 		"plugin:tailwindcss/recommended",
 		"plugin:react-hooks/recommended",
+		"plugin:@next/next/recommended",
 	],
 	overrides: [
 		{
@@ -22,7 +28,13 @@ module.exports = {
 			},
 		},
 	],
-	ignorePatterns: ["node_modules", "build", "dist", "types/graphql"],
+	ignorePatterns: [
+		"node_modules",
+		"build",
+		"dist",
+		"types",
+		"src/types/graphql",
+	],
 	parser: "@typescript-eslint/parser",
 	parserOptions: {
 		ecmaVersion: "latest",
@@ -30,6 +42,7 @@ module.exports = {
 	},
 	plugins: ["@typescript-eslint", "react", "prettier"],
 	rules: {
+		"@typescript-eslint/ban-ts-comment": "off",
 		"tailwindcss/classnames-order": "warn",
 		"max-len": [
 			"error",

@@ -36,6 +36,7 @@
 	"devDependencies": {
 		"@graphql-codegen/cli": "5.0.0",
 		"@graphql-codegen/client-preset": "4.1.0",
+		"@next/eslint-plugin-next": "^14.0.2",
 		"@tailwindcss/typography": "^0.5.10",
 		"@types/mapbox-gl": "^2.7.13",
 		"@types/node": "20.5.8",
