@@ -13,7 +13,7 @@ import {
 import Supercluster, { AnyProps, PointFeature } from "supercluster"
 import useSupercluster from "use-supercluster"
 
-export interface ClusterBasePoint<P = Record<string, any>> {
+export interface ClusterBasePoint<P = Record<string, unknown>> {
 	cluster?: boolean
 	point_count?: number
 	properties: P
@@ -21,7 +21,7 @@ export interface ClusterBasePoint<P = Record<string, any>> {
 	coordinates: [number, number]
 }
 
-interface ClusterProps<PointProperties = Record<string, any>> {
+interface ClusterProps<PointProperties = Record<string, unknown>> {
 	points: ClusterBasePoint<PointProperties>[]
 	options?: Supercluster.Options<AnyProps, AnyProps>
 	renderMarker: (props: {

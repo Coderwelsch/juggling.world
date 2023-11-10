@@ -14,11 +14,6 @@ export const useSpinAnimation = ({
 		isInterrupted.current = true
 	}, [])
 
-	const handleMouseUp = useCallback(() => {
-		isInterrupted.current = false
-		rotate()
-	}, [])
-
 	const rotate = useCallback(() => {
 		console.log("interacting", isInterrupted.current)
 
@@ -30,6 +25,11 @@ export const useSpinAnimation = ({
 		map.rotateTo(rotation + 2)
 		requestAnimationFrame(rotate)
 	}, [disabled, map, isInterrupted])
+
+	const handleMouseUp = useCallback(() => {
+		isInterrupted.current = false
+		rotate()
+	}, [rotate])
 
 	useEffect(() => {
 		if (disabled || !map) {
@@ -45,5 +45,5 @@ export const useSpinAnimation = ({
 			map.off("mousedown", handleMouseDown)
 			map.off("mouseup", handleMouseUp)
 		}
-	}, [disabled, map])
+	}, [disabled, handleMouseDown, handleMouseUp, map, rotate])
 }

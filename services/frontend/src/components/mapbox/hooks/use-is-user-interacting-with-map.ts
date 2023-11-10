@@ -35,5 +35,5 @@ export const useIsUserInteractingWithMap = ({
 
 			map.off("zoomstart", onMoveStart)
 		}
-	}, [map])
+	}, [map, onInteractionEnd, onInteractionStart])
 }

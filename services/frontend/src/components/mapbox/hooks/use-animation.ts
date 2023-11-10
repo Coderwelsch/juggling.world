@@ -15,7 +15,7 @@ export const useAnimation = ({
 		frameRef.current += 1
 
 		intervalRef.current = requestAnimationFrame(updateFrame)
-	}, [onFrame, paused])
+	}, [onFrame])
 
 	useEffect(() => {
 		if (!paused) {
@@ -24,7 +24,7 @@ export const useAnimation = ({
 			cancelAnimationFrame(intervalRef.current)
 			intervalRef.current = undefined
 		}
-	}, [paused])
+	}, [paused, updateFrame])
 
 	useEffect(() => {
 		return () => {
