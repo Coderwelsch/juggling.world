@@ -25,12 +25,14 @@ const BreadcrumItem = ({ children, active }: BreadcrumItemProps) => {
 }
 
 export const Breadcrum = ({ children, seperator }: BreadcrumProps) => {
+	const childrenLength = Children.count(children) - 1
+
 	// add a circle between each item
 	const childrenWithSeparators = Children.map(children, (child, i) => {
 		return (
 			<>
 				{child}
-				{i !== children?.length - 1 &&
+				{i !== childrenLength &&
 					(seperator || (
 						<IconBxChevronRight className={"fill-space-100"} />
 					))}
