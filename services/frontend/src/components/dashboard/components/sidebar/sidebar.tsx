@@ -1,12 +1,13 @@
-import { useUserSession } from "@/src/components/dashboard/hooks/use-user-session"
 import { Button } from "@/src/components/button/button"
 import { TopNavItem } from "@/src/components/dashboard/components/sidebar/top-nav-item"
 import IconPark from "@/src/components/icons/tree"
 import IconUserLarge from "@/src/components/icons/user-large"
+import { useUserContext } from "@/src/contexts/user-context"
 import { signOut } from "next-auth/react"
 
 export const Sidebar = () => {
-	const userSession = useUserSession()
+	const userContext = useUserContext()
+	const finishedSetup = userContext?.attributes.finishedSetup
 
 	return (
 		<aside
@@ -24,10 +25,27 @@ export const Sidebar = () => {
 					</TopNavItem>
 
 					<TopNavItem
+						link={"/dashboard/plays"}
+						icon={<IconPark />}
+						disabled={!finishedSetup}
+					>
+						Plays
+					</TopNavItem>
+
+					<TopNavItem
 						link={"/dashboard/locations"}
 						icon={<IconPark />}
+						disabled={!finishedSetup}
 					>
 						Locations
+					</TopNavItem>
+
+					<TopNavItem
+						link={"/dashboard/locations"}
+						icon={<IconPark />}
+						disabled={!finishedSetup}
+					>
+						Events
 					</TopNavItem>
 
 					<Button
