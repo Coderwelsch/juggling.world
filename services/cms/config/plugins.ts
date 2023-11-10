@@ -37,7 +37,4 @@ export default ({ env }) => ({
 			},
 		},
 	},
-	"drag-drop-content-types": {
-		enabled: true,
-	},
 })
