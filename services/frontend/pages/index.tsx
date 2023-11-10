@@ -19,6 +19,10 @@ import { LocationContent } from "@/src/components/page-specific/index/sidebar-co
 import { PlayerContent } from "@/src/components/page-specific/index/sidebar-content/player-info"
 import Sidebar from "@/src/components/sidebar/sidebar"
 import { classNames } from "@/src/lib/class-names"
+import {
+	NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN,
+	NEXT_PUBLIC_MAPBOX_STYLE_URL,
+} from "@/src/lib/constants"
 import { getStrapiUrl } from "@/src/lib/get-strapi-url"
 import { mapValueRange } from "@/src/lib/map-value-range"
 import { allGroupsQuery, AllGroupsResponse } from "@/src/queries/all-groups"
@@ -342,26 +346,24 @@ export default function App() {
 	const onRenderMarker = useCallback(
 		({
 			point,
-			props,
+			props: { id: propsId, imageUrl, name, type },
 			id,
 		}: {
 			point: Position
 			props: CustomMarkerProperties
 			id: string
 		}) => {
-			const type = props.type
-
 			let isActive = false
 			let isFocused = false
 			let intent: Intent = "primary"
 
 			if (type === "player") {
 				isActive = `${type}-${selectedPlayerId}` === id
-				isFocused = focusedPlayers.includes(props.id)
+				isFocused = focusedPlayers.includes(propsId)
 				intent = "primary"
 			} else if (type === "location") {
 				isActive = `${type}-${selectedLocationId}` === id
-				isFocused = focusedLocations.includes(props.id)
+				isFocused = focusedLocations.includes(propsId)
 				intent = "secondary"
 			} else if (type === "group") {
 				intent = "active"
@@ -374,9 +376,9 @@ export default function App() {
 					active={isActive}
 					focused={isFocused}
 					icon={
-						props.imageUrl ? (
+						imageUrl ? (
 							<Image
-								src={getStrapiUrl(props.imageUrl)}
+								src={getStrapiUrl(imageUrl)}
 								className={
 									"h-full w-full overflow-hidden rounded-full"
 								}
@@ -394,16 +396,16 @@ export default function App() {
 					onClick={() => {
 						switch (type) {
 							case "location":
-								onLocationMarkerClick(props.id)
+								onLocationMarkerClick(propsId)
 								break
 
 							case "player":
-								onPlayerMarkerClick(props.id)
+								onPlayerMarkerClick(propsId)
 								break
 						}
 					}}
 				>
-					<MarkerLabel label={props.name} />
+					<MarkerLabel label={name} />
 				</DotMarker>
 			)
 		},
@@ -431,11 +433,11 @@ export default function App() {
 		clusteredElems: CustomMarkerProperties[]
 	}) => {
 		const isActive = clusteredElems.some(
-			(props: CustomMarkerProperties) => {
-				if (props.type === "player") {
-					return props.id === selectedPlayerId
-				} else if (props.type === "location") {
-					return props.id === selectedLocationId
+			({ id, type }: CustomMarkerProperties) => {
+				if (type === "player") {
+					return id === selectedPlayerId
+				} else if (type === "location") {
+					return id === selectedLocationId
 				}
 
 				return false
@@ -476,14 +478,12 @@ export default function App() {
 
 			<section className={"h-screen w-full"}>
 				<Map
-					mapboxAccessToken={
-						process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
-					}
+					mapboxAccessToken={NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
 					projection={{
 						name: "globe",
 					}}
 					initialViewState={initialViewState}
-					mapStyle={process.env.NEXT_PUBLIC_MAPBOX_STYLE_URL}
+					mapStyle={NEXT_PUBLIC_MAPBOX_STYLE_URL}
 					onClick={onMapClick}
 					onLoad={onMapLoad}
 				>

@@ -1,4 +1,6 @@
-export default function ErrorPage(props) {
+interface ErrorPageProps {}
+
+const ErrorPage = (props: ErrorPageProps) => {
 	console.log("ErrorPage props", props)
 
 	return (
@@ -7,3 +9,5 @@ export default function ErrorPage(props) {
 		</div>
 	)
 }
+
+export default ErrorPage
