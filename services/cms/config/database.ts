@@ -1,6 +1,3 @@
-import path from "path"
-
-
 export default ({ env }) => {
 	const client = env("DATABASE_CLIENT", "postgres")
 
@@ -31,4 +28,4 @@ export default ({ env }) => {
 			acquireConnectionTimeout: env.int("DATABASE_CONNECTION_TIMEOUT", 60000),
 		},
 	}
-};
+}

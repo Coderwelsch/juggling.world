@@ -1,7 +1,9 @@
 module.exports = {
 	"env": {
-		"browser": true,
-		"es2021": true
+		"commonjs": true,
+		"es6": true,
+		"node": true,
+		"browser": false
 	},
 	"extends": [
 		"eslint:recommended",
@@ -24,7 +26,14 @@ module.exports = {
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"ecmaVersion": "latest",
+		"ecmaFeatures": {
+			"experimentalObjectRestSpread": true,
+			"jsx": false
+		},
 		"sourceType": "module"
+	},
+	"globals": {
+		"strapi": true
 	},
 	"plugins": [
 		"@typescript-eslint",
