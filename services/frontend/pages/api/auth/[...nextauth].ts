@@ -1,9 +1,7 @@
-import { apolloInternalClient } from "@/src/lib/clients/apollo-internal-client"
-import {
-	UsersPermissionsLoginInput,
-	UsersPermissionsUser,
-} from "@/src/types/cms/graphql"
-import { gql } from "@apollo/client"
+import { NODE_ENV } from "@/src/lib/constants"
+import { signInUser } from "@/src/queries/auth/sign-in-user"
+import { queryMe } from "@/src/queries/protected/user/me"
+import { UsersPermissionsUser } from "@/src/types/cms/graphql"
 import { ID } from "graphql-ws"
 import {
 	GetServerSidePropsContext,
@@ -27,113 +25,50 @@ export function auth(
 	return session
 }
 
-const loginUser = async (credentials: UsersPermissionsLoginInput) => {
-	const res = await apolloInternalClient.mutate({
-		mutation: gql`
-			mutation ($input: UsersPermissionsLoginInput!) {
-				login(input: $input) {
-					user {
-						id
-						confirmed
-						blocked
-						role {
-							id
-							name
-						}
-					}
-					jwt
-				}
-			}
-		`,
-		variables: {
-			input: credentials,
-		},
-	})
-
-	const user = res.data.login.user
-	const jwt = res.data.login.jwt
-
-	// If no error and we have user data, return it
-	if (user) {
-		return {
-			id: user.id,
-			jwt,
-		}
-	}
-
-	return null
-}
-
 export type UserSessionData = {
 	id: ID
 	data: Pick<
 		UsersPermissionsUser,
 		"blocked" | "avatar" | "confirmed" | "username" | "role"
 	>
-}
-
-const getUserData = async (
-	id: string,
-): Promise<null | { id: string; attributes: UserSessionData }> => {
-	const res = await apolloInternalClient.query({
-		query: gql`
-			query ($id: ID!) {
-				usersPermissionsUser(id: $id) {
-					data {
-						id
-						attributes {
-							username
-							email
-							confirmed
-							blocked
-							avatar {
-								data {
-									attributes {
-										url
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		`,
-		variables: {
-			id,
-		},
-	})
-
-	// If no error and we have user data, return it
-	if (res.data) {
-		return res.data.usersPermissionsUser.data
-	}
-
-	return null
+	jwt: string
 }
 
 export const authOptions: NextAuthOptions = {
-	debug: process.env.NODE_ENV === "development",
+	debug: NODE_ENV === "development",
 	pages: {
 		signIn: "/signin",
 		newUser: "/signup",
 		signOut: "/signout",
 		error: "/error",
 	},
+	session: {
+		strategy: "jwt",
+	},
 	callbacks: {
+		async jwt({ token, user, account }) {
+			// @ts-ignore
+			if (user?.jwt) {
+				// @ts-ignore
+				token.accessToken = user.jwt
+			}
+
+			return token
+		},
 		session: async ({ session, token }) => {
-			if (!token.sub) {
+			if (!session || !token.sub) {
 				return Promise.resolve(session)
 			}
 
-			const user = await getUserData(token.sub)
+			const userId = token.sub
+			const user = await queryMe(userId)
 
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			session.user = {
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
 				id: user.id,
 				data: user?.attributes,
+				jwt: token.accessToken,
 			}
 
 			return Promise.resolve(session)
@@ -152,7 +87,7 @@ export const authOptions: NextAuthOptions = {
 				password: { label: "Password", type: "password" },
 			},
 			type: "credentials",
-			authorize: async function (_credentials, req) {
+			authorize: async function (_c, req) {
 				if (!req.query?.identifier || !req.query?.password) {
 					return null
 				}
@@ -163,10 +98,9 @@ export const authOptions: NextAuthOptions = {
 				}
 
 				try {
-					const user = await loginUser(credentials)
+					const user = await signInUser(credentials)
 
-					// If no error and we have user data, return it
-					if (user) {
+					if (user?.jwt) {
 						return {
 							id: user.id,
 							jwt: user.jwt,
