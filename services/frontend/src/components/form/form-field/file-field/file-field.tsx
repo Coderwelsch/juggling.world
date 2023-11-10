@@ -1,17 +1,25 @@
 import { classNames } from "@/src/lib/class-names"
-import React from "react"
+import React, { forwardRef } from "react"
 
-interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+interface FileInputFieldProps
+	extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-export const FileField = ({ className, ...props }: InputFieldProps) => {
-	return (
-		<input
-			type={"file"}
-			className={classNames(
-				className,
-				"px-3 py-2 rounded-lg bg-neutral-100 bg-opacity-10 placeholder-space-100 hover:bg-opacity-20 focus:bg-opacity-20 transition-colors",
-			)}
-			{...props}
-		/>
-	)
-}
+// eslint-disable-next-line react/display-name
+export const FileField = forwardRef(
+	(
+		{ className, ...props }: FileInputFieldProps,
+		ref: React.ForwardedRef<HTMLInputElement>,
+	) => {
+		return (
+			<input
+				ref={ref}
+				type={"file"}
+				className={classNames(
+					className,
+					"px-3 py-2 rounded-lg bg-neutral-100 bg-opacity-10 placeholder-space-100 hover:bg-opacity-20 focus:bg-opacity-20 transition-colors",
+				)}
+				{...props}
+			/>
+		)
+	},
+)
