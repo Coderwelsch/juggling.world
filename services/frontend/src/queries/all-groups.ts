@@ -1,6 +1,5 @@
 import { gql } from "@apollo/client"
 
-
 export interface AllGroupsResponse {
 	groups: {
 		data: {
