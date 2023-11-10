@@ -101,13 +101,22 @@ export const Button = ({
 				className={appliedClassNames}
 				{...props}
 			>
-				{IconBefore}
+				{IconBefore && (
+					<span className={iconSizes[size]}>{IconBefore}</span>
+				)}
+
 				{children}
-				{IconAfter}
+
+				{IconAfter && (
+					<span className={iconSizes[size]}>{IconAfter}</span>
+				)}
 
 				{loading && (
 					<LoadingWheel
-						className={"absolute left-1/2 top-1/2 h-6 w-6"}
+						className={classNames(
+							"absolute left-1/2 top-1/2",
+							iconSizes[size],
+						)}
 					/>
 				)}
 			</Link>
@@ -122,11 +131,13 @@ export const Button = ({
 			className={appliedClassNames}
 			{...props}
 		>
-			{IconBefore}
+			{IconBefore && (
+				<span className={iconSizes[size]}>{IconBefore}</span>
+			)}
 
 			{children}
 
-			{IconAfter}
+			{IconAfter && <span className={iconSizes[size]}>{IconAfter}</span>}
 
 			{loading && (
 				<LoadingWheel className={"absolute left-1/2 top-1/2 h-6 w-6"} />
