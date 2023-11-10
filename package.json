@@ -5,7 +5,7 @@
 	"author": "Joseph Ribbe <social@coderwelsch.com>",
 	"license": "MIT",
 	"scripts": {
-		"dev": "docker compose up",
+		"dev": "docker compose up --build",
 		"prod": "docker compose -f docker-compose.prod.yml up",
 		"dev:build": "docker compose up --build",
 		"down": "docker compose down"
