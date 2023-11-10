@@ -1997,22 +1997,6 @@
     plop "2.7.6"
     pluralize "8.0.0"
 
-"@strapi/helper-plugin@4.15.1":
-  version "4.15.1"
-  resolved "https://registry.yarnpkg.com/@strapi/helper-plugin/-/helper-plugin-4.15.1.tgz#65b4919e70b1c9b55f219778f0934e3c4075fdce"
-  integrity sha512-RXhqT1LrsXWSMXBb1xF4lDXjYiLaI8rHck3RDv7iwTseTbijC5+WvbZh13w9pgz/nmbtN3VZ8vWwmhznfXQ2tg==
-  dependencies:
-    axios "1.5.0"
-    date-fns "2.30.0"
-    formik "2.4.0"
-    immer "9.0.19"
-    lodash "4.17.21"
-    qs "6.11.1"
-    react-helmet "6.1.0"
-    react-intl "6.4.1"
-    react-query "3.39.3"
-    react-select "5.7.0"
-
 "@strapi/helper-plugin@4.15.2":
   version "4.15.2"
   resolved "https://registry.yarnpkg.com/@strapi/helper-plugin/-/helper-plugin-4.15.2.tgz#ce41f92142c7b3002848589cbcfedc4beede1cb2"
@@ -2138,17 +2122,17 @@
     react-query "3.39.3"
     yup "0.32.9"
 
-"@strapi/plugin-graphql@4.15.1":
-  version "4.15.1"
-  resolved "https://registry.yarnpkg.com/@strapi/plugin-graphql/-/plugin-graphql-4.15.1.tgz#46e6903c2e3dfa114b2f549ba553ac8a04e63e5b"
-  integrity sha512-xdim3F9IGjiUzK0qaDZYHVf/Pf3HMDpc/gMvjjWpkjwz7KGLcnMuWE9aSkv0ZK8gY1cga/DTyJE7wDlvvhDJEQ==
+"@strapi/plugin-graphql@4.15.2":
+  version "4.15.2"
+  resolved "https://registry.yarnpkg.com/@strapi/plugin-graphql/-/plugin-graphql-4.15.2.tgz#ffc0bbe5fa54200b6cac08eff4a9982066cc19ee"
+  integrity sha512-INot/jJQhuWsur4rmQOR2ns0VjwX+ROifyeQnpi41+Z6anzJaCoHqQ3N/V+WRAZAIfMdlRqNzmd41/dyEMco8w==
   dependencies:
     "@graphql-tools/schema" "8.5.1"
     "@graphql-tools/utils" "^8.13.1"
     "@strapi/design-system" "1.13.0"
-    "@strapi/helper-plugin" "4.15.1"
+    "@strapi/helper-plugin" "4.15.2"
     "@strapi/icons" "1.13.0"
-    "@strapi/utils" "4.15.1"
+    "@strapi/utils" "4.15.2"
     apollo-server-core "3.12.1"
     apollo-server-koa "3.10.0"
     graphql "^15.5.1"
@@ -2244,10 +2228,10 @@
   resolved "https://registry.yarnpkg.com/@strapi/provider-audit-logs-local/-/provider-audit-logs-local-4.15.2.tgz#833740423b51d8013c1a2e588a0ad327ebdd31cc"
   integrity sha512-CDnRflKwpJ4DeNjkFJk5WG0vJcHcON/t9qcF/BjryWOuu6I1Wwa4wDMoGr2R/yBpyBgIX1QFB1k7RO/yki/0MQ==
 
-"@strapi/provider-email-nodemailer@4.15.1":
-  version "4.15.1"
-  resolved "https://registry.yarnpkg.com/@strapi/provider-email-nodemailer/-/provider-email-nodemailer-4.15.1.tgz#3d326288e429e883f92d8d5e9ff7c861e0ce68dd"
-  integrity sha512-7zb2XDFVFGwrXt2dKCxQiQNhPEcGLvuFFvQv/kHdPD5rB1Vebal94bnhT6elMpUtiUBdk9zHMhBKbx3wX+0nTg==
+"@strapi/provider-email-nodemailer@4.15.2":
+  version "4.15.2"
+  resolved "https://registry.yarnpkg.com/@strapi/provider-email-nodemailer/-/provider-email-nodemailer-4.15.2.tgz#df6fd6b9c12e4c76223cb3454ab1b2f81f30418a"
+  integrity sha512-Xfh3bjvsNuxp99WzTSz8lwdfzxAoB29+i261Y8xrKc1hiJ18kour0aCZAyn3lgdlbt8b4lsc5OzibQHNh6b67A==
   dependencies:
     lodash "4.17.21"
     nodemailer "6.9.1"
@@ -2387,18 +2371,6 @@
     "@radix-ui/react-visually-hidden" "^1.0.3"
     aria-hidden "^1.2.3"
     react-remove-scroll "^2.5.7"
-
-"@strapi/utils@4.15.1":
-  version "4.15.1"
-  resolved "https://registry.yarnpkg.com/@strapi/utils/-/utils-4.15.1.tgz#08eb50f74f610ce1fe159d0a7b5def827cd592bd"
-  integrity sha512-OdarLYB8KRuLWrKeOIAXBWBAtDjcK5U2MgEsFEhdBJNWgIOSmVa27IQk4ZSLmq02Ylp/YOqfpvPxf3CIREo5/g==
-  dependencies:
-    "@sindresorhus/slugify" "1.1.0"
-    date-fns "2.30.0"
-    http-errors "1.8.1"
-    lodash "4.17.21"
-    p-map "4.0.0"
-    yup "0.32.9"
 
 "@strapi/utils@4.15.2":
   version "4.15.2"
