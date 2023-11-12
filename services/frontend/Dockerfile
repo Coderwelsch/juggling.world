@@ -27,8 +27,5 @@ COPY . .
 # expose port
 EXPOSE 80
 
-# build app before to not run into weirde errors
-RUN yarn build
-
 # run app
 CMD ["yarn", "dev"]
