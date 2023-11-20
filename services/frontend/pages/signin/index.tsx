@@ -4,7 +4,11 @@ import { FormField } from "@/src/components/form/form-field/form-field"
 import { Headline } from "@/src/components/headline/headline"
 import { IconBxChevronRight } from "@/src/components/icons/bx-chevron-right"
 import { LogoSmall } from "@/src/components/logo/logo-small"
-import { signInUserQuery, UserSignInMutationInput, UserSignInMutationResponse } from "@/src/queries/sign-in-user"
+import {
+	signInUserQuery,
+	UserSignInMutationInput,
+	UserSignInMutationResponse,
+} from "@/src/queries/sign-in-user"
 import { useMutation } from "@apollo/client"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
@@ -13,7 +17,6 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { z } from "zod"
-
 
 const signInInputSchema = z.object({
 	identifier: z.string(),
