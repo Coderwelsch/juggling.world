@@ -1,6 +1,6 @@
 import { useUserSession } from "@/src/components/dashboard/hooks/use-user-session"
 import { Sidebar } from "@/src/components/dashboard/components/sidebar/sidebar"
-import { TopNav } from "@/src/components/dashboard/components/sidebar/top-nav"
+import { TopNav } from "@/src/components/dashboard/components/top-nav/top-nav"
 import { ReactNode } from "react"
 
 interface DashboardLayoutProps {

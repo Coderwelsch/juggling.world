@@ -1,0 +1,51 @@
+import { Button } from "@/src/components/button/button"
+import { Panel } from "@/src/components/dashboard/components/panel/panel"
+import { SetupProfileDialog } from "@/src/components/dashboard/components/setup-profile/setup-profile-dialog"
+import { Headline } from "@/src/components/headline/headline"
+import { IconBxChevronRight } from "@/src/components/icons/bx-chevron-right"
+import { useProfileData } from "@/src/hooks/data/user/use-profile-data"
+import { useState } from "react"
+
+export const SetupProfileSection = () => {
+	const profileData = useProfileData()
+	const [setupDialogVisible, setSetupDialogVisible] = useState(false)
+
+	const handleOnClose = () => {
+		setSetupDialogVisible(false)
+	}
+
+	if (!profileData.data) {
+		return null
+	}
+
+	return (
+		<>
+			<SetupProfileDialog
+				isVisible={setupDialogVisible}
+				onClose={() => setSetupDialogVisible(false)}
+			/>
+
+			<Panel className={"text-space-50"}>
+				<Headline>👋 Welcome, {profileData.data.username}!</Headline>
+
+				<p className={"leading-6 text-space-100"}>
+					Nice to see you! It looks like it’s your first time here. To
+					get you started we need to setup your profile.
+				</p>
+
+				<div className={"flex items-center justify-center"}>
+					<Button
+						intent={"primary"}
+						size={"md"}
+						IconAfter={<IconBxChevronRight className={"h-6 w-6"} />}
+						onClick={() => {
+							setSetupDialogVisible(true)
+						}}
+					>
+						Setup now
+					</Button>
+				</div>
+			</Panel>
+		</>
+	)
+}

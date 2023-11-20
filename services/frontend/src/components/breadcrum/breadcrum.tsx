@@ -7,18 +7,32 @@ interface BreadcrumProps {
 	seperator?: ReactNode
 }
 
-interface BreadcrumItemProps {
+interface BreadcrumItemProps extends React.HTMLAttributes<HTMLLabelElement> {
 	children: ReactNode
 	active?: boolean
+	IconBefore?: ReactNode
 }
 
-const BreadcrumItem = ({ children, active }: BreadcrumItemProps) => {
+const BreadcrumItem = ({
+	children,
+	active,
+	IconBefore,
+	...props
+}: BreadcrumItemProps) => {
 	return (
 		<label
 			className={classNames(
-				active ? "text-violet-500" : "text-space-50/80",
+				"flex flex-row gap-1.5 items-center justify-center",
+				active
+					? "text-violet-500 fill-violet-500"
+					: "text-space-50/80 fill-white-50/80",
 			)}
+			{...props}
 		>
+			{IconBefore && (
+				<span className={classNames("h-3 w-3")}>{IconBefore}</span>
+			)}
+
 			{children}
 		</label>
 	)

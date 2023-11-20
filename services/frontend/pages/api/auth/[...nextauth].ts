@@ -11,20 +11,6 @@ import {
 import NextAuth, { getServerSession, NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
-export function auth(
-	...args:
-		| [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
-		| [NextApiRequest, NextApiResponse]
-		| []
-) {
-	const session = getServerSession<
-		NextAuthOptions,
-		{ user: UserSessionData }
-	>(...args, authOptions)
-
-	return session
-}
-
 export type UserSessionData = {
 	id: ID
 	data: Pick<
@@ -115,6 +101,15 @@ export const authOptions: NextAuthOptions = {
 			},
 		}),
 	],
+}
+
+export function auth(
+	...args:
+		| [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
+		| [NextApiRequest, NextApiResponse]
+		| []
+) {
+	return getServerSession(...args, authOptions) as Promise<UserSessionData>
 }
 
 export default NextAuth(authOptions)

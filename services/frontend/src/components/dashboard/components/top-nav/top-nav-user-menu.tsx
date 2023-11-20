@@ -2,7 +2,6 @@ import { Button } from "@/src/components/button/button"
 import { useUserSession } from "@/src/components/dashboard/hooks/use-user-session"
 import { Headline } from "@/src/components/headline/headline"
 import IconUserLarge from "@/src/components/icons/user-large"
-import { LogoSmall } from "@/src/components/logo/logo-small"
 import { classNames } from "@/src/lib/class-names"
 import { getStrapiUrl } from "@/src/lib/get-strapi-url"
 import { signOut } from "next-auth/react"
@@ -11,7 +10,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { ReactNode, useState } from "react"
 
-const TopNavLink = ({
+const UserMenuLink = ({
 	children,
 	href,
 }: {
@@ -35,20 +34,26 @@ const TopNavLink = ({
 	)
 }
 
-const AvatarMenu = ({ onClick }: { onClick: () => void }) => {
+const AvatarMenu = ({
+	onOpen,
+	onClose,
+}: {
+	onOpen: () => void
+	onClose: () => void
+}) => {
 	const userSession = useUserSession()
 
 	return (
-		<div
-			className={"flex cursor-pointer flex-row items-center gap-3.5"}
-			onClick={onClick}
-			// onBlur={() => setMenuOpened(false)}
-		>
+		<div className={"flex cursor-pointer flex-row items-center gap-3.5"}>
 			<button
 				type="button"
 				className="flex rounded-full bg-gray-800 text-sm"
 				aria-expanded="false"
 				data-dropdown-toggle="dropdown-user"
+				onClick={onOpen}
+				onFocus={onOpen}
+				onBlur={onClose}
+				tabIndex={0}
 			>
 				<span className="sr-only">Open user menu</span>
 
@@ -65,7 +70,7 @@ const AvatarMenu = ({ onClick }: { onClick: () => void }) => {
 						/>
 					) : (
 						<IconUserLarge
-							className={"h-4/5 w-4/5 self-end fill-violet-500"}
+							className={"h-4/5 w-4/5 self-end fill-violet-400"}
 						/>
 					)}
 				</div>
@@ -74,14 +79,17 @@ const AvatarMenu = ({ onClick }: { onClick: () => void }) => {
 	)
 }
 
-const UserMenu = () => {
+export const UserMenu = () => {
 	const router = useRouter()
 	const userSession = useUserSession()
 	const [menuOpened, setMenuOpened] = useState(false)
 
 	return (
 		<>
-			<AvatarMenu onClick={() => setMenuOpened(!menuOpened)} />
+			<AvatarMenu
+				onOpen={() => setMenuOpened(true)}
+				onClose={() => setMenuOpened(false)}
+			/>
 
 			<div
 				className={classNames(
@@ -115,7 +123,9 @@ const UserMenu = () => {
 				<hr className={"border-indigo-400/50"} />
 
 				<ul className="flex flex-col gap-0 overflow-hidden rounded-b-xl bg-space-100/20 text-indigo-50">
-					<TopNavLink href={"./settings/profile"}>Profile</TopNavLink>
+					<UserMenuLink href={"./settings/profile"}>
+						Profile
+					</UserMenuLink>
 
 					<hr className={"border-indigo-400/50"} />
 
@@ -133,69 +143,5 @@ const UserMenu = () => {
 				</ul>
 			</div>
 		</>
-	)
-}
-
-export const TopNav = () => {
-	const userSession = useUserSession()
-
-	return (
-		<nav className="fixed top-0 z-50 w-full border-b border-violet-100/10 bg-slate-950">
-			<div className="p-3 lg:px-5 lg:pl-3">
-				<div className="flex items-center justify-between">
-					<div className="flex items-center justify-start">
-						<button
-							data-drawer-target="logo-sidebar"
-							data-drawer-toggle="logo-sidebar"
-							aria-controls="logo-sidebar"
-							type="button"
-							className="inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 sm:hidden"
-						>
-							<span className="sr-only">Open sidebar</span>
-							<svg
-								className="h-6 w-6"
-								aria-hidden="true"
-								fill="currentColor"
-								viewBox="0 0 20 20"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<path
-									clipRule="evenodd"
-									fillRule="evenodd"
-									d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-								></path>
-							</svg>
-						</button>
-
-						<Link
-							href={"/dashboard"}
-							className={"flex flex-row items-center gap-1"}
-						>
-							<LogoSmall className={"w-14"} />
-
-							<div className="flex flex-col gap-0.5 text-2xl font-semibold text-violet-50">
-								<Headline
-									size={4}
-									renderAs={"h1"}
-									className={"font-semibold leading-5"}
-								>
-									juggling.world
-								</Headline>
-
-								<p className="text-xs font-medium text-violet-50/75">
-									share · connect · learn
-								</p>
-							</div>
-						</Link>
-					</div>
-
-					<div className="flex items-center">
-						<div className="relative ml-3 flex items-center">
-							<UserMenu />
-						</div>
-					</div>
-				</div>
-			</div>
-		</nav>
 	)
 }

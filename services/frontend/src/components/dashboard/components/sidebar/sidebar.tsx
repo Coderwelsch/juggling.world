@@ -1,13 +1,11 @@
 import { Button } from "@/src/components/button/button"
-import { TopNavItem } from "@/src/components/dashboard/components/sidebar/top-nav-item"
+import { TopNavItem } from "@/src/components/dashboard/components/top-nav/top-nav-item"
 import IconPark from "@/src/components/icons/tree"
 import IconUserLarge from "@/src/components/icons/user-large"
-import { useUserContext } from "@/src/contexts/user-context"
 import { signOut } from "next-auth/react"
 
 export const Sidebar = () => {
-	const userContext = useUserContext()
-	const finishedSetup = userContext?.attributes.finishedSetup
+	const finishedSetup = false
 
 	return (
 		<aside

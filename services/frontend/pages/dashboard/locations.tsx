@@ -1,13 +1,10 @@
-import { auth, UserSessionData } from "@/pages/api/auth/[...nextauth]"
-import { Button } from "@/src/components/button/button"
+import { auth } from "@/pages/api/auth/[...nextauth]"
 import { Panel } from "@/src/components/dashboard/components/panel/panel"
 import { DashboardLayout } from "@/src/components/dashboard/layout"
 import { Headline } from "@/src/components/headline/headline"
-import { IconBxChevronRight } from "@/src/components/icons/bx-chevron-right"
 import { apolloInternalClient } from "@/src/lib/clients/apollo-internal-client"
 import { gql } from "@apollo/client"
 import { GetServerSidePropsContext } from "next"
-import { signOut } from "next-auth/react"
 
 interface DashboardUserData {
 	id: string
@@ -40,9 +37,9 @@ export async function getServerSideProps(
 			}
 	  }
 > {
-	const session = await auth(context.req, context.res)
+	const userSessionData = await auth()
 
-	if (!session) {
+	if (!userSessionData) {
 		return {
 			redirect: {
 				destination: "/signin",
@@ -74,7 +71,7 @@ export async function getServerSideProps(
 			}
 		`,
 		variables: {
-			id: session.user.id,
+			id: userSessionData.id,
 		},
 	})
 
