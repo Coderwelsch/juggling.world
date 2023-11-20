@@ -7,8 +7,9 @@ export const InputField = ({ className, ...props }: InputFieldProps) => {
 	return (
 		<input
 			className={classNames(
-				className,
+				props.disabled && "pointer-events-none",
 				"px-3 py-2 rounded-lg bg-neutral-100 bg-opacity-10 placeholder-space-100 hover:bg-opacity-20 focus:bg-opacity-20 transition-colors",
+				className,
 			)}
 			{...props}
 		/>

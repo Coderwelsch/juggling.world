@@ -3,18 +3,18 @@ import { Panel } from "@/src/components/dashboard/components/panel/panel"
 import { SetupProfileDialog } from "@/src/components/dashboard/components/setup-profile/setup-profile-dialog"
 import { Headline } from "@/src/components/headline/headline"
 import { IconBxChevronRight } from "@/src/components/icons/bx-chevron-right"
-import { useProfileData } from "@/src/hooks/data/user/use-profile-data"
+import { useUserProfileContext } from "@/src/hooks/data/user/use-profile-data"
 import { useState } from "react"
 
 export const SetupProfileSection = () => {
-	const profileData = useProfileData()
+	const profileData = useUserProfileContext()
 	const [setupDialogVisible, setSetupDialogVisible] = useState(false)
 
 	const handleOnClose = () => {
 		setSetupDialogVisible(false)
 	}
 
-	if (!profileData.data) {
+	if (!profileData) {
 		return null
 	}
 
@@ -22,11 +22,11 @@ export const SetupProfileSection = () => {
 		<>
 			<SetupProfileDialog
 				isVisible={setupDialogVisible}
-				onClose={() => setSetupDialogVisible(false)}
+				onClose={handleOnClose}
 			/>
 
 			<Panel className={"text-space-50"}>
-				<Headline>👋 Welcome, {profileData.data.username}!</Headline>
+				<Headline>👋 Welcome, {profileData.username}!</Headline>
 
 				<p className={"leading-6 text-space-100"}>
 					Nice to see you! It looks like it’s your first time here. To

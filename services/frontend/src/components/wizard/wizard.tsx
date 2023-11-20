@@ -9,22 +9,23 @@ import {
 
 export interface WizardProps {
 	currentStep?: number
-	footer?: (props: {
-		currentStep: number
-		previous: (() => void) | undefined
-		next: (() => void) | undefined
-	}) => React.ReactNode
-	header?: (currentStep: number, goTo: (index: number) => void) => ReactNode
-	initialStep?: number
+	header?: (currentStep: number) => ReactNode
 	children: ReactNode
+	onNextStep?: (next: number) => void
+	onPreviousStep?: (previous: number) => void
 }
 
 interface WizardContextProps {
 	nextStep?: () => void
+	hasNextStep: boolean
 	previousStep?: () => void
+	hasPreviousStep: boolean
 }
 
-const WizardContext = createContext<WizardContextProps>({})
+const WizardContext = createContext<WizardContextProps>({
+	hasPreviousStep: false,
+	hasNextStep: false,
+})
 
 export const useWizardContext = () => {
 	const wizardContext = useContext(WizardContext)
@@ -37,66 +38,56 @@ export const useWizardContext = () => {
 }
 
 export const Wizard = ({
-	initialStep = 0,
 	currentStep = 0,
 	children,
 	header,
-	footer,
+	onNextStep,
+	onPreviousStep,
 }: WizardProps) => {
-	const [internalCurrentStep, setInternalCurrentStep] = useState(
-		currentStep || initialStep,
-	)
-
 	const nextStep = () => {
-		if (internalCurrentStep + 1 > steps.length - 1) {
-			return internalCurrentStep
+		let newStep = currentStep + 1
+
+		if (newStep > steps.length - 1) {
+			newStep = currentStep
 		}
 
-		setInternalCurrentStep(internalCurrentStep + 1)
+		if (onNextStep) {
+			onNextStep(newStep)
+		}
 	}
 
 	const previousStep = () => {
-		if (internalCurrentStep - 1 < 0) {
-			return internalCurrentStep
+		let newStep = currentStep - 1
+
+		if (newStep < 0) {
+			newStep = 0
 		}
 
-		setInternalCurrentStep(internalCurrentStep - 1)
+		if (onPreviousStep) {
+			onPreviousStep(newStep)
+		}
 	}
 
-	useEffect(() => {
-		setInternalCurrentStep(currentStep)
-	}, [currentStep])
-
 	const steps = Children.toArray(children)
-	const currentStepContent = steps[internalCurrentStep]
+	const currentStepContent = steps[currentStep]
 
-	const isPreviousStepAvailable = internalCurrentStep - 1 >= 0
-	const isNextStepAvailable = internalCurrentStep + 1 <= steps.length - 1
+	const isPreviousStepAvailable = currentStep - 1 >= 0
+	const isNextStepAvailable = currentStep + 1 <= steps.length - 1
 
 	return (
 		<WizardContext.Provider
 			value={{
+				hasPreviousStep: isPreviousStepAvailable,
 				previousStep: isPreviousStepAvailable
 					? previousStep
 					: undefined,
 				nextStep: isNextStepAvailable ? nextStep : undefined,
+				hasNextStep: isNextStepAvailable,
 			}}
 		>
-			{header &&
-				header(internalCurrentStep, (index: number) =>
-					setInternalCurrentStep(index),
-				)}
+			{header && header(currentStep)}
 
 			{currentStepContent}
-
-			{footer &&
-				footer({
-					currentStep: internalCurrentStep,
-					previous: isPreviousStepAvailable
-						? previousStep
-						: undefined,
-					next: isNextStepAvailable ? nextStep : undefined,
-				})}
 		</WizardContext.Provider>
 	)
 }

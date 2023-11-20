@@ -1,12 +1,9 @@
 import { UserMenu } from "@/src/components/dashboard/components/top-nav/top-nav-user-menu"
-import { useUserSession } from "@/src/components/dashboard/hooks/use-user-session"
 import { Headline } from "@/src/components/headline/headline"
 import { LogoSmall } from "@/src/components/logo/logo-small"
 import Link from "next/link"
 
 export const TopNav = () => {
-	const userSession = useUserSession()
-
 	return (
 		<nav className="fixed top-0 z-50 w-full border-b border-violet-100/10 bg-slate-950">
 			<div className="p-3 lg:px-5 lg:pl-3">

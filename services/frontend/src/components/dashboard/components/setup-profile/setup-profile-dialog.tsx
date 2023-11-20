@@ -7,6 +7,7 @@ import { Wizard } from "@/src/components/wizard/wizard"
 import {
 	useProfileData,
 	UserProfileData,
+	useUserProfileContext,
 } from "@/src/hooks/data/user/use-profile-data"
 import { classNames } from "@/src/lib/class-names"
 import { ReactNode, useCallback, useMemo, useState } from "react"
@@ -17,16 +18,18 @@ interface SetupProfileDialogProps {
 }
 
 export const useUserNeedsSetup = () => {
-	const { data: user } = useProfileData()
+	const user = useUserProfileContext()
 
 	if (!user) {
 		return null
 	}
 
+	console.log("userrrr", user)
+
 	const checks = {
-		avatar: user.avatar === null,
-		location: user.location === null,
-		aboutMe: user.aboutMe === null,
+		avatar: user.avatar !== null,
+		location: user.location !== null,
+		aboutMe: user.aboutMe !== null,
 		disciplines: Boolean(user.disciplines),
 	}
 
@@ -39,20 +42,20 @@ export const useUserNeedsSetup = () => {
 interface StepItem {
 	key: string
 	name: string
-	content: (onDone: () => void) => ReactNode
+	content: () => ReactNode
 }
 
 const STEPS_CONFIG: Array<StepItem> = [
 	{
 		key: "avatar",
 		name: "Avatar",
-		content: () => <AvatarChangeForm />,
+		content: () => <AvatarChangeForm key="avatar" />,
 	},
 	{
 		key: "location",
 		name: "Location",
 		content: () => (
-			<Dialog.Body>
+			<Dialog.Body key="location">
 				<p>Hello</p>
 			</Dialog.Body>
 		),
@@ -61,18 +64,24 @@ const STEPS_CONFIG: Array<StepItem> = [
 		key: "disciplines",
 		name: "Disciplines",
 		content: () => (
-			<Dialog.Body>
+			<Dialog.Body key="disciplines">
 				<p>Hello</p>
 			</Dialog.Body>
 		),
 	},
 ]
 
-export const Header = ({ currentStep }: { currentStep: number }) => {
+export const Header = ({
+	currentStep,
+	steps,
+}: {
+	currentStep: number
+	steps: Array<StepItem>
+}) => {
 	return (
 		<Dialog.Header title={"Setup your profile"}>
 			<Breadcrum>
-				{STEPS_CONFIG.map((item, index) => {
+				{steps.map((item, index) => {
 					const isDone = currentStep > index
 					const isActive = currentStep === index
 
@@ -81,7 +90,7 @@ export const Header = ({ currentStep }: { currentStep: number }) => {
 							key={`${index}-${item.name}`}
 							active={isActive}
 							IconBefore={
-								isDone ? (
+								isDone && (
 									<IconTickCircle
 										className={
 											isActive
@@ -89,20 +98,6 @@ export const Header = ({ currentStep }: { currentStep: number }) => {
 												: "text-emerald-500"
 										}
 									/>
-								) : (
-									<div
-										className={
-											"relative flex h-full w-full items-center justify-center"
-										}
-									>
-										{isActive && (
-											<IconCircleFill
-												className={`absolute left-1/2 top-1/2 z-10 h-1 w-1 -translate-x-1/2 -translate-y-1/2 text-white`}
-											/>
-										)}
-
-										<IconCircleFill />
-									</div>
 								)
 							}
 						>
@@ -137,6 +132,8 @@ export const SetupProfileDialog = ({
 
 		const { avatar, disciplines, aboutMe, location } = userNeedsSetup.checks
 
+		console.log(userNeedsSetup.checks)
+
 		if (!avatar) {
 			steps.push("avatar")
 		}
@@ -158,25 +155,13 @@ export const SetupProfileDialog = ({
 
 	const [currentStep, setCurrentStep] = useState(0)
 
-	const handleStepDone = useCallback(() => {
-		if (currentStep === filteredSteps.length - 1) {
-			onClose()
-			return
-		}
-
-		if (currentStep < filteredSteps.length - 1) {
-			setCurrentStep((prev) => prev + 1)
-		}
-
-		if (currentStep > filteredSteps.length - 1) {
-			setCurrentStep((prev) => prev - 1)
-		}
-	}, [currentStep, filteredSteps, onClose])
-
-	const handleOnClose = useCallback(() => {
-		setCurrentStep(0)
+	const handleOnClose = () => {
 		onClose()
-	}, [onClose])
+
+		setTimeout(() => {
+			setCurrentStep(0)
+		}, 500)
+	}
 
 	return (
 		<Dialog
@@ -185,11 +170,16 @@ export const SetupProfileDialog = ({
 		>
 			<Wizard
 				currentStep={currentStep}
-				header={(currentStep) => <Header currentStep={currentStep} />}
-			>
-				{filteredSteps.map((step, index) =>
-					step.content(handleStepDone),
+				onNextStep={(index) => setCurrentStep(index)}
+				onPreviousStep={(index) => setCurrentStep(index)}
+				header={(currentStep) => (
+					<Header
+						currentStep={currentStep}
+						steps={filteredSteps}
+					/>
 				)}
+			>
+				{filteredSteps.map((step, index) => step.content())}
 			</Wizard>
 		</Dialog>
 	)
