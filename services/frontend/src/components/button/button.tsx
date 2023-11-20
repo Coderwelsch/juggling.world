@@ -16,8 +16,8 @@ const buttonSizes = {
 }
 
 const iconSizes = {
-	xs: "h-3 w-3 -mr-1.5",
-	sm: "h-4 w-4 -mr-2",
+	xs: "h-3 w-3",
+	sm: "h-4 w-4",
 	md: "h-5 w-5 -mr-2.5",
 	lg: "h-6 w-6 -mr-3",
 }
