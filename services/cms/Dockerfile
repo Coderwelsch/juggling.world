@@ -30,5 +30,7 @@ ENV DATABASE_NAME ${DATABASE_NAME}
 ENV DATABASE_USERNAME ${DATABASE_USERNAME}
 ENV DATABASE_PASSWORD ${DATABASE_PASSWORD}
 
+RUN yarn build
+
 # Start the Strapi development server
 CMD ["yarn", "run", "develop"]
