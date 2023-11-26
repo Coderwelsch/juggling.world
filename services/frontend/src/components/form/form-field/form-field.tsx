@@ -4,6 +4,7 @@ import { InputField } from "@/src/components/form/form-field/input-field/input-f
 import { SearchField } from "@/src/components/form/form-field/search-field/search-field"
 import { SearchFieldResult } from "@/src/components/form/form-field/search-field/search-field-result"
 import { SearchFieldResultContainer } from "@/src/components/form/form-field/search-field/search-field-result-container"
+import { SelectLocationField } from "@/src/components/form/form-field/select-location-field/select-location-field"
 import { classNames } from "@/src/lib/class-names"
 import { ReactNode } from "react"
 
@@ -23,6 +24,7 @@ export const FormField = ({ children, className }: FormFieldProps) => {
 FormField.Label = FormLabel
 FormField.InputField = InputField
 FormField.FileField = FileField
+FormField.LocationField = SelectLocationField
 FormField.SearchField = SearchField
 FormField.SearchFieldResultContainer = SearchFieldResultContainer
 FormField.SearchFieldResult = SearchFieldResult
