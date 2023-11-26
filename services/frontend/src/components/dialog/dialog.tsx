@@ -21,14 +21,15 @@ const Dialog = ({ children, isVisible, onClose }: DialogProps) => {
 
 	return (
 		<div
-			className={`fixed inset-0 z-50 bg-space-950/80 backdrop-blur-sm transition ${
-				isVisible ? "opacity-100" : "pointer-events-none opacity-0"
-			}`}
+			className={classNames(
+				`fixed inset-0 z-50 bg-space-950/80 backdrop-blur-sm transition duration-500`,
+				isVisible ? "opacity-100" : "pointer-events-none opacity-0",
+			)}
 		>
 			<section
 				onClick={handleClose}
 				className={classNames(
-					"absolute inset-0 flex flex-col items-center justify-center transition transform gap-8",
+					`absolute inset-0 flex flex-col items-center justify-center transition duration-500 transform gap-6 p-6`,
 					isVisible
 						? "opacity-100 translate-y-0"
 						: "opacity-0 translate-y-12",
