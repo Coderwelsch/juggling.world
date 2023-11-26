@@ -1,6 +1,5 @@
-import IconUserLarge from "@/src/components/icons/user-large"
-import { useFocusLocationCallback } from "@/src/components/page-specific/index/hooks/use-focus-location-callback"
 import DIABOLO_STICKS from "@/src/assets/diabolo-sticks.svg"
+import IconUserLarge from "@/src/components/icons/user-large"
 import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
 import { MapOverlay } from "@/src/components/map-overlay/map-overlay"
 import { Cluster, ClusterBasePoint } from "@/src/components/mapbox/cluster"
@@ -10,6 +9,7 @@ import { ClusterMarker } from "@/src/components/mapbox/marker/cluster-marker"
 import { DotMarker, Intent } from "@/src/components/mapbox/marker/dot-marker"
 import { MarkerLabel } from "@/src/components/mapbox/marker/marker-label"
 import { LandingPageNav } from "@/src/components/nav/landing-page-nav"
+import { useFocusLocationCallback } from "@/src/components/page-specific/index/hooks/use-focus-location-callback"
 import { useFocusSelectedPlayerCallback } from "@/src/components/page-specific/index/hooks/use-focus-selected-player-callback"
 import {
 	CustomMarkerProperties,
@@ -19,10 +19,6 @@ import { LocationContent } from "@/src/components/page-specific/index/sidebar-co
 import { PlayerContent } from "@/src/components/page-specific/index/sidebar-content/player-info"
 import Sidebar from "@/src/components/sidebar/sidebar"
 import { classNames } from "@/src/lib/class-names"
-import {
-	NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN,
-	NEXT_PUBLIC_MAPBOX_STYLE_URL,
-} from "@/src/lib/constants"
 import { getStrapiUrl } from "@/src/lib/get-strapi-url"
 import { mapValueRange } from "@/src/lib/map-value-range"
 import { allGroupsQuery, AllGroupsResponse } from "@/src/queries/all-groups"
@@ -45,9 +41,8 @@ import {
 	useRef,
 	useState,
 } from "react"
-import { Simulate } from "react-dom/test-utils"
-import Map, { ViewState, ViewStateChangeEvent } from "react-map-gl"
-import play = Simulate.play
+import { ViewState } from "react-map-gl"
+import { Map } from "@/src/components/mapbox/map"
 
 export const PlayersContext = createContext<
 	AllPlayersResponse["players"]["data"]
@@ -471,19 +466,17 @@ export default function App() {
 					allGroups.loading ||
 					!isMapReady
 				}
-				fullPage={true}
+				fullPage
 			/>
 
 			<LandingPageNav visible={!isInterfaceShown} />
 
 			<section className={"h-screen w-full"}>
 				<Map
-					mapboxAccessToken={NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
 					projection={{
 						name: "globe",
 					}}
 					initialViewState={initialViewState}
-					mapStyle={NEXT_PUBLIC_MAPBOX_STYLE_URL}
 					onClick={onMapClick}
 					onLoad={onMapLoad}
 				>
