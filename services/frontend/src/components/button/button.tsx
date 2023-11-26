@@ -10,14 +10,14 @@ const baseStyle = classNames(
 
 const buttonSizes = {
 	xs: "text-xs px-2 py-1 gap-0.5",
-	sm: "text-sm px-4 py-2 gap-2",
+	sm: "text-sm px-4 py-2 gap-1",
 	md: "text-md px-6 py-3 gap-1",
 	lg: "text-lg px-8 py-4 gap-2",
 }
 
 const iconSizes = {
 	xs: "h-3 w-3",
-	sm: "h-4 w-4",
+	sm: "h-5 w-5",
 	md: "h-5 w-5 -mr-2.5",
 	lg: "h-6 w-6 -mr-3",
 }
