@@ -58,3 +58,9 @@ export const uploadFile = async (ctx) => {
 
 	return await sanitizeOutput(uploadedFiles, ctx)
 }
+
+export const removeFile = async (id: string) => {
+	return getUploadService("upload").remove({
+		id,
+	})
+}

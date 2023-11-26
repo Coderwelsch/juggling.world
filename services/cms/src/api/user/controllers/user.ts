@@ -2,7 +2,7 @@
  * A set of functions called "actions" for `user`
  */
 import utils from "@strapi/utils"
-import { uploadFile } from "../services/upload"
+import { removeFile, uploadFile } from "../services/upload"
 import { updateUserSetupAccountState } from "../services/user"
 
 const { sanitize} = utils
@@ -63,13 +63,22 @@ export default {
 			return
 		}
 
-		const { auth } = ctx.state
+		const oldUserData = await strapi.entityService.findOne("plugin::users-permissions.user", ctx.state.user.id, {
+			populate: ["avatar"],
+		})
 
 		ctx.request.body.refId = ctx.state.user.id
 		ctx.request.body.ref = "plugin::users-permissions.user"
 		ctx.request.body.field = "avatar"
 
 		const result = await uploadFile(ctx)
+
+		// delete old avatar
+		if (oldUserData.avatar) {
+			await removeFile(oldUserData.avatar.id)
+		}
+
+		const { auth } = ctx.state
 
 		ctx.body = await sanitize.contentAPI.output(
 			result,
