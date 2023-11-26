@@ -13,8 +13,8 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
 			<Sidebar />
 
-			<div className="bg-slate-950 p-4 sm:ml-64">
-				<div className="mx-auto mt-24 w-full max-w-4xl">{children}</div>
+			<div className="relative ml-64 mt-20 min-h-screen bg-slate-950 p-8">
+				<div className="mx-auto w-full max-w-4xl">{children}</div>
 			</div>
 		</>
 	)
