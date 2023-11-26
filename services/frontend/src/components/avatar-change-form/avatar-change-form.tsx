@@ -118,7 +118,7 @@ export const AvatarChangeForm = () => {
 
 					<div
 						className={
-							"flex w-1/2 flex-col gap-2 p-4 text-space-50"
+							"flex w-1/2 shrink-0 flex-col gap-2 self-start px-4 py-6 text-space-50"
 						}
 					>
 						<Headline size={4}>Avatar</Headline>
