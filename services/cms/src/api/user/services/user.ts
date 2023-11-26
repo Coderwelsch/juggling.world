@@ -1,8 +1,10 @@
 /**
  * user service
  */
+import { ID } from "@strapi/database/dist/types"
 
-export const updateUserSetupAccountState = async (id: string) => {
+
+export const updateUserSetupAccountState = async (id: ID) => {
 	const missing: string[] = []
 
 	const user = await strapi.entityService.findOne("plugin::users-permissions.user", id, {
