@@ -1,4 +1,4 @@
-import { useAuthorizedQuery } from "@/src/hooks/data/user/use-authorized-request"
+import { useAuthorizedRequest } from "@/src/hooks/data/user/use-authorized-request"
 import {
 	UploadFile,
 	UserDisciplineEntityResponseCollection,
@@ -34,7 +34,7 @@ export const useUserProfileContext = () => {
 }
 
 export const useProfileData = () => {
-	return useAuthorizedQuery<UserProfileData>({
+	return useAuthorizedRequest<UserProfileData>({
 		path: "/user/me",
 	})
 }
