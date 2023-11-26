@@ -36,8 +36,10 @@ export const SetupProfileSection = () => {
 				<div className={"flex items-center justify-center"}>
 					<Button
 						intent={"primary"}
-						size={"md"}
-						IconAfter={<IconBxChevronRight className={"h-6 w-6"} />}
+						size={"sm"}
+						IconAfter={
+							<IconBxChevronRight className={"h-full w-full"} />
+						}
 						onClick={() => {
 							setSetupDialogVisible(true)
 						}}
