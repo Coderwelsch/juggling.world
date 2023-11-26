@@ -14,7 +14,7 @@ export const LoaderOverlay = ({
 		<div
 			className={classNames(
 				fullPage ? "fixed z-50" : "absolute z-auto",
-				"left-0 top-0 flex h-full w-full items-center justify-center bg-space-950 bg-opacity-40 transition-opacity duration-500",
+				"inset-0 flex items-center justify-center bg-space-950 bg-opacity-40 transition-opacity duration-500",
 				shown
 					? "opacity-100 pointer-events-auto"
 					: "opacity-0 pointer-events-none",
