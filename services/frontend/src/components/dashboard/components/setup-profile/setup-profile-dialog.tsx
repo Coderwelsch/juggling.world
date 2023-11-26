@@ -1,22 +1,17 @@
 import { AvatarChangeForm } from "@/src/components/avatar-change-form/avatar-change-form"
 import { Breadcrum } from "@/src/components/breadcrum/breadcrum"
-import { Button } from "@/src/components/button/button"
+import { SetupUserLocationForm } from "@/src/components/dashboard/components/setup-profile/setup-user-location-form"
 import Dialog from "@/src/components/dialog/dialog"
-import { FormField } from "@/src/components/form/form-field/form-field"
 import { Headline } from "@/src/components/headline/headline"
-import { IconBxChevronRight } from "@/src/components/icons/bx-chevron-right"
 import IconTickCircle from "@/src/components/icons/tick-circle"
-import { DotMarker } from "@/src/components/mapbox/marker/dot-marker"
-import { useWizardContext, Wizard } from "@/src/components/wizard/wizard"
-import { useSearchLocation } from "@/src/hooks/data/map/use-search-location"
-import { useUserProfileContext } from "@/src/hooks/data/user/use-profile-data"
-import { useUpdateProfileMutation } from "@/src/hooks/data/user/use-update-profile"
+import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
+import { Wizard } from "@/src/components/wizard/wizard"
 import { useUserNeedsSetup } from "@/src/hooks/data/user/use-user-needs-setup"
 import { classNames } from "@/src/lib/class-names"
-import mapboxgl from "mapbox-gl"
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react"
-import { Map } from "../../../mapbox/map"
-import { Avatar } from "@/src/components/avatar/avatar"
+import { getStrapiUrl } from "@/src/lib/get-strapi-url"
+import { useAllDisciplines } from "@/src/queries/all-disciplines"
+import Image from "next/image"
+import { ReactNode, useEffect, useState } from "react"
 
 interface SetupProfileDialogProps {
 	isVisible: boolean
@@ -29,239 +24,50 @@ interface StepItem {
 	content: () => ReactNode
 }
 
-interface SelectLocationInputProps {
-	location?: mapboxgl.LngLat
-	onChange: (location: mapboxgl.LngLat) => void
-	className?: string
-	markerIcon?: ReactNode
-}
+const SetUserDisciplines = () => {
+	const allDisciplines = useAllDisciplines()
 
-const SelectLocationInput = ({
-	location,
-	onChange,
-	className,
-	markerIcon,
-}: SelectLocationInputProps) => {
-	const [isMapLoaded, setIsMapLoaded] = useState(false)
-	const mapRef = useRef<mapboxgl.Map | null>(null)
-
-	const latitude = location?.lat ?? 0
-	const longitude = location?.lng ?? 0
-
-	// fly to current location
-	useEffect(() => {
-		if (!isMapLoaded) {
-			return
-		}
-
-		if (!mapRef.current) {
-			return
-		}
-
-		if (!latitude || !longitude) {
-			return
-		}
-
-		// make shure to have the marker in the viewport
-		mapRef.current.flyTo({
-			center: [longitude, latitude],
-			zoom: Math.max(12, mapRef.current.getZoom()),
-			essential: true,
-			duration: 500,
-		})
-	}, [isMapLoaded, latitude, longitude])
+	console.log("all disciplines", allDisciplines)
 
 	return (
-		<div className={classNames("w-full h-full overflow-hidden", className)}>
-			<Map
-				onLoad={(map) => {
-					mapRef.current = map.target
-					setIsMapLoaded(true)
-				}}
-				initialViewState={{
-					longitude,
-					latitude,
-					zoom: 1,
-				}}
-				onClick={(event) => {
-					onChange(event.lngLat)
-				}}
-			>
-				{location && (
-					<DotMarker
-						location={[longitude, latitude]}
-						onClick={() => {}}
-						active={true}
-						focused={true}
-						icon={markerIcon}
-					/>
-				)}
-			</Map>
-		</div>
-	)
-}
+		<Dialog.Body className={"flex h-full max-h-96 flex-row p-0"}>
+			<LoaderOverlay shown={allDisciplines.loading} />
 
-export const ChangeUserLocationForm = () => {
-	const user = useUserProfileContext()
-	const wizardContext = useWizardContext()
-	const [location, setLocation] = useState<mapboxgl.LngLat | null>(null)
+			<div className={"w-1/2"}>
+				{allDisciplines.data?.disciplines.data.map((discipline) => (
+					<div
+						key={discipline.id}
+						className={"flex flex-row gap-2"}
+					>
+						{discipline.attributes.icon?.data.attributes.url && (
+							<Image
+								src={getStrapiUrl(
+									discipline.attributes.icon?.data.attributes
+										.url,
+								)}
+								width={32}
+								height={32}
+								alt={discipline.attributes.name}
+							/>
+						)}
 
-	const updateUser = useUpdateProfileMutation()
-
-	const handleSubmit = useCallback(() => {
-		if (!user) {
-			return
-		}
-
-		if (!location) {
-			return
-		}
-
-		updateUser.mutate(
-			JSON.stringify({
-				location: {
-					latitude: location.lat,
-					longitude: location.lng,
-				},
-			}),
-		)
-	}, [location, updateUser, user])
-
-	const [searchString, setSearchString] = useState("")
-
-	const { searchResults, isSearching } = useSearchLocation(searchString)
-
-	useEffect(() => {
-		if (!updateUser.isSuccess) {
-			return
-		}
-
-		setTimeout(() => {
-			if (!wizardContext) {
-				return
-			}
-
-			wizardContext.nextStep?.()
-		}, 2000)
-	}, [updateUser.isSuccess, wizardContext])
-
-	const handleLocationChange = (location: mapboxgl.LngLat) => {
-		setLocation(location)
-	}
-
-	const [isSearchFieldFocused, setIsSearchFieldFocused] = useState(false)
-
-	return (
-		<>
-			<Dialog.Body
-				className={
-					"flex h-full max-h-[30rem] max-w-4xl flex-row overflow-y-scroll p-0"
-				}
-			>
-				<SelectLocationInput
-					location={location ?? new mapboxgl.LngLat(0, 0)}
-					onChange={handleLocationChange}
-					className={"h-full w-full"}
-					markerIcon={<Avatar src={user?.avatar?.url ?? ""} />}
-				/>
-
-				<div
-					className={
-						"flex w-1/2 shrink-0 flex-col gap-4 p-6 text-space-50"
-					}
-				>
-					<div className={"flex flex-col gap-1"}>
-						<Headline size={4}>Public Location</Headline>
-
-						<p className={"text-sm text-violet-50/80"}>
-							Your location is public. We recommend you to not set
-							the point to your real home/address, but a nearby
-							location instead.
-						</p>
+						<div>
+							<Headline size={6}>
+								{discipline.attributes.name}
+							</Headline>
+						</div>
 					</div>
-
-					<FormField className={"gap-2"}>
-						<FormField.SearchField
-							className={"w-full"}
-							placeholder={"Search for a city, country, …"}
-							value={searchString}
-							onChange={(event) => {
-								setSearchString(event.target.value)
-							}}
-							onFocus={() => setIsSearchFieldFocused(true)}
-							onBlur={() => {
-								setTimeout(() => {
-									setIsSearchFieldFocused(false)
-								}, 200)
-							}}
-						/>
-
-						{isSearching && (
-							<p className={"text-sm text-neutral-100/80"}>
-								Searching for locations…
-							</p>
-						)}
-
-						{searchResults.length > 0 && isSearchFieldFocused && (
-							<FormField.SearchFieldResultContainer
-								className={"max-h-60"}
-							>
-								{searchResults.map((result) => (
-									<FormField.SearchFieldResult
-										key={result.place_name}
-										onClick={() => {
-											setSearchString(result.text)
-											setLocation(
-												new mapboxgl.LngLat(
-													result.center[0],
-													result.center[1],
-												),
-											)
-										}}
-									>
-										<div
-											className={
-												"flex flex-col items-start text-left"
-											}
-										>
-											<span
-												className={
-													"text-xs font-semibold"
-												}
-											>
-												{result.text}
-											</span>
-
-											<span
-												className={
-													"text-xs font-normal text-violet-100/60"
-												}
-											>
-												{result.place_name}
-											</span>
-										</div>
-									</FormField.SearchFieldResult>
-								))}
-							</FormField.SearchFieldResultContainer>
-						)}
-					</FormField>
-				</div>
-			</Dialog.Body>
-
-			<div className={"flex flex-row gap-2"}>
-				<Button
-					intent={updateUser.isSuccess ? "success" : "primary"}
-					onClick={handleSubmit}
-					loading={updateUser.isLoading}
-					disabled={!location}
-					IconAfter={
-						<IconBxChevronRight className={"h-full w-full"} />
-					}
-				>
-					{updateUser.isSuccess ? "Saved" : "Continue"}
-				</Button>
+				))}
 			</div>
-		</>
+
+			<div className={"w-1/2 p-3 py-6 text-space-50"}>
+				<Headline size={4}>Disciplines</Headline>
+
+				<p className={"text-space-100/60"}>
+					Select the disciplines you are interested in
+				</p>
+			</div>
+		</Dialog.Body>
 	)
 }
 
@@ -274,16 +80,12 @@ const STEPS_CONFIG: Array<StepItem> = [
 	{
 		key: "location",
 		name: "Location",
-		content: () => <ChangeUserLocationForm key="location" />,
+		content: () => <SetupUserLocationForm key="location" />,
 	},
 	{
 		key: "disciplines",
 		name: "Disciplines",
-		content: () => (
-			<Dialog.Body key="disciplines">
-				<p>Hello</p>
-			</Dialog.Body>
-		),
+		content: () => <SetUserDisciplines key="disciplines" />,
 	},
 ]
 
