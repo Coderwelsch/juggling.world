@@ -15,7 +15,7 @@ export const useUserNeedsSetup = () => {
 	}
 
 	return {
-		hasFinishedSetup: Object.values(checks).every((value) => !value),
+		hasFinishedSetup: Object.values(checks).every((value) => value),
 		checks,
 	}
 }
