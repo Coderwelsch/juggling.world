@@ -21,7 +21,7 @@ const MapOverlayHeadline = ({ children }: { children: ReactNode }) => {
 }
 
 const MapOverlayDescription = ({ children }: { children: ReactNode }) => {
-	return <p className={"text-lg font-medium text-violet-200"}>{children}</p>
+	return <p className={"text-lg font-medium text-primary-200"}>{children}</p>
 }
 const MapOverlayButton = ({
 	children,
@@ -78,12 +78,12 @@ export const MapOverlay = ({ children }: MapOverlayProps) => {
 		<div
 			className={classNames(
 				"absolute bottom-0 left-0 flex min-h-[60vh] w-full flex-col items-center justify-end p-6 pointer-events-none",
-				"bg-gradient-to-t from-space-800 to-transparent",
+				"bg-gradient-to-t from-slate-800 to-transparent",
 			)}
 		>
 			<div
 				className={
-					"flex max-w-md flex-col gap-4 text-center text-violet-50"
+					"flex max-w-md flex-col gap-4 text-center text-primary-50"
 				}
 			>
 				{children}

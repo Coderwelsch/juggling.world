@@ -23,14 +23,14 @@ export default function EmailVerified() {
 					<Headline
 						size={2}
 						renderAs={"h1"}
-						className={"text-center text-space-50"}
+						className={"text-center text-slate-50"}
 					>
 						Email verified successfully!
 					</Headline>
 
 					<p
 						className={
-							"max-w-md text-center text-space-100 text-opacity-75"
+							"max-w-md text-center text-slate-100 text-opacity-75"
 						}
 					>
 						You’re now ready to sign in! Happy juggling!

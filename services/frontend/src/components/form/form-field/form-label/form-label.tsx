@@ -8,7 +8,7 @@ interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
 export const FormLabel = ({ children, className, ...props }: LabelProps) => {
 	return (
 		<label
-			className={classNames("font-semibold text-space-50", className)}
+			className={classNames("font-semibold text-slate-50", className)}
 			{...props}
 		>
 			{children}

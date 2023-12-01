@@ -24,8 +24,8 @@ const BreadcrumItem = ({
 			className={classNames(
 				"flex flex-row gap-1.5 items-center justify-center",
 				active
-					? "text-violet-500 fill-violet-500"
-					: "text-space-50/80 fill-white-50/80",
+					? "text-primary-500 fill-primary-500"
+					: "text-slate-50/80 fill-white-50/80",
 			)}
 			{...props}
 		>
@@ -48,7 +48,7 @@ export const Breadcrum = ({ children, seperator }: BreadcrumProps) => {
 				{child}
 				{i !== childrenLength &&
 					(seperator || (
-						<IconBxChevronRight className={"fill-space-100"} />
+						<IconBxChevronRight className={"fill-slate-100"} />
 					))}
 			</>
 		)

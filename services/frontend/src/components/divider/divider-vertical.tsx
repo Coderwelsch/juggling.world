@@ -8,7 +8,7 @@ export const DividerVertical = ({ className }: DividerVerticalProps) => {
 	return (
 		<div
 			className={classNames(
-				"h-full border-r border-violet-950 opacity-10",
+				"h-full border-r border-primary-950 opacity-10",
 				className,
 			)}
 		/>

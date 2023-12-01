@@ -64,11 +64,11 @@ export const AvatarChangeForm = () => {
 						"flex flex-row items-center justify-center gap-4 p-0"
 					}
 				>
-					<div className="flex flex-col items-center justify-center gap-2 border-r border-space-100/20 p-6">
+					<div className="flex flex-col items-center justify-center gap-2 border-r border-slate-100/20 p-6">
 						<div
 							className={classNames(
 								"flex aspect-square w-36 items-center justify-center",
-								"overflow-hidden rounded-full border border-space-50/20 bg-space-50/10",
+								"overflow-hidden rounded-full border border-slate-50/10 bg-slate-50/10",
 							)}
 						>
 							{previewUrl || avatar ? (
@@ -82,7 +82,7 @@ export const AvatarChangeForm = () => {
 							) : (
 								<IconUserLarge
 									className={
-										"h-5/6 w-5/6 self-end text-space-100/80"
+										"h-5/6 w-5/6 self-end text-slate-100/80"
 									}
 								/>
 							)}
@@ -106,7 +106,7 @@ export const AvatarChangeForm = () => {
 												),
 											)
 										}}
-										className={"text-space-50"}
+										className={"text-slate-50"}
 										accept={"image/*"}
 									/>
 								)}
@@ -118,7 +118,7 @@ export const AvatarChangeForm = () => {
 
 					<div
 						className={
-							"flex w-1/2 shrink-0 flex-col gap-2 self-start px-4 py-6 text-space-50"
+							"flex w-1/2 shrink-0 flex-col gap-2 self-start px-4 py-6 text-slate-50"
 						}
 					>
 						<Headline size={4}>Avatar</Headline>
@@ -128,7 +128,7 @@ export const AvatarChangeForm = () => {
 								Your avatar has been uploaded.
 							</p>
 						) : (
-							<p className={"text-sm text-space-50/60"}>
+							<p className={"text-sm text-slate-50/60"}>
 								Please upload your avatar image here. Please
 								note that you need to upload a square image.
 								Only upload files and images you own!

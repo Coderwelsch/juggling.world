@@ -77,13 +77,13 @@ export const SetupUserLocationForm = () => {
 
 				<div
 					className={
-						"flex w-1/2 shrink-0 flex-col gap-4 p-6 text-space-50"
+						"flex w-1/2 shrink-0 flex-col gap-4 p-6 text-slate-50"
 					}
 				>
 					<div className={"flex flex-col gap-1"}>
 						<Headline size={4}>Public Location</Headline>
 
-						<p className={"text-sm text-violet-50/80"}>
+						<p className={"text-sm text-primary-50/80"}>
 							Your location is public. We recommend you to not set
 							the point to your real home/address, but a nearby
 							location instead.
@@ -107,7 +107,7 @@ export const SetupUserLocationForm = () => {
 						/>
 
 						{isSearching && (
-							<p className={"text-sm text-neutral-100/80"}>
+							<p className={"text-sm text-slate-100/80"}>
 								Searching for locations…
 							</p>
 						)}
@@ -144,7 +144,7 @@ export const SetupUserLocationForm = () => {
 
 											<span
 												className={
-													"text-xs font-normal text-violet-100/60"
+													"text-xs font-normal text-primary-100/60"
 												}
 											>
 												{result.place_name}

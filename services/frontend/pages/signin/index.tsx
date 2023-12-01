@@ -118,7 +118,7 @@ export default function Signin({
 					<Headline
 						size={2}
 						renderAs={"h1"}
-						className={"text-space-50"}
+						className={"text-slate-50"}
 					>
 						Sign in
 					</Headline>
@@ -132,7 +132,7 @@ export default function Signin({
 
 				<div
 					className={
-						"w-full max-w-sm rounded-xl border border-space-300/30 bg-space-900 text-white"
+						"w-full max-w-sm rounded-xl border border-slate-50/10 bg-slate-900 text-white"
 					}
 				>
 					<Form className={"overflow-hidden rounded-lg"}>

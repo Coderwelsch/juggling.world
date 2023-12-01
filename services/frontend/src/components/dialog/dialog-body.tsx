@@ -10,7 +10,7 @@ export const DialogBody = ({ children, className }: DialogBodyProps) => {
 	return (
 		<div
 			className={classNames(
-				"w-full max-w-2xl rounded-xl overflow-scroll border border-space-50/20 bg-gray-800 px-5 py-4",
+				"w-full max-w-2xl rounded-xl overflow-scroll border border-slate-50/20 bg-slate-800 px-5 py-4",
 				className,
 			)}
 		>

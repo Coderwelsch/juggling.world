@@ -13,7 +13,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
 			<Sidebar />
 
-			<div className="relative ml-64 mt-20 min-h-screen bg-slate-950 p-8">
+			<div className="relative ml-64 mt-20 min-h-screen p-8">
 				<div className="mx-auto w-full max-w-4xl">{children}</div>
 			</div>
 		</>

@@ -43,7 +43,7 @@ export const LocationContent = ({ id }: { id: string }) => {
 								{location.data.location.data.attributes.name}
 							</Headline>
 
-							<div className="prose text-sm text-space-50 text-opacity-75 prose-a:text-space-300 hover:prose-a:text-space-400">
+							<div className="prose text-sm text-slate-50 text-opacity-75 prose-a:text-slate-300 hover:prose-a:text-slate-400">
 								<Markdown>
 									{
 										location.data.location.data.attributes

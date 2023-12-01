@@ -22,7 +22,7 @@ export const ClusterMarker = ({
 			onClick={onClick}
 			icon={
 				!props.active && (
-					<span className="font-bold text-neutral-50">{count}</span>
+					<span className="font-bold text-slate-50">{count}</span>
 				)
 			}
 			{...props}

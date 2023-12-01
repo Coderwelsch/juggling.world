@@ -10,7 +10,7 @@ export const Sidebar = () => {
 	return (
 		<aside
 			id="logo-sidebar"
-			className="fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-space-100/10 bg-slate-950 pt-24 transition-transform sm:translate-x-0"
+			className="fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-slate-100/10 bg-slate-950 pt-24 transition-transform sm:translate-x-0"
 			aria-label="Sidebar"
 		>
 			<div className="h-full overflow-y-auto px-4 pb-4 pt-2">

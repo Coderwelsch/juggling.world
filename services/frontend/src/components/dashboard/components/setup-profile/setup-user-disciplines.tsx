@@ -57,7 +57,7 @@ export const SetUserDisciplines = () => {
 
 				<div
 					className={
-						"flex h-full w-1/2 flex-col gap-3 border-r border-space-50/20 p-5 py-6 text-space-50"
+						"flex h-full w-1/2 flex-col gap-3 border-r border-slate-50/20 p-5 py-6 text-slate-50"
 					}
 				>
 					<FormField>
@@ -66,7 +66,7 @@ export const SetUserDisciplines = () => {
 							onChange={(event) =>
 								setSearchString(event.target.value)
 							}
-							placeholder={"Search for a discipline"}
+							placeholder={"Search for a discipline …"}
 						></FormField.SearchField>
 					</FormField>
 
@@ -85,110 +85,67 @@ export const SetUserDisciplines = () => {
 						)
 
 						return (
-							<div
+							<label
+								htmlFor={`discipline-${discipline.id}`}
 								key={discipline.id}
-								className={`flex flex-col items-start justify-start gap-4 rounded-lg border border-space-50/20 px-4 py-3`}
+								className={`flex cursor-pointer flex-col items-start justify-start gap-4 rounded-lg border border-slate-50/20 px-4 py-3 transition-colors hover:bg-slate-100/10`}
 							>
-								<label
-									htmlFor={`discipline-${discipline.id}`}
-									className={"cursor-pointer "}
+								<div
+									className={
+										"flex w-full flex-row items-center gap-2"
+									}
 								>
-									<div
-										className={
-											"flex w-full flex-row items-center gap-2"
-										}
-									>
-										<input
-											id={`discipline-${discipline.id}`}
-											type="checkbox"
-											checked={isSelected}
-											name="bordered-checkbox"
-											className="h-5 w-5 rounded border-space-50/20 bg-gray-700 focus:ring-violet-500"
-											onChange={() => {
-												if (isSelected) {
-													setSelectedDisciplines(
-														selectedDisciplines.filter(
-															(id) =>
-																id !==
-																discipline.id,
-														),
-													)
-												} else {
-													setSelectedDisciplines([
-														...selectedDisciplines,
-														discipline.id,
-													])
-												}
-											}}
+									<input
+										id={`discipline-${discipline.id}`}
+										type="checkbox"
+										checked={isSelected}
+										name="bordered-checkbox"
+										className="h-5 w-5 cursor-pointer rounded border-slate-50/20 bg-slate-700 focus:ring-primary-500"
+										onChange={() => {
+											if (isSelected) {
+												setSelectedDisciplines(
+													selectedDisciplines.filter(
+														(id) =>
+															id !==
+															discipline.id,
+													),
+												)
+											} else {
+												setSelectedDisciplines([
+													...selectedDisciplines,
+													discipline.id,
+												])
+											}
+										}}
+									/>
+
+									<Headline size={6}>
+										{discipline.attributes.name}
+									</Headline>
+
+									{discipline.attributes.icon?.data.attributes
+										.url && (
+										<Image
+											src={getStrapiUrl(
+												discipline.attributes.icon?.data
+													.attributes.url,
+											)}
+											width={32}
+											height={32}
+											className={"h-4 w-4"}
+											alt={discipline.attributes.name}
 										/>
-
-										<Headline size={6}>
-											{discipline.attributes.name}
-										</Headline>
-
-										{discipline.attributes.icon?.data
-											.attributes.url && (
-											<Image
-												src={getStrapiUrl(
-													discipline.attributes.icon
-														?.data.attributes.url,
-												)}
-												width={32}
-												height={32}
-												className={"h-4 w-4"}
-												alt={discipline.attributes.name}
-											/>
-										)}
-									</div>
-								</label>
-
-								{/*{isSelected && (*/}
-								{/*	<>*/}
-								{/*		<DividerHorizontal />*/}
-
-								{/*		<div className="flex w-full flex-col items-start justify-start gap-2 text-sm font-medium text-space-50">*/}
-								{/*			<form className={"w-full"}>*/}
-								{/*				<FormField*/}
-								{/*					className={*/}
-								{/*						"flex w-full flex-row items-center gap-2"*/}
-								{/*					}*/}
-								{/*				>*/}
-								{/*					<FormField.Label*/}
-								{/*						className={"grow"}*/}
-								{/*						htmlFor={"year"}*/}
-								{/*					>*/}
-								{/*						Started in year:*/}
-								{/*					</FormField.Label>*/}
-
-								{/*					<FormField.InputField*/}
-								{/*						className={*/}
-								{/*							"ml-auto inline-block"*/}
-								{/*						}*/}
-								{/*						type="date"*/}
-								{/*						placeholder={"2021"}*/}
-								{/*						step={1}*/}
-								{/*						{...form.register(*/}
-								{/*							`disciplines.${discipline.id}.startedAt`,*/}
-								{/*							{*/}
-								{/*								valueAsDate:*/}
-								{/*									true,*/}
-								{/*							},*/}
-								{/*						)}*/}
-								{/*					/>*/}
-								{/*				</FormField>*/}
-								{/*			</form>*/}
-								{/*		</div>*/}
-								{/*	</>*/}
-								{/*)}*/}
-							</div>
+									)}
+								</div>
+							</label>
 						)
 					})}
 				</div>
 
-				<div className={"flex w-1/2 flex-col gap-1 p-6 text-space-50"}>
+				<div className={"flex w-1/2 flex-col gap-1 p-6 text-slate-50"}>
 					<Headline size={4}>Disciplines</Headline>
 
-					<p className={"text-space-100/60"}>
+					<p className={"text-slate-100/60"}>
 						Select the disciplines you are interested in or want to
 						learn.
 					</p>

@@ -5,7 +5,7 @@ import { ButtonHTMLAttributes, ReactNode } from "react"
 
 const baseStyle = classNames(
 	"relative whitespace-nowrap cursor-pointer font-semibold transition-colors inline-flex flex-row items-center justify-center gap-2",
-	"border border-transparent hover:border-neutral-50/20",
+	"border border-transparent hover:border-slate-50/20",
 )
 
 const buttonSizes = {
@@ -24,16 +24,16 @@ const iconSizes = {
 
 const buttonStyles = {
 	text: {
-		neutral: "text-space-50 hover:bg-space-200/10",
-		primary: "text-violet-400 hover:bg-violet-600 hover:bg-opacity-20",
+		neutral: "text-slate-50 hover:bg-slate-200/10",
+		primary: "text-primary-400 hover:bg-primary-600 hover:bg-opacity-20",
 		success: "text-green-400 hover:bg-green-400 hover:bg-opacity-20",
 		danger: "text-red-400 hover:bg-red-400 hover:bg-opacity-20",
 	},
 	filled: {
-		neutral: "bg-space-100 text-space-900 hover:bg-space-200",
-		primary: "bg-violet-700 text-neutral-100 hover:bg-violet-600",
-		success: "bg-green-500 text-neutral-100 hover:bg-green-400",
-		danger: "bg-red-500 text-neutral-100 hover:bg-red-400",
+		neutral: "bg-slate-100 text-slate-900 hover:bg-slate-200",
+		primary: "bg-primary-700 text-slate-100 hover:bg-primary-600",
+		success: "bg-green-500 text-slate-100 hover:bg-green-400",
+		danger: "bg-red-500 text-slate-100 hover:bg-red-400",
 	},
 }
 

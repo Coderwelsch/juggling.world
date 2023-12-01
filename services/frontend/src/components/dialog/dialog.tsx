@@ -22,7 +22,7 @@ const Dialog = ({ children, isVisible, onClose }: DialogProps) => {
 	return (
 		<div
 			className={classNames(
-				`fixed inset-0 z-50 bg-space-950/80 backdrop-blur-sm transition duration-500`,
+				`fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm transition duration-500`,
 				isVisible ? "opacity-100" : "pointer-events-none opacity-0",
 			)}
 		>

@@ -25,10 +25,10 @@ export const SetupProfileSection = () => {
 				onClose={handleOnClose}
 			/>
 
-			<Panel className={"text-space-50"}>
+			<Panel>
 				<Headline>👋 Welcome, {profileData.username}!</Headline>
 
-				<p className={"leading-6 text-space-100"}>
+				<p className={"leading-6 text-slate-100"}>
 					Nice to see you! It looks like it’s your first time here. To
 					get you started we need to setup your profile.
 				</p>

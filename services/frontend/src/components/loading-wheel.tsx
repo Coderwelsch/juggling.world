@@ -16,7 +16,7 @@ export const LoadingWheel = ({ className }: LoadingWheelProps) => {
 			<svg
 				aria-hidden="true"
 				className={classNames(
-					"w-full h-full text-neutral-50 fill-violet-300 animate-spin",
+					"w-full h-full text-slate-50 fill-primary-300 animate-spin",
 				)}
 				viewBox="0 0 100 101"
 				fill="none"

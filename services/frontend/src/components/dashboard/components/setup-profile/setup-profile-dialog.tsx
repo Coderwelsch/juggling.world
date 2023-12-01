@@ -61,7 +61,7 @@ export const Header = ({
 									<IconTickCircle
 										className={
 											isActive
-												? "text-violet-500"
+												? "text-primary-500"
 												: "text-emerald-500"
 										}
 									/>
@@ -71,7 +71,7 @@ export const Header = ({
 							<span
 								className={classNames(
 									isDone && "text-emerald-400",
-									isActive && "text-violet-500",
+									isActive && "text-primary-500",
 								)}
 							>
 								{item.name}

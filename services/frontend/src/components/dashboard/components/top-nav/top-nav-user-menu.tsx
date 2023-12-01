@@ -26,7 +26,7 @@ const UserMenuLink = ({
 		<li>
 			<Link
 				href={pathName}
-				className="block px-6 py-3 text-sm font-semibold text-gray-300 hover:bg-gray-100/10 hover:text-white"
+				className="block px-6 py-3 text-sm font-semibold text-slate-300 hover:bg-slate-100/10 hover:text-white"
 				role="menuitem"
 			>
 				{children}
@@ -47,7 +47,7 @@ const AvatarMenu = ({ onClick, opened }: AvatarMenuProps) => {
 		<div className={"flex cursor-pointer flex-row items-center gap-3.5"}>
 			<button
 				type="button"
-				className="flex rounded-full bg-gray-800 text-sm"
+				className="flex rounded-full bg-slate-800 text-sm"
 				aria-expanded="false"
 				data-dropdown-toggle="dropdown-user"
 				onClick={onClick}
@@ -55,7 +55,7 @@ const AvatarMenu = ({ onClick, opened }: AvatarMenuProps) => {
 			>
 				<span className="sr-only">Open user menu</span>
 
-				<div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-space-50/10">
+				<div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-slate-50/10">
 					{user?.avatar?.url ? (
 						<Image
 							className="h-full w-full"
@@ -66,7 +66,7 @@ const AvatarMenu = ({ onClick, opened }: AvatarMenuProps) => {
 						/>
 					) : (
 						<IconUserLarge
-							className={"h-4/5 w-4/5 self-end fill-violet-400"}
+							className={"h-4/5 w-4/5 self-end fill-primary-400"}
 						/>
 					)}
 				</div>
@@ -107,25 +107,25 @@ export const UserMenu = () => {
 						"absolute right-0 top-full",
 						menuOpened ? "flex" : "hidden",
 						"z-50 my-4 list-none rounded-xl text-base flex-col" +
-							" bg-space-950 border border-indigo-400/50",
+							" bg-slate-800 border border-indigo-400/50",
 					)}
 				>
 					<div
-						className="rounded-t-xl bg-space-100/20 px-6 py-3.5"
+						className="rounded-t-xl px-6 py-3.5"
 						role="none"
 					>
 						{user?.username && (
 							<Headline
 								size={5}
 								renderAs={"h4"}
-								className={"text-indigo-100"}
+								className={"text-slate-100"}
 							>
 								{user.username}
 							</Headline>
 						)}
 
 						{user?.email && (
-							<p className={"truncate text-sm text-indigo-100"}>
+							<p className={"truncate text-sm text-slate-100"}>
 								{user.email}
 							</p>
 						)}
@@ -133,12 +133,12 @@ export const UserMenu = () => {
 
 					<hr className={"border-indigo-400/50"} />
 
-					<ul className="flex flex-col gap-0 overflow-hidden rounded-b-xl bg-space-100/20 text-indigo-50">
+					<ul className="flex flex-col gap-0 overflow-hidden rounded-b-xl text-slate-50">
 						<UserMenuLink href={"./settings/profile"}>
 							Profile
 						</UserMenuLink>
 
-						<hr className={"border-indigo-400/50"} />
+						<hr className={"border-slate-100/20"} />
 
 						<Button
 							rounded={false}

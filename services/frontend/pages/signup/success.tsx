@@ -24,14 +24,14 @@ export default function Success() {
 					<Headline
 						size={2}
 						renderAs={"h1"}
-						className={"text-space-50"}
+						className={"text-slate-50"}
 					>
 						Registered successfully!
 					</Headline>
 
 					<p
 						className={
-							"max-w-md text-center text-space-100 text-opacity-75"
+							"max-w-md text-center text-slate-100 text-opacity-75"
 						}
 					>
 						Please check your email{" "}

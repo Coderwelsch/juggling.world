@@ -14,7 +14,7 @@ export const LoaderOverlay = ({
 		<div
 			className={classNames(
 				fullPage ? "fixed z-50" : "absolute z-auto",
-				"inset-0 flex items-center justify-center bg-space-950 bg-opacity-40 transition-opacity duration-500",
+				"inset-0 flex items-center justify-center bg-slate-950 bg-opacity-40 transition-opacity duration-500",
 				shown
 					? "opacity-100 pointer-events-auto"
 					: "opacity-0 pointer-events-none",
@@ -24,7 +24,7 @@ export const LoaderOverlay = ({
 			<div className="animate-spin">
 				<svg
 					aria-hidden="true"
-					className="h-8 w-8 animate-spin fill-violet-50 text-violet-800"
+					className="h-8 w-8 animate-spin fill-primary-50 text-primary-800"
 					viewBox="0 0 100 101"
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"

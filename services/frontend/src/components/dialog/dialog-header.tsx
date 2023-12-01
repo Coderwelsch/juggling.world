@@ -10,7 +10,7 @@ export const DialogHeader = ({ title, children }: DialogHeaderProps) => {
 	return (
 		<div
 			className={
-				"flex flex-col items-center justify-between gap-3 text-space-50"
+				"flex flex-col items-center justify-between gap-3 text-slate-50"
 			}
 		>
 			<Headline
