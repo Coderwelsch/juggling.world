@@ -1,16 +1,12 @@
 import { AvatarChangeForm } from "@/src/components/avatar-change-form/avatar-change-form"
 import { Breadcrum } from "@/src/components/breadcrum/breadcrum"
+import { SetUserDisciplines } from "@/src/components/dashboard/components/setup-profile/setup-user-disciplines"
 import { SetupUserLocationForm } from "@/src/components/dashboard/components/setup-profile/setup-user-location-form"
 import Dialog from "@/src/components/dialog/dialog"
-import { Headline } from "@/src/components/headline/headline"
 import IconTickCircle from "@/src/components/icons/tick-circle"
-import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
 import { Wizard } from "@/src/components/wizard/wizard"
 import { useUserNeedsSetup } from "@/src/hooks/data/user/use-user-needs-setup"
 import { classNames } from "@/src/lib/class-names"
-import { getStrapiUrl } from "@/src/lib/get-strapi-url"
-import { useAllDisciplines } from "@/src/queries/all-disciplines"
-import Image from "next/image"
 import { ReactNode, useEffect, useState } from "react"
 
 interface SetupProfileDialogProps {
@@ -22,53 +18,6 @@ interface StepItem {
 	key: string
 	name: string
 	content: () => ReactNode
-}
-
-const SetUserDisciplines = () => {
-	const allDisciplines = useAllDisciplines()
-
-	console.log("all disciplines", allDisciplines)
-
-	return (
-		<Dialog.Body className={"flex h-full max-h-96 flex-row p-0"}>
-			<LoaderOverlay shown={allDisciplines.loading} />
-
-			<div className={"w-1/2"}>
-				{allDisciplines.data?.disciplines.data.map((discipline) => (
-					<div
-						key={discipline.id}
-						className={"flex flex-row gap-2"}
-					>
-						{discipline.attributes.icon?.data.attributes.url && (
-							<Image
-								src={getStrapiUrl(
-									discipline.attributes.icon?.data.attributes
-										.url,
-								)}
-								width={32}
-								height={32}
-								alt={discipline.attributes.name}
-							/>
-						)}
-
-						<div>
-							<Headline size={6}>
-								{discipline.attributes.name}
-							</Headline>
-						</div>
-					</div>
-				))}
-			</div>
-
-			<div className={"w-1/2 p-3 py-6 text-space-50"}>
-				<Headline size={4}>Disciplines</Headline>
-
-				<p className={"text-space-100/60"}>
-					Select the disciplines you are interested in
-				</p>
-			</div>
-		</Dialog.Body>
-	)
 }
 
 const STEPS_CONFIG: Array<StepItem> = [
