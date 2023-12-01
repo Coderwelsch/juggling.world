@@ -73,7 +73,7 @@ export const DotMarker = ({
 					{!icon && active && (
 						<div
 							className={classNames(
-								"absolute h-2 w-2 top-1/2 left-1/2 rounded-full bg-neutral-50 transform -translate-x-1/2 -translate-y-1/2",
+								"absolute h-2 w-2 top-1/2 left-1/2 rounded-full bg-space-50 transform -translate-x-1/2 -translate-y-1/2",
 							)}
 						/>
 					)}
