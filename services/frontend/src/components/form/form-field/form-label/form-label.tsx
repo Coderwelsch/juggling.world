@@ -1,11 +1,17 @@
+import { classNames } from "@/src/lib/class-names"
 import { ReactNode } from "react"
 
-interface LabelProps {
+interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
 	children: ReactNode
 }
 
-export const FormLabel = ({ children }: LabelProps) => {
+export const FormLabel = ({ children, className, ...props }: LabelProps) => {
 	return (
-		<label className={"font-semibold text-neutral-200"}>{children}</label>
+		<label
+			className={classNames("font-semibold text-space-50", className)}
+			{...props}
+		>
+			{children}
+		</label>
 	)
 }
