@@ -1,4 +1,4 @@
-FROM node:18.18.2-alpine3.18
+FROM node:18.18.2
 
 WORKDIR /srv/app
 
@@ -29,6 +29,9 @@ ENV DATABASE_PORT ${DATABASE_PORT}
 ENV DATABASE_NAME ${DATABASE_NAME}
 ENV DATABASE_USERNAME ${DATABASE_USERNAME}
 ENV DATABASE_PASSWORD ${DATABASE_PASSWORD}
+
+# generate types to not run into missing typescript types
+RUN yarn gen:types
 
 RUN yarn build
 
