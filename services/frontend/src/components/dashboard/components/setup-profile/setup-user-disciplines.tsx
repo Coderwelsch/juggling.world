@@ -145,7 +145,7 @@ export const SetUserDisciplines = () => {
 				<div className={"flex w-1/2 flex-col gap-1 p-6 text-slate-50"}>
 					<Headline size={4}>Disciplines</Headline>
 
-					<p className={"text-slate-100/60"}>
+					<p className={"text-sm opacity-60"}>
 						Select the disciplines you are interested in or want to
 						learn.
 					</p>
