@@ -15,7 +15,7 @@ export const SearchFieldResult = forwardRef(
 				ref={ref}
 				tabIndex={0}
 				className={classNames(
-					`flex items-center cursor-pointer border-b border-neutral-100/20 px-4 py-3 text-neutral-50 transition hover:opacity-100/80 text-sm font-medium hover:bg-neutral-100/20`,
+					`flex items-center cursor-pointer border-b border-space-50/20 px-4 py-3 text-space-50 transition hover:opacity-100/80 text-sm font-medium hover:bg-space-50/20`,
 
 					className,
 				)}

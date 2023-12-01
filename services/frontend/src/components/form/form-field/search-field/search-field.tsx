@@ -14,7 +14,9 @@ export const SearchField = forwardRef(
 		return (
 			<div className={"relative"}>
 				<IconSearch
-					className={"absolute left-3 top-1/2 z-10 -translate-y-1/2"}
+					className={
+						"absolute left-3 top-1/2 z-10 -translate-y-1/2 text-gray-100/50"
+					}
 				/>
 
 				<InputField
