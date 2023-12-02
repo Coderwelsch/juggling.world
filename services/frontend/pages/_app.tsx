@@ -1,6 +1,6 @@
+import { ToastProvider } from "@/src/components/toast/toast"
 import { classNames } from "@/src/lib/class-names"
 import { apolloBrowserClient } from "@/src/lib/clients/apollo-browser-client"
-import { apolloInternalClient } from "@/src/lib/clients/apollo-internal-client"
 import { QueryClientProvider } from "@/src/lib/clients/tanstack-query"
 import { NODE_ENV } from "@/src/lib/constants"
 import { poppinsFont } from "@/src/lib/fonts"
@@ -19,19 +19,18 @@ if (NODE_ENV === "development") {
 export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<SessionProvider session={pageProps.session}>
-			<ApolloProvider client={apolloInternalClient}>
-				<ApolloProvider client={apolloBrowserClient}>
-					<QueryClientProvider>
-						<main
-							className={classNames(
-								poppinsFont.variable,
-								"font-sans h-full",
-							)}
-						>
-							<Component {...pageProps} />
-						</main>
-					</QueryClientProvider>
-				</ApolloProvider>
+			<ApolloProvider client={apolloBrowserClient}>
+				<QueryClientProvider>
+					<main
+						className={classNames(
+							poppinsFont.variable,
+							"font-sans h-full",
+						)}
+					>
+						<ToastProvider />
+						<Component {...pageProps} />
+					</main>
+				</QueryClientProvider>
 			</ApolloProvider>
 		</SessionProvider>
 	)
