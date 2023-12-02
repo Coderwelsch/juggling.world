@@ -1,30 +1,28 @@
 import {
-	Children,
 	createContext,
+	ReactElement,
 	ReactNode,
 	useContext,
-	useEffect,
-	useState,
 } from "react"
 
 export interface WizardProps {
 	currentStep?: number
+	totalSteps: number
 	header?: (currentStep: number) => ReactNode
-	children: ReactNode
+	children: ReactElement
 	onNextStep?: (next: number) => void
 	onPreviousStep?: (previous: number) => void
+	onClose: () => void
 }
 
 interface WizardContextProps {
 	nextStep?: () => void
-	hasNextStep: boolean
 	previousStep?: () => void
-	hasPreviousStep: boolean
+	close: () => void
 }
 
 const WizardContext = createContext<WizardContextProps>({
-	hasPreviousStep: false,
-	hasNextStep: false,
+	close: () => {},
 })
 
 export const useWizardContext = () => {
@@ -39,15 +37,17 @@ export const useWizardContext = () => {
 
 export const Wizard = ({
 	currentStep = 0,
+	totalSteps,
 	children,
 	header,
+	onClose,
 	onNextStep,
 	onPreviousStep,
 }: WizardProps) => {
 	const nextStep = () => {
 		let newStep = currentStep + 1
 
-		if (newStep > steps.length - 1) {
+		if (newStep > totalSteps - 1) {
 			newStep = currentStep
 		}
 
@@ -68,26 +68,22 @@ export const Wizard = ({
 		}
 	}
 
-	const steps = Children.toArray(children)
-	const currentStepContent = steps[currentStep]
-
 	const isPreviousStepAvailable = currentStep - 1 >= 0
-	const isNextStepAvailable = currentStep + 1 <= steps.length - 1
+	const isNextStepAvailable = currentStep + 1 <= totalSteps - 1
 
 	return (
 		<WizardContext.Provider
 			value={{
-				hasPreviousStep: isPreviousStepAvailable,
+				close: onClose,
 				previousStep: isPreviousStepAvailable
 					? previousStep
 					: undefined,
 				nextStep: isNextStepAvailable ? nextStep : undefined,
-				hasNextStep: isNextStepAvailable,
 			}}
 		>
 			{header && header(currentStep)}
 
-			{currentStepContent}
+			{children}
 		</WizardContext.Provider>
 	)
 }
