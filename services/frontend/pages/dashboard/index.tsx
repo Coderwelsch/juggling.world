@@ -1,3 +1,4 @@
+import { Panel } from "@/src/components/dashboard/components/panel/panel"
 import { SetupProfileSection } from "@/src/components/dashboard/components/setup-profile/setup-profile"
 
 import { useUserNeedsSetup } from "@/src/hooks/data/user/use-user-needs-setup"
@@ -34,7 +35,9 @@ const Dashboard = () => {
 				shown={userNeedsSetup === null}
 			/>
 
-			{!userNeedsSetup?.hasFinishedSetup && <SetupProfileSection />}
+			<SetupProfileSection />
+
+			{userNeedsSetup?.hasFinishedSetup && <Panel>Hello World!</Panel>}
 		</DashboardLayout>
 	)
 }
