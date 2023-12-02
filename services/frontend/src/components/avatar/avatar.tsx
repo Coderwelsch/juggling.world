@@ -14,8 +14,8 @@ export const Avatar = ({
 	className,
 	src,
 	alt = "Avatar Image",
-	width = 32,
-	height = 32,
+	width = 64,
+	height = 64,
 }: AvatarProps) => {
 	return (
 		<Image
