@@ -2,20 +2,21 @@
   "collectionName": "components_legal_licenses",
   "info": {
     "displayName": "Licenses",
-    "icon": "shield"
+    "icon": "shield",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "file": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false,
-      "required": true
+      ]
     },
     "author": {
       "type": "string",
@@ -23,7 +24,10 @@
     },
     "usage": {
       "type": "text",
-      "required": true
+      "required": false
+    },
+    "url": {
+      "type": "string"
     }
   }
 }
