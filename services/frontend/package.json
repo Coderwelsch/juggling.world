@@ -23,6 +23,7 @@
 		"next-http-proxy-middleware": "^1.2.6",
 		"postcss": "8.4.29",
 		"react": "18.2.0",
+		"react-confetti-explosion": "^2.1.2",
 		"react-dom": "18.2.0",
 		"react-hook-form": "^7.46.2",
 		"react-map-gl": "^7.1.5",
