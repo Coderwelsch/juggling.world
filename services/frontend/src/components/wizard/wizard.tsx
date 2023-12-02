@@ -1,9 +1,4 @@
-import {
-	createContext,
-	ReactElement,
-	ReactNode,
-	useContext,
-} from "react"
+import { createContext, ReactElement, ReactNode, useContext } from "react"
 
 export interface WizardProps {
 	currentStep?: number

@@ -61,88 +61,66 @@ export const AvatarChangeForm = () => {
 			>
 				<Dialog.Body
 					className={
-						"flex flex-row items-center justify-center gap-4 p-0"
+						"flex max-w-md flex-col items-center justify-center gap-4 p-8"
 					}
 				>
-					<div className="flex flex-col items-center justify-center gap-2 border-r border-slate-100/20 p-6">
-						<div
-							className={classNames(
-								"flex aspect-square w-36 items-center justify-center",
-								"overflow-hidden rounded-full border border-slate-50/10 bg-slate-50/10",
-							)}
-						>
-							{previewUrl || avatar ? (
-								<Image
-									width={128}
-									height={128}
-									src={previewUrl || getStrapiUrl(avatar!)}
-									alt={"Your avatar"}
-									className={"h-full w-full object-cover"}
-								/>
-							) : (
-								<IconUserLarge
-									className={
-										"h-5/6 w-5/6 self-end text-slate-100/80"
-									}
-								/>
-							)}
-						</div>
-
-						<FormField className={"w-full"}>
-							<Controller
-								render={({ field: { value, ...field } }) => (
-									<FormField.FileField
-										{...field}
-										id={"avatar"}
-										onChange={(e) => {
-											if (!e.target.files?.length) {
-												return
-											}
-
-											field.onChange(e)
-											setPreviewUrl(
-												URL.createObjectURL(
-													e.target.files?.[0],
-												),
-											)
-										}}
-										className={"text-slate-50"}
-										accept={"image/*"}
-									/>
-								)}
-								name={"files"}
-								control={form.control}
-							/>
-						</FormField>
-					</div>
-
 					<div
-						className={
-							"flex w-1/2 shrink-0 flex-col gap-2 self-start px-4 py-6 text-slate-50"
-						}
+						className={classNames(
+							"flex aspect-square w-36 items-center justify-center",
+							"overflow-hidden rounded-full border border-slate-50/10 bg-slate-50/10",
+						)}
 					>
-						<Headline size={4}>Avatar</Headline>
-
-						{updateAvatar.isSuccess ? (
-							<p className={"text-emerald-500"}>
-								Your avatar has been uploaded.
-							</p>
+						{previewUrl || avatar ? (
+							<Image
+								width={128}
+								height={128}
+								src={previewUrl || getStrapiUrl(avatar!)}
+								alt={"Your avatar"}
+								className={"h-full w-full object-cover"}
+							/>
 						) : (
-							<p className={"text-sm text-slate-50/60"}>
-								Please upload your avatar image here. Please
-								note that you need to upload a square image.
-								Only upload files and images you own!
-							</p>
+							<IconUserLarge
+								className={
+									"h-5/6 w-5/6 self-end text-slate-100/80"
+								}
+							/>
 						)}
 					</div>
+
+					<FormField className={"max-w-xs"}>
+						<Controller
+							render={({ field: { value, ...field } }) => (
+								<FormField.FileField
+									{...field}
+									id={"avatar"}
+									onChange={(e) => {
+										if (!e.target.files?.length) {
+											return
+										}
+
+										field.onChange(e)
+										setPreviewUrl(
+											URL.createObjectURL(
+												e.target.files?.[0],
+											),
+										)
+									}}
+									className={"text-slate-50"}
+									accept={"image/*"}
+								/>
+							)}
+							name={"files"}
+							control={form.control}
+						/>
+					</FormField>
 				</Dialog.Body>
 
 				<div className={"flex flex-row gap-4"}>
-					{wizardContext.hasPreviousStep && (
+					{wizardContext.previousStep && (
 						<Button
 							type={"button"}
 							variant={"text"}
-							onClick={() => wizardContext.previousStep?.()}
+							onClick={() => wizardContext.previousStep!()}
 						>
 							Previous
 						</Button>
@@ -154,7 +132,7 @@ export const AvatarChangeForm = () => {
 						disabled={updateAvatar.isSuccess}
 						onClick={() => wizardContext.nextStep?.()}
 					>
-						Skip
+						Skip for now
 					</Button>
 
 					{updateAvatar.isSuccess ? (

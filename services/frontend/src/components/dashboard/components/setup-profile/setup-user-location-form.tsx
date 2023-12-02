@@ -46,13 +46,11 @@ export const SetupUserLocationForm = () => {
 			return
 		}
 
-		setTimeout(() => {
-			if (!wizardContext) {
-				return
-			}
+		if (!wizardContext) {
+			return
+		}
 
-			wizardContext.nextStep?.()
-		}, 2000)
+		wizardContext.nextStep?.()
 	}, [updateUser.isSuccess, wizardContext])
 
 	const handleLocationChange = (location: mapboxgl.LngLat) => {
@@ -65,28 +63,34 @@ export const SetupUserLocationForm = () => {
 		<>
 			<Dialog.Body
 				className={
-					"flex h-full max-h-[30rem] max-w-4xl flex-row overflow-y-scroll p-0"
+					"flex h-full max-h-[30rem] max-w-4xl flex-row overflow-visible p-0"
 				}
 			>
 				<FormField.LocationField
 					location={location ?? new mapboxgl.LngLat(0, 0)}
 					onChange={handleLocationChange}
-					className={"h-full w-full"}
+					className={"h-full w-3/5 rounded-l-xl"}
 					markerIcon={<Avatar src={user?.avatar?.url ?? ""} />}
 				/>
 
 				<div
 					className={
-						"flex w-1/2 shrink-0 flex-col gap-4 p-6 text-slate-50"
+						"flex w-2/5 shrink-0 flex-col gap-4 p-6 text-slate-50"
 					}
 				>
-					<div className={"flex flex-col gap-1"}>
-						<Headline size={4}>Public Location</Headline>
+					<div className={"flex flex-col gap-4"}>
+						<Headline size={4}>Your «Home» Location</Headline>
 
-						<p className={"text-sm text-primary-50/80"}>
-							Your location is public. We recommend you to not set
-							the point to your real home/address, but a nearby
-							location instead.
+						<p className={"text-sm opacity-60"}>
+							Your home location is like your home base where you
+							play the most of the time or where others can find
+							you.
+						</p>
+
+						<p className={"text-sm opacity-60"}>
+							We recommend you to set your home location not
+							exactly to your home but to a nearby location like a
+							park or a public place.
 						</p>
 					</div>
 

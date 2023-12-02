@@ -1,7 +1,11 @@
-import { useAuthorizedRequest } from "@/src/hooks/data/user/use-authorized-request"
+import { useAuthorizedRequest } from "@/src/hooks/data/auth/use-authorized-request"
 import {
+	Discipline,
+	Enum_Userdiscipline_Level,
+	Maybe,
+	Scalars,
 	UploadFile,
-	UserDisciplineEntityResponseCollection,
+	UserDiscipline,
 	UsersPermissionsRoleEntityResponse,
 	UsersPermissionsUser,
 } from "@/src/types/cms/graphql"
@@ -22,9 +26,18 @@ export interface UserProfileData {
 	location: UsersPermissionsUser["location"]
 	updatedAt: UsersPermissionsUser["updatedAt"]
 	createdAt: UsersPermissionsUser["createdAt"]
-	disciplines: UserDisciplineEntityResponseCollection | null
+	disciplines: Array<{
+		__typename?: "UserDiscipline"
+		createdAt?: Maybe<Scalars["DateTime"]["output"]>
+		discipline?: Maybe<Discipline>
+		isTeaching?: Maybe<Scalars["Boolean"]["output"]>
+		level?: Maybe<Enum_Userdiscipline_Level>
+		locale?: Maybe<Scalars["String"]["output"]>
+		publishedAt?: Maybe<Scalars["DateTime"]["output"]>
+		startedAt?: Maybe<Scalars["Date"]["output"]>
+		updatedAt?: Maybe<Scalars["DateTime"]["output"]>
+	}>
 }
-
 const UserProfileContext = createContext<UserProfileData | undefined>(undefined)
 
 export const UserProfileProvider = UserProfileContext.Provider

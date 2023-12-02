@@ -20,8 +20,8 @@ export const SelectLocationField = ({
 	const [isMapLoaded, setIsMapLoaded] = useState(false)
 	const mapRef = useRef<mapboxgl.Map | null>(null)
 
-	const latitude = location?.lat ?? 0
-	const longitude = location?.lng ?? 0
+	const latitude = location?.lat ?? 12
+	const longitude = location?.lng ?? 52.5
 
 	// fly to current location
 	useEffect(() => {
@@ -40,7 +40,7 @@ export const SelectLocationField = ({
 		// make shure to have the marker in the viewport
 		mapRef.current.flyTo({
 			center: [longitude, latitude],
-			zoom: Math.max(12, mapRef.current.getZoom()),
+			zoom: Math.max(7, mapRef.current.getZoom()),
 			essential: true,
 			duration: 500,
 		})

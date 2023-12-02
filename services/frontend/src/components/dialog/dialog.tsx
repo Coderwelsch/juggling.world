@@ -5,11 +5,12 @@ import React, { useCallback } from "react"
 
 type DialogProps = {
 	children: React.ReactNode
+	className?: string
 	isVisible: boolean
 	onClose: () => void
 }
 
-const Dialog = ({ children, isVisible, onClose }: DialogProps) => {
+const Dialog = ({ children, isVisible, onClose, className }: DialogProps) => {
 	const handleClose = useCallback(
 		(event: React.MouseEvent<HTMLDivElement>) => {
 			if (event.target === event.currentTarget) {
@@ -33,9 +34,10 @@ const Dialog = ({ children, isVisible, onClose }: DialogProps) => {
 					isVisible
 						? "opacity-100 translate-y-0"
 						: "opacity-0 translate-y-12",
+					className,
 				)}
 			>
-				{children}
+				{isVisible && children}
 			</section>
 		</div>
 	)

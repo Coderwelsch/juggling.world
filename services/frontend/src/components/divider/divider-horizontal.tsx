@@ -19,13 +19,13 @@ export const DividerHorizontal = ({
 				)}
 			/>
 
-			<p
+			<div
 				className={
 					"relative z-10 bg-slate-800 px-2 text-center text-sm text-slate-100/60"
 				}
 			>
 				{children}
-			</p>
+			</div>
 		</div>
 	)
 }
