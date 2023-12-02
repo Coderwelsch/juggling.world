@@ -11,7 +11,7 @@ export const useUserNeedsSetup = () => {
 		avatar: user.avatar !== null,
 		location: user.location !== null,
 		aboutMe: user.aboutMe !== null,
-		disciplines: Boolean(user.disciplines),
+		disciplines: Boolean(user.disciplines?.length),
 	}
 
 	return {
