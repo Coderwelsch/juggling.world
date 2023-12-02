@@ -27,5 +27,14 @@ export default {
 				middlewares: [],
 			},
 		},
+		{
+			method: "PUT",
+			path: "/user/discipline",
+			handler: "disciplines.createDiscipline",
+			config: {
+				policies: ["is-authenticated"],
+				middlewares: [],
+			},
+		},
 	],
 }

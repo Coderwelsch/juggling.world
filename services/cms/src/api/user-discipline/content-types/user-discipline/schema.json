@@ -33,8 +33,7 @@
         "beginner",
         "intermediate",
         "expert"
-      ],
-      "default": "beginner"
+      ]
     },
     "user": {
       "type": "relation",

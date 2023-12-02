@@ -13,6 +13,10 @@ export const updateUserSetupAccountState = async (id: number) => {
 		missing.push("location")
 	}
 
+	if (!user.aboutMe) {
+		missing.push("aboutMe")
+	}
+
 	if (!user.avatar) {
 		missing.push("avatar")
 	}

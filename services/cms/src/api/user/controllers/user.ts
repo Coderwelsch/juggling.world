@@ -17,14 +17,27 @@ export default {
 		const { auth, user } = ctx.state
 
 		const userData = await strapi.entityService.findOne("plugin::users-permissions.user", user.id, {
-			populate: ["avatar", "role", "location"],
+			populate: {
+				avatar: true,
+				role: true,
+				location: true,
+				disciplines: {
+					populate: {
+						discipline: true,
+					}
+				},
+			},
 		})
 
-		ctx.body = await sanitize.contentAPI.output(
+		const filtered = await sanitize.contentAPI.output(
 			userData,
 			strapi.getModel("plugin::users-permissions.user"),
 			{ auth }
-		)
+		) as Record<string, unknown>
+
+		filtered.disciplines = userData.disciplines
+
+		ctx.body = filtered
 	},
 	update: async (ctx) => {
 		if (!ctx.state.user) {
@@ -85,5 +98,5 @@ export default {
 			strapi.getModel("plugin::upload.file"),
 			{ auth }
 		)
-	}
+	},
 }
