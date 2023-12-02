@@ -33,6 +33,8 @@ ENV DATABASE_PASSWORD ${DATABASE_PASSWORD}
 # generate types to not run into missing typescript types
 RUN yarn gen:types
 
+COPY types ./types
+
 RUN yarn build
 
 # Start the Strapi development server
