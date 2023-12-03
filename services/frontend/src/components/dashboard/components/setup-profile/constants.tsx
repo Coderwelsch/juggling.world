@@ -24,6 +24,7 @@ const FinalStep = () => {
 				particleCount={500}
 				width={window.innerWidth}
 				height={window.innerHeight}
+				className={"absolute left-1/2 top-1/4"}
 			/>
 
 			<Dialog.Body className={"max-w-md"}>

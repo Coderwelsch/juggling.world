@@ -1,8 +1,8 @@
 import { Button } from "@/src/components/button/button"
 import { Panel } from "@/src/components/dashboard/components/panel/panel"
 import { SetupProfileDialog } from "@/src/components/dashboard/components/setup-profile/setup-profile-dialog"
-import { Headline } from "@/src/components/headline/headline"
 import { IconBxChevronRight } from "@/src/components/icons/bx-chevron-right"
+import IconWavingHand from "@/src/components/icons/waving-hand"
 import { useUserProfileContext } from "@/src/hooks/data/user/use-profile-data"
 import { useUserNeedsSetup } from "@/src/hooks/data/user/use-user-needs-setup"
 import { useState } from "react"
@@ -33,16 +33,20 @@ export const SetupProfileSection = () => {
 
 			{!userNeedsSetup?.hasFinishedSetup && (
 				<Panel>
-					<Headline>Welcome 👋, {profileData.username}!</Headline>
+					<Panel.Header Icon={IconWavingHand}>
+						Welcome, {profileData.username}!
+					</Panel.Header>
 
-					<p className={"text-slate-50 opacity-60"}>
-						Nice to see you! It looks like it’s your first time
-						here. To get you started we need to setup your profile
-						first. This will only take {stepsLength}{" "}
-						{stepsLength !== 1 ? "steps" : "last step"}.
-					</p>
+					<Panel.Body>
+						<p className={"text-slate-50 opacity-60"}>
+							Nice to see you! It looks like it’s your first time
+							here. To get you started we need to setup your
+							profile first. This will only take {stepsLength}{" "}
+							{stepsLength !== 1 ? "steps" : "last step"}.
+						</p>
+					</Panel.Body>
 
-					<div className={"flex items-center justify-center"}>
+					<Panel.Footer>
 						<Button
 							intent={"primary"}
 							size={"sm"}
@@ -57,7 +61,7 @@ export const SetupProfileSection = () => {
 						>
 							Setup now
 						</Button>
-					</div>
+					</Panel.Footer>
 				</Panel>
 			)}
 		</>

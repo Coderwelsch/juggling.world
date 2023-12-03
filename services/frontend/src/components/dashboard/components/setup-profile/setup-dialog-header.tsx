@@ -42,25 +42,25 @@ export const Header = ({
 				</p>
 			) : null}
 
-			{steps.length > 1 ? (
-				<Breadcrum>
-					{steps.map((item, index) => {
-						const isDone = currentStep > index
-						const isActive = currentStep === index
-						const Icon = item.icon
+			{/*{steps.length > 1 ? (*/}
+			{/*	<Breadcrum>*/}
+			{/*		{steps.map((item, index) => {*/}
+			{/*			const isDone = currentStep > index*/}
+			{/*			const isActive = currentStep === index*/}
+			{/*			const Icon = item.icon*/}
 
-						return (
-							<Breadcrum.Item
-								key={`${index}-${item.title}`}
-								active={isActive}
-								className={"text-xs"}
-							>
-								{item.title}
-							</Breadcrum.Item>
-						)
-					})}
-				</Breadcrum>
-			) : null}
+			{/*			return (*/}
+			{/*				<Breadcrum.Item*/}
+			{/*					key={`${index}-${item.title}`}*/}
+			{/*					active={isActive}*/}
+			{/*					className={"text-xs"}*/}
+			{/*				>*/}
+			{/*					{item.title}*/}
+			{/*				</Breadcrum.Item>*/}
+			{/*			)*/}
+			{/*		})}*/}
+			{/*	</Breadcrum>*/}
+			{/*) : null}*/}
 		</Dialog.Header>
 	)
 }

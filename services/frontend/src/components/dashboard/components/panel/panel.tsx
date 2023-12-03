@@ -1,3 +1,6 @@
+import { PanelBody } from "@/src/components/dashboard/components/panel/panel-body"
+import { PanelFooter } from "@/src/components/dashboard/components/panel/panel-footer"
+import { PanelHeader } from "@/src/components/dashboard/components/panel/panel-header"
 import { classNames } from "@/src/lib/class-names"
 
 interface PanelProps {
@@ -9,7 +12,7 @@ export const Panel = ({ children, className }: PanelProps) => {
 	return (
 		<section
 			className={classNames(
-				"flex flex-col gap-6 rounded-xl border border-slate-50/10 bg-slate-800 px-10 py-8",
+				"flex flex-col rounded-xl border border-slate-50/10 bg-slate-800 px-8 py-6 pb-8",
 				className,
 			)}
 		>
@@ -17,3 +20,7 @@ export const Panel = ({ children, className }: PanelProps) => {
 		</section>
 	)
 }
+
+Panel.Header = PanelHeader
+Panel.Body = PanelBody
+Panel.Footer = PanelFooter
