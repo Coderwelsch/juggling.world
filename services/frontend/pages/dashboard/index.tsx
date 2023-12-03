@@ -1,4 +1,4 @@
-import { Panel } from "@/src/components/dashboard/components/panel/panel"
+import { CreateAGroup } from "@/src/components/dashboard/components/create-a-group/create-a-group"
 import { SetupProfileSection } from "@/src/components/dashboard/components/setup-profile/setup-profile"
 
 import { useUserNeedsSetup } from "@/src/hooks/data/user/use-user-needs-setup"
@@ -37,7 +37,11 @@ const Dashboard = () => {
 
 			<SetupProfileSection />
 
-			{userNeedsSetup?.hasFinishedSetup && <Panel>Hello World!</Panel>}
+			{userNeedsSetup?.hasFinishedSetup && (
+				<>
+					<CreateAGroup />
+				</>
+			)}
 		</DashboardLayout>
 	)
 }
