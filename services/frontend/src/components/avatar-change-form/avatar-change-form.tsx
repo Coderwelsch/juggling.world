@@ -2,8 +2,6 @@ import { Button } from "@/src/components/button/button"
 import Dialog from "@/src/components/dialog/dialog"
 import { Form } from "@/src/components/form/form"
 import { FormField } from "@/src/components/form/form-field/form-field"
-import { Headline } from "@/src/components/headline/headline"
-import ChevronRight from "@/src/components/icons/chevron-right"
 import IconUpload from "@/src/components/icons/upload"
 import IconUserLarge from "@/src/components/icons/user-large"
 import { useWizardContext } from "@/src/components/wizard/wizard"
@@ -32,7 +30,7 @@ export const AvatarChangeForm = () => {
 	const [previewUrl, setPreviewUrl] = useState<string | undefined>()
 	const updateAvatar = useUpdateAvatar()
 
-	const handleSubmit = form.handleSubmit((data, event) => {
+	const handleSubmit = form.handleSubmit(async (data, event) => {
 		if (!user) {
 			console.error("No user session")
 			return
@@ -45,7 +43,9 @@ export const AvatarChangeForm = () => {
 
 		const formData = new FormData(event?.target)
 
-		updateAvatar.mutate(formData)
+		await updateAvatar.mutateAsync(formData)
+
+		wizardContext.nextStep?.()
 	})
 
 	const { isDirty, isValid } = form.formState
@@ -135,37 +135,18 @@ export const AvatarChangeForm = () => {
 						Skip for now
 					</Button>
 
-					{updateAvatar.isSuccess ? (
-						<Button
-							type={"submit"}
-							IconAfter={<ChevronRight />}
-							onClick={() => {
-								if (!avatar) {
-									setPreviewUrl(getStrapiUrl(avatar!))
-									form.reset()
-								}
-
-								wizardContext.nextStep?.()
-							}}
-						>
-							Next
-						</Button>
-					) : (
-						<Button
-							type={"submit"}
-							disabled={
-								updateAvatar.isLoading || !isDirty || !isValid
-							}
-							IconAfter={<IconUpload />}
-							onClick={() => handleSubmit()}
-							intent={
-								updateAvatar.isSuccess ? "success" : "primary"
-							}
-							loading={updateAvatar.isLoading}
-						>
-							Upload
-						</Button>
-					)}
+					<Button
+						type={"submit"}
+						disabled={
+							updateAvatar.isLoading || !isDirty || !isValid
+						}
+						IconAfter={<IconUpload />}
+						onClick={() => handleSubmit()}
+						intent={updateAvatar.isSuccess ? "success" : "primary"}
+						loading={updateAvatar.isLoading}
+					>
+						Upload
+					</Button>
 				</div>
 			</Form>
 		</>
