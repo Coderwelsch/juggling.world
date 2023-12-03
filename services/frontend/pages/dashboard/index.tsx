@@ -35,6 +35,10 @@ const Dashboard = () => {
 				shown={userNeedsSetup === null}
 			/>
 
+			{/*
+			    dont optionally render this component because when setup is done it
+			    would get removed immateriality, which we won’t have
+			*/}
 			<SetupProfileSection />
 
 			{userNeedsSetup?.hasFinishedSetup && (
