@@ -32,7 +32,8 @@
         "react-router-dom": "5.3.4",
         "sharp": "0.33.0",
         "strapi-plugin-duplicate-button": "1.1.14",
-        "styled-components": "6.1.1"
+        "styled-components": "5.3.11",
+        "zod": "^3.22.4"
     },
     "author": {
         "name": "Joseph Ribbe, Coderwesch"
