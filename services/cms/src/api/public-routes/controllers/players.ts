@@ -67,7 +67,15 @@ export default {
 					fields: [
 						"id",
 						"name"
-					]
+					],
+					populate: {
+						image: {
+							fields: [
+								"id",
+								"url",
+							],
+						},
+					}
 				}
 			}
 		})
@@ -78,11 +86,27 @@ export default {
 			longitude: user.location.longitude,
 		} : null
 
+		const disciplines = user.disciplines.map((discipline) => {
+			return {
+				id: discipline.id,
+				...discipline.discipline,
+				icon: discipline.discipline.icon,
+			}
+		})
+
+		const playLocations = user.userPlayLocations.map(({ image = null, ...playLocation }) => {
+			return {
+				...playLocation,
+				avatar: image,
+			}
+		})
+
 		return await sanitize.contentAPI.output(
 			{
 				...user,
+				disciplines,
 				location,
-				playLocations: user.userPlayLocations,
+				playLocations,
 			},
 			strapi.getModel("plugin::users-permissions.user")
 		)

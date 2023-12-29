@@ -552,16 +552,18 @@ export default function App() {
 					<PlayersContext.Provider value={allPlayers?.data || []}>
 						{selectedEntities.length && (
 							<>
-								<PlayerContent
-									id={selectedEntities[0].originalId}
-									onDisciplineClick={(id) => {
-										setFilterState({
-											type: "discipline",
-											id,
-										})
-									}}
-									onLocationClick={onMarkerClick}
-								/>
+								{selectedEntities[0].type === "player" && (
+									<PlayerContent
+										id={selectedEntities[0].originalId}
+										onDisciplineClick={(id) => {
+											setFilterState({
+												type: "discipline",
+												id,
+											})
+										}}
+										onLocationClick={onMarkerClick}
+									/>
+								)}
 
 								{selectedEntities[0].type === "group" && (
 									<Body className="p-0">
