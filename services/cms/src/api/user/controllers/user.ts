@@ -25,7 +25,7 @@ export default {
 					populate: {
 						discipline: true,
 					}
-				},
+				}
 			},
 		})
 
@@ -52,6 +52,9 @@ export default {
 
 		const { id } = ctx.state.user
 		const { auth } = ctx.state
+
+		// set role to current role to prevent changing it
+		ctx.request.body.role = ctx.state.user.role.id
 
 		await strapi.entityService.update("plugin::users-permissions.user", id, {
 			data: ctx.request.body,

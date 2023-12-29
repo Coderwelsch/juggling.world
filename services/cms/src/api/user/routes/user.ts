@@ -36,5 +36,23 @@ export default {
 				middlewares: [],
 			},
 		},
+		{
+			method: "GET",
+			path: "/user/group",
+			handler: "groups.getOwnGroups",
+			config: {
+				policies: ["is-authenticated"],
+				middlewares: [],
+			},
+		},
+		{
+			method: "POST",
+			path: "/user/group",
+			handler: "groups.create",
+			config: {
+				policies: ["is-authenticated"],
+				middlewares: ["api::user.group-validate"],
+			},
+		},
 	],
 }
