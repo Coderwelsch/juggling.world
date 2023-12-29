@@ -1,7 +1,6 @@
 import { AvatarChangeForm } from "@/src/components/avatar-change-form/avatar-change-form"
 import { Button } from "@/src/components/button/button"
 import { SetupAboutMeText } from "@/src/components/dashboard/components/setup-profile/setup-about-me-text"
-import { StepItem } from "@/src/components/dashboard/components/setup-profile/setup-profile-dialog"
 import { SetUserDisciplines } from "@/src/components/dashboard/components/setup-profile/setup-user-disciplines"
 import { SetupUserLocationForm } from "@/src/components/dashboard/components/setup-profile/setup-user-location-form"
 import Dialog from "@/src/components/dialog/dialog"
@@ -11,6 +10,7 @@ import IconLocation from "@/src/components/icons/location"
 import IconTickCircle from "@/src/components/icons/tick-circle"
 import IconUserLarge from "@/src/components/icons/user-large"
 import { useWizardContext } from "@/src/components/wizard/wizard"
+import { JSXElementConstructor, ReactNode, SVGProps } from "react"
 import ConfettiExplosion from "react-confetti-explosion"
 
 const FinalStep = () => {
@@ -39,26 +39,35 @@ const FinalStep = () => {
 	)
 }
 
+export interface StepItem {
+	key: string
+	title: string
+	description?: ReactNode
+	Icon: JSXElementConstructor<SVGProps<SVGSVGElement>>
+	iconClassName?: string
+	content: () => ReactNode
+}
+
 export const STEPS_CONFIG: Array<StepItem> = [
 	{
 		key: "avatar",
 		title: "Avatar",
 		description: "Please upload your avatar image here",
-		icon: IconUserLarge,
+		Icon: IconUserLarge,
 		content: () => <AvatarChangeForm />,
 	},
 	{
 		key: "location",
 		title: "Location",
 		description: "Set your home location",
-		icon: IconLocation,
+		Icon: IconLocation,
 		content: () => <SetupUserLocationForm />,
 	},
 	{
 		key: "disciplines",
 		title: "Disciplines",
 		description: "Set your disciplines",
-		icon: IconFireFill,
+		Icon: IconFireFill,
 		content: () => <SetUserDisciplines />,
 	},
 	{
@@ -66,13 +75,13 @@ export const STEPS_CONFIG: Array<StepItem> = [
 		title: "About You",
 		description:
 			"Let’s write a small introduction about yourself which other users can see on your profile.",
-		icon: Icon108Bubble,
+		Icon: Icon108Bubble,
 		content: () => <SetupAboutMeText />,
 	},
 	{
 		key: "finalize",
 		title: "Success!",
-		icon: IconTickCircle,
+		Icon: IconTickCircle,
 		iconClassName: "text-emerald-400",
 		content: FinalStep,
 	},

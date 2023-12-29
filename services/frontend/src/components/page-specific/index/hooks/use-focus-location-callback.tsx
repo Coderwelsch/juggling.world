@@ -1,17 +1,25 @@
-import { AllPlayLocationsResponse } from "@/src/queries/all-play-locations"
-import { AllPlayersResponse } from "@/src/queries/all-players"
-import { OperationVariables, QueryResult } from "@apollo/client"
+import { UseGetAllLocationsResponse } from "@/src/hooks/data/locations/use-get-all-locations"
+import { UseGetAllPlayersResponse } from "@/src/hooks/data/player/use-get-all-players"
+import { UseQueryResult } from "@tanstack/react-query"
 import mapboxgl from "mapbox-gl"
 import * as React from "react"
 import { useCallback } from "react"
 
-export const useFocusLocationCallback = (
-	mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
-	selectedLocationId: string | null,
-	allPlayLocations: QueryResult<AllPlayLocationsResponse, OperationVariables>,
-	allPlayersData: QueryResult<AllPlayersResponse, OperationVariables>,
-	sidebarRef: React.MutableRefObject<HTMLDivElement | null>,
-) =>
+interface UseFocusLocationCallbackProps {
+	mapRef: React.MutableRefObject<mapboxgl.Map | undefined>
+	selectedLocationId: number | string | null
+	playLocations: UseQueryResult<UseGetAllLocationsResponse>
+	players: UseQueryResult<UseGetAllPlayersResponse>
+	rightOffset?: number
+}
+
+export const useFocusLocationCallback = ({
+	mapRef,
+	selectedLocationId,
+	playLocations,
+	players,
+	rightOffset = 0,
+}: UseFocusLocationCallbackProps) =>
 	useCallback(() => {
 		const map = mapRef.current
 
@@ -25,7 +33,7 @@ export const useFocusLocationCallback = (
 
 		const bounds = new mapboxgl.LngLatBounds()
 
-		const playLocation = allPlayLocations.data?.locations.data.find(
+		const playLocation = playLocations.data?.find(
 			(l) => l.id === selectedLocationId,
 		)
 
@@ -34,23 +42,18 @@ export const useFocusLocationCallback = (
 		}
 
 		bounds.extend([
-			playLocation.attributes.location.longitude,
-			playLocation.attributes.location.latitude,
+			playLocation.location.longitude,
+			playLocation.location.latitude,
 		])
 
-		playLocation.attributes.users?.data.forEach((user) => {
-			const player = allPlayersData.data?.players.data.find(
-				(p) => p.id === user.id,
-			)
+		playLocation.visitors?.forEach((id) => {
+			const player = players.data?.find((p) => p.id === id)
 
 			if (!player) {
 				return
 			}
 
-			bounds.extend([
-				player.attributes.location.longitude,
-				player.attributes.location.latitude,
-			])
+			bounds.extend([player.location.longitude, player.location.latitude])
 		})
 
 		map?.fitBounds(bounds, {
@@ -60,13 +63,13 @@ export const useFocusLocationCallback = (
 				top: 128,
 				bottom: 86, // because of the marker label
 				left: 64,
-				right: (sidebarRef.current?.clientWidth ?? 0) + 64,
+				right: rightOffset + 64,
 			},
 		})
 	}, [
-		allPlayLocations.data?.locations.data,
-		allPlayersData.data?.players.data,
+		playLocations.data,
+		players.data,
 		mapRef,
 		selectedLocationId,
-		sidebarRef,
+		rightOffset,
 	])

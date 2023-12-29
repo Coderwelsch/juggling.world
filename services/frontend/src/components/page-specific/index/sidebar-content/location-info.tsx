@@ -10,7 +10,7 @@ import Image from "next/image"
 import * as React from "react"
 import Markdown from "react-markdown"
 
-export const LocationContent = ({ id }: { id: string }) => {
+export const LocationContent = ({ id }: { id: number }) => {
 	const location = useQuery<PlayLocationResponse>(playLocationQuery, {
 		variables: { id },
 	})

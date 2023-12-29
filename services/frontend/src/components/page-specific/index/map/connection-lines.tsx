@@ -1,135 +1,79 @@
 import { Line } from "@/src/components/mapbox/shapes/Line"
-import { AllPlayLocationsResponse } from "@/src/queries/all-play-locations"
-import { AllPlayersResponse } from "@/src/queries/all-players"
 import * as React from "react"
 
 export interface CustomMarkerProperties {
-	id: string
+	id: string | number
 	type: string
 	name: string
 	imageUrl?: string
+	connectedIds?: Array<string | number>
+}
+
+export interface MarkerEntity {
+	id: number | string
+	type: "player" | "group" | "location"
+	label: string
+	originalId: number
+	location: {
+		longitude: number
+		latitude: number
+	}
+	avatar?: {
+		url: string
+	}
+	connectionIds?: Array<string | number>
 }
 
 export interface LinesProps {
 	pointLookupTable: Record<string, [number, number]>
-	selectedPlayerId: string | null
-	selectedLocationId: string | null
-	allPlayersData?: AllPlayersResponse
-	allPlayLocations?: AllPlayLocationsResponse
+	selectedIds: Array<string | number> | null
+	markerElements: MarkerEntity[]
 }
 
 export const Lines = ({
 	pointLookupTable,
-	selectedPlayerId,
-	selectedLocationId,
-	allPlayersData,
-	allPlayLocations,
+	selectedIds,
+	markerElements,
 }: LinesProps) => {
 	const lines: [[number, number], [number, number]][] = []
 
-	if (selectedPlayerId) {
-		const player = allPlayersData?.players.data.find(
-			(p) => p.id === selectedPlayerId,
-		)
+	if (!markerElements?.length || !selectedIds?.length) {
+		return null
+	}
 
-		if (!player) {
+	const filteredMarkerElements = markerElements?.filter((m) =>
+		selectedIds.includes(m.id),
+	)
+
+	filteredMarkerElements.forEach((marker) => {
+		if (!marker) {
 			return
 		}
 
-		player.attributes.userPlayLocations.data.forEach((playLocation) => {
-			const playerId = `player-${player.id}`
-			const locationId = `location-${playLocation.id}`
+		const sourceId = marker.id
+		let sourcePosition: [number, number] = [0, 0]
 
-			let sourcePosition: [number, number] | undefined
-			let targetPosition: [number, number] | undefined
-
-			// when id is not in lookup table it means that the marker is not visible
-			// so we need to set the source position to the player position
-			if (playerId in pointLookupTable) {
-				sourcePosition = pointLookupTable[playerId]
-			} else {
-				sourcePosition = [
-					player.attributes.location.longitude,
-					player.attributes.location.latitude,
-				]
-			}
-
-			if (locationId in pointLookupTable) {
-				targetPosition = pointLookupTable[locationId]
-			} else {
-				const playLocationPosition =
-					allPlayLocations?.locations.data.find(
-						(l) => l.id === playLocation.id,
-					)?.attributes.location
-
-				if (!playLocationPosition) {
-					return
-				}
-
-				targetPosition = [
-					playLocationPosition.longitude,
-					playLocationPosition.latitude,
-				]
-			}
-
-			lines.push([sourcePosition, targetPosition])
-		})
-	} else if (selectedLocationId) {
-		const location = allPlayLocations?.locations.data.find(
-			(l) => l.id === selectedLocationId,
-		)
-
-		if (!location) {
-			return
+		// when id is not in lookup table it means that the marker is not visible
+		// so we need to set the source position to the player position
+		if (sourceId in pointLookupTable) {
+			sourcePosition = pointLookupTable[sourceId]
+		} else {
+			sourcePosition = [
+				marker.location.longitude,
+				marker.location.latitude,
+			]
 		}
 
-		location.attributes.users?.data.forEach((user) => {
-			const player = allPlayersData?.players.data.find(
-				(p) => p.id === user.id,
-			)
+		marker.connectionIds?.forEach((targetId) => {
+			const targetPosition = pointLookupTable[targetId]
 
-			if (!player) {
+			if (!targetPosition) {
 				return
 			}
 
-			const playerId = `player-${player.id}`
-			const locationId = `location-${location.id}`
-
-			let sourcePosition: [number, number] | undefined
-			let targetPosition: [number, number] | undefined
-
-			// when id is not in lookup table it means that the marker is not visible
-			// so we need to set the source position to the player position
-			if (playerId in pointLookupTable) {
-				sourcePosition = pointLookupTable[playerId]
-			} else {
-				sourcePosition = [
-					player.attributes.location.longitude,
-					player.attributes.location.latitude,
-				]
-			}
-
-			if (locationId in pointLookupTable) {
-				targetPosition = pointLookupTable[locationId]
-			} else {
-				const playLocationPosition =
-					allPlayLocations?.locations.data.find(
-						(l) => l.id === location.id,
-					)?.attributes.location
-
-				if (!playLocationPosition) {
-					return
-				}
-
-				targetPosition = [
-					playLocationPosition.longitude,
-					playLocationPosition.latitude,
-				]
-			}
-
 			lines.push([sourcePosition, targetPosition])
 		})
-	}
+	})
 
 	return lines.map((line, index) => (
 		<Line
@@ -143,8 +87,8 @@ export const Lines = ({
 }
 export const MemoizedLines = React.memo(Lines, (prevProps, nextProps) => {
 	if (
-		prevProps.selectedPlayerId !== nextProps.selectedPlayerId ||
-		prevProps.selectedLocationId !== nextProps.selectedLocationId
+		prevProps.markerElements !== nextProps.markerElements ||
+		prevProps.selectedIds !== nextProps.selectedIds
 	) {
 		return false
 	}

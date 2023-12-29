@@ -1,15 +1,19 @@
 import { Headline } from "@/src/components/headline/headline"
 import { classNames } from "@/src/lib/class-names"
-import { ReactNode } from "react"
+import { JSXElementConstructor, ReactNode, SVGProps } from "react"
 
 interface DialogHeaderProps {
 	title: string | ReactNode
+	Icon?: JSXElementConstructor<SVGProps<SVGSVGElement>>
+	iconClassName?: string
 	children?: ReactNode
 	className?: string
 }
 
 export const DialogHeader = ({
 	title,
+	Icon,
+	iconClassName,
 	children,
 	className,
 }: DialogHeaderProps) => {
@@ -20,6 +24,10 @@ export const DialogHeader = ({
 				className,
 			)}
 		>
+			{Icon ? (
+				<Icon className={classNames("h-14 w-14", iconClassName)} />
+			) : null}
+
 			{typeof title === "string" ? (
 				<Headline
 					size={2}

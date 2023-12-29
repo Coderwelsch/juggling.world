@@ -1,11 +1,15 @@
 import { Button } from "@/src/components/button/button"
 import { TopNavItem } from "@/src/components/dashboard/components/top-nav/top-nav-item"
-import IconPark from "@/src/components/icons/tree"
-import IconUserLarge from "@/src/components/icons/user-large"
+import IconBxHomeHeart from "@/src/components/icons/bx-home-heart"
+import IconFireFill from "@/src/components/icons/fire-fill"
+import IconTeamwork from "@/src/components/icons/teamwork"
+import IconUserGroup from "@/src/components/icons/user-group"
+import { useUserNeedsSetup } from "@/src/hooks/data/user/use-user-needs-setup"
 import { signOut } from "next-auth/react"
 
 export const Sidebar = () => {
-	const finishedSetup = false
+	const userNeedsSetup = useUserNeedsSetup()
+	const needsSetup = userNeedsSetup?.hasFinishedSetup === false
 
 	return (
 		<aside
@@ -17,33 +21,33 @@ export const Sidebar = () => {
 				<ul className="flex h-full flex-col gap-2 font-medium">
 					<TopNavItem
 						link={"/dashboard"}
-						icon={<IconUserLarge />}
+						icon={<IconBxHomeHeart />}
 					>
 						Dashboard
 					</TopNavItem>
 
 					<TopNavItem
-						link={"/dashboard/plays"}
-						icon={<IconPark />}
-						disabled={!finishedSetup}
+						link={"/dashboard/activities"}
+						icon={<IconFireFill />}
+						disabled={needsSetup}
 					>
-						Plays
+						Activities
 					</TopNavItem>
 
 					<TopNavItem
 						link={"/dashboard/locations"}
-						icon={<IconPark />}
-						disabled={!finishedSetup}
+						icon={<IconTeamwork />}
+						disabled={needsSetup}
 					>
-						Locations
+						Groups
 					</TopNavItem>
 
 					<TopNavItem
 						link={"/dashboard/locations"}
-						icon={<IconPark />}
-						disabled={!finishedSetup}
+						icon={<IconUserGroup />}
+						disabled={needsSetup}
 					>
-						Events
+						Friends
 					</TopNavItem>
 
 					<Button

@@ -5,7 +5,7 @@ import {
 import { UserProfileData } from "@/src/hooks/data/user/use-profile-data"
 
 export const useUpdateProfileMutation = () => {
-	return useAuthorizedMutation<BodyInit, UserProfileData & ErrorResponse>({
+	return useAuthorizedMutation<FormData, UserProfileData & ErrorResponse>({
 		path: "/user/me",
 		invalidationKeys: ["/user/me"],
 		authOptions: {

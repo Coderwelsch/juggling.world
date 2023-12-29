@@ -3,31 +3,32 @@ import IconUserLarge from "@/src/components/icons/user-large"
 import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
 import { MapOverlay } from "@/src/components/map-overlay/map-overlay"
 import { Cluster, ClusterBasePoint } from "@/src/components/mapbox/cluster"
+import { MapContextProvider } from "@/src/components/mapbox/contexts/map-context"
 import { useAnimation } from "@/src/components/mapbox/hooks/use-animation"
 import { useIsUserInteractingWithMap } from "@/src/components/mapbox/hooks/use-is-user-interacting-with-map"
+import { Map } from "@/src/components/mapbox/map"
 import { ClusterMarker } from "@/src/components/mapbox/marker/cluster-marker"
 import { DotMarker, Intent } from "@/src/components/mapbox/marker/dot-marker"
 import { MarkerLabel } from "@/src/components/mapbox/marker/marker-label"
 import { LandingPageNav } from "@/src/components/nav/landing-page-nav"
-import { useFocusLocationCallback } from "@/src/components/page-specific/index/hooks/use-focus-location-callback"
-import { useFocusSelectedPlayerCallback } from "@/src/components/page-specific/index/hooks/use-focus-selected-player-callback"
+import { useMapBoundingBoxCallback } from "@/src/components/page-specific/index/hooks/use-map-bounding-box-callback"
 import {
 	CustomMarkerProperties,
+	MarkerEntity,
 	MemoizedLines,
 } from "@/src/components/page-specific/index/map/connection-lines"
 import { LocationContent } from "@/src/components/page-specific/index/sidebar-content/location-info"
 import { PlayerContent } from "@/src/components/page-specific/index/sidebar-content/player-info"
-import Sidebar from "@/src/components/sidebar/sidebar"
+import Sidebar, { Body } from "@/src/components/sidebar/sidebar"
+import { useGetAllGroups } from "@/src/hooks/data/groups/use-get-all-groups"
+import { useGetAllLocations } from "@/src/hooks/data/locations/use-get-all-locations"
+import {
+	useGetAllPlayers,
+	UseGetAllPlayersResponse,
+} from "@/src/hooks/data/player/use-get-all-players"
 import { classNames } from "@/src/lib/class-names"
 import { getStrapiUrl } from "@/src/lib/get-strapi-url"
 import { mapValueRange } from "@/src/lib/map-value-range"
-import { allGroupsQuery, AllGroupsResponse } from "@/src/queries/all-groups"
-import {
-	allPlayLocationsQuery,
-	AllPlayLocationsResponse,
-} from "@/src/queries/all-play-locations"
-import { allPlayersQuery, AllPlayersResponse } from "@/src/queries/all-players"
-import { useQuery } from "@apollo/client"
 import { Position } from "geojson"
 import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
@@ -42,19 +43,15 @@ import {
 	useState,
 } from "react"
 import { ViewState } from "react-map-gl"
-import { Map } from "@/src/components/mapbox/map"
 
-export const PlayersContext = createContext<
-	AllPlayersResponse["players"]["data"]
->([])
-
-export const MapContext = createContext<mapboxgl.Map | undefined>(undefined)
+export const PlayersContext = createContext<UseGetAllPlayersResponse>([])
 
 export default function App() {
 	const [isMapReady, setIsMapReady] = useState(false)
 	const mapRef = useRef<mapboxgl.Map | undefined>()
 	const sidebarRef = useRef<HTMLDivElement | null>(null)
 	const [isInterfaceShown, setIsInterfaceShown] = useState(false)
+	const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 	const [isSpinAnimationInterrupted, setIsSpinAnimationInterrupted] =
 		useState(false)
 
@@ -64,84 +61,102 @@ export default function App() {
 		zoom: 1,
 	}
 
-	const allGroups = useQuery<AllGroupsResponse>(allGroupsQuery)
-	const allPlayersData = useQuery<AllPlayersResponse>(allPlayersQuery)
-	const allPlayLocations = useQuery<AllPlayLocationsResponse>(
-		allPlayLocationsQuery,
-	)
+	const allPlayers = useGetAllPlayers()
+	const allGroups = useGetAllGroups()
+	const allPlayLocations = useGetAllLocations()
+
+	const markerElements = useMemo(() => {
+		const entities: Array<MarkerEntity> = []
+
+		// element ids are prefixed with their type
+		if (allGroups.data) {
+			entities.push(
+				...allGroups.data.map((g) => ({
+					id: `group-${g.id}`,
+					originalId: g.id,
+					type: "group" as const,
+					label: g.name,
+					avatar: g.avatar,
+					location: g.location,
+					connectionIds: [...g.members.map((id) => `player-${id}`)],
+				})),
+			)
+		}
+
+		if (allPlayers.data) {
+			entities.push(
+				...allPlayers.data.map((p) => ({
+					id: `player-${p.id}`,
+					originalId: p.id,
+					type: "player" as const,
+					label: p.username,
+					avatar: p.avatar,
+					location: p.location,
+					connectionIds: [
+						...p.groups.map((id) => `group-${id}`),
+						...p.playLocations.map((id) => `location-${id}`),
+					],
+				})),
+			)
+		}
+
+		if (allPlayLocations.data) {
+			entities.push(
+				...allPlayLocations.data.map((l) => ({
+					id: `location-${l.id}`,
+					originalId: l.id,
+					type: "location" as const,
+					label: l.name,
+					avatar: l.image,
+					location: l.location,
+					connectionIds: [...l.visitors.map((id) => `player-${id}`)],
+				})),
+			)
+		}
+
+		return entities
+	}, [allGroups.data, allPlayLocations.data, allPlayers.data])
 
 	const superClusterPoints: ClusterBasePoint<CustomMarkerProperties>[] =
 		useMemo(() => {
-			if (
-				!allGroups.data ||
-				!allPlayersData.data ||
-				!allPlayLocations.data
-			) {
+			if (!markerElements.length) {
 				return []
 			}
 
 			const points: ClusterBasePoint<CustomMarkerProperties>[] = []
 
-			allGroups.data.groups.data.forEach((group) => {
+			markerElements.forEach((marker) => {
 				points.push({
-					id: `group-${group.id}`,
+					id: marker.id,
 					coordinates: [
-						group.attributes.location.longitude,
-						group.attributes.location.latitude,
+						marker.location.longitude,
+						marker.location.latitude,
 					],
 					properties: {
-						imageUrl: group.attributes.avatar.data.attributes.url,
-						type: "group",
-						name: group.attributes.name,
-						id: group.id.toString(),
-					},
-				})
-			})
-
-			allPlayersData.data.players.data.forEach((player) => {
-				points.push({
-					id: `player-${player.id}`,
-					coordinates: [
-						player.attributes.location.longitude,
-						player.attributes.location.latitude,
-					],
-					properties: {
-						id: player.id.toString(),
-						type: "player",
-						name: player.attributes.username,
-						imageUrl:
-							player.attributes.avatar?.data?.attributes.url,
-					},
-				})
-			})
-
-			allPlayLocations.data.locations.data.forEach((location) => {
-				points.push({
-					id: `location-${location.id}`,
-					coordinates: [
-						location.attributes.location.longitude,
-						location.attributes.location.latitude,
-					],
-					properties: {
-						id: location.id.toString(),
-						type: "location",
-						name: location.attributes.name,
-						imageUrl:
-							location.attributes.image?.data?.attributes.url,
+						imageUrl: marker.avatar?.url,
+						type: marker.type,
+						name: marker.label,
+						id: marker.id,
+						connectedIds: marker.connectionIds,
 					},
 				})
 			})
 
 			return points
-		}, [allGroups.data, allPlayersData.data, allPlayLocations.data])
+		}, [markerElements])
 
 	const [filterState, setFilterState] = useState<{
 		type: "discipline" | null
-		id: string | null
+		id: number | null
 	}>({
 		type: null,
 		id: null,
 	})
+
+	const [selectedIds, setSelectedIds] = useState<Array<string | number>>([])
+	const [highlightedIds, setHighlightedIds] = useState<
+		Array<string | number>
+	>([])
 
 	const filteredSuperclusterPoints = useMemo(() => {
 		if (!filterState.type || !filterState.id) {
@@ -153,7 +168,7 @@ export default function App() {
 
 			if (filterState.type === "discipline") {
 				if (type === "player") {
-					const player = allPlayersData.data?.players.data.find(
+					const player = allPlayers.data?.find(
 						(p) => p.id === point.properties.id,
 					)
 
@@ -161,83 +176,85 @@ export default function App() {
 						return false
 					}
 
-					return player.attributes.disciplines.data.some(
-						(d) => d.id === filterState.id,
-					)
+					return player.disciplines.some((d) => d === filterState.id)
 				}
 			}
 
 			return true
 		})
-	}, [
-		allPlayersData.data?.players.data,
-		filterState.id,
-		filterState.type,
-		superClusterPoints,
-	])
+	}, [allPlayers.data, filterState.id, filterState.type, superClusterPoints])
 
-	const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(
-		null,
-	)
+	const onMarkerClick = useCallback(
+		(id: string | number) => {
+			const connectedMarkerIds: Array<string | number> = []
+			const marker = markerElements.find((m) => m.id === id)
 
-	const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
-		null,
-	)
+			switch (marker?.type) {
+				case "player": {
+					const player = allPlayers.data?.find(
+						(p) => p.id === marker.originalId,
+					)
 
-	const [focusedLocations, setFocusedLocations] = useState<string[]>([])
-	const [focusedPlayers, setFocusedPlayers] = useState<string[]>([])
+					if (!player) {
+						return
+					}
 
-	const onPlayerMarkerClick = useCallback(
-		(id: string) => {
-			if (selectedPlayerId === id) {
-				return
+					connectedMarkerIds.push(`player-${player.id}`)
+
+					player.playLocations.forEach((locationId) => {
+						connectedMarkerIds.push(`location-${locationId}`)
+					})
+
+					player.groups.forEach((groupId) => {
+						connectedMarkerIds.push(`group-${groupId}`)
+					})
+
+					break
+				}
+
+				case "group": {
+					const group = allGroups.data?.find(
+						(g) => g.id === marker.originalId,
+					)
+
+					if (!group) {
+						return
+					}
+
+					group.members.forEach((playerId) => {
+						connectedMarkerIds.push(`player-${playerId}`)
+					})
+
+					break
+				}
+
+				case "location": {
+					const location = allPlayLocations.data?.find(
+						(l) => l.id === marker.originalId,
+					)
+
+					if (!location) {
+						return
+					}
+
+					location.visitors.forEach((id) => {
+						connectedMarkerIds.push(`player-${id}`)
+					})
+
+					break
+				}
 			}
 
-			const player = allPlayersData.data?.players.data.find(
-				(p) => p.id === id,
-			)
-
-			if (!player) {
-				console.error("player not found", id)
-				return
-			}
-
-			setSelectedPlayerId(id)
-			setSelectedLocationId(null)
-			setIsInterfaceShown(true)
-			setFocusedPlayers([id])
-			setFocusedLocations(
-				player?.attributes.userPlayLocations.data.map((l) => l.id) ||
-					[],
-			)
+			setHighlightedIds(connectedMarkerIds)
+			setSelectedIds([id])
+			setIsSidebarOpen(true)
 		},
-		[allPlayersData.data?.players.data, selectedPlayerId],
-	)
-
-	const onLocationMarkerClick = useCallback(
-		(id: string) => {
-			if (selectedLocationId === id) {
-				return
-			}
-
-			const location = allPlayLocations.data?.locations.data.find(
-				(l) => l.id === id,
-			)
-
-			if (!location) {
-				console.error("location not found")
-				return
-			}
-
-			setSelectedLocationId(id)
-			setSelectedPlayerId(null)
-			setIsInterfaceShown(true)
-			setFocusedPlayers(
-				location.attributes.users?.data.map((l) => l.id) || [],
-			)
-			setFocusedLocations([id])
-		},
-		[allPlayLocations.data?.locations.data, selectedLocationId],
+		[
+			allGroups.data,
+			allPlayLocations.data,
+			allPlayers.data,
+			markerElements,
+		],
 	)
 
 	const onMapClick = useCallback((e: mapboxgl.MapLayerMouseEvent) => {
@@ -247,13 +264,11 @@ export default function App() {
 			return
 		}
 
-		setSelectedPlayerId(null)
-		setSelectedLocationId(null)
+		setIsInterfaceShown(true)
+		setIsSidebarOpen(false)
 
-		setIsInterfaceShown(false)
-
-		setFocusedLocations([])
-		setFocusedPlayers([])
+		setSelectedIds([])
+		setHighlightedIds([])
 	}, [])
 
 	const onMapLoad = useCallback(({ target }: mapboxgl.MapboxEvent) => {
@@ -285,39 +300,23 @@ export default function App() {
 
 	const [openerOpacity, setOpenerOpacity] = useState(1)
 
-	const focusSelectedLocation = useFocusLocationCallback(
+	const selectedBoundingBoxIds = useMemo(() => {
+		return [
+			...selectedIds,
+			...highlightedIds.filter((id) => !selectedIds.includes(id)),
+		]
+	}, [highlightedIds, selectedIds])
+
+	const boundingBoxCallback = useMapBoundingBoxCallback({
 		mapRef,
-		selectedLocationId,
-		allPlayLocations,
-		allPlayersData,
-		sidebarRef,
-	)
+		selectedIds: selectedBoundingBoxIds,
+		entities: markerElements,
+		rightOffset: sidebarRef?.current?.offsetWidth,
+	})
 
 	useEffect(() => {
-		focusSelectedLocation()
-	}, [
-		selectedPlayerId,
-		selectedLocationId,
-		allPlayLocations.data,
-		focusSelectedLocation,
-	])
-
-	const focusSelectedPlayer = useFocusSelectedPlayerCallback(
-		mapRef,
-		selectedPlayerId,
-		allPlayersData,
-		allPlayLocations,
-		sidebarRef,
-	)
-
-	useEffect(() => {
-		focusSelectedPlayer()
-	}, [
-		selectedPlayerId,
-		selectedLocationId,
-		allPlayLocations.data,
-		focusSelectedPlayer,
-	])
+		boundingBoxCallback()
+	}, [selectedIds, allPlayLocations.data, boundingBoxCallback])
 
 	const handleZoom = useCallback(() => {
 		const zoom = mapRef.current?.getZoom() ?? 1
@@ -346,19 +345,15 @@ export default function App() {
 		}: {
 			point: Position
 			props: CustomMarkerProperties
-			id: string
+			id: string | number
 		}) => {
-			let isActive = false
-			let isFocused = false
+			const isActive = selectedIds.includes(propsId)
+			const isFocused = highlightedIds.includes(propsId)
 			let intent: Intent = "primary"
 
 			if (type === "player") {
-				isActive = `${type}-${selectedPlayerId}` === id
-				isFocused = focusedPlayers.includes(propsId)
 				intent = "primary"
 			} else if (type === "location") {
-				isActive = `${type}-${selectedLocationId}` === id
-				isFocused = focusedLocations.includes(propsId)
 				intent = "secondary"
 			} else if (type === "group") {
 				intent = "active"
@@ -389,29 +384,14 @@ export default function App() {
 					}
 					intent={intent}
 					onClick={() => {
-						switch (type) {
-							case "location":
-								onLocationMarkerClick(propsId)
-								break
-
-							case "player":
-								onPlayerMarkerClick(propsId)
-								break
-						}
+						onMarkerClick(propsId)
 					}}
 				>
 					<MarkerLabel label={name} />
 				</DotMarker>
 			)
 		},
-		[
-			focusedLocations,
-			focusedPlayers,
-			onLocationMarkerClick,
-			onPlayerMarkerClick,
-			selectedLocationId,
-			selectedPlayerId,
-		],
+		[highlightedIds, onMarkerClick, selectedIds],
 	)
 
 	const renderCluster = ({
@@ -428,14 +408,8 @@ export default function App() {
 		clusteredElems: CustomMarkerProperties[]
 	}) => {
 		const isActive = clusteredElems.some(
-			({ id, type }: CustomMarkerProperties) => {
-				if (type === "player") {
-					return id === selectedPlayerId
-				} else if (type === "location") {
-					return id === selectedLocationId
-				}
-
-				return false
+			({ id }: CustomMarkerProperties) => {
+				return selectedIds.includes(id)
 			},
 		)
 
@@ -457,19 +431,34 @@ export default function App() {
 		)
 	}
 
+	const selectedEntities = useMemo(() => {
+		return markerElements.filter((marker) => {
+			return selectedIds.includes(marker.id)
+		})
+	}, [markerElements, selectedIds])
+
+	const isLoaderShown = useMemo(() => {
+		return (
+			allPlayers.isLoading ||
+			allPlayLocations.isLoading ||
+			allGroups.isLoading ||
+			!isMapReady
+		)
+	}, [
+		allGroups.isLoading,
+		allPlayLocations.isLoading,
+		allPlayers.isLoading,
+		isMapReady,
+	])
+
 	return (
 		<>
 			<LoaderOverlay
-				shown={
-					allPlayersData.loading ||
-					allPlayLocations.loading ||
-					allGroups.loading ||
-					!isMapReady
-				}
+				shown={isLoaderShown}
 				fullPage
 			/>
 
-			<LandingPageNav visible={!isInterfaceShown} />
+			<LandingPageNav visible={!isSidebarOpen} />
 
 			<section className={"h-screen w-full"}>
 				<Map
@@ -480,7 +469,7 @@ export default function App() {
 					onClick={onMapClick}
 					onLoad={onMapLoad}
 				>
-					<MapContext.Provider value={mapRef.current}>
+					<MapContextProvider value={mapRef.current}>
 						<Cluster<CustomMarkerProperties>
 							points={filteredSuperclusterPoints}
 							options={{
@@ -491,15 +480,13 @@ export default function App() {
 						>
 							{({ pointLookupTable }) => (
 								<MemoizedLines
-									selectedLocationId={selectedLocationId}
-									allPlayLocations={allPlayLocations.data}
-									allPlayersData={allPlayersData.data}
-									selectedPlayerId={selectedPlayerId}
+									selectedIds={selectedIds}
+									markerElements={markerElements}
 									pointLookupTable={pointLookupTable}
 								/>
 							)}
 						</Cluster>
-					</MapContext.Provider>
+					</MapContextProvider>
 				</Map>
 
 				<div
@@ -517,10 +504,12 @@ export default function App() {
 							Let’s Connect!
 						</MapOverlay.Headline>
 
-						<img
+						<Image
 							src={DIABOLO_STICKS.src}
 							className={"relative z-0 mt-[-10%]"}
 							alt={""}
+							width={512}
+							height={256}
 						/>
 
 						<MapOverlay.Description>
@@ -557,27 +546,35 @@ export default function App() {
 
 				<Sidebar
 					ref={sidebarRef}
-					isShown={isInterfaceShown}
+					isShown={isSidebarOpen}
 					onClose={() => {}}
 				>
-					<PlayersContext.Provider
-						value={allPlayersData?.data?.players.data || []}
-					>
-						{selectedPlayerId && (
-							<PlayerContent
-								id={selectedPlayerId}
-								onDisciplineClick={(id) => {
-									setFilterState({
-										type: "discipline",
-										id,
-									})
-								}}
-								onLocationClick={onLocationMarkerClick}
-							/>
-						)}
+					<PlayersContext.Provider value={allPlayers?.data || []}>
+						{selectedEntities.length && (
+							<>
+								<PlayerContent
+									id={selectedEntities[0].originalId}
+									onDisciplineClick={(id) => {
+										setFilterState({
+											type: "discipline",
+											id,
+										})
+									}}
+									onLocationClick={onMarkerClick}
+								/>
 
-						{selectedLocationId && (
-							<LocationContent id={selectedLocationId} />
+								{selectedEntities[0].type === "group" && (
+									<Body className="p-0">
+										<p>Group</p>
+									</Body>
+								)}
+
+								{selectedEntities[0].type === "location" && (
+									<LocationContent
+										id={selectedEntities[0].originalId}
+									/>
+								)}
+							</>
 						)}
 					</PlayersContext.Provider>
 				</Sidebar>

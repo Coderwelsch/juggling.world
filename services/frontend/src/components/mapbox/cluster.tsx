@@ -1,4 +1,4 @@
-import { MapContext } from "@/pages"
+import { MapContext } from "@/src/components/mapbox/contexts/map-context"
 import { ClusterMarker } from "@/src/components/mapbox/marker/cluster-marker"
 import { BBox, Position } from "geojson"
 import {
@@ -17,7 +17,7 @@ export interface ClusterBasePoint<P = Record<string, unknown>> {
 	cluster?: boolean
 	point_count?: number
 	properties: P
-	id: string
+	id: string | number
 	coordinates: [number, number]
 }
 
@@ -27,7 +27,7 @@ interface ClusterProps<PointProperties = Record<string, unknown>> {
 	renderMarker: (props: {
 		point: Position
 		props: PointProperties
-		id: string
+		id: string | number
 	}) => ReactNode
 	renderCluster?: (props: {
 		point: Position

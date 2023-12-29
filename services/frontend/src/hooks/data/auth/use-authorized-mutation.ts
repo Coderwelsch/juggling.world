@@ -8,7 +8,7 @@ export interface UseAuthorizedMutationProps {
 	invalidationKeys?: string[]
 	authOptions?: RequestInit
 	onMutate?: () => void
-	onError?: (error: Error) => void
+	onError?: (error: ErrorResponse) => void
 }
 
 export type ErrorResponse = {
@@ -21,7 +21,7 @@ export type ErrorResponse = {
 }
 
 export const useAuthorizedMutation = <
-	MutationParams extends BodyInit,
+	MutationParams extends FormData,
 	ResponseType extends ErrorResponse,
 >({
 	path,
@@ -38,7 +38,11 @@ export const useAuthorizedMutation = <
 		onMutate,
 		onSuccess: (response) => {
 			if (response.error) {
-				throw response.error
+				if (onError) {
+					onError(response)
+				}
+
+				throw response
 			}
 
 			invalidationKeys?.forEach((key) => {
@@ -49,10 +53,16 @@ export const useAuthorizedMutation = <
 		},
 		onError:
 			onError ||
-			((error) => {
+			(({ error }: ErrorResponse) => {
 				console.error(error)
 
-				if (error.status === 401) {
+				if (!error) {
+					return errorToast({
+						message: "An unknown error occurred.",
+					})
+				}
+
+				if (error?.status === 401) {
 					return errorToast({
 						message:
 							"You are not authorized to perform this action.",
@@ -67,6 +77,7 @@ export const useAuthorizedMutation = <
 				}
 
 				return errorToast({
+					title: `${error.name} (${error.status}):` || "Error:",
 					message: error.message,
 				})
 			}),

@@ -1,29 +1,17 @@
-import { STEPS_CONFIG } from "@/src/components/dashboard/components/setup-profile/constants"
+import {
+	StepItem,
+	STEPS_CONFIG,
+} from "@/src/components/dashboard/components/setup-profile/constants"
 import { Header } from "@/src/components/dashboard/components/setup-profile/setup-dialog-header"
 import Dialog from "@/src/components/dialog/dialog"
 import { Wizard } from "@/src/components/wizard/wizard"
 import { useUserNeedsSetup } from "@/src/hooks/data/user/use-user-needs-setup"
 import { Content } from "next/dist/compiled/@next/font/dist/google"
-import {
-	JSXElementConstructor,
-	ReactNode,
-	SVGProps,
-	useEffect,
-	useState,
-} from "react"
+import { useEffect, useState } from "react"
 
 interface SetupProfileDialogProps {
 	isVisible: boolean
 	onClose: () => void
-}
-
-export interface StepItem {
-	key: string
-	title: string
-	description?: ReactNode
-	icon: JSXElementConstructor<SVGProps<SVGSVGElement>>
-	iconClassName?: string
-	content: () => ReactNode
 }
 
 export const SetupProfileDialog = ({

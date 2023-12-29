@@ -1,5 +1,7 @@
 import { CreateAGroup } from "@/src/components/dashboard/components/create-a-group/create-a-group"
+import { GroupActivities } from "@/src/components/dashboard/components/group-activities/group-activities"
 import { SetupProfileSection } from "@/src/components/dashboard/components/setup-profile/setup-profile"
+import { useGetGroups } from "@/src/hooks/data/user/use-get-groups"
 
 import { useUserNeedsSetup } from "@/src/hooks/data/user/use-user-needs-setup"
 import { DashboardLayout } from "@/src/components/dashboard/layout"
@@ -27,6 +29,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const Dashboard = () => {
 	const userNeedsSetup = useUserNeedsSetup()
+	const userGroups = useGetGroups()
 
 	return (
 		<DashboardLayout>
@@ -43,7 +46,11 @@ const Dashboard = () => {
 
 			{userNeedsSetup?.hasFinishedSetup && (
 				<>
-					<CreateAGroup />
+					{!userGroups.data?.length ? (
+						<CreateAGroup />
+					) : (
+						<GroupActivities />
+					)}
 				</>
 			)}
 		</DashboardLayout>

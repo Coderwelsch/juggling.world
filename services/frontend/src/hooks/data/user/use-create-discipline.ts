@@ -8,7 +8,7 @@ export const useCreateDiscipline = (
 	props?: { onMutate?: () => void } | undefined,
 ) => {
 	return useAuthorizedMutation<
-		BodyInit,
+		FormData,
 		UserDisciplineEntity & ErrorResponse
 	>({
 		path: "/user/discipline",

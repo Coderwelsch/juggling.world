@@ -1,4 +1,4 @@
-import { MapContext } from "@/pages"
+import { MapContext } from "@/src/components/mapbox/contexts/map-context"
 import * as crypto from "crypto"
 import { GeoJSONSource } from "mapbox-gl"
 import { useCallback, useContext, useEffect, useRef, useState } from "react"

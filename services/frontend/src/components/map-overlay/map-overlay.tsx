@@ -78,7 +78,7 @@ export const MapOverlay = ({ children }: MapOverlayProps) => {
 		<div
 			className={classNames(
 				"absolute bottom-0 left-0 flex min-h-[60vh] w-full flex-col items-center justify-end p-6 pointer-events-none",
-				"bg-gradient-to-t from-slate-800 to-transparent",
+				"bg-gradient-to-t from-blue-950 to-transparent",
 			)}
 		>
 			<div

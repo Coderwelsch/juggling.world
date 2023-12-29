@@ -4,6 +4,7 @@ import Dialog from "@/src/components/dialog/dialog"
 import { FormField } from "@/src/components/form/form-field/form-field"
 import { Headline } from "@/src/components/headline/headline"
 import { IconBxChevronRight } from "@/src/components/icons/bx-chevron-right"
+import IconUserLarge from "@/src/components/icons/user-large"
 import { useWizardContext } from "@/src/components/wizard/wizard"
 import { useSearchLocation } from "@/src/hooks/data/map/use-search-location"
 import { useUserProfileContext } from "@/src/hooks/data/user/use-profile-data"
@@ -70,7 +71,13 @@ export const SetupUserLocationForm = () => {
 					location={location ?? new mapboxgl.LngLat(0, 0)}
 					onChange={handleLocationChange}
 					className={"h-full w-3/5 rounded-l-xl"}
-					markerIcon={<Avatar src={user?.avatar?.url ?? ""} />}
+					markerIcon={
+						user?.avatar?.url ? (
+							<Avatar src={user.avatar.url} />
+						) : (
+							<IconUserLarge className={"h-full w-full"} />
+						)
+					}
 				/>
 
 				<div

@@ -1,15 +1,15 @@
-import { AllPlayLocationsResponse } from "@/src/queries/all-play-locations"
-import { AllPlayersResponse } from "@/src/queries/all-players"
-import { OperationVariables, QueryResult } from "@apollo/client"
+import { UseGetAllLocationsResponse } from "@/src/hooks/data/locations/use-get-all-locations"
+import { UseGetAllPlayersResponse } from "@/src/hooks/data/player/use-get-all-players"
+import { UseQueryResult } from "@tanstack/react-query"
 import mapboxgl from "mapbox-gl"
 import * as React from "react"
 import { useCallback } from "react"
 
 export const useFocusSelectedPlayerCallback = (
 	mapRef: React.MutableRefObject<mapboxgl.Map | undefined>,
-	selectedPlayerId: string | null,
-	allPlayersData: QueryResult<AllPlayersResponse, OperationVariables>,
-	allPlayLocations: QueryResult<AllPlayLocationsResponse, OperationVariables>,
+	selectedPlayerId: string | number | null,
+	players: UseQueryResult<UseGetAllPlayersResponse>,
+	locations: UseQueryResult<UseGetAllLocationsResponse>,
 	sidebarRef: React.MutableRefObject<HTMLDivElement | null>,
 ) =>
 	useCallback(() => {
@@ -23,9 +23,7 @@ export const useFocusSelectedPlayerCallback = (
 			return
 		}
 
-		const player = allPlayersData.data?.players.data.find(
-			(p) => p.id === selectedPlayerId,
-		)
+		const player = players.data?.find((p) => p.id === selectedPlayerId)
 
 		if (!player) {
 			return
@@ -33,23 +31,18 @@ export const useFocusSelectedPlayerCallback = (
 
 		const bounds = new mapboxgl.LngLatBounds()
 
-		bounds.extend([
-			player.attributes.location.longitude,
-			player.attributes.location.latitude,
-		])
+		bounds.extend([player.location.longitude, player.location.latitude])
 
-		player.attributes.userPlayLocations.data.forEach((location) => {
-			const playLocation = allPlayLocations.data?.locations.data.find(
-				(l) => l.id === location.id,
-			)
+		player.playLocations.forEach((location) => {
+			const playLocation = locations.data?.find((l) => l.id === location)
 
 			if (!playLocation) {
 				return
 			}
 
 			bounds.extend([
-				playLocation.attributes.location.longitude,
-				playLocation.attributes.location.latitude,
+				playLocation.location.longitude,
+				playLocation.location.latitude,
 			])
 		})
 
@@ -63,10 +56,4 @@ export const useFocusSelectedPlayerCallback = (
 				right: (sidebarRef.current?.clientWidth ?? 0) + 82,
 			},
 		})
-	}, [
-		mapRef,
-		selectedPlayerId,
-		allPlayersData.data?.players.data,
-		sidebarRef,
-		allPlayLocations.data?.locations.data,
-	])
+	}, [mapRef, selectedPlayerId, players.data, sidebarRef, locations.data])

@@ -11,7 +11,7 @@ export const PanelFooter = ({
 	return (
 		<div
 			className={classNames(
-				"mt-8 flex flex-col items-center justify-center gap-4",
+				"mt-8 flex flex-row items-center justify-center gap-4",
 				className,
 			)}
 		>

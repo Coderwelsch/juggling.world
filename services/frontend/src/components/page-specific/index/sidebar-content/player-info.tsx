@@ -3,9 +3,9 @@ import { Headline } from "@/src/components/headline/headline"
 import IconUserLarge from "@/src/components/icons/user-large"
 import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
 import { Body } from "@/src/components/sidebar/sidebar"
+import { useGetPlayer } from "@/src/hooks/data/player/use-get-player"
 import { classNames } from "@/src/lib/class-names"
-import { playerInfoQuery, PlayerResponse } from "@/src/queries/player-info"
-import { useQuery } from "@apollo/client"
+import { getStrapiUrl } from "@/src/lib/get-strapi-url"
 import Image from "next/image"
 import * as React from "react"
 import { ReactNode } from "react"
@@ -29,18 +29,16 @@ export const PlayerContent = ({
 	id,
 	onLocationClick,
 }: {
-	id: string
-	onLocationClick: (id: string) => void
-	onDisciplineClick: (id: string) => void
+	id: number
+	onLocationClick: (id: number) => void
+	onDisciplineClick: (id: number) => void
 }) => {
-	const player = useQuery<PlayerResponse>(playerInfoQuery, {
-		variables: { id },
-	})
+	const player = useGetPlayer(id)
 
-	const { disciplines, avatar, username, city, aboutMe, userPlayLocations } =
-		player.data?.player?.data?.attributes || {}
+	const { disciplines, avatar, username, city, aboutMe, playLocations } =
+		player.data || {}
 
-	const avatarUrl = avatar?.data?.attributes.url
+	const avatarUrl = avatar?.url
 
 	return (
 		<Body>
@@ -99,12 +97,10 @@ export const PlayerContent = ({
 
 					<Section title="Plays:">
 						<div className="flex w-full flex-row gap-4">
-							{disciplines?.data.map((discipline) => {
-								const { icon, name } =
-									discipline.attributes.discipline.data
-										.attributes || {}
+							{disciplines?.map((discipline) => {
+								const { icon, name } = discipline
 
-								const iconUrl = icon?.data.attributes.url
+								const iconUrl = icon?.url
 
 								return (
 									<div
@@ -147,60 +143,53 @@ export const PlayerContent = ({
 						<p className="w-full pr-6 text-sm text-slate-50/70">
 							Last locations where{" "}
 							<span className="italic">
-								{
-									player.data?.player?.data?.attributes
-										?.username
-								}
+								{player.data?.username}
 							</span>{" "}
 							played:
 						</p>
 
 						<div className="flex w-full flex-row gap-2">
-							{userPlayLocations?.data
-								.slice(0, 3)
-								.map((entry) => {
-									const { name, image } =
-										entry.attributes || {}
+							{playLocations?.slice(0, 3).map((entry) => {
+								const { name, avatar } = entry || {}
 
-									return (
-										<div
-											key={entry.id}
-											className={classNames(
-												"w-1/3 relative cursor-pointer flex-col overflow-hidden rounded-lg",
-												"border border-slate-200/25 bg-slate-100/40 shadow",
-												"hover:bg-slate-100/60 hover:border-slate-200 transition-colors",
+								return (
+									<div
+										key={entry.id}
+										className={classNames(
+											"w-1/3 relative cursor-pointer flex-col overflow-hidden rounded-lg",
+											"border border-slate-200/25 bg-slate-100/40 shadow",
+											"hover:bg-slate-100/60 hover:border-slate-200 transition-colors",
+										)}
+										onClick={() => {
+											onLocationClick(entry.id)
+										}}
+									>
+										<Image
+											width={160}
+											height={90}
+											className={"aspect-video"}
+											src={getStrapiUrl(
+												avatar?.url || "",
 											)}
-											onClick={() => {
-												onLocationClick(entry.id)
-											}}
-										>
-											<Image
-												width={160}
-												height={90}
-												className={"aspect-video"}
-												src={
-													"http://strapi" +
-													image?.data.attributes.url
-												}
-												alt={""}
-											/>
+											alt={`Avatar of ${name}`}
+										/>
 
-											<div
+										<div
+											className={
+												"flex w-full flex-col gap-2 p-1"
+											}
+										>
+											<p
 												className={
-													"flex w-full flex-col gap-2 p-1"
+													"w-full text-ellipsis text-center text-xs"
 												}
 											>
-												<p
-													className={
-														"w-full text-ellipsis text-center text-xs"
-													}
-												>
-													{name}
-												</p>
-											</div>
+												{name}
+											</p>
 										</div>
-									)
-								})}
+									</div>
+								)
+							})}
 						</div>
 					</Section>
 				</div>
