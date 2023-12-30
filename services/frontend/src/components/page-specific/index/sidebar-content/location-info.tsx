@@ -1,22 +1,14 @@
 import { Headline } from "@/src/components/headline/headline"
 import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
 import { Body } from "@/src/components/sidebar/sidebar"
-import {
-	playLocationQuery,
-	PlayLocationResponse,
-} from "@/src/queries/play-location-info"
-import { useQuery } from "@apollo/client"
+import { useGetLocation } from "@/src/hooks/data/locations/use-get-location"
 import Image from "next/image"
 import * as React from "react"
 import Markdown from "react-markdown"
 
 export const LocationContent = ({ id }: { id: number }) => {
-	const location = useQuery<PlayLocationResponse>(playLocationQuery, {
-		variables: { id },
-	})
-
-	const imageUrl =
-		location.data?.location.data.attributes.image?.data.attributes.url
+	const location = useGetLocation(id)
+	const imageUrl = location.data?.image?.url
 
 	return (
 		<Body className="p-0">
@@ -40,16 +32,11 @@ export const LocationContent = ({ id }: { id: number }) => {
 								size={3}
 								className={"leading-6"}
 							>
-								{location.data.location.data.attributes.name}
+								{location.data.name}
 							</Headline>
 
 							<div className="prose text-sm text-slate-50 text-opacity-75 prose-a:text-slate-300 hover:prose-a:text-slate-400">
-								<Markdown>
-									{
-										location.data.location.data.attributes
-											.description
-									}
-								</Markdown>
+								<Markdown>{location.data.description}</Markdown>
 							</div>
 						</div>
 					</div>
