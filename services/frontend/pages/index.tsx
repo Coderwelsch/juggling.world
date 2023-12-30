@@ -591,7 +591,7 @@ export default function App() {
 					onClose={() => {}}
 				>
 					<PlayersContext.Provider value={allPlayers?.data || []}>
-						{selectedEntities.length && (
+						{selectedEntities.length ? (
 							<>
 								{selectedEntities[0].type === "player" && (
 									<PlayerContent
@@ -618,7 +618,7 @@ export default function App() {
 									/>
 								)}
 							</>
-						)}
+						) : null}
 					</PlayersContext.Provider>
 				</Sidebar>
 			</section>
