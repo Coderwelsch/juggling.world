@@ -11,12 +11,12 @@ import { ClusterMarker } from "@/src/components/mapbox/marker/cluster-marker"
 import { DotMarker, Intent } from "@/src/components/mapbox/marker/dot-marker"
 import { MarkerLabel } from "@/src/components/mapbox/marker/marker-label"
 import { LandingPageNav } from "@/src/components/nav/landing-page-nav"
-import { useMapBoundingBoxCallback } from "@/src/components/page-specific/index/hooks/use-map-bounding-box-callback"
+import { useMapBoundingBoxCallback } from "@/src/components/mapbox/hooks/use-map-bounding-box-callback"
 import {
 	CustomMarkerProperties,
 	MarkerEntity,
 	MemoizedLines,
-} from "@/src/components/page-specific/index/map/connection-lines"
+} from "@/src/components/mapbox/connection-lines"
 import { LocationContent } from "@/src/components/page-specific/index/sidebar-content/location-info"
 import { PlayerContent } from "@/src/components/page-specific/index/sidebar-content/player-info"
 import Sidebar, { Body } from "@/src/components/sidebar/sidebar"
