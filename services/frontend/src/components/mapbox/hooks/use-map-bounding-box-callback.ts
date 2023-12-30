@@ -14,14 +14,19 @@ interface UseMapBoundingBox {
 			}
 		}
 	>
-	rightOffset?: number
+	paddingOptions: mapboxgl.PaddingOptions
 }
 
 export const useMapBoundingBoxCallback = ({
 	mapRef,
 	selectedIds,
 	entities,
-	rightOffset = 0,
+	paddingOptions = {
+		top: 128,
+		bottom: 86,
+		left: 64,
+		right: 64,
+	},
 }: UseMapBoundingBox) =>
 	useCallback(() => {
 		const map = mapRef.current
@@ -48,22 +53,13 @@ export const useMapBoundingBoxCallback = ({
 			bounds.extend([entity.location.longitude, entity.location.latitude])
 		})
 
-		const browserWidth = document.body.clientWidth
-		const clampedRightOffset =
-			rightOffset > browserWidth * 0.5 ? browserWidth * 0.5 : rightOffset
-
 		try {
 			map?.fitBounds(bounds, {
 				duration: 3000,
 				essential: true,
-				padding: {
-					top: 128,
-					bottom: 86,
-					left: 64,
-					right: clampedRightOffset + 64,
-				},
+				padding: paddingOptions,
 			})
 		} catch (error) {
 			console.error(error)
 		}
-	}, [mapRef, selectedIds, entities, rightOffset])
+	}, [mapRef, selectedIds, entities, paddingOptions])

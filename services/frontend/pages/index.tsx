@@ -27,6 +27,7 @@ import {
 	useGetAllPlayers,
 	UseGetAllPlayersResponse,
 } from "@/src/hooks/data/player/use-get-all-players"
+import { useBrowserSize } from "@/src/hooks/use-browser-size"
 import { classNames } from "@/src/lib/class-names"
 import { getStrapiUrl } from "@/src/lib/get-strapi-url"
 import { mapValueRange } from "@/src/lib/map-value-range"
@@ -312,11 +313,25 @@ export default function App() {
 		]
 	}, [highlightedIds, selectedIds])
 
+	const browserSize = useBrowserSize()
+
+	const paddingOptions = useMemo(() => {
+		return {
+			top: 64,
+			bottom: browserSize.width > 768 ? 64 : browserSize.height * 0.3,
+			left: 64,
+			right:
+				browserSize.width > 768
+					? (sidebarRef?.current?.offsetWidth ?? 0) + 64
+					: 64,
+		}
+	}, [browserSize.height, browserSize.width])
+
 	const boundingBoxCallback = useMapBoundingBoxCallback({
 		mapRef,
 		selectedIds: selectedBoundingBoxIds,
 		entities: markerElements,
-		rightOffset: sidebarRef?.current?.offsetWidth,
+		paddingOptions: paddingOptions,
 	})
 
 	useEffect(() => {
@@ -502,7 +517,9 @@ export default function App() {
 				<LegendOverlay
 					className={classNames("pointer-events-none")}
 					style={{
-						opacity: isMapOverlayEnabled
+						opacity: isSidebarOpen
+							? 0
+							: isMapOverlayEnabled
 							? openerOpacity < 0.3
 								? 1 - openerOpacity
 								: 0
