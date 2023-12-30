@@ -1,5 +1,5 @@
 import DIABOLO_STICKS from "@/src/assets/diabolo-sticks.svg"
-import IconUserLarge from "@/src/components/icons/user-large"
+import IconPark from "@/src/components/icons/tree"
 import { LoaderOverlay } from "@/src/components/loader-overlay/loader-overlay"
 import { MapOverlay } from "@/src/components/map-overlay/map-overlay"
 import { Cluster, ClusterBasePoint } from "@/src/components/mapbox/cluster"
@@ -50,7 +50,7 @@ export default function App() {
 	const [isMapReady, setIsMapReady] = useState(false)
 	const mapRef = useRef<mapboxgl.Map | undefined>()
 	const sidebarRef = useRef<HTMLDivElement | null>(null)
-	const [isInterfaceShown, setIsInterfaceShown] = useState(false)
+	const [isMapOverlayEnabled, setIsMapOverlayEnabled] = useState(true)
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 	const [isSpinAnimationInterrupted, setIsSpinAnimationInterrupted] =
 		useState(false)
@@ -76,7 +76,7 @@ export default function App() {
 					originalId: g.id,
 					type: "group" as const,
 					label: g.name,
-					avatar: g.avatar,
+					icon: g.avatar?.url,
 					location: g.location,
 					connectionIds: [...g.members.map((id) => `player-${id}`)],
 				})),
@@ -90,7 +90,7 @@ export default function App() {
 					originalId: p.id,
 					type: "player" as const,
 					label: p.username,
-					avatar: p.avatar,
+					icon: p.avatar?.url,
 					location: p.location,
 					connectionIds: [
 						...p.groups.map((id) => `group-${id}`),
@@ -107,7 +107,7 @@ export default function App() {
 					originalId: l.id,
 					type: "location" as const,
 					label: l.name,
-					avatar: l.image,
+					icon: IconPark,
 					location: l.location,
 					connectionIds: [...l.visitors.map((id) => `player-${id}`)],
 				})),
@@ -133,7 +133,7 @@ export default function App() {
 						marker.location.latitude,
 					],
 					properties: {
-						imageUrl: marker.avatar?.url,
+						icon: marker.icon,
 						type: marker.type,
 						name: marker.label,
 						id: marker.id,
@@ -248,6 +248,7 @@ export default function App() {
 			setHighlightedIds(connectedMarkerIds)
 			setSelectedIds([id])
 			setIsSidebarOpen(true)
+			setIsMapOverlayEnabled(false)
 		},
 		[
 			allGroups.data,
@@ -264,8 +265,8 @@ export default function App() {
 			return
 		}
 
-		setIsInterfaceShown(true)
 		setIsSidebarOpen(false)
+		setIsMapOverlayEnabled(true)
 
 		setSelectedIds([])
 		setHighlightedIds([])
@@ -340,7 +341,7 @@ export default function App() {
 	const onRenderMarker = useCallback(
 		({
 			point,
-			props: { id: propsId, imageUrl, name, type },
+			props: { id: propsId, icon: Icon, name, type },
 			id,
 		}: {
 			point: Position
@@ -354,9 +355,9 @@ export default function App() {
 			if (type === "player") {
 				intent = "primary"
 			} else if (type === "location") {
-				intent = "secondary"
+				intent = "green"
 			} else if (type === "group") {
-				intent = "active"
+				intent = "secondary"
 			}
 
 			return (
@@ -366,19 +367,21 @@ export default function App() {
 					active={isActive}
 					focused={isFocused}
 					icon={
-						imageUrl ? (
+						Icon && typeof Icon !== "string" ? (
+							<Icon
+								className={
+									"h-[70%] w-[70%] overflow-hidden rounded-full"
+								}
+							/>
+						) : (
 							<Image
-								src={getStrapiUrl(imageUrl)}
+								src={getStrapiUrl(Icon || "")}
 								className={
 									"h-full w-full overflow-hidden rounded-full"
 								}
 								alt={type}
 								width={32}
 								height={32}
-							/>
-						) : (
-							<IconUserLarge
-								className={"h-3.5 w-3.5 fill-neutral-50"}
 							/>
 						)
 					}
@@ -387,7 +390,10 @@ export default function App() {
 						onMarkerClick(propsId)
 					}}
 				>
-					<MarkerLabel label={name} />
+					<MarkerLabel
+						label={name}
+						intent={intent}
+					/>
 				</DotMarker>
 			)
 		},
@@ -491,12 +497,15 @@ export default function App() {
 
 				<div
 					className={classNames(
-						isInterfaceShown
+						!isMapOverlayEnabled
 							? "pointer-events-none"
 							: "pointer-events-auto",
 					)}
 					style={{
-						opacity: isInterfaceShown ? 0 : openerOpacity,
+						opacity: isMapOverlayEnabled ? openerOpacity : 0,
+						transition: !isMapOverlayEnabled
+							? "opacity 250ms ease-in-out"
+							: undefined,
 					}}
 				>
 					<MapOverlay>

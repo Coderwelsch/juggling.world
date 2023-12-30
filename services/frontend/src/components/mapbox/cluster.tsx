@@ -249,10 +249,6 @@ export const Cluster = <P = Record<string, unknown>,>({
 						return
 					}
 
-					if (elem.properties.cluster) {
-						console.log("elem is cluster", elem)
-					}
-
 					pointLookupTable[elem.properties.id] = [
 						point.geometry.coordinates[0],
 						point.geometry.coordinates[1],

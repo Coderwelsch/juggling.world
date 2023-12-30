@@ -1,11 +1,12 @@
 import { Line } from "@/src/components/mapbox/shapes/Line"
+import { JSXElementConstructor, SVGProps } from "react"
 import * as React from "react"
 
 export interface CustomMarkerProperties {
 	id: string | number
 	type: string
 	name: string
-	imageUrl?: string
+	icon?: string | JSXElementConstructor<SVGProps<SVGSVGElement>>
 	connectedIds?: Array<string | number>
 }
 
@@ -18,9 +19,7 @@ export interface MarkerEntity {
 		longitude: number
 		latitude: number
 	}
-	avatar?: {
-		url: string
-	}
+	icon?: string | JSXElementConstructor<SVGProps<SVGSVGElement>>
 	connectionIds?: Array<string | number>
 }
 
@@ -41,11 +40,11 @@ export const Lines = ({
 		return null
 	}
 
-	const filteredMarkerElements = markerElements?.filter((m) =>
+	const activeElements = markerElements?.filter((m) =>
 		selectedIds.includes(m.id),
 	)
 
-	filteredMarkerElements.forEach((marker) => {
+	activeElements.forEach((marker) => {
 		if (!marker) {
 			return
 		}
@@ -65,10 +64,19 @@ export const Lines = ({
 		}
 
 		marker.connectionIds?.forEach((targetId) => {
-			const targetPosition = pointLookupTable[targetId]
+			let targetPosition: [number, number] = pointLookupTable[targetId]
 
 			if (!targetPosition) {
-				return
+				const target = markerElements.find((m) => m.id === targetId)
+
+				if (!target) {
+					return
+				}
+
+				targetPosition = [
+					target.location.longitude,
+					target.location.latitude,
+				]
 			}
 
 			lines.push([sourcePosition, targetPosition])
@@ -86,10 +94,23 @@ export const Lines = ({
 	))
 }
 export const MemoizedLines = React.memo(Lines, (prevProps, nextProps) => {
-	if (
-		prevProps.markerElements !== nextProps.markerElements ||
-		prevProps.selectedIds !== nextProps.selectedIds
-	) {
+	if (prevProps.selectedIds?.length !== nextProps.selectedIds?.length) {
+		return false
+	}
+
+	if (prevProps.selectedIds?.join() !== nextProps.selectedIds?.join()) {
+		return false
+	}
+
+	if (!prevProps.selectedIds?.length) {
+		return false
+	}
+
+	if (prevProps.markerElements?.length !== nextProps.markerElements?.length) {
+		return false
+	}
+
+	if (!prevProps.markerElements?.length) {
 		return false
 	}
 
