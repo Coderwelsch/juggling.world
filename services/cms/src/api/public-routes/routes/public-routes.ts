@@ -20,6 +20,15 @@ export default {
 		},
 		{
 			method: "GET",
+			path: "/public/locations/:id",
+			handler: "locations.findOne",
+			config: {
+				policies: [],
+				middlewares: [],
+			},
+		},
+		{
+			method: "GET",
 			path: "/public/players",
 			handler: "players.all",
 			config: {
