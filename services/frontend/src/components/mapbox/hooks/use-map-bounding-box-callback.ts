@@ -48,14 +48,22 @@ export const useMapBoundingBoxCallback = ({
 			bounds.extend([entity.location.longitude, entity.location.latitude])
 		})
 
-		map?.fitBounds(bounds, {
-			duration: 3000,
-			essential: true,
-			padding: {
-				top: 128,
-				bottom: 86,
-				left: 64,
-				right: rightOffset + 64,
-			},
-		})
+		const browserWidth = document.body.clientWidth
+		const clampedRightOffset =
+			rightOffset > browserWidth * 0.5 ? browserWidth * 0.5 : rightOffset
+
+		try {
+			map?.fitBounds(bounds, {
+				duration: 3000,
+				essential: true,
+				padding: {
+					top: 128,
+					bottom: 86,
+					left: 64,
+					right: clampedRightOffset + 64,
+				},
+			})
+		} catch (error) {
+			console.error(error)
+		}
 	}, [mapRef, selectedIds, entities, rightOffset])
