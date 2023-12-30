@@ -6,6 +6,7 @@ import { Cluster, ClusterBasePoint } from "@/src/components/mapbox/cluster"
 import { MapContextProvider } from "@/src/components/mapbox/contexts/map-context"
 import { useAnimation } from "@/src/components/mapbox/hooks/use-animation"
 import { useIsUserInteractingWithMap } from "@/src/components/mapbox/hooks/use-is-user-interacting-with-map"
+import { LegendOverlay } from "@/src/components/mapbox/legend-overlay"
 import { Map } from "@/src/components/mapbox/map"
 import { ClusterMarker } from "@/src/components/mapbox/marker/cluster-marker"
 import { DotMarker, Intent } from "@/src/components/mapbox/marker/dot-marker"
@@ -78,6 +79,7 @@ export default function App() {
 					label: g.name,
 					icon: g.avatar?.url,
 					location: g.location,
+					lineColor: "rgb(20,101,223)",
 					connectionIds: [...g.members.map((id) => `player-${id}`)],
 				})),
 			)
@@ -92,6 +94,7 @@ export default function App() {
 					label: p.username,
 					icon: p.avatar?.url,
 					location: p.location,
+					lineColor: "rgb(131,28,195)",
 					connectionIds: [
 						...p.groups.map((id) => `group-${id}`),
 						...p.playLocations.map((id) => `location-${id}`),
@@ -109,6 +112,7 @@ export default function App() {
 					label: l.name,
 					icon: IconPark,
 					location: l.location,
+					lineColor: "rgb(16,153,75)",
 					connectionIds: [...l.visitors.map((id) => `player-${id}`)],
 				})),
 			)
@@ -494,6 +498,32 @@ export default function App() {
 						</Cluster>
 					</MapContextProvider>
 				</Map>
+
+				<LegendOverlay
+					className={classNames("pointer-events-none")}
+					style={{
+						opacity: isMapOverlayEnabled
+							? openerOpacity < 0.3
+								? 1 - openerOpacity
+								: 0
+							: 1 - openerOpacity,
+						transition: isMapOverlayEnabled
+							? "opacity 250ms ease-in-out"
+							: undefined,
+					}}
+				>
+					<LegendOverlay.Item intent={"primary"}>
+						Users
+					</LegendOverlay.Item>
+
+					<LegendOverlay.Item intent={"secondary"}>
+						Groups
+					</LegendOverlay.Item>
+
+					<LegendOverlay.Item intent={"green"}>
+						Locations
+					</LegendOverlay.Item>
+				</LegendOverlay>
 
 				<div
 					className={classNames(

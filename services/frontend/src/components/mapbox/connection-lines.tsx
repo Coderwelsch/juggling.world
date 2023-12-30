@@ -19,6 +19,7 @@ export interface MarkerEntity {
 		longitude: number
 		latitude: number
 	}
+	lineColor?: string
 	icon?: string | JSXElementConstructor<SVGProps<SVGSVGElement>>
 	connectionIds?: Array<string | number>
 }
@@ -34,7 +35,11 @@ export const Lines = ({
 	selectedIds,
 	markerElements,
 }: LinesProps) => {
-	const lines: [[number, number], [number, number]][] = []
+	const lines: [
+		source: [number, number],
+		target: [number, number],
+		color?: string,
+	][] = []
 
 	if (!markerElements?.length || !selectedIds?.length) {
 		return null
@@ -79,15 +84,15 @@ export const Lines = ({
 				]
 			}
 
-			lines.push([sourcePosition, targetPosition])
+			lines.push([sourcePosition, targetPosition, marker.lineColor])
 		})
 	})
 
-	return lines.map((line, index) => (
+	return lines.map(([source, target, color = "rgb(16,185,129)"], index) => (
 		<Line
 			key={index}
-			coordinates={line}
-			color={"rgb(16,185,129)"}
+			coordinates={[source, target]}
+			color={color}
 			width={4}
 			outlineWidth={2}
 		/>
