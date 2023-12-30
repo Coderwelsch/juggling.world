@@ -1,3 +1,6 @@
+// update tailwind colors with this link:
+// https://www.tints.dev/?densed=9B85C7&brand=2522FC&sun=FAEB00&red=EF4444&pine=00F0A8&mint=00F0A8&blue=5200FA&primary=5200FA&purple=A855F7&coral=F53D07&neutral=C2BCD0
+
 import type { Config } from "tailwindcss"
 import typography from "@tailwindcss/typography"
 import forms from "@tailwindcss/forms"

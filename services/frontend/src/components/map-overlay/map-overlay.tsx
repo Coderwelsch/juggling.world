@@ -93,7 +93,7 @@ export const MapOverlay = ({ children }: MapOverlayProps) => {
 		>
 			<div
 				className={
-					"flex max-w-md flex-col gap-4 text-center text-neutral-100"
+					"flex max-w-md flex-col gap-3 text-center text-neutral-100"
 				}
 			>
 				{children}

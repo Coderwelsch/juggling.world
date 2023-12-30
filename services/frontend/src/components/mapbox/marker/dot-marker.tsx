@@ -8,10 +8,10 @@ export type Intent = "primary" | "sun" | "mint" | "coral"
 
 const dotMarkerStyles: Record<string, Record<Intent, string>> = {
 	idle: {
-		primary: "bg-primary-500 hover:border-2 hover:border-primary-50",
-		coral: "bg-coral-400 hover:border-2 hover:border-coral-50",
-		mint: "bg-mint-600 hover:border-2 hover:border-mint-50",
-		sun: "bg-sun-500 hover:border-2 hover:border-sun-50",
+		primary: "bg-primary-500 hover:border-2 hover:border-primary-500",
+		coral: "bg-coral-400 hover:border-2 hover:border-coral-500",
+		mint: "bg-mint-600 hover:border-2 hover:border-mint-500",
+		sun: "bg-sun-500 hover:border-2 hover:border-sun-500",
 	},
 	selected: {
 		primary: "bg-primary-500 border-2 border-primary-500",
@@ -20,10 +20,10 @@ const dotMarkerStyles: Record<string, Record<Intent, string>> = {
 		sun: "bg-sun-500 border-2 border-sun-500",
 	},
 	active: {
-		primary: "bg-primary-500 border-2 border-primary-50",
-		coral: "bg-coral-500 border-2 border-coral-50",
-		mint: "bg-mint-600 border-2 border-mint-50",
-		sun: "bg-sun-500 border-2 border-sun-50",
+		primary: "bg-primary-500 border-2 border-primary-500",
+		coral: "bg-coral-500 border-2 border-coral-500",
+		mint: "bg-mint-600 border-2 border-mint-500",
+		sun: "bg-sun-500 border-2 border-sun-500",
 	},
 }
 

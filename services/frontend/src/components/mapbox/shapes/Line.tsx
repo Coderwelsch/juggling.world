@@ -45,7 +45,7 @@ export const Line = ({
 					"line-cap": "round",
 				},
 				paint: {
-					"line-color": "white",
+					"line-color": "rgba(255, 255, 255, 0.2)",
 					"line-width": outlineWidth * 2 + width,
 				},
 			})

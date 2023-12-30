@@ -94,7 +94,7 @@ export const Lines = ({
 			coordinates={[source, target]}
 			color={color}
 			width={4}
-			outlineWidth={2}
+			outlineWidth={1}
 		/>
 	))
 }

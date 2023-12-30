@@ -551,7 +551,9 @@ export default function App() {
 							height={256}
 						/>
 
-						<MapOverlay.Description className={"text-primary-50"}>
+						<MapOverlay.Description
+							className={"mb-3 text-primary-100"}
+						>
 							Welcome to the all new space for us juggling
 							enthusiasts all over the world! Let’s connect, share
 							and grow&nbsp;together!
