@@ -14,14 +14,14 @@ export const DividerHorizontal = ({
 		<div className={"relative flex w-full items-center justify-center"}>
 			<div
 				className={classNames(
-					"absolute left-0 top-1/2 h-px w-full bg-slate-50/20",
+					"absolute left-0 top-1/2 h-px w-full bg-neutral-50/20",
 					className,
 				)}
 			/>
 
 			<div
 				className={
-					"relative z-10 bg-slate-800 px-2 text-center text-sm text-slate-100/60"
+					"relative z-10 bg-neutral-800 px-2 text-center text-sm text-neutral-100/60"
 				}
 			>
 				{children}

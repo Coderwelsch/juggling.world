@@ -10,9 +10,15 @@ interface LegendOverlayProps {
 type Intent = "primary" | "secondary" | "green"
 
 const legendIntentStyles: Record<Intent, string> = {
-	primary: "bg-primary-500 border border-primary-300",
-	secondary: "bg-blue-500 border border-blue-300",
-	green: "bg-emerald-500 border border-emerald-300",
+	primary: "bg-primary-500 border border-primary-200",
+	secondary: "bg-sun-500 border border-sun-200",
+	green: "bg-mint-600 border border-mint-400",
+}
+
+const legendLabelStyles: Record<Intent, string> = {
+	primary: "text-primary-50",
+	secondary: "text-sun-50",
+	green: "text-mint-50",
 }
 
 const LegendOverlayItem = ({
@@ -36,7 +42,9 @@ const LegendOverlayItem = ({
 				)}
 			/>
 
-			<p className={"text-sm"}>{children}</p>
+			<p className={classNames("text-sm", legendLabelStyles[intent])}>
+				{children}
+			</p>
 		</div>
 	)
 }
@@ -56,7 +64,7 @@ export const LegendOverlay = ({
 		>
 			<div
 				className={
-					"flex flex-row items-center justify-center gap-4 rounded-t-lg bg-neutral-800 px-3 py-1"
+					"flex flex-row items-center justify-center gap-4 rounded-t-lg bg-densed-800 px-3 py-1"
 				}
 			>
 				{children}

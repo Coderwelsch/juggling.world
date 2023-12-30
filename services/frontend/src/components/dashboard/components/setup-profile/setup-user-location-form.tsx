@@ -82,7 +82,7 @@ export const SetupUserLocationForm = () => {
 
 				<div
 					className={
-						"flex w-2/5 shrink-0 flex-col gap-4 p-6 text-slate-50"
+						"flex w-2/5 shrink-0 flex-col gap-4 p-6 text-neutral-50"
 					}
 				>
 					<div className={"flex flex-col gap-4"}>
@@ -118,7 +118,7 @@ export const SetupUserLocationForm = () => {
 						/>
 
 						{isSearching && (
-							<p className={"text-sm text-slate-100/80"}>
+							<p className={"text-sm text-neutral-100/80"}>
 								Searching for locations…
 							</p>
 						)}

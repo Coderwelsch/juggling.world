@@ -58,7 +58,7 @@ export const SetupAboutMeText = () => {
 					render={({ field }) => (
 						<textarea
 							className={
-								"min-h-[8rem] w-4/5 rounded-lg bg-slate-50/5 p-4 text-sm placeholder:text-slate-50/60 hover:bg-slate-50/10"
+								"min-h-[8rem] w-4/5 rounded-lg bg-neutral-50/5 p-4 text-sm placeholder:text-neutral-50/60 hover:bg-neutral-50/10"
 							}
 							placeholder={defaultText}
 							maxLength={200}

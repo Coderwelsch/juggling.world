@@ -38,7 +38,7 @@ export const SetupProfileSection = () => {
 					</Panel.Header>
 
 					<Panel.Body>
-						<p className={"text-slate-50 opacity-60"}>
+						<p className={"text-neutral-50 opacity-60"}>
 							Nice to see you! It looks like it’s your first time
 							here. To get you started we need to setup your
 							profile first. This will only take {stepsLength}{" "}

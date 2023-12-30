@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export const TopNav = () => {
 	return (
-		<nav className="fixed top-0 z-50 w-full border-b border-primary-100/10 bg-slate-950">
+		<nav className="fixed top-0 z-50 w-full border-b border-primary-100/10 bg-neutral-950">
 			<div className="p-3 lg:px-5 lg:pl-3">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center justify-start">
@@ -14,7 +14,7 @@ export const TopNav = () => {
 							data-drawer-toggle="logo-sidebar"
 							aria-controls="logo-sidebar"
 							type="button"
-							className="inline-flex items-center rounded-lg p-2 text-sm text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 sm:hidden"
+							className="inline-flex items-center rounded-lg p-2 text-sm text-neutral-500 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-700 sm:hidden"
 						>
 							<span className="sr-only">Open sidebar</span>
 							<svg

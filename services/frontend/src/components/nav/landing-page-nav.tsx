@@ -35,7 +35,7 @@ export const LandingPageNav = ({ visible = true }: { visible?: boolean }) => {
 				!visible && "opacity-0 pointer-events-none -translate-y-1/4",
 			)}
 		>
-			<div className="mx-auto flex w-full max-w-5xl flex-row justify-between rounded-full bg-purple-100 px-3.5 shadow">
+			<div className="mx-auto flex w-full max-w-5xl flex-row justify-between rounded-full bg-primary-50 px-3.5 shadow">
 				<Link
 					href={"/"}
 					className={"flex flex-row items-center gap-1"}

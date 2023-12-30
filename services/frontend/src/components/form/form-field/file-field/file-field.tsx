@@ -36,13 +36,13 @@ export const FileField = forwardRef(
 			<label
 				htmlFor={id}
 				className={classNames(
-					`group rounded-full flex flex-row items-center bg-neutral-100 bg-opacity-10 placeholder-slate-100 hover:bg-opacity-20 focus:bg-opacity-20 transition-colors cursor-pointer w-full`,
+					`group rounded-full flex flex-row items-center bg-neutral-100 bg-opacity-10 placeholder-neutral-100 hover:bg-opacity-20 focus:bg-opacity-20 transition-colors cursor-pointer w-full`,
 					className,
 				)}
 			>
 				<span
 					className={
-						"flex flex-row items-center gap-2 rounded-l-full bg-primary-100/20 px-5 py-2 text-sm font-semibold text-slate-50"
+						"flex flex-row items-center gap-2 rounded-l-full bg-primary-100/20 px-5 py-2 text-sm font-semibold text-neutral-50"
 					}
 				>
 					<IconFileImage />

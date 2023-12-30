@@ -67,7 +67,7 @@ export const AvatarChangeForm = () => {
 					<div
 						className={classNames(
 							"flex aspect-square w-36 items-center justify-center",
-							"overflow-hidden rounded-full border border-slate-50/10 bg-slate-50/10",
+							"overflow-hidden rounded-full border border-neutral-50/10 bg-neutral-50/10",
 						)}
 					>
 						{previewUrl || avatar ? (
@@ -81,7 +81,7 @@ export const AvatarChangeForm = () => {
 						) : (
 							<IconUserLarge
 								className={
-									"h-5/6 w-5/6 self-end text-slate-100/80"
+									"h-5/6 w-5/6 self-end text-neutral-100/80"
 								}
 							/>
 						)}
@@ -105,7 +105,7 @@ export const AvatarChangeForm = () => {
 											),
 										)
 									}}
-									className={"text-slate-50"}
+									className={"text-neutral-50"}
 									accept={"image/*"}
 								/>
 							)}

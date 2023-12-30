@@ -8,21 +8,21 @@ import { classNames } from "@/src/lib/class-names"
 import toast, { Toaster } from "react-hot-toast"
 
 const toastIntentStyles = {
-	success: "bg-emerald-500",
+	success: "bg-mint-500",
 	error: "bg-red-500 hover:bg-red-600",
-	info: "bg-blue-500",
+	info: "bg-coral-500",
 }
 
 const iconStyles: Record<keyof typeof toastIntentStyles, string> = {
-	success: "fill-emerald-50",
+	success: "fill-mint-50",
 	error: "fill-red-50",
-	info: "fill-blue-50",
+	info: "fill-coral-50",
 }
 
 const closeIconStyles: Record<keyof typeof toastIntentStyles, string> = {
-	success: "fill-emerald-100 hover:fill-emerald-50",
+	success: "fill-mint-100 hover:fill-mint-50",
 	error: "fill-red-100 hover:fill-red-50",
-	info: "fill-blue-100 hover:fill-blue-50",
+	info: "fill-coral-100 hover:fill-coral-50",
 }
 
 interface ToastProps {

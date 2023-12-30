@@ -12,7 +12,7 @@ export const Panel = ({ children, className }: PanelProps) => {
 	return (
 		<section
 			className={classNames(
-				"flex flex-col rounded-xl border border-slate-50/10 bg-slate-800 px-8 py-6 pb-8",
+				"flex flex-col rounded-xl border border-neutral-50/10 bg-neutral-800 px-8 py-6 pb-8",
 				className,
 			)}
 		>

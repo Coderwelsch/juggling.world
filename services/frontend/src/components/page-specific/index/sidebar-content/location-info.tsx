@@ -35,7 +35,7 @@ export const LocationContent = ({ id }: { id: number }) => {
 								{location.data.name}
 							</Headline>
 
-							<div className="prose text-sm text-slate-50 text-opacity-75 prose-a:text-slate-300 hover:prose-a:text-slate-400">
+							<div className="prose text-sm text-neutral-50 text-opacity-75 prose-a:text-neutral-300 hover:prose-a:text-neutral-400">
 								<Markdown>{location.data.description}</Markdown>
 							</div>
 						</div>

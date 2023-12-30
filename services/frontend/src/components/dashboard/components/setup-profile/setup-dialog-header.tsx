@@ -28,7 +28,7 @@ export const Header = ({
 			title={activeStep.title}
 		>
 			{activeStep.description ? (
-				<p className={"text-slate-50 opacity-60"}>
+				<p className={"text-neutral-50 opacity-60"}>
 					{activeStep.description}
 				</p>
 			) : null}

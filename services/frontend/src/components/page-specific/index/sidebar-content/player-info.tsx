@@ -54,13 +54,13 @@ export const PlayerContent = ({
 								height={120}
 								alt={username || ""}
 								className={
-									"h-20 w-20 rounded-full border border-slate-200"
+									"h-20 w-20 rounded-full border border-neutral-200"
 								}
 							/>
 						) : (
 							<div
 								className={
-									"flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-primary-400"
+									"flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-neutral-200 bg-primary-400"
 								}
 							>
 								<IconUserLarge
@@ -79,21 +79,25 @@ export const PlayerContent = ({
 								</Headline>
 
 								{city && (
-									<p className={"text-sm text-slate-200"}>
+									<p className={"text-sm text-neutral-200"}>
 										{city}
 									</p>
 								)}
 							</div>
 
 							{aboutMe && (
-								<p className={"pr-6 text-xs text-slate-50/70"}>
+								<p
+									className={
+										"pr-6 text-xs text-neutral-50/70"
+									}
+								>
 									{aboutMe}
 								</p>
 							)}
 						</div>
 					</div>
 
-					<div className={"h-px w-full bg-slate-100 opacity-30"} />
+					<div className={"h-px w-full bg-neutral-100 opacity-30"} />
 
 					<Section title="Plays:">
 						<div className="flex w-full flex-row gap-4">
@@ -106,13 +110,13 @@ export const PlayerContent = ({
 									<div
 										key={discipline.id}
 										className={classNames(
-											"inline-flex flex-row items-center gap-2 bg-slate-200 bg-opacity-20 p-1 pr-4 rounded-full",
+											"inline-flex flex-row items-center gap-2 bg-neutral-200 bg-opacity-20 p-1 pr-4 rounded-full",
 										)}
 									>
 										{iconUrl && (
 											<div
 												className={
-													"flex h-6 w-6 items-center justify-center rounded-full border border-slate-100 bg-slate-50"
+													"flex h-6 w-6 items-center justify-center rounded-full border border-neutral-100 bg-neutral-50"
 												}
 											>
 												<Image
@@ -140,7 +144,7 @@ export const PlayerContent = ({
 					</Section>
 
 					<Section title={"Locations:"}>
-						<p className="w-full pr-6 text-sm text-slate-50/70">
+						<p className="w-full pr-6 text-sm text-neutral-50/70">
 							Last locations where{" "}
 							<span className="italic">
 								{player.data?.username}
@@ -157,8 +161,8 @@ export const PlayerContent = ({
 										key={entry.id}
 										className={classNames(
 											"w-1/3 relative cursor-pointer flex-col overflow-hidden rounded-lg",
-											"border border-slate-200/25 bg-slate-100/40 shadow",
-											"hover:bg-slate-100/60 hover:border-slate-200 transition-colors",
+											"border border-neutral-200/25 bg-neutral-100/40 shadow",
+											"hover:bg-neutral-100/60 hover:border-neutral-200 transition-colors",
 										)}
 										onClick={() => {
 											onLocationClick(entry.id)

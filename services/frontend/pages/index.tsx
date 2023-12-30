@@ -79,7 +79,7 @@ export default function App() {
 					label: g.name,
 					icon: g.avatar?.url,
 					location: g.location,
-					lineColor: "rgb(20,101,223)",
+					lineColor: "#FAEB00",
 					connectionIds: [...g.members.map((id) => `player-${id}`)],
 				})),
 			)
@@ -94,7 +94,7 @@ export default function App() {
 					label: p.username,
 					icon: p.avatar?.url,
 					location: p.location,
-					lineColor: "rgb(131,28,195)",
+					lineColor: "#7029FF",
 					connectionIds: [
 						...p.groups.map((id) => `group-${id}`),
 						...p.playLocations.map((id) => `location-${id}`),
@@ -112,7 +112,7 @@ export default function App() {
 					label: l.name,
 					icon: IconPark,
 					location: l.location,
-					lineColor: "rgb(16,153,75)",
+					lineColor: "#00C288",
 					connectionIds: [...l.visitors.map((id) => `player-${id}`)],
 				})),
 			)
@@ -359,9 +359,9 @@ export default function App() {
 			if (type === "player") {
 				intent = "primary"
 			} else if (type === "location") {
-				intent = "green"
+				intent = "mint"
 			} else if (type === "group") {
-				intent = "secondary"
+				intent = "sun"
 			}
 
 			return (
@@ -374,7 +374,7 @@ export default function App() {
 						Icon && typeof Icon !== "string" ? (
 							<Icon
 								className={
-									"h-[70%] w-[70%] overflow-hidden rounded-full"
+									"h-[70%] w-[70%] overflow-hidden rounded-full fill-neutral-50"
 								}
 							/>
 						) : (
@@ -551,7 +551,7 @@ export default function App() {
 							height={256}
 						/>
 
-						<MapOverlay.Description>
+						<MapOverlay.Description className={"text-primary-50"}>
 							Welcome to the all new space for us juggling
 							enthusiasts all over the world! Let’s connect, share
 							and grow&nbsp;together!

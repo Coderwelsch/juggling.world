@@ -15,7 +15,7 @@ export const Body = ({
 	className?: string
 }) => {
 	return (
-		<div className="flex h-full flex-col overflow-y-scroll rounded-l-lg bg-slate-900 text-slate-50 shadow-xl">
+		<div className="flex h-full flex-col overflow-y-scroll rounded-l-lg bg-neutral-900 text-neutral-50 shadow-xl">
 			<div className={classNames("relative flex-1 px-4 py-6", className)}>
 				{children}
 			</div>

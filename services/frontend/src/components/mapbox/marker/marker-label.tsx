@@ -1,12 +1,13 @@
 import { classNames } from "@/src/lib/class-names"
 import * as React from "react"
 
-type Intent = "primary" | "secondary" | "green"
+type Intent = "primary" | "sun" | "mint" | "coral"
 
 const markerLabelStyles: Record<Intent, string> = {
-	primary: "bg-primary-700",
-	secondary: "bg-blue-600",
-	green: "bg-emerald-600",
+	primary: "bg-primary-600 text-primary-50",
+	sun: "bg-sun-500 text-sun-900",
+	mint: "bg-mint-600 text-mint-50",
+	coral: "bg-coral-500 text-coral-50",
 }
 
 interface MarkerLabelProps {
@@ -22,7 +23,7 @@ export const MarkerLabel = ({
 }: MarkerLabelProps) => (
 	<div
 		className={classNames(
-			"flex gap-1 whitespace-nowrap rounded-full border-2 border-primary-100 bg-primary-950 p-1",
+			"flex gap-1 whitespace-nowrap rounded-full p-1",
 			"!font-sans",
 			markerLabelStyles[intent],
 			className,
@@ -31,6 +32,6 @@ export const MarkerLabel = ({
 			font: "initial",
 		}}
 	>
-		<p className={"px-1 text-xs text-white"}>{label}</p>
+		<p className={"px-1 text-xs"}>{label}</p>
 	</div>
 )

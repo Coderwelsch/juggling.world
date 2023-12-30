@@ -28,7 +28,7 @@ const FinalStep = () => {
 			/>
 
 			<Dialog.Body className={"max-w-md"}>
-				<p className={"text-slate-50"}>
+				<p className={"text-neutral-50"}>
 					You have successfully completed your profile setup! You can
 					now start to use the app.
 				</p>
@@ -82,7 +82,7 @@ export const STEPS_CONFIG: Array<StepItem> = [
 		key: "finalize",
 		title: "Success!",
 		Icon: IconTickCircle,
-		iconClassName: "text-emerald-400",
+		iconClassName: "text-mint-400",
 		content: FinalStep,
 	},
 ]

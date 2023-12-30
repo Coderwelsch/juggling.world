@@ -15,7 +15,7 @@ export const SearchField = forwardRef(
 			<div className={"relative"}>
 				<IconSearch
 					className={
-						"absolute left-3 top-1/2 z-10 -translate-y-1/2 text-slate-100/50"
+						"absolute left-3 top-1/2 z-10 -translate-y-1/2 text-neutral-100/50"
 					}
 				/>
 

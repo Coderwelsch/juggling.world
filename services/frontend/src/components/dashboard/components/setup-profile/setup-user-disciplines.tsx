@@ -65,12 +65,12 @@ export const SetUserDisciplines = () => {
 
 				<div
 					className={
-						"flex h-full w-1/2 flex-col gap-3 overflow-y-scroll border-r border-slate-50/20 text-slate-50"
+						"flex h-full w-1/2 flex-col gap-3 overflow-y-scroll border-r border-neutral-50/20 text-neutral-50"
 					}
 				>
 					<div
 						className={
-							"sticky left-0 top-0 z-20 flex flex-col gap-2 bg-slate-800 p-5 py-6 pb-0"
+							"sticky left-0 top-0 z-20 flex flex-col gap-2 bg-neutral-800 p-5 py-6 pb-0"
 						}
 					>
 						<FormField>
@@ -103,7 +103,7 @@ export const SetUserDisciplines = () => {
 								<label
 									htmlFor={`discipline-${discipline.id}`}
 									key={discipline.id}
-									className={`flex cursor-pointer flex-col items-start justify-start gap-4 rounded-lg border border-slate-50/20 px-4 py-2 transition-colors hover:bg-slate-100/10`}
+									className={`flex cursor-pointer flex-col items-start justify-start gap-4 rounded-lg border border-neutral-50/20 px-4 py-2 transition-colors hover:bg-neutral-100/10`}
 								>
 									<div
 										className={
@@ -116,7 +116,7 @@ export const SetUserDisciplines = () => {
 												type="checkbox"
 												checked={isSelected}
 												name="bordered-checkbox"
-												className="h-4 w-4 cursor-pointer rounded border-slate-50/20 bg-slate-700 focus:ring-primary-500"
+												className="h-4 w-4 cursor-pointer rounded border-neutral-50/20 bg-neutral-700 focus:ring-primary-500"
 												onChange={() => {
 													if (isSelected) {
 														setSelectedDisciplines(
@@ -160,10 +160,12 @@ export const SetUserDisciplines = () => {
 					</div>
 				</div>
 
-				<div className={"flex w-1/2 flex-col gap-1 p-6 text-slate-50"}>
+				<div
+					className={"flex w-1/2 flex-col gap-1 p-6 text-neutral-50"}
+				>
 					<Headline size={4}>Disciplines</Headline>
 
-					<p className={"text-sm text-slate-400"}>
+					<p className={"text-sm text-neutral-400"}>
 						Select the disciplines you are interested in or want to
 						learn. You can add more later on, but you will need at
 						least one to get started.

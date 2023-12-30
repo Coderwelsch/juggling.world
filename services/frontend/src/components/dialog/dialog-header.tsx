@@ -20,7 +20,7 @@ export const DialogHeader = ({
 	return (
 		<div
 			className={classNames(
-				"flex flex-col items-center justify-between gap-3 text-slate-50 max-w-md text-center",
+				"flex flex-col items-center justify-between gap-3 text-neutral-50 max-w-md text-center",
 				className,
 			)}
 		>

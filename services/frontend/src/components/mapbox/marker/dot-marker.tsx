@@ -4,23 +4,26 @@ import * as React from "react"
 import { ReactNode, useMemo } from "react"
 import { Marker } from "react-map-gl"
 
-export type Intent = "primary" | "secondary" | "green"
+export type Intent = "primary" | "sun" | "mint" | "coral"
 
 const dotMarkerStyles: Record<string, Record<Intent, string>> = {
 	idle: {
-		primary: "bg-primary-700 hover:border-2 hover:border-neutral-50",
-		secondary: "bg-blue-400 hover:border-2 hover:border-neutral-50",
-		green: "bg-emerald-600 hover:border-2 hover:border-neutral-50",
+		primary: "bg-primary-500 hover:border-2 hover:border-primary-50",
+		coral: "bg-coral-400 hover:border-2 hover:border-coral-50",
+		mint: "bg-mint-600 hover:border-2 hover:border-mint-50",
+		sun: "bg-sun-500 hover:border-2 hover:border-sun-50",
 	},
 	selected: {
 		primary: "bg-primary-500 border-2 border-primary-500",
-		secondary: "bg-blue-500 border-2 border-blue-500",
-		green: "bg-emerald-600 border-2 border-emerald-600",
+		coral: "bg-coral-500 border-2 border-coral-500",
+		mint: "bg-mint-600 border-2 border-mint-600",
+		sun: "bg-sun-500 border-2 border-sun-500",
 	},
 	active: {
-		primary: "bg-primary-500 border-2 border-neutral-50",
-		secondary: "bg-blue-500 border-2 border-neutral-50",
-		green: "bg-emerald-600 border-2 border-neutral-50",
+		primary: "bg-primary-500 border-2 border-primary-50",
+		coral: "bg-coral-500 border-2 border-coral-50",
+		mint: "bg-mint-600 border-2 border-mint-50",
+		sun: "bg-sun-500 border-2 border-sun-50",
 	},
 }
 
@@ -37,8 +40,9 @@ export interface DotMarkerProps {
 
 const sonarStyles: Record<Intent, string> = {
 	primary: "bg-primary-800",
-	secondary: "bg-blue-600",
-	green: "bg-emerald-600",
+	coral: "bg-coral-600",
+	mint: "bg-mint-600",
+	sun: "bg-sun-500",
 }
 
 const SonarAnimation = ({ intent }: { intent: Intent }) => (
@@ -100,14 +104,14 @@ export const DotMarker = ({
 						{!icon && active && (
 							<div
 								className={classNames(
-									"absolute h-2 w-2 top-1/2 left-1/2 rounded-full bg-slate-50 transform -translate-x-1/2 -translate-y-1/2",
+									"absolute h-2 w-2 top-1/2 left-1/2 rounded-full bg-neutral-50 transform -translate-x-1/2 -translate-y-1/2",
 								)}
 							/>
 						)}
 
 						<div
 							className={
-								"flex h-full w-full items-center justify-center"
+								"flex h-full w-full items-center justify-center fill-neutral-50"
 							}
 						>
 							{icon}
@@ -118,7 +122,7 @@ export const DotMarker = ({
 				{children && (
 					<div
 						className={classNames(
-							"absolute -translate-x-1/2 cursor-pointer translate-y-3.5",
+							"absolute -translate-x-1/2 cursor-pointer translate-y-4",
 							active && "translate-y-5",
 						)}
 					>
