@@ -2,6 +2,7 @@ import { Button } from "@/src/components/button/button"
 import { Form } from "@/src/components/form/form"
 import { FormField } from "@/src/components/form/form-field/form-field"
 import { Headline } from "@/src/components/headline/headline"
+import IconAddCircle from "@/src/components/icons/add-circle"
 import { LogoSmall } from "@/src/components/logo/logo-small"
 import {
 	createUserQuery,
@@ -10,6 +11,7 @@ import {
 } from "@/src/queries/register-user"
 import { useMutation } from "@apollo/client"
 import { zodResolver } from "@hookform/resolvers/zod"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
@@ -85,9 +87,6 @@ export default function Register() {
 		}
 	}, [registerState, router])
 
-	console.log("registerUser", registerState)
-	console.log("formState", formState)
-
 	return (
 		<>
 			<section
@@ -100,7 +99,9 @@ export default function Register() {
 						"flex flex-col items-center justify-center gap-2"
 					}
 				>
-					<LogoSmall />
+					<Link href={"/"}>
+						<LogoSmall />
+					</Link>
 
 					<Headline
 						size={1}
@@ -217,6 +218,16 @@ export default function Register() {
 							{registerState.data ? "Registered …" : "Register"}
 						</Button>
 					</Form>
+				</div>
+
+				<div className={"flex flex-row items-center justify-center"}>
+					<Button
+						href={"/signin"}
+						variant={"text"}
+						intent={"densed"}
+					>
+						Already have an account?
+					</Button>
 				</div>
 			</section>
 		</>

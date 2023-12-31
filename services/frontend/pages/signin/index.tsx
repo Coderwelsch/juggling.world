@@ -2,6 +2,7 @@ import { Button } from "@/src/components/button/button"
 import { Form } from "@/src/components/form/form"
 import { FormField } from "@/src/components/form/form-field/form-field"
 import { Headline } from "@/src/components/headline/headline"
+import IconAddCircle from "@/src/components/icons/add-circle"
 import { IconBxChevronRight } from "@/src/components/icons/bx-chevron-right"
 import { LogoSmall } from "@/src/components/logo/logo-small"
 import {
@@ -13,6 +14,7 @@ import { useMutation } from "@apollo/client"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
 import { getCsrfToken, signIn } from "next-auth/react"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
@@ -113,7 +115,9 @@ export default function Signin({
 						"flex flex-col items-center justify-center gap-2"
 					}
 				>
-					<LogoSmall />
+					<Link href={"/"}>
+						<LogoSmall />
+					</Link>
 
 					<Headline
 						size={2}
@@ -200,6 +204,17 @@ export default function Signin({
 							{signInState.data ? "Signed in …" : "Sign In"}
 						</Button>
 					</Form>
+				</div>
+
+				<div className={"flex flex-row items-center justify-center"}>
+					<Button
+						href={"/signup"}
+						variant={"text"}
+						intent={"densed"}
+						IconBefore={<IconAddCircle />}
+					>
+						Create an account
+					</Button>
 				</div>
 			</section>
 		</>
