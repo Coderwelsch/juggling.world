@@ -28,7 +28,7 @@ const buttonStyles: Record<string, Record<Intent, string>> = {
 		neutral: "text-neutral-50 hover:bg-neutral-200/10",
 		mint: "text-green-400 hover:bg-green-400/20",
 		coral: "text-coral-400 hover:bg-coral-400/20",
-		densed: "text-densed-50 hover:bg-densed-50/10",
+		densed: "text-densed-200 hover:bg-densed-100/10",
 		sun: "text-sun-500 hover:bg-sun-400/20",
 	},
 	filled: {
@@ -36,7 +36,7 @@ const buttonStyles: Record<string, Record<Intent, string>> = {
 		neutral: "bg-neutral-100 text-neutral-900 hover:bg-neutral-200",
 		mint: "bg-green-500 text-neutral-100 hover:bg-green-400",
 		coral: "bg-coral-500 text-coral-50 hover:bg-coral-400",
-		densed: "bg-densed-400 text-densed-100 hover:bg-densed-50",
+		densed: "bg-densed-700 text-densed-100 hover:bg-densed-50",
 		sun: "bg-sun-500 text-neutral-100 hover:bg-sun-400",
 	},
 }
