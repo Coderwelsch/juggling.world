@@ -485,7 +485,7 @@ export default function App() {
 
 			<LandingPageNav visible={!isSidebarOpen} />
 
-			<section className={"h-screen w-full"}>
+			<section className={"h-[100dvh] w-full"}>
 				<Map
 					projection={{
 						name: "globe",
@@ -605,7 +605,7 @@ export default function App() {
 				<Sidebar
 					ref={sidebarRef}
 					isShown={isSidebarOpen}
-					onClose={() => {}}
+					onClose={() => setIsSidebarOpen(false)}
 				>
 					<PlayersContext.Provider value={allPlayers?.data || []}>
 						{selectedEntities.length ? (

@@ -16,7 +16,14 @@ export const LocationContent = ({ id }: { id: number }) => {
 
 			{location.data && (
 				<div className={"flex w-full flex-col gap-4"}>
-					<div className={"flex flex-col gap-4"}>
+					<div>
+						<Headline
+							size={3}
+							className={"px-4 py-5 leading-6"}
+						>
+							{location.data.name}
+						</Headline>
+
 						{imageUrl && (
 							<Image
 								src={`http://strapi${imageUrl}`}
@@ -26,18 +33,11 @@ export const LocationContent = ({ id }: { id: number }) => {
 								className={"w-full"}
 							/>
 						)}
+					</div>
 
-						<div className={"flex flex-col gap-2 px-6 py-2"}>
-							<Headline
-								size={3}
-								className={"leading-6"}
-							>
-								{location.data.name}
-							</Headline>
-
-							<div className="prose text-sm text-neutral-50 text-opacity-75 prose-a:text-neutral-300 hover:prose-a:text-neutral-400">
-								<Markdown>{location.data.description}</Markdown>
-							</div>
+					<div className={"flex flex-col gap-2 px-6 py-2"}>
+						<div className="text-md prose text-neutral-50 text-opacity-75 prose-a:text-neutral-300 hover:prose-a:text-neutral-400">
+							<Markdown>{location.data.description}</Markdown>
 						</div>
 					</div>
 				</div>

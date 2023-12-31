@@ -23,16 +23,22 @@ export const useIsUserInteractingWithMap = ({
 			onInteractionEnd()
 		}
 
+		// mouse
 		map.on("mousedown", onMoveStart)
 		map.on("mouseup", onMoveEnd)
-
 		map.on("wheel", onMoveStart)
 		map.on("zoomstart", onMoveStart)
+
+		// touch devices
+		map.on("touchstart", onMoveStart)
+		map.on("touchend", onMoveEnd)
 
 		return () => {
 			map.off("mousedown", onMoveStart)
 			map.off("mouseup", onMoveEnd)
-
+			map.off("wheel", onMoveStart)
+			map.off("touchstart", onMoveStart)
+			map.off("touchend", onMoveEnd)
 			map.off("zoomstart", onMoveStart)
 		}
 	}, [map, onInteractionEnd, onInteractionStart])

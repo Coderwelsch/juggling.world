@@ -1,5 +1,13 @@
+import { useBrowserSize } from "@/src/hooks/use-browser-size"
 import { classNames } from "@/src/lib/class-names"
-import { ForwardedRef, forwardRef, ReactNode } from "react"
+import {
+	ForwardedRef,
+	forwardRef,
+	MouseEventHandler,
+	ReactNode,
+	useEffect,
+	useRef,
+} from "react"
 
 interface SidebarProps {
 	isShown: boolean
@@ -15,7 +23,7 @@ export const Body = ({
 	className?: string
 }) => {
 	return (
-		<div className="flex h-full flex-col overflow-x-hidden overflow-y-scroll rounded-t-lg bg-neutral-900 text-neutral-50 shadow-xl md:rounded-l-lg md:rounded-t-none">
+		<div className="flex h-full flex-col overflow-x-hidden overflow-y-scroll rounded-t-lg bg-neutral-900 text-neutral-50 drop-shadow-md md:rounded-l-lg md:rounded-t-none">
 			<div className={classNames("relative flex-1 px-4 py-6", className)}>
 				{children}
 			</div>
@@ -27,30 +35,51 @@ const Sidebar = (
 	{ isShown, onClose, children }: SidebarProps,
 	ref: ForwardedRef<HTMLDivElement>,
 ) => {
+	const interactionRef = useRef<HTMLDivElement>(null)
+
+	const handleClick: MouseEventHandler = (event) => {
+		if (!interactionRef.current?.contains(event.target as Node)) {
+			onClose?.()
+		}
+	}
+
 	return (
 		<div
+			onClick={handleClick}
 			className={classNames(
-				"pointer-events-none fixed inset-0 z-10 overflow-hidden",
+				"fixed inset-0 z-10 overflow-y-auto overflow-x-hidden md:pointer-events-none",
+				isShown ? "pointer-events-auto" : "pointer-events-none",
 			)}
 		>
-			<div className="absolute inset-0 overflow-y-auto overflow-x-hidden">
-				<section
-					className="flex max-w-full md:absolute md:inset-y-0 md:right-0"
-					aria-labelledby="slide-over-heading"
+			<section
+				className="flex h-full max-w-full md:absolute md:inset-y-0 md:right-0"
+				aria-labelledby="slide-over-heading"
+			>
+				<div
+					ref={ref}
+					className={classNames(
+						`pointer-events-auto mt-[calc(100dvh-10rem)] md:mt-0 relative w-screen min-h-[calc(100dvh+1.5rem)] md:min-h-[100dvh] md:max-w-md transition-transform duration-500 ease-in-out`,
+						isShown
+							? "translate-y-0 md:translate-x-0 md:translate-y-0"
+							: "translate-y-full md:translate-x-full md:translate-y-0",
+					)}
 				>
 					<div
-						ref={ref}
-						className={classNames(
-							`pointer-events-auto mt-[80vh] md:mt-0 relative w-screen md:max-w-md min-h-[100vh] md:min-h-full transition-transform duration-500 ease-in-out`,
-							isShown
-								? "translate-y-0 md:translate-x-0 md:translate-y-0"
-								: "translate-y-full md:translate-x-full md:translate-y-0",
-						)}
+						ref={interactionRef}
+						className={
+							"flex h-full flex-col items-center justify-center gap-3"
+						}
 					>
-						{children}
+						<div
+							className={
+								"h-1.5 w-14 rounded-full bg-neutral-50/50 md:hidden"
+							}
+						/>
+
+						<div className={"h-full w-full"}>{children}</div>
 					</div>
-				</section>
-			</div>
+				</div>
+			</section>
 		</div>
 	)
 }
