@@ -9,7 +9,7 @@ import { useIsUserInteractingWithMap } from "@/src/components/mapbox/hooks/use-i
 import { LegendOverlay } from "@/src/components/mapbox/legend-overlay"
 import { Map } from "@/src/components/mapbox/map"
 import { ClusterMarker } from "@/src/components/mapbox/marker/cluster-marker"
-import { DotMarker, Intent } from "@/src/components/mapbox/marker/dot-marker"
+import { DotMarker } from "@/src/components/mapbox/marker/dot-marker"
 import { MarkerLabel } from "@/src/components/mapbox/marker/marker-label"
 import { LandingPageNav } from "@/src/components/nav/landing-page-nav"
 import { useMapBoundingBoxCallback } from "@/src/components/mapbox/hooks/use-map-bounding-box-callback"
@@ -95,7 +95,7 @@ export default function App() {
 					label: p.username,
 					icon: p.avatar?.url,
 					location: p.location,
-					lineColor: "#7029FF",
+					lineColor: "#F53D07",
 					connectionIds: [
 						...p.groups.map((id) => `group-${id}`),
 						...p.playLocations.map((id) => `location-${id}`),
@@ -372,7 +372,7 @@ export default function App() {
 			let intent: Intent = "primary"
 
 			if (type === "player") {
-				intent = "primary"
+				intent = "coral"
 			} else if (type === "location") {
 				intent = "mint"
 			} else if (type === "group") {
@@ -529,15 +529,15 @@ export default function App() {
 							: undefined,
 					}}
 				>
-					<LegendOverlay.Item intent={"primary"}>
+					<LegendOverlay.Item intent={"coral"}>
 						Users
 					</LegendOverlay.Item>
 
-					<LegendOverlay.Item intent={"secondary"}>
+					<LegendOverlay.Item intent={"sun"}>
 						Groups
 					</LegendOverlay.Item>
 
-					<LegendOverlay.Item intent={"green"}>
+					<LegendOverlay.Item intent={"mint"}>
 						Locations
 					</LegendOverlay.Item>
 				</LegendOverlay>

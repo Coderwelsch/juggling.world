@@ -142,7 +142,7 @@ export const AvatarChangeForm = () => {
 						}
 						IconAfter={<IconUpload />}
 						onClick={() => handleSubmit()}
-						intent={updateAvatar.isSuccess ? "success" : "primary"}
+						intent={updateAvatar.isSuccess ? "mint" : "primary"}
 						loading={updateAvatar.isLoading}
 					>
 						Upload

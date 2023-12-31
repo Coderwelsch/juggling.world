@@ -1,7 +1,6 @@
 import { Button } from "@/src/components/button/button"
 import { Headline } from "@/src/components/headline/headline"
 import IconUserLarge from "@/src/components/icons/user-large"
-import { useUserContext } from "@/src/contexts/user-context"
 import { useUserProfileContext } from "@/src/hooks/data/user/use-profile-data"
 import { classNames } from "@/src/lib/class-names"
 import { getStrapiUrl } from "@/src/lib/get-strapi-url"
@@ -26,7 +25,7 @@ const UserMenuLink = ({
 		<li>
 			<Link
 				href={pathName}
-				className="hover:text-white block px-6 py-3 text-sm font-semibold text-neutral-300 hover:bg-neutral-100/10"
+				className="block px-6 py-3 text-sm font-semibold text-neutral-300 hover:bg-neutral-100/10 hover:text-neutral-50"
 				role="menuitem"
 			>
 				{children}
@@ -131,7 +130,7 @@ export const UserMenu = () => {
 						)}
 					</div>
 
-					<hr className={"border-indigo-400/50"} />
+					<hr className={"border-primary-400/50"} />
 
 					<ul className="flex flex-col gap-0 overflow-hidden rounded-b-xl text-neutral-50">
 						<UserMenuLink href={"./settings/profile"}>
@@ -142,7 +141,7 @@ export const UserMenu = () => {
 
 						<Button
 							rounded={false}
-							intent={"danger"}
+							intent={"coral"}
 							variant={"text"}
 							onClick={() => {
 								signOut()

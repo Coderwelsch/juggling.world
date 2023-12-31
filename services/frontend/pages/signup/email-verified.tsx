@@ -4,8 +4,6 @@ import IconTickCircle from "@/src/components/icons/tick-circle"
 import { useRouter } from "next/router"
 
 export default function EmailVerified() {
-	const router = useRouter()
-
 	return (
 		<>
 			<section
@@ -18,19 +16,19 @@ export default function EmailVerified() {
 						"flex max-w-lg flex-col items-center justify-center gap-4"
 					}
 				>
-					<IconTickCircle className={"h-20 w-20 text-green-500"} />
+					<IconTickCircle className={"h-20 w-20 text-mint-500"} />
 
 					<Headline
 						size={2}
 						renderAs={"h1"}
-						className={"text-center text-slate-50"}
+						className={"text-center text-densed-50"}
 					>
 						Email verified successfully!
 					</Headline>
 
 					<p
 						className={
-							"max-w-md text-center text-slate-100 text-opacity-75"
+							"max-w-md text-center text-densed-100 text-opacity-75"
 						}
 					>
 						You’re now ready to sign in! Happy juggling!

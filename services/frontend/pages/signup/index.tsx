@@ -104,14 +104,14 @@ export default function Register() {
 
 					<Headline
 						size={1}
-						className={"text-slate-50"}
+						className={"text-densed-50"}
 					>
 						Registration
 					</Headline>
 
 					<p
 						className={
-							"max-w-sm text-center text-slate-100 text-opacity-75"
+							"max-w-sm text-center text-densed-100 text-opacity-75"
 						}
 					>
 						Create an account to find other jugglers around the
@@ -121,7 +121,7 @@ export default function Register() {
 
 				<div
 					className={
-						"w-full max-w-sm rounded-xl border border-slate-50/10 bg-slate-900 text-white"
+						"w-full max-w-sm rounded-xl border border-densed-50/10 bg-densed-900 text-neutral-50"
 					}
 				>
 					<Form

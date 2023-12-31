@@ -4,26 +4,30 @@ import * as React from "react"
 import { ReactNode, useMemo } from "react"
 import { Marker } from "react-map-gl"
 
-export type Intent = "primary" | "sun" | "mint" | "coral"
-
 const dotMarkerStyles: Record<string, Record<Intent, string>> = {
 	idle: {
 		primary: "bg-primary-500 hover:border-2 hover:border-primary-500",
 		coral: "bg-coral-400 hover:border-2 hover:border-coral-500",
 		mint: "bg-mint-600 hover:border-2 hover:border-mint-500",
 		sun: "bg-sun-500 hover:border-2 hover:border-sun-500",
+		densed: "bg-densed-400 hover:border-2 hover:border-densed-50",
+		neutral: "bg-neutral-50 hover:border-2 hover:border-neutral-50",
 	},
 	selected: {
 		primary: "bg-primary-500 border-2 border-primary-500",
 		coral: "bg-coral-500 border-2 border-coral-500",
 		mint: "bg-mint-600 border-2 border-mint-600",
 		sun: "bg-sun-500 border-2 border-sun-500",
+		densed: "bg-densed-400 border-2 border-densed-50",
+		neutral: "bg-neutral-50 border-2 border-neutral-50",
 	},
 	active: {
 		primary: "bg-primary-500 border-2 border-primary-500",
 		coral: "bg-coral-500 border-2 border-coral-500",
 		mint: "bg-mint-600 border-2 border-mint-500",
 		sun: "bg-sun-500 border-2 border-sun-500",
+		densed: "bg-densed-400 border-2 border-densed-50",
+		neutral: "bg-neutral-50 border-2 border-neutral-50",
 	},
 }
 
@@ -43,6 +47,8 @@ const sonarStyles: Record<Intent, string> = {
 	coral: "bg-coral-600",
 	mint: "bg-mint-600",
 	sun: "bg-sun-500",
+	densed: "bg-densed-400",
+	neutral: "bg-neutral-500",
 }
 
 const SonarAnimation = ({ intent }: { intent: Intent }) => (

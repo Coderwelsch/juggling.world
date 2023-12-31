@@ -1,0 +1,1 @@
+declare type Intent = "primary" | "mint" | "sun" | "densed" | "neutral" | "coral";

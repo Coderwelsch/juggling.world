@@ -90,7 +90,7 @@ export default function Dashboard({ userData }: DashboardProps) {
 	return (
 		<DashboardLayout>
 			{userData.attributes.finishedSetup !== true && (
-				<Panel className={"text-slate-50"}>
+				<Panel className={"text-densed-50"}>
 					<Headline>Locations</Headline>
 				</Panel>
 			)}

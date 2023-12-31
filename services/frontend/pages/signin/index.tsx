@@ -118,21 +118,21 @@ export default function Signin({
 					<Headline
 						size={2}
 						renderAs={"h1"}
-						className={"text-slate-50"}
+						className={"text-densed-50"}
 					>
 						Sign in
 					</Headline>
 				</div>
 
 				{signInState.error && (
-					<p className={"max-w-md text-center text-red-500"}>
+					<p className={"max-w-md text-center text-coral-500"}>
 						{signInState.error.message}
 					</p>
 				)}
 
 				<div
 					className={
-						"w-full max-w-sm rounded-xl border border-slate-50/10 bg-slate-900 text-white"
+						"w-full max-w-sm rounded-xl border border-densed-50/10 bg-densed-900 text-neutral-50"
 					}
 				>
 					<Form className={"overflow-hidden rounded-lg"}>

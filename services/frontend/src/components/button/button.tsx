@@ -22,18 +22,22 @@ const iconSizes = {
 	lg: "h-6 w-6 -mr-3",
 }
 
-const buttonStyles = {
+const buttonStyles: Record<string, Record<Intent, string>> = {
 	text: {
+		primary: "text-primary-400 hover:bg-primary-600/20",
 		neutral: "text-neutral-50 hover:bg-neutral-200/10",
-		primary: "text-primary-400 hover:bg-primary-600 hover:bg-opacity-20",
-		success: "text-green-400 hover:bg-green-400 hover:bg-opacity-20",
-		danger: "text-red-400 hover:bg-red-400 hover:bg-opacity-20",
+		mint: "text-green-400 hover:bg-green-400/20",
+		coral: "text-coral-400 hover:bg-coral-400/20",
+		densed: "text-densed-50 hover:bg-densed-50/10",
+		sun: "text-sun-500 hover:bg-sun-400/20",
 	},
 	filled: {
-		neutral: "bg-neutral-100 text-neutral-900 hover:bg-neutral-200",
 		primary: "bg-primary-500 text-neutral-100 hover:bg-primary-600",
-		success: "bg-green-500 text-neutral-100 hover:bg-green-400",
-		danger: "bg-red-500 text-neutral-100 hover:bg-red-400",
+		neutral: "bg-neutral-100 text-neutral-900 hover:bg-neutral-200",
+		mint: "bg-green-500 text-neutral-100 hover:bg-green-400",
+		coral: "bg-coral-500 text-coral-50 hover:bg-coral-400",
+		densed: "bg-densed-400 text-densed-100 hover:bg-densed-50",
+		sun: "bg-sun-500 text-neutral-100 hover:bg-sun-400",
 	},
 }
 
@@ -86,9 +90,9 @@ export const Button = ({
 		buttonStyles[variant][intent],
 		buttonSizes[size],
 		loading && "text-transparent",
-		error && buttonStyles[variant]["danger"],
+		error && buttonStyles[variant]["coral"],
 		loading && "text-transparent",
-		success && buttonStyles[variant]["success"],
+		success && buttonStyles[variant]["mint"],
 		disabled && "opacity-50 cursor-not-allowed",
 		className,
 	)

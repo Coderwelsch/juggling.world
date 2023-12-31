@@ -2,7 +2,7 @@
 
 export default function Profile() {
 	return (
-		<div className={"text-slate-50"}>
+		<div className={"text-densed-50"}>
 			<h1>Profile</h1>
 		</div>
 	)

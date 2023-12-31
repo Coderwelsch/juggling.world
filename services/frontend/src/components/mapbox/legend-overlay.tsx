@@ -7,18 +7,22 @@ interface LegendOverlayProps {
 	style?: React.CSSProperties
 }
 
-type Intent = "primary" | "secondary" | "green"
-
 const legendIntentStyles: Record<Intent, string> = {
 	primary: "bg-primary-500 border border-primary-200",
-	secondary: "bg-sun-500 border border-sun-200",
-	green: "bg-mint-600 border border-mint-400",
+	sun: "bg-sun-500 border border-sun-200",
+	mint: "bg-mint-600 border border-mint-400",
+	coral: "bg-coral-500 border border-coral-200",
+	densed: "bg-densed-800 border border-densed-600",
+	neutral: "bg-neutral-600 border border-neutral-200",
 }
 
 const legendLabelStyles: Record<Intent, string> = {
 	primary: "text-primary-50",
-	secondary: "text-sun-50",
-	green: "text-mint-50",
+	sun: "text-sun-50",
+	mint: "text-mint-50",
+	coral: "text-coral-50",
+	densed: "text-densed-50",
+	neutral: "text-neutral-50",
 }
 
 const LegendOverlayItem = ({

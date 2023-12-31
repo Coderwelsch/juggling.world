@@ -132,7 +132,7 @@ const CreateGroupForm = () => {
 			</FormField>
 
 			<Button
-				intent={createGroup.isSuccess ? "success" : "primary"}
+				intent={createGroup.isSuccess ? "mint" : "primary"}
 				loading={createGroup.isLoading}
 				type={"submit"}
 			>

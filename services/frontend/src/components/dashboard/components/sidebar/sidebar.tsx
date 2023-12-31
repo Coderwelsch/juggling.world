@@ -51,7 +51,7 @@ export const Sidebar = () => {
 					</TopNavItem>
 
 					<Button
-						intent={"danger"}
+						intent={"coral"}
 						size={"sm"}
 						className={"mt-auto justify-center"}
 						onClick={() => signOut({ callbackUrl: "/" })}
