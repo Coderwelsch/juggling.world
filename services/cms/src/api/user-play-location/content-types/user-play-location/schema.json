@@ -54,6 +54,17 @@
     "link": {
       "type": "string",
       "default": "E.g. Wikipedia Link for more Infos about this place"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "park",
+        "skatepark",
+        "sports-hall",
+        "other"
+      ],
+      "required": false,
+      "default": "other"
     }
   }
 }
