@@ -53,7 +53,7 @@
     "location": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::user-play-location.user-play-location",
+      "target": "api::location.location",
       "inversedBy": "groupEventsLocations"
     }
   }

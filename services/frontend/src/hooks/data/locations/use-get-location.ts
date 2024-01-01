@@ -16,15 +16,7 @@ export type UseGetLocationResponse = {
 		latitude: number
 		longitude: number
 	}
-	users: [
-		{
-			id: 1
-		},
-		{
-			id: 2
-		},
-	]
-	visitors: [1, 2]
+	visitors: Array<number>
 }
 
 export const useGetLocation = (locationId?: number | null) => {

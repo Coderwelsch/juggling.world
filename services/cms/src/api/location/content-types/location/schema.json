@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "user_play_locations",
+  "collectionName": "locations",
   "info": {
-    "singularName": "user-play-location",
-    "pluralName": "user-play-locations",
-    "displayName": "User Play Location",
+    "singularName": "location",
+    "pluralName": "locations",
+    "displayName": "Location",
     "description": ""
   },
   "options": {
@@ -16,12 +16,6 @@
       "type": "component",
       "repeatable": false,
       "component": "base.location"
-    },
-    "users": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "userPlayLocations"
     },
     "name": {
       "type": "string",
@@ -65,6 +59,12 @@
       ],
       "required": false,
       "default": "other"
+    },
+    "visitors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "visitedLocations"
     }
   }
 }

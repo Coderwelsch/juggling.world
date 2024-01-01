@@ -27,7 +27,7 @@ export type UseGetPlayerResponse = {
 			url: string
 		}
 	}>
-	playLocations: Array<{
+	visitedLocations: Array<{
 		id: number
 		name: string
 		avatar?: {

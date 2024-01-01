@@ -6,7 +6,7 @@ export default {
 	findOne: async (ctx) => {
 		const { id } = ctx.params
 
-		const { users, ...playLocation }: any = await strapi.entityService.findOne("api::user-play-location.user-play-location", id, {
+		const { visitors, ...location }: any = await strapi.entityService.findOne("api::location.location", id, {
 			filters: {
 				publishedAt: {
 					$ne: null,
@@ -30,7 +30,7 @@ export default {
 						"longitude",
 					],
 				},
-				users: {
+				visitors: {
 					fields: [
 						"id",
 					],
@@ -38,26 +38,26 @@ export default {
 			}
 		})
 
-		const mappedUsers = mapEntityIds(users)
+		const mappedUsers = mapEntityIds(visitors)
 
 		const latLng = {
-			latitude: playLocation.location.latitude,
-			longitude: playLocation.location.longitude,
+			latitude: location.location.latitude,
+			longitude: location.location.longitude,
 		}
 
 		const flattened = {
-			...playLocation,
+			...location,
 			location: latLng,
 			visitors: mappedUsers,
 		}
 
 		return await sanitize.contentAPI.output(
 			flattened,
-			strapi.getModel("api::user-play-location.user-play-location")
+			strapi.getModel("api::location.location")
 		)
 	},
 	all: async () => {
-		const playLocations: any = await strapi.entityService.findMany("api::user-play-location.user-play-location", {
+		const locations: any = await strapi.entityService.findMany("api::location.location", {
 			filters: {
 				publishedAt: {
 					$ne: null,
@@ -80,7 +80,7 @@ export default {
 						"longitude",
 					],
 				},
-				users: {
+				visitors: {
 					fields: [
 						"id",
 					],
@@ -89,8 +89,9 @@ export default {
 		})
 
 		// flatten the members and admins
-		const flattened = playLocations.map(({ users, ...location }) => {
-			const mappedUsers = mapEntityIds(users)
+		const flattened = locations.map(({ visitors, ...location }) => {
+			const mappedUsers = visitors ? mapEntityIds(visitors) : []
+
 			const latLng = {
 				latitude: location.location.latitude,
 				longitude: location.location.longitude,
@@ -105,7 +106,7 @@ export default {
 
 		return await sanitize.contentAPI.output(
 			flattened,
-			strapi.getModel("api::user-play-location.user-play-location")
+			strapi.getModel("api::location.location")
 		)
 	}
 }

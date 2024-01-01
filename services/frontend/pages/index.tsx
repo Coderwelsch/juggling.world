@@ -98,7 +98,7 @@ export default function App() {
 					lineColor: "#F53D07",
 					connectionIds: [
 						...p.groups.map((id) => `group-${id}`),
-						...p.playLocations.map((id) => `location-${id}`),
+						...p.visitedLocations.map((id) => `location-${id}`),
 					],
 				})),
 			)
@@ -206,7 +206,7 @@ export default function App() {
 
 					connectedMarkerIds.push(`player-${player.id}`)
 
-					player.playLocations.forEach((locationId) => {
+					player.visitedLocations.forEach((locationId) => {
 						connectedMarkerIds.push(`location-${locationId}`)
 					})
 

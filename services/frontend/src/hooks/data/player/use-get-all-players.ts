@@ -17,7 +17,7 @@ export type UseGetAllPlayersResponse = Array<{
 		url: string
 	}
 	disciplines: Array<number>
-	playLocations: Array<number>
+	visitedLocations: Array<number>
 }>
 
 export const useGetAllPlayers = () => {

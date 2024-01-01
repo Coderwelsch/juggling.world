@@ -63,7 +63,7 @@ export default {
 						"name"
 					],
 				},
-				userPlayLocations: {
+				visitedLocations: {
 					fields: [
 						"id",
 						"name"
@@ -94,7 +94,7 @@ export default {
 			}
 		})
 
-		const playLocations = user.userPlayLocations.map(({ image = null, ...playLocation }) => {
+		const visitedLocations = user.visitedLocations.map(({ image = null, ...playLocation }) => {
 			return {
 				...playLocation,
 				avatar: image,
@@ -106,7 +106,7 @@ export default {
 				...user,
 				disciplines,
 				location,
-				playLocations,
+				visitedLocations,
 			},
 			strapi.getModel("plugin::users-permissions.user")
 		)
@@ -149,7 +149,7 @@ export default {
 						"id",
 					],
 				},
-				userPlayLocations: {
+				visitedLocations: {
 					fields: [
 						"id"
 					]
@@ -162,7 +162,7 @@ export default {
 			const groups = mapEntityIds(user.groups)
 			const adminGroups = mapEntityIds(user.adminGroups)
 			const disciplines = mapEntityIds(user.disciplines)
-			const playLocations = mapEntityIds(user.userPlayLocations)
+			const visitedLocations = mapEntityIds(user.visitedLocations)
 
 			// skip users without locations
 			if (!user.location) {
@@ -177,7 +177,7 @@ export default {
 
 			aggregator.push({
 				...user,
-				playLocations,
+				visitedLocations,
 				location,
 				groups,
 				disciplines,

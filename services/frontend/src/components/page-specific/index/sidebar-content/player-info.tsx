@@ -35,7 +35,7 @@ export const PlayerContent = ({
 }) => {
 	const player = useGetPlayer(id)
 
-	const { disciplines, avatar, username, city, aboutMe, playLocations } =
+	const { disciplines, avatar, username, city, aboutMe, visitedLocations } =
 		player.data || {}
 
 	const avatarUrl = avatar?.url
@@ -153,7 +153,7 @@ export const PlayerContent = ({
 						</p>
 
 						<div className="flex w-full flex-row gap-2">
-							{playLocations?.slice(0, 3).map((entry) => {
+							{visitedLocations?.slice(0, 3).map((entry) => {
 								const { name, avatar } = entry || {}
 
 								return (

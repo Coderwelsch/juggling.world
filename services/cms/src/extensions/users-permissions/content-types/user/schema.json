@@ -110,11 +110,11 @@
       "type": "text",
       "maxLength": 256
     },
-    "userPlayLocations": {
+    "visitedLocations": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::user-play-location.user-play-location",
-      "mappedBy": "users"
+      "target": "api::location.location",
+      "inversedBy": "visitors"
     },
     "participatedUserEvents": {
       "type": "relation",
