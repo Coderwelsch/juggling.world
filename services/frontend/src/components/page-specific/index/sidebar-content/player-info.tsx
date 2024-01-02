@@ -47,27 +47,14 @@ export const PlayerContent = ({
 			{player.data && (
 				<div className={"flex w-full flex-col gap-5"}>
 					<div className={"flex flex-row items-center gap-4"}>
-						{avatarUrl ? (
-							<Avatar
-								src={avatarUrl}
-								width={120}
-								height={120}
-								alt={username || ""}
-								className={
-									"h-20 w-20 rounded-full border border-neutral-200"
-								}
-							/>
-						) : (
-							<div
-								className={
-									"flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-neutral-200 bg-primary-400"
-								}
-							>
-								<IconUserLarge
-									className={"h-12 w-12 fill-neutral-50"}
-								/>
-							</div>
-						)}
+						<Avatar
+							src={avatarUrl}
+							width={120}
+							height={120}
+							intent={"coral"}
+							alt={username || ""}
+							className={"h-20 w-20"}
+						/>
 
 						<div className={"flex flex-col gap-1"}>
 							<div>
