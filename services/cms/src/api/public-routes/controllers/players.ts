@@ -6,13 +6,12 @@ export default {
 	findOne: async (ctx) => {
 		const { id } = ctx.params
 
-		const user: any = await strapi.entityService.findOne("plugin::users-permissions.user", id, {
+		const user = await strapi.entityService.findOne("plugin::users-permissions.user", id, {
 			filters: {
 				confirmed: true,
 				blocked: false,
 			},
 			fields: [
-				"id",
 				"username",
 				"aboutMe",
 				"city",
@@ -111,14 +110,13 @@ export default {
 			strapi.getModel("plugin::users-permissions.user")
 		)
 	},
-	all: async (ctx) => {
-		const users: any = await strapi.entityService.findMany("plugin::users-permissions.user", {
+	all: async () => {
+		const users = await strapi.entityService.findMany("plugin::users-permissions.user", {
 			filters: {
 				confirmed: true,
 				blocked: false,
 			},
 			fields: [
-				"id",
 				"username",
 			],
 			populate: {
@@ -179,9 +177,11 @@ export default {
 				...user,
 				visitedLocations,
 				location,
-				groups,
+				groups: [
+					...groups,
+					...adminGroups
+				],
 				disciplines,
-				adminGroups,
 			})
 
 			return aggregator
