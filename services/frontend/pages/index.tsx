@@ -18,6 +18,7 @@ import {
 	MarkerEntity,
 	MemoizedLines,
 } from "@/src/components/mapbox/connection-lines"
+import { GroupInfo } from "@/src/components/page-specific/index/sidebar-content/group-info"
 import { LocationContent } from "@/src/components/page-specific/index/sidebar-content/location-info"
 import { PlayerContent } from "@/src/components/page-specific/index/sidebar-content/player-info"
 import Sidebar, { Body } from "@/src/components/sidebar/sidebar"
@@ -624,9 +625,9 @@ export default function App() {
 								)}
 
 								{selectedEntities[0].type === "group" && (
-									<Body className="p-0">
-										<p>Group</p>
-									</Body>
+									<GroupInfo
+										id={selectedEntities[0].originalId}
+									/>
 								)}
 
 								{selectedEntities[0].type === "location" && (

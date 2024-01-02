@@ -87,7 +87,7 @@ export const LocationContent = ({ id }: { id: number }) => {
 						/>
 					)}
 					<div className={"flex flex-col gap-2 px-6 py-2"}>
-						<div className="text-sm prose text-neutral-50 text-opacity-75 prose-a:text-neutral-300 hover:prose-a:text-neutral-400">
+						<div className="prose text-sm text-neutral-50 text-opacity-75 prose-a:text-neutral-300 hover:prose-a:text-neutral-400">
 							<Markdown>{location.data.description}</Markdown>
 						</div>
 					</div>

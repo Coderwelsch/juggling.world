@@ -1,4 +1,5 @@
 import { NEXT_PUBLIC_CMS_API_URL } from "@/src/lib/constants"
+import { LocationType } from "@/src/types/cms/api"
 import { useQuery } from "@tanstack/react-query"
 
 const path = `${NEXT_PUBLIC_CMS_API_URL}/public/locations`
@@ -14,6 +15,7 @@ export type UseGetAllLocationsResponse = Array<{
 		id: number
 		url: string
 	}
+	type: LocationType
 	visitors: Array<number>
 }>
 

@@ -1,9 +1,10 @@
 import { NEXT_PUBLIC_CMS_API_URL } from "@/src/lib/constants"
 import { useQuery } from "@tanstack/react-query"
 
-const path = `${NEXT_PUBLIC_CMS_API_URL}/public/groups`
+const getPath = (groupId: number) =>
+	`${NEXT_PUBLIC_CMS_API_URL}/public/groups/${groupId}`
 
-export type UseGetAllGroupsResponse = Array<{
+export interface UseGetGroupResponse {
 	id: number
 	name: string
 	description?: string
@@ -18,11 +19,15 @@ export type UseGetAllGroupsResponse = Array<{
 	avatar?: {
 		url: string
 	}
-}>
+}
 
-export const useGetAllGroups = () => {
-	const fetchData = async (): Promise<UseGetAllGroupsResponse> => {
-		const response = await fetch(path, {
+export const useGetGroup = (groupId?: number | null) => {
+	const fetchData = async (): Promise<UseGetGroupResponse> => {
+		if (!groupId) {
+			return Promise.reject("No player id provided")
+		}
+
+		const response = await fetch(getPath(groupId), {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -36,6 +41,7 @@ export const useGetAllGroups = () => {
 		queryFn: async (context) => {
 			return fetchData()
 		},
-		queryKey: [path],
+		enabled: !!groupId,
+		queryKey: groupId ? [groupId] : [],
 	})
 }
