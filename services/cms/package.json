@@ -11,29 +11,29 @@
         "gen:types": "strapi ts:generate-types"
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "6.10.0",
-        "@typescript-eslint/parser": "6.10.0",
-        "eslint": "8.53.0",
+        "@typescript-eslint/eslint-plugin": "6.17.0",
+        "@typescript-eslint/parser": "6.17.0",
+        "eslint": "8.56.0",
         "eslint-plugin-react": "7.33.2",
-        "typescript": "5.2.2"
+        "typescript": "5.3.3"
     },
     "dependencies": {
         "@palmabit/strapi-app-version": "1.1.0",
-        "@strapi/admin": "4.15.5",
-        "@strapi/plugin-cloud": "4.15.5",
-        "@strapi/plugin-graphql": "4.15.5",
-        "@strapi/plugin-i18n": "4.15.2",
-        "@strapi/plugin-users-permissions": "4.15.5",
-        "@strapi/provider-email-nodemailer": "4.15.5",
-        "@strapi/strapi": "4.15.5",
+        "@strapi/admin": "4.16.2",
+        "@strapi/plugin-cloud": "4.16.2",
+        "@strapi/plugin-graphql": "4.16.2",
+        "@strapi/plugin-i18n": "4.16.2",
+        "@strapi/plugin-users-permissions": "4.16.2",
+        "@strapi/provider-email-nodemailer": "4.16.2",
+        "@strapi/strapi": "4.16.2",
         "pg": "8.11.3",
         "react": "18.2.0",
         "react-dom": "18.2.0",
-        "react-router-dom": "5.3.4",
-        "sharp": "0.33.0",
+        "react-router-dom": "6.21.1",
+        "sharp": "0.33.1",
         "strapi-plugin-duplicate-button": "1.1.14",
-        "styled-components": "5.3.11",
-        "zod": "^3.22.4"
+        "styled-components": "6.1.6",
+        "zod": "3.22.4"
     },
     "author": {
         "name": "Joseph Ribbe, Coderwesch"
