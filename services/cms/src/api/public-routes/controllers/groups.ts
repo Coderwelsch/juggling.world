@@ -1,9 +1,70 @@
 import { sanitize } from "@strapi/utils"
+import { mapEntityIds } from "../../helper/map-ids"
 
 
 export default {
+	findOne: async (ctx) => {
+		const { id } = ctx.params
+
+		const { members, admins, ...location } = await strapi.entityService.findOne("api::user-group.user-group", id, {
+			filters: {
+				publishedAt: {
+					$ne: null,
+				}
+			},
+			fields: [
+				"name",
+				"description"
+			],
+			populate: {
+				avatar: {
+					fields: [
+						"id",
+						"url",
+					],
+				},
+				location: {
+					fields: [
+						"latitude",
+						"longitude",
+					],
+				},
+				members: {
+					fields: [
+						"id",
+					],
+				},
+				admins: {
+					fields: [
+						"id",
+					],
+				}
+			}
+		})
+
+		const mappedMembers = mapEntityIds(members)
+		const mappedAdmins = mapEntityIds(admins)
+
+		const latLng = {
+			latitude: location.location.latitude,
+			longitude: location.location.longitude,
+		}
+
+		const flattened = {
+			...location,
+			location: latLng,
+			members: [
+				...mappedMembers,
+				...mappedAdmins
+			],
+		}
+
+		return await sanitize.contentAPI.output(
+			flattened,
+			strapi.getModel("api::user-group.user-group")
+		)
+	},
 	all: async () => {
-		// get all users
 		const groups = await strapi.entityService.findMany("api::user-group.user-group", {
 			filters: {
 				publishedAt: {
@@ -57,8 +118,7 @@ export default {
 					latitude: group.location.latitude,
 					longitude: group.location.longitude,
 				},
-				members,
-				admins,
+				members: [...members, ...admins],
 			}
 		})
 
