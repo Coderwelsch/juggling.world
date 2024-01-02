@@ -54,7 +54,8 @@
       "enum": [
         "park",
         "skatepark",
-        "sports-hall",
+        "gym-hall",
+        "basketball-court",
         "other"
       ],
       "required": false,
