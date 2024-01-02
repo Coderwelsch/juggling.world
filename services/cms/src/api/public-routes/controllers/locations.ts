@@ -6,14 +6,14 @@ export default {
 	findOne: async (ctx) => {
 		const { id } = ctx.params
 
-		const { visitors, ...location }: any = await strapi.entityService.findOne("api::location.location", id, {
+		const { visitors, ...location } = await strapi.entityService.findOne("api::location.location", id, {
 			filters: {
 				publishedAt: {
 					$ne: null,
 				}
 			},
 			fields: [
-				"id",
+				"type",
 				"name",
 				"description"
 			],
@@ -57,15 +57,15 @@ export default {
 		)
 	},
 	all: async () => {
-		const locations: any = await strapi.entityService.findMany("api::location.location", {
+		const locations = await strapi.entityService.findMany("api::location.location", {
 			filters: {
 				publishedAt: {
 					$ne: null,
 				}
 			},
 			fields: [
-				"id",
 				"name",
+				"type",
 			],
 			populate: {
 				image: {
