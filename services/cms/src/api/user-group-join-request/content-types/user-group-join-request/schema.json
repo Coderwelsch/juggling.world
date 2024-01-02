@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_group_join_requests",
+  "info": {
+    "singularName": "user-group-join-request",
+    "pluralName": "user-group-join-requests",
+    "displayName": "User Group Request",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "isAdmin": {
+      "type": "boolean",
+      "default": false
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::user-group.user-group"
+    }
+  }
+}
