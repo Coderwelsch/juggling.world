@@ -11,6 +11,15 @@ export default {
 		},
 		{
 			method: "GET",
+			path: "/public/groups/:id",
+			handler: "groups.findOne",
+			config: {
+				policies: [],
+				middlewares: [],
+			},
+		},
+		{
+			method: "GET",
 			path: "/public/locations",
 			handler: "locations.all",
 			config: {
