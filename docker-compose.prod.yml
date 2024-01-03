@@ -15,8 +15,9 @@ services:
             - "--entrypoints.websecure.address=:443"
             - "--entrypoints.websecure.http.tls=true"
             - "--entrypoints.web.address=:80"
-            - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
-            - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+            - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+            - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+            - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
             - "--entrypoints.web.http.tls.certResolver=traefikresolver"
             - "--certificatesresolvers.traefikresolver.acme.tlschallenge=true"
             - "--certificatesresolvers.traefikresolver.acme.email=${LETSENCRYPT_EMAIL}"
@@ -27,11 +28,18 @@ services:
             traefik.http.routers.dashboard.service: api@internal
             traefik.http.routers.dashboard.middlewares: auth
             traefik.http.middlewares.auth.basicauth.users: ${TRAEFIK_DASHBOARD_AUTH}
+
+            traefik.http.routers.http-catchall.rule: HostRegexp(`{host:.+}`)
+            traefik.http.routers.http-catchall.entrypoints: web
+            traefik.http.routers.http-catchall.middlewares: redirect-to-https
+            traefik.http.middlewares.redirect-to-https.redirectscheme.scheme: https
+
             # low priority rule for otherwise unmatched www. host prefixes
             # without this it is constant redirect
             traefik.http.routers.unmatchedwww.rule: HostRegexp(`{name:^www\..*}`)
             traefik.http.routers.unmatchedwww.service: noop@internal
             traefik.http.routers.unmatchedwww.priority: 2
+
             # lowest priority catchall rule, will add/replace www. host portion
             traefik.http.routers.matchlast.rule: PathPrefix(`/`)
             traefik.http.routers.matchlast.priority: 1
