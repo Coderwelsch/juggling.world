@@ -1,8 +1,6 @@
 version: '3.8'
 
 services:
-    # see www redirect:
-    # https://community.traefik.io/t/redirect-from-non-www-to-www-with-traefik-2/15184/3
     traefik:
         container_name: ${DOCKER_CONTAINER_NAMESPACE}_traefik
         image: traefik:v2.10.4
@@ -33,19 +31,6 @@ services:
             traefik.http.routers.http-catchall.entrypoints: web
             traefik.http.routers.http-catchall.middlewares: redirect-to-https
             traefik.http.middlewares.redirect-to-https.redirectscheme.scheme: https
-
-            # low priority rule for otherwise unmatched www. host prefixes
-            # without this it is constant redirect
-            traefik.http.routers.unmatchedwww.rule: HostRegexp(`{name:^www\..*}`)
-            traefik.http.routers.unmatchedwww.service: noop@internal
-            traefik.http.routers.unmatchedwww.priority: 2
-
-            # lowest priority catchall rule, will add/replace www. host portion
-            traefik.http.routers.matchlast.rule: PathPrefix(`/`)
-            traefik.http.routers.matchlast.priority: 1
-            traefik.http.routers.matchlast.middlewares: addwww
-            traefik.http.middlewares.addwww.redirectregex.regex: ^https://(?:www\.)?(.*)
-            traefik.http.middlewares.addwww.redirectregex.replacement: https://www.$$1
         ports:
             - "443:443"
             - "80:80"
@@ -143,11 +128,9 @@ services:
         labels:
             traefik.enable: true
             traefik.http.routers.frontend.entrypoints: websecure
-            traefik.http.routers.frontend.rule: Host(`www.${DOMAIN_FRONTEND}`)
+            traefik.http.routers.frontend.rule: Host(`${DOMAIN_FRONTEND}`)
             traefik.http.routers.frontend.tls: true
             traefik.http.routers.frontend.tls.certresolver: traefikresolver
-            traefik.http.routers.frontend.tls.domains[0].main: ${DOMAIN_FRONTEND}
-            traefik.http.routers.frontend.tls.domains[0].sans: www.${DOMAIN_FRONTEND}
         networks:
             - traefik_network
 
