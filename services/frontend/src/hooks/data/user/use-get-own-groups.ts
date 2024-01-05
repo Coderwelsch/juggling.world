@@ -1,8 +1,8 @@
 import { useAuthorizedRequest } from "@/src/hooks/data/auth/use-authorized-request"
-import { UserGroup } from "@/src/types/cms/graphql"
+import { Group } from "@/src/types/cms/api"
 
-export const useGetGroups = () => {
-	return useAuthorizedRequest<(UserGroup & { id: string })[]>({
+export const useGetOwnGroups = () => {
+	return useAuthorizedRequest<Group[]>({
 		path: "/user/group",
 		authOptions: {
 			method: "GET",
