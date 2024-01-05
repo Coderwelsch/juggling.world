@@ -10,7 +10,7 @@ const baseStyle = classNames(
 
 const buttonSizes = {
 	xs: "text-xs px-2 py-1 gap-0.5",
-	sm: "text-sm px-4 py-2 gap-1.5",
+	sm: "text-sm px-3 py-1.5 gap-1.5",
 	md: "text-md px-6 py-3 gap-1",
 	lg: "text-lg px-8 py-4 gap-2",
 }
@@ -37,7 +37,7 @@ const buttonStyles: Record<string, Record<Intent, string>> = {
 		mint: "bg-green-500 text-neutral-100 hover:bg-green-400",
 		coral: "bg-coral-500 text-coral-50 hover:bg-coral-400",
 		densed: "bg-densed-700 text-densed-100 hover:bg-densed-50",
-		sun: "bg-sun-500 text-neutral-100 hover:bg-sun-400",
+		sun: "bg-sun-500 text-neutral-800 hover:bg-sun-400",
 	},
 }
 
