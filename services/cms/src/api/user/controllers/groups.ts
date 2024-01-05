@@ -1,7 +1,7 @@
 import { File } from "@babel/types"
 import { parseMultipartData, sanitize } from "@strapi/utils"
 
-interface UserGroupInput {
+interface UserGroupCreateInput {
 	avatar?: File
 	location: {
 		latitude: number
@@ -33,7 +33,7 @@ export default {
 
 		// await ctx.validate()
 
-		let parsedBody: UserGroupInput | undefined
+		let parsedBody: UserGroupCreateInput | undefined
 
 		// check if multipart
 		if (ctx.is("multipart")) {
@@ -73,8 +73,6 @@ export default {
 			return
 		}
 
-		console.error("parsedBody", parsedBody)
-
 		if (!parsedBody.location || !parsedBody.location.latitude || !parsedBody.location.longitude) {
 			ctx.badRequest("No or wrong group location provided: " + parsedBody.location.toString())
 			return
@@ -113,25 +111,106 @@ export default {
 					{ members: id },
 				],
 			},
-			populate: [
-				"admins",
-				"members",
+			fields: [
+				"isPrivate",
+				"name",
 			],
+			populate: {
+				location: {
+					fields: [
+						"latitude",
+						"longitude",
+					]
+				},
+				admins: {
+					fields: [
+						"id",
+						"username",
+					],
+					populate: {
+						avatar: {
+							fields: [
+								"url",
+							]
+						}
+					}
+				},
+				members: {
+					fields: [
+						"id",
+						"username",
+					],
+					populate: {
+						avatar: {
+							fields: [
+								"url",
+							]
+						}
+					}
+				},
+				avatar: {
+					fields: [
+						"url",
+					]
+				},
+				userGroupEvents: {
+					fields: [
+						"id",
+						"name",
+						"description",
+						"start",
+					],
+					populate: {
+						admins: {
+							fields: [
+								"id",
+								"username",
+							],
+							populate: {
+								avatar: {
+									fields: [
+										"url",
+									]
+								}
+							}
+						},
+						members: {
+							fields: [
+								"id",
+								"username",
+							],
+						},
+						location: {
+							fields: [
+								"name",
+								"type"
+							],
+							populate: {
+								location: {
+									fields: [
+										"longitude",
+										"latitude",
+									]
+								},
+								image: {
+									fields: [
+										"url",
+									]
+								}
+							}
+						}
+					}
+				}
+			},
 		}).then((groups) => {
-			return groups.map(({ admins, members, ...group }) => {
+			return groups.map(({ userGroupEvents, admins, ...group }) => {
 				const isAdmin = admins.some((admin) => admin.id === id)
-				const isMember = members.some((member) => member.id === id)
-
-				const memberIds = members.map(({ id }) => id)
-				const adminIds = admins.map(({ id }) => id)
 
 				return {
 					...group,
+					admins,
 					isAdmin,
-					admins: adminIds,
-
-					isMember,
-					members: memberIds,
+					events: userGroupEvents,
 				}
 			})
 		})

@@ -6,7 +6,7 @@ export default {
 	findOne: async (ctx) => {
 		const { id } = ctx.params
 
-		const { members, admins, ...location } = await strapi.entityService.findOne("api::user-group.user-group", id, {
+		const { isPrivate, members, admins, ...location } = await strapi.entityService.findOne("api::user-group.user-group", id, {
 			filters: {
 				publishedAt: {
 					$ne: null,
@@ -14,7 +14,8 @@ export default {
 			},
 			fields: [
 				"name",
-				"description"
+				"description",
+				"isPrivate",
 			],
 			populate: {
 				avatar: {
@@ -42,13 +43,26 @@ export default {
 			}
 		})
 
-		const mappedMembers = mapEntityIds(members)
-		const mappedAdmins = mapEntityIds(admins)
-
 		const latLng = {
 			latitude: location.location.latitude,
 			longitude: location.location.longitude,
 		}
+
+		// return only the members length when this is a private group
+		if (isPrivate) {
+			return await sanitize.contentAPI.output(
+				{
+					...location,
+					location: latLng,
+					members: [],
+					membersLength: members.length,
+				},
+				strapi.getModel("api::user-group.user-group")
+			)
+		}
+
+		const mappedMembers = mapEntityIds(members)
+		const mappedAdmins = mapEntityIds(admins)
 
 		const flattened = {
 			...location,
@@ -71,6 +85,10 @@ export default {
 					$ne: null,
 				}
 			},
+			fields: [
+				"isPrivate",
+				"name",
+			],
 			populate: {
 				location: {
 					fields: [
@@ -98,27 +116,39 @@ export default {
 		})
 
 		// filter out groups which don’t have any members
-		const filteredGroups = groups.filter((group) => {
-			return group.members.length > 0 || group.admins.length > 0
-		})
+		// const filteredGroups = groups.filter((group) => {
+		// 	return group.members.length > 0 || group.admins.length > 0
+		// })
 
 		// flatten the members and admins
-		const flattened = filteredGroups.map((group) => {
-			const members = group.members.map((member) => {
+		const flattened = groups.map(({ members, location, admins, ...group }) => {
+			if (group.isPrivate) {
+				return {
+					...group,
+					location: {
+						latitude: location.latitude,
+						longitude: location.longitude,
+					},
+					members: [],
+					membersLength: [...members, ...admins].length,
+				}
+			}
+
+			const mappedMembers = members.map((member) => {
 				return member.id
 			})
 
-			const admins = group.admins.map((admin) => {
+			const mappedAdmins = admins.map((admin) => {
 				return admin.id
 			})
 
 			return {
 				...group,
 				location: {
-					latitude: group.location.latitude,
-					longitude: group.location.longitude,
+					latitude: location.latitude,
+					longitude: location.longitude,
 				},
-				members: [...members, ...admins],
+				members: [...mappedMembers, ...mappedAdmins],
 			}
 		})
 
