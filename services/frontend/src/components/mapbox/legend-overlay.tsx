@@ -61,7 +61,7 @@ export const LegendOverlay = ({
 	return (
 		<div
 			className={classNames(
-				"absolute bottom-0 left-1/2 flex flex-row items-center justify-center transform -translate-x-1/2",
+				"absolute bottom-0 z-10 left-1/2 flex flex-row items-center justify-center transform -translate-x-1/2",
 				className,
 			)}
 			style={style}
