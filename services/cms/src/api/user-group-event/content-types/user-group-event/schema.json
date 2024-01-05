@@ -55,6 +55,12 @@
       "relation": "manyToOne",
       "target": "api::location.location",
       "inversedBy": "groupEventsLocations"
+    },
+    "members": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "joinedGroupEvents"
     }
   }
 }
