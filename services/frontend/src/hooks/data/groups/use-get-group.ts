@@ -6,9 +6,11 @@ const getPath = (groupId: number) =>
 
 export interface UseGetGroupResponse {
 	id: number
+	isPrivate: boolean
 	name: string
 	description?: string
 	members: Array<number>
+	membersLength?: number
 	publishedAt: string
 	createdAt: string
 	updatedAt: string
