@@ -70,6 +70,11 @@ export default {
 		// set role to current role to prevent changing it
 		ctx.request.body.role = ctx.state.user.role.id
 
+		if (ctx.request.body.isAdmin) {
+			ctx.unauthorized("You can't update this field")
+			return
+		}
+
 		await strapi.entityService.update("plugin::users-permissions.user", id, {
 			data: ctx.request.body,
 		})
