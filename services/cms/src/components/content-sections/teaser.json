@@ -1,0 +1,47 @@
+{
+  "collectionName": "components_content_sections_teasers",
+  "info": {
+    "displayName": "teaser"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "blocks",
+      "required": true
+    },
+    "icon": {
+      "type": "enumeration",
+      "enum": [
+        "bubble",
+        "add-circle",
+        "bx-chevron-left",
+        "bx-chevron-right",
+        "bx-home-heart",
+        "check-circle-fill",
+        "chevron-left",
+        "chevron-right",
+        "circle",
+        "circle-fill",
+        "close-circle",
+        "error-warning-fill",
+        "file-image",
+        "fire-fill",
+        "location",
+        "search",
+        "teamwork",
+        "tick-circle",
+        "tree",
+        "upload",
+        "user-group",
+        "user-large",
+        "waving-hand"
+      ],
+      "default": "add-circle",
+      "required": true
+    }
+  }
+}

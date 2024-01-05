@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_content_sections_teaser_slideshows",
+  "info": {
+    "displayName": "teaser-slideshow",
+    "icon": "apps",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "slides": {
+      "type": "component",
+      "repeatable": true,
+      "component": "base.image",
+      "required": true
+    },
+    "teaser": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content-sections.teaser"
+    }
+  }
+}
