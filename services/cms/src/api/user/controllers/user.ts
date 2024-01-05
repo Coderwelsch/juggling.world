@@ -16,7 +16,17 @@ export default {
 
 		const { auth, user } = ctx.state
 
-		const userData = await strapi.entityService.findOne("plugin::users-permissions.user", user.id, {
+		const { isAdmin, ...userData } = await strapi.entityService.findOne("plugin::users-permissions.user", user.id, {
+			fields: [
+				"username",
+				"city",
+				"confirmed",
+				"aboutMe",
+				"email",
+				"blocked",
+				"finishedSetup",
+				"isAdmin",
+			],
 			populate: {
 				avatar: true,
 				role: true,
@@ -36,6 +46,10 @@ export default {
 		) as Record<string, unknown>
 
 		filtered.disciplines = userData.disciplines
+
+		if (isAdmin) {
+			filtered.isAdmin = true
+		}
 
 		ctx.body = filtered
 	},

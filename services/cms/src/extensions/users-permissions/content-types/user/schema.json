@@ -137,6 +137,15 @@
     "finishedSetup": {
       "type": "boolean",
       "default": false
+    },
+    "isAdmin": {
+      "type": "boolean"
+    },
+    "joinedGroupEvents": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::user-group-event.user-group-event",
+      "mappedBy": "members"
     }
   }
 }
