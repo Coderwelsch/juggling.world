@@ -35,7 +35,7 @@ export const Sidebar = () => {
 					</TopNavItem>
 
 					<TopNavItem
-						link={"/dashboard/locations"}
+						link={"/dashboard/groups"}
 						icon={<IconTeamwork />}
 						disabled={needsSetup}
 					>
@@ -43,7 +43,7 @@ export const Sidebar = () => {
 					</TopNavItem>
 
 					<TopNavItem
-						link={"/dashboard/locations"}
+						link={"/dashboard/friends"}
 						icon={<IconUserGroup />}
 						disabled={needsSetup}
 					>
