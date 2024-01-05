@@ -89,7 +89,7 @@ services:
         links:
             - strapi:strapi
         environment:
-            NEXT_PUBLIC_META_APP_NAME: ${NEXT_PUBLIC_META_APP_NAME}
+            NEXT_PUBLIC_META_APP_NAME: ${META_APP_NAME}
             NEXT_PUBLIC_API_URL: http://${DOMAIN_FRONTEND}
             NEXTAUTH_URL: http://${DOMAIN_FRONTEND}
             NEXTAUTH_URL_INTERNAL: http://frontend
