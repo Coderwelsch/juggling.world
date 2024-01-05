@@ -1,6 +1,7 @@
 import { Button } from "@/src/components/button/button"
 import { Headline } from "@/src/components/headline/headline"
 import IconUserLarge from "@/src/components/icons/user-large"
+import IconSuperman from "@/src/components/icons/vibrant/superman"
 import { useUserProfileContext } from "@/src/hooks/data/user/use-profile-data"
 import { classNames } from "@/src/lib/class-names"
 import { getStrapiUrl } from "@/src/lib/get-strapi-url"
@@ -54,8 +55,15 @@ const AvatarMenu = ({ onClick, opened }: AvatarMenuProps) => {
 			>
 				<span className="sr-only">Open user menu</span>
 
-				<div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-neutral-50/10">
-					{user?.avatar?.url ? (
+				<div
+					className={classNames(
+						"flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-neutral-50/10",
+						user?.isAdmin && "border-2 border-primary-400",
+					)}
+				>
+					{user?.isAdmin ? (
+						<IconSuperman className={"h-4/5 w-4/5"} />
+					) : user?.avatar?.url ? (
 						<Image
 							className="h-full w-full"
 							width={32}
@@ -106,7 +114,7 @@ export const UserMenu = () => {
 						"absolute right-0 top-full",
 						menuOpened ? "flex" : "hidden",
 						"z-50 my-4 list-none rounded-xl text-base flex-col" +
-							" bg-neutral-800 border border-indigo-400/50",
+							" bg-densed-900 border border-densed-100/20",
 					)}
 				>
 					<div
@@ -117,9 +125,21 @@ export const UserMenu = () => {
 							<Headline
 								size={5}
 								renderAs={"h4"}
-								className={"text-neutral-100"}
+								className={
+									"flex flex-row items-center gap-2 text-neutral-100"
+								}
 							>
 								{user.username}
+
+								{user?.isAdmin && (
+									<span
+										className={
+											"truncate text-xs text-primary-400"
+										}
+									>
+										(admin)
+									</span>
+								)}
 							</Headline>
 						)}
 
@@ -130,7 +150,7 @@ export const UserMenu = () => {
 						)}
 					</div>
 
-					<hr className={"border-primary-400/50"} />
+					<hr className={"border-densed-100/20"} />
 
 					<ul className="flex flex-col gap-0 overflow-hidden rounded-b-xl text-neutral-50">
 						<UserMenuLink href={"./settings/profile"}>
