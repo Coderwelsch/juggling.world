@@ -34,7 +34,7 @@
 		"tailwindcss": "3.3.3",
 		"typescript": "^5.2.2",
 		"use-supercluster": "^1.1.0",
-		"zod": "^3.22.2"
+		"zod": "^3.22.3"
 	},
 	"devDependencies": {
 		"@graphql-codegen/cli": "5.0.0",
